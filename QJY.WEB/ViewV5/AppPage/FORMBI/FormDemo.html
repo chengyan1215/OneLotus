@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_533449_6cz802rnwc9.css" />
+    <link rel="stylesheet" href="/ViewV5/CSS/element/index.css">
+
+</head>
+<body>
+    <div id="app">
+        <el-container>
+            <el-main>
+                <el-row :gutter="20">
+                    <el-col :span="24">
+
+                        <el-upload class="upload-demo"
+                                   action="http://www.qijiekeji.com:9100/document/fileupload/qycode"
+                                   :on-preview="handlePreview"
+                                   :on-remove="handleRemove"
+                                   :before-remove="beforeRemove"
+                                   multiple
+                                   :limit="3"
+                                   :on-error="handleError"
+                                   :on-success="handleSuncess"
+                                   :on-exceed="handleExceed"
+                                   :file-list="fileList">
+                            <el-button size="small" type="primary">点击上传</el-button>
+                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                        </el-upload>
+                    </el-col>
+
+                </el-row>
+
+
+            </el-main>
+        </el-container>
+
+    </div>
+</body>
+<script src="/ViewV5/JS/vue.js"></script>
+<script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+<script src="/ViewV5/JS/lodash.min.js"></script>
+<script src="/ViewV5/JS/httpVueLoader.js"></script>
+<script src="/ViewV5/JS/element/element.js"></script>
+<script src="/ViewV5/JS/bijs.js?v=2"></script>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+    
+        data: function () {
+            return {
+
+                fileList: []
+            }
+        },
+        methods: {
+
+            handleSuncess: function (response, file, fileList) {
+                console.log(response, file, fileList);
+            },
+            handleError: function (err, file, fileList) {
+                console.log(err, file, fileList);
+
+            },
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            handlePreview(file) {
+                console.log(file);
+            },
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
+            beforeRemove(file, fileList) {
+                return this.$confirm(`确定移除 ${file.name}？`);
+            },
+        
+        },
+        mounted: function () {
+            var pro = this;
+            pro.$nextTick(function () {
+                //获取表单类型
+           
+                // pro.InitForm();
+            })
+        }
+    })
+</script>
+</html>

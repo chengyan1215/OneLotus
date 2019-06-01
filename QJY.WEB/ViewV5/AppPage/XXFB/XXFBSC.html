@@ -1,0 +1,304 @@
+﻿<link href="/ViewV5/AppPage/XXFB/WX.css" rel="stylesheet" />
+<style>
+    .mail-box-header h2 {
+        margin-top: 0px;
+        border-left: solid 3px #66c9f3;
+        padding-left: 5px;
+        font-size: 24px;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    .szhl_Upload {
+        display: none;
+    }
+
+    .file_unit .tool_panel a {
+        margin: 12px 8px;
+    }
+</style>
+
+<div class="wrapper wrapper-content  animated fadeInRight" ms-controller="XXFBSC" style="padding: 0px 10px 0px;">
+    <div class="row" style=" margin:0px">
+        <div class="col-xs-12 animated fadeInRight">
+            <div class="mail-box-header" style=" padding-left: 0; padding-top: 0;border:0 ">
+                <div class="row" style=" margin-top: 20px; ">
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active fade in" id="home" style="padding-top:20px">
+                            <div class="col-xs-12" ms-if="!IsAddSC">
+                                <div style="margin-bottom:10px; text-align:right">
+                                    <button class="btn btn-info btn-large" ms-click="ADDSCDiv()">添加素材</button>
+                                </div>
+                                <div class="video_unit col-xs-3" ms-repeat-item="TWDataList">
+                                    <div class="js_list">
+                                        <!-- 当选中的时候，添加class：active和delete，其中active用来显示蓝色边框delete用来显示删除按钮；ps：当video_artical数量大于两个的时候，video_artical选中的时候才出现关闭按钮 -->
+                                        <a class="js_article video_image" ms-repeat-el="item.Content" ms-visible="$first" href="javascript:void(0)">
+                                            <div class="choose_mode_style"></div>
+                                            <span class="js_delete icon icon_delete delete_artical"></span>
+                                            <div class="video_image_wrap" ms-visible="el.ImageIds!=''">
+                                                <img ms-attr-src="{{ComFunJS.getfile(el.ImageIds)}}">
+                                            </div>
+                                            <p class="image_edit_placeholder" ms-visible="el.ImageIds==''">
+                                                <span class="placeholder_text">封面图片<br>推荐尺寸:900像素*500像素</span>
+                                                <span class="placeholder_vertical"></span>
+                                            </p>
+                                            <p class="js_article_title video_sub_title" style="margin-bottom:0px">{{el.XXTitle}}</p>
+                                        </a>
+                                        <a class="js_article video_artical  delete" href="javascript:;" ms-repeat-el="item.Content" target="_blank" ms-visible="!$first&&el.isshow">
+                                            <div class="choose_mode_style"></div>
+                                            <img class="video_artical_img" ms-visible="el.ImageIds!=''" ms-attr-src="{{ComFunJS.getfile(el.ImageIds)}}">
+                                            <p class="image_edit_placeholder" ms-visible="el.ImageIds==''"></p>
+                                            <p class="js_article_title video_artical_title" style="margin-top: 30px;font-size: 18px;">{{el.XXTitle}}</p>
+                                            <span class="video_vertical"></span>
+                                        </a>
+                                        <div class="tool_mask"></div>
+                                        <div class="tool_panel">
+                                            <a class="icon icon_edit_white js_edit" href="javascript:;" ms-click="EditTWFun(item,$index)"></a>
+                                            <a class="icon icon_remove_white js_remove" href="javascript:;" ms-click="DelSC(item,0)"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid" style="margin-top: 20px;margin-bottom:120px" ms-if="IsAddSC">
+                                <div class="form-horizontal" style="position:relative">
+                                    <div style="margin-right: 400px;">
+                                        <div role="tabpanel" class="tab-pane fade active in" id="dt0">
+                                            <div class="form-group">
+                                                <label class="col-xs-2 control-label">
+                                                    信息标题
+                                                </label>
+                                                <div class="col-xs-9">
+                                                    <input type="text" class="form-control szhl_require" ms-duplex="XXFBDataList[showindex].XXTitle" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-xs-2 control-label">
+                                                    作者
+                                                </label>
+                                                <div class="col-xs-9">
+                                                    <input type="text" class="form-control szhl_require" ms-duplex="XXFBDataList[showindex].Author" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-xs-2 control-label">封面图片</label>
+                                                <div class="col-xs-9" id="confmtp">
+                                                    <input type="text" class="szhl_Upload form-control" ms-duplex="XXFBDataList[showindex].ImageIds" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group" id="confujian">
+                                                <label class="col-xs-2 control-label">附件</label>
+                                                <div class="col-xs-9">
+                                                    <input type="text" value="" class="szhl_Upload form-control" ms-duplex="XXFBDataList[showindex].Files" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-xs-2 control-label">信息内容</label>
+                                                <div class="col-xs-9">
+                                                    <textarea id="conXXNR" class="szhl_UEEDIT  szhl_require" umheight="400" ms-duplex="XXFBDataList[showindex].XXContent"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="position:absolute;width:400px;right:0;top:0">
+                                        <div>
+                                            <!-- <div class="js_arrow mod-tranlate-right"></div> -->
+                                            <div class="mc_content_item">
+                                                <div class="mc_card_wrap clearfix">
+                                                    <div class="video_unit">
+                                                        <div class="js_list">
+                                                            <!-- 当选中的时候，添加class：active和delete，其中active用来显示蓝色边框delete用来显示删除按钮；ps：当video_artical数量大于两个的时候，video_artical选中的时候才出现关闭按钮 -->
+                                                            <a class="js_article video_image" ms-repeat-el="XXFBDataList" ms-visible="$first" ms-class-1="active:el.isselect" ms-click="SelTab(el)">
+                                                                <div class="choose_mode_style"></div> 
+                                                                <div class="video_image_wrap" ms-visible="el.ImageIds!=''">
+                                                                    <img ms-attr-src="{{ComFunJS.getfile(el.ImageIds)}}">
+                                                                </div>
+                                                                <p class="image_edit_placeholder" ms-visible="el.ImageIds==''">
+                                                                    <span class="placeholder_text">封面图片<br>推荐尺寸:900像素*500像素</span>
+                                                                    <span class="placeholder_vertical"></span>
+                                                                </p>
+                                                                <p class="js_article_title video_sub_title" style="margin-bottom:0">{{el.XXTitle}}</p>
+                                                            </a>
+                                                            <a class="js_article video_artical  delete" href="javascript:;" ms-repeat-el="XXFBDataList" ms-visible="!$first&&el.isshow" ms-class-1="active:el.isselect" ms-click="SelTab(el)">
+                                                                <div class="choose_mode_style" ms-visible="el.isselect"></div>
+                                                                <span class="delete_artical label label-danger" ms-click="hidTab(el,$event)">X</span>
+                                                                <img class="video_artical_img" ms-visible="el.ImageIds!=''" ms-attr-src="{{ComFunJS.getfile(el.ImageIds)}}">
+                                                                <p class="image_edit_placeholder" ms-visible="el.ImageIds==''"></p>
+                                                                <p class="js_article_title video_artical_title" style="margin-top: 30px;font-size: 18px;">{{el.XXTitle}}</p>
+                                                                <span class="video_vertical"></span>
+                                                            </a>
+                                                        </div>
+                                                        <a class="js_create video_artical_add" href="javascript:;" style="display: block;" ms-click="ShowTab()">
+                                                            <span class="video_artical_add_button">
+                                                                <i class="iconfont icon-addplus" style="font-size:40px"></i>
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!--ms-include-end-->
+                                <table class="table navbar-fixed-bottom toolfootbar">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center">
+                                                <div class="input-group" style="height:40px">
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-danger btnqx" ms-click="qx()" style="width:80px;height:40px;">取消</button>
+                                                        <button class="btn btn-success btnSucc" style="width:120px;height:40px;" ms-click="SaveDataTW(this)"><i class="fa fa-spinner fa-spin" style="display:none"></i> 保存素材</button>
+                                                    </span>
+                                                </div>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                     
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="/ToolS/umeditor122/themes/default/css/umeditor.css" rel="stylesheet" />
+<script src="/ToolS/umeditor122/umeditor.js" charset="utf-8"></script>
+<script src="/ToolS/umeditor122/umeditor.config.js" charset="utf-8"></script>
+<script>
+    var tempindex = avalon.define({
+        $id: "XXFBSC",
+        username: ComFunJS.getnowuser(), 
+        TWDataList: [],
+        ImagesList: [],
+        FilesList: [],
+        GETSCLIST: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=XXFB_GETSCLIST',{}, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    resultData.Result.forEach(function (item) {
+                        if (item.Content) { 
+                            item.Content = JSON.parse(item.Content);
+                        }
+
+                    })
+                    tempindex.TWDataList = resultData.Result;
+                    tempindex.ImagesList = resultData.Result1;
+                    tempindex.FilesList = resultData.Result2;
+                }
+
+            })
+        },
+        //图文消息start
+        XXFBDataList: [{ "index": 0, "XXTitle": "", "XXContent": "", "Files": "", "Author": "", "ImageIds": "", isselect: true, isshow: true, "filehtml": "", "fmtphtml": "" }, { "index": 1, "XXTitle": "", "XXContent": "", "Files": "", "Author": "", "ImageIds": "", isselect: false, isshow: false, "filehtml": "", "fmtphtml": "" }, { "index": 2, "XXTitle": "", "XXContent": "", "Files": "", "Author": "", "ImageIds": "", isselect: false, isshow: false, "filehtml": "", "fmtphtml": "" }, { "index": 3, "XXTitle": "", "XXContent": "", "Files": "", "Author": "", "ImageIds": "", isselect: false, isshow: false, "filehtml": "", "fmtphtml": "" }, { "index": 4, "XXTitle": "", "XXContent": "", "Files": "", "Author": "", "ImageIds": "", isselect: false, isshow: false, "filehtml": "", "fmtphtml": "" }],
+        showindex: 0
+        , ShowTab: function (item) {
+            //切换tab
+            tempindex.XXFBDataList[tempindex.showindex + 1 * 1].isshow = true;
+            tempindex.XXFBDataList.forEach(function (el) {
+                el.isselect = false
+            })
+            tempindex.XXFBDataList[tempindex.showindex + 1 * 1].isselect = true;
+            tempindex.showindex++;
+        },
+        SelTab: function (item) {
+            tempindex.XXFBDataList.forEach(function (el) {
+                el.isselect = false
+            })
+            tempindex.showindex = item.index;
+            item.isselect = true;
+        },
+        hidTab: function (item, event) {
+            event.stopPropagation();
+            if (tempindex.showindex == item.index) {
+                tempindex.showindex = item.index - 1;
+                tempindex.XXFBDataList[tempindex.showindex].isselect = true;
+
+            }
+            item.isshow = false;
+            item.isselect = false;
+            item.XXTitle = "";
+            item.XXContent = "";
+            item.Author = "";
+            item.ImageIds = "";
+            item.filehtml = "";
+            item.fmtphtml = "";
+        }, IsAddSC: false, ADDSCDiv: function () {
+            tempindex.IsAddSC = true;
+        }, qx: function () {
+            tempindex.IsAddSC = false;
+        }, SaveDataTW: function (dom) {
+            $(dom).addClass("disabled").attr("disabled", true).find("i").show();//加上转圈样式
+
+            var twmodel = [{ "Type": 0, "Content": "" }]
+            if (tempindex.editIndex != -1) {
+                twmodel[0] = tempindex.TWDataList[tempindex.editIndex].$model;
+            }
+            twmodel[0].Content = JSON.stringify(tempindex.XXFBDataList.$model);
+
+            $.post("/API/VIEWAPI.ashx?ACTION=XXFB_ADDSCCONTENT", { P1: JSON.stringify(twmodel) }, function (result) {
+                if (result.ErrorMsg == "") {
+                    if (tempindex.editIndex != -1) {
+                        twmodel[0].Content = JSON.parse(twmodel[0].Content);
+                        tempindex.TWDataList.set(tempindex.editIndex, twmodel[0]);
+                        top.ComFunJS.winsuccess("编辑图文成功");
+                    } else {
+
+                        var twArray = result.Result;
+                        twArray[0].Content = JSON.parse(twArray[0].Content);
+                        tempindex.TWDataList.pushArray(twArray);
+                        top.ComFunJS.winsuccess("添加图文成功");
+                    }
+                    tempindex.IsAddSC = false;
+                }
+                $(dom).removeClass("disabled").attr("disabled", false).find("i").hide();
+            })
+        }, editIndex: -1, EditTWFun: function (twItem, index) {
+            tempindex.IsAddSC = true;
+            tempindex.editIndex = index;
+            $(twItem.Content).each(function (i, item) {
+                tempindex.XXFBDataList[i].XXTitle = item.XXTitle;
+                tempindex.XXFBDataList[i].XXContent = item.XXContent;
+                tempindex.XXFBDataList[i].Files = item.Files;
+                tempindex.XXFBDataList[i].ImageIds = item.ImageIds;
+                tempindex.XXFBDataList[i].Author = item.Author;
+                tempindex.XXFBDataList[i].isshow = item.isshow;
+            })
+            // 编辑器赋值
+            var um = UM.getEditor("conXXNR");
+            var content = tempindex.XXFBDataList[0].XXContent;
+            um.setContent(content); 
+            setTimeout("ComFunJS.initForm()", 500)
+        }//图文消息结束
+        , DelSC: function (item, type) {
+            top.ComFunJS.winconfirm("确定要删除素材吗", function () {
+                $.post("/API/VIEWAPI.ashx?ACTION=XXFB_DELETESCMODEL", { P1: item.Id }, function (result) {
+                    if (result.ErrorMsg == "") {
+                        if (type == 1) {
+                            tempindex.ImagesList.remove(item);
+                        } else if (type == 2) {
+                            tempindex.FilesList.remove(item);
+                        } else if (type == 0) {
+                            tempindex.TWDataList.remove(item);
+                        }
+                        top.ComFunJS.winsuccess("素材删除成功");
+                    }
+                })
+            })
+        }, InitWigetData: function () { 
+            setTimeout("ComFunJS.initForm()", 500)
+            tempindex.GETSCLIST();
+        }
+    });
+    tempindex.$watch("showindex", function (a, b) {
+        // 编辑器赋值
+        var um = UM.getEditor("conXXNR");
+        var content = tempindex.XXFBDataList[tempindex.showindex].XXContent;
+        um.setContent(content);
+        setTimeout("ComFunJS.initForm()", 500)
+
+    })  //# sourceURL=XXFBSC.js;
+</script>

@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>综合应用</title>
+    <link rel="stylesheet" href="/View_Mobile/CSS/msui.css">
+    <link href="../css/reset.css?11" rel="stylesheet" type="text/css">
+    <link href="../css/base.css?22" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        .ms-controller, [ms-controller] {
+            display: none;
+        }
+        .logo img {
+            width: 1.5rem;
+        }
+    </style>
+</head>
+<body class="mess" ms-controller="XXList">
+    <div class="page page-current" style="background:#fff;" id="pageindex1">
+        <header class="bar bar-nav header">
+            <a href="javascript:void(0)" class="logo" style="display:none"><img ms-src="{{ComFunJS.getfile(userData.QYinfo.LogoID)}}">  {{userData.QYinfo.QYName}}</a>
+            <!--<a href="javascript:void(0)" class="user-btn search-btn text-hide">搜索</a>-->
+        </header>
+        <div class="content" ms-include-src="/View_Mobile/UI/TEMP/{{contentcode}}.html?ver=math.random()" data-include-rendered='render'>
+
+        </div>
+      
+    </div>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script>$.config = { router: false }</script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.8/js/sm.min.js' charset='utf-8'></script>
+    <script src="/View_Mobile/JS/avalon1.47.js"></script>
+    <script src="/View_Mobile/JS/ComFunJS.js?jsver=20160425"></script>
+
+    <script type="text/javascript">
+
+        var model = avalon.define({
+            $id: "XXList",
+            contentcode: "TEMP_INDEX_MSG",
+            userData: {},
+            render: function () {
+                if (tempmodel) {
+                    tempmodel.inittemp();
+                }
+                avalon.templateCache = null;
+            }
+
+        })
+        avalon.ready(function () {
+            $.getJSON("/API/VIEWAPI.ashx?Action=XTGL_GETUSERINFO", {}, function (r) {
+                if (r.ErrorMsg == "") {
+                    model.userData = r.Result;
+                    $(".logo").show()
+                }
+
+            })
+
+        })
+    </script>
+
+
+</body>
+</html>

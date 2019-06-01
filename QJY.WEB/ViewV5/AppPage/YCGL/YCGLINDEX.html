@@ -1,0 +1,86 @@
+﻿
+<div ms-controller="YCGLINDEX">
+    <div class="btn-add">
+        <button type="button" class="btn btn-info btn-lg" ms-click="AddView('YCGL')"><i class="iconfont icon-jiahao ft12 mr5"></i>添加用车</button>
+                <a class="btn btn-info btn-lg" ms-click="dcycgl()"><i class="iconfont icon-dc ft12 mr5"></i>导出</a>
+
+    </div>
+    <div class="tab-filter-type">
+        <div class="oh">
+            <h5 class="pull-left tr">车辆：</h5>
+            <ul class="tab-type ft14">
+                <li ms-click="SelectCL('0')"><span class="active">全部</span></li>
+                <li ms-repeat-el="TypeData" ms-click="SelectCL(el.ID)"><span>{{el.CarNum}}</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="form-horizontal">
+        <div class="form-group" style="margin:0px;">
+            <div class="col-xs-12" style=" margin-top: 20px;">
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    var tempindex = avalon.define({
+        $id: "YCGLINDEX",
+        nowmodel: top.model.SelModel,
+        CommonData: [],
+        curCL: 0,
+        InitWigetData: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=YCGL_GETALLCLLIST', {}, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    model.TypeData = resultData.Result;
+                }
+            })
+            tempindex.BindData();
+        },
+        dcycgl: function () {
+                $(this).attr("href", "/API/VIEWAPI.ashx?Action=YCGL_EXPORTYCGL");
+        },
+        BindData: function () {
+            $('#calendar').html("");
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,basicWeek'  //basicDay
+                },
+                monthNames: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+                monthNamesShort: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+                titleFormat: {
+                    month: "yyyy MMMM ",
+                    week: "yyyy MMM d[ yyyy]{ '&#8212;'[ MMM] d '日'}",
+                },
+                //defaultView: "basicWeek",
+                firstDay: "1",
+                events: function (start, end, callback) {
+                    var st = $.fullCalendar.formatDate(start, "yyyy-MM-dd");
+                    var ed = $.fullCalendar.formatDate(end, "yyyy-MM-dd");
+
+                    $.getJSON("/API/VIEWAPI.ashx?action=YCGL_GETYCGLVIEW", { P1: tempindex.curCL }, function (r) {
+                        if (r.Result.length > 0) {
+                            callback(r.Result);
+                        }
+                    })
+                },
+                eventClick: function (calEvent, jsEvent, view) {
+
+                    var id = calEvent.ID;
+                    var piid = calEvent.intProcessStanceid;
+                    top.ComFunJS.winviewform("/ViewV5/AppPage/APP_ADD_WF.html?FormCode=YCGL_YCGL&ID=" + id + "&PIID=" + piid + "&r=" + Math.random(), "查看数据", "1000", "");
+                }
+            });
+        },
+        SelectCL: function (ID) {
+            tempindex.curCL = ID;
+            tempindex.BindData();
+        }
+    });
+    //@ sourceURL=YCGLINDEX.js;
+</script>
+

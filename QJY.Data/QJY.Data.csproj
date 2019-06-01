@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{041AFF14-EFEA-47D8-B28A-B3BBF4BBCEE9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>QJY.Data</RootNamespace>
+    <AssemblyName>QJY.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SqlSugar, Version=4.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\sqlSugar.4.7.0\lib\SqlSugar.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseEFDao.cs" />
+    <Compile Include="BI_DB_Dim.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BI_DB_Set.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BI_DB_Source.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BI_DB_Table.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BI_DB_YBP.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBFactory.cs" />
+    <Compile Include="FT_File.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FT_File_Downhistory.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FT_File_Share.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FT_File_UserAuth.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FT_File_UserTag.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FT_File_Vesion.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FT_Folder.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IBaseDao.cs" />
+    <Compile Include="JH_Auth_Branch.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_Collect.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_Common.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_ExtendData.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_ExtendMode.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_Function.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_GUANZHU.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_Log.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_Model.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_QY.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_QY_Model.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_QY_WXSC.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_Role.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_RoleAuth.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_RoleFun.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_TL.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_User.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_UserCustomData.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_UserRole.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_User_Center.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_Version.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_WXMSG.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_WXPJ.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_XTDT.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_YYLog.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JH_Auth_ZiDian.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QJY.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QJY.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QJY.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QJY.Data.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QJY.Data.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="SZHL_DBGL.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SZHL_DRAFT.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SZHL_DXGL.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SZHL_NOTE.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SZHL_TXL.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SZHL_TXSX.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SZHL_XXFB.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SZHL_XXFBType.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SZHL_XXFB_ITEM.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SZHL_XXFB_SCK.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Yan_WF_ChiTask.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Yan_WF_DaiLi.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Yan_WF_PD.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Yan_WF_PI.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Yan_WF_TD.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Yan_WF_TI.cs">
+      <DependentUpon>QJY.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <EntityDeploy Include="QJY.Data.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>QJY.Data.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="QJY.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>QJY.Data.edmx</DependentUpon>
+      <LastGenOutput>QJY.Context.cs</LastGenOutput>
+    </None>
+    <None Include="QJY.Data.edmx.diagram">
+      <DependentUpon>QJY.Data.edmx</DependentUpon>
+    </None>
+    <None Include="QJY.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>QJY.Data.edmx</DependentUpon>
+      <LastGenOutput>QJY.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

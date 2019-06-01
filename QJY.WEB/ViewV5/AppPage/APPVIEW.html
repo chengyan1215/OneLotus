@@ -1,0 +1,307 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>查看</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/ViewV5/CSS/icfont_qj/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/index.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/default.css">
+    <link href="/ViewV5/JS/raty/jquery.raty.css" rel="stylesheet" />
+    <style>
+        .ms-controller, .ms-important, [ms-controller], [ms-important] {
+            visibility: hidden;
+        }
+    </style>
+</head>
+
+<body style="background-color: #F8F8F8; height: 100%;" ms-controller="VIEW">
+
+    <div class="padding20">
+
+        <div class="card card3 mb20">
+            <div class="detail-nav">
+                <div class="tab-kh nav-bt">
+                    <span ms-click="seltitle(1)" ms-class-1="cur:titletype==1"><i ms-if="titletype==1" class="iconfont icon-bookmark"></i>{{title}}</span>
+                    <span ms-if="title1" ms-click="seltitle(2)" ms-class-1="cur:titletype==2"><i ms-if="titletype==2" class="iconfont icon-bookmark"></i>{{title1}}</span>
+                    <span ms-if="title2" ms-click="seltitle(3)" ms-class-1="cur:titletype==3"><i ms-if="titletype==3" class="iconfont icon-bookmark"></i>{{title2}}</span>
+                    <div class="pr20 tbs" style="float: right;">
+                        <button class="btn btn-info" ms-if="isEdit=='Y'" ms-click="Edit()">编辑</button>
+                        <button class="btn btn-info" ms-if="ISCANCEL=='Y'||model.PIMODEL.IsCanceled == 'Y'" ms-click="CancelWF()">撤回到草稿箱</button>
+
+                        <a class="btn btn-success" ms-if="isBack=='Y'" href="javascript:history.go(-1)">返回</a>
+                        <a class="btn btn-info" ms-attr-href="/Tools/HtmlToWord.aspx?ID={{strId}}" target="_blank" ms-if="isExport">导出</a>
+                        <button class="btn btn-primary" id="btnCB" ms-if="model.TASKDATA.size()>0&&model.PIMODEL.isComplete!='Y'&&model.PIMODEL.IsCanceled != 'Y'" ms-click="SenLCCB(model.PIMODEL.ID)"><i class="iconfont icon-cb mr5 ft14"></i>发送催办提醒</button>
+
+                    </div>
+                </div>
+            </div>
+            <div class="detail-con">
+                <div class="detail-item" ms-repeat-el="ShowColumns" ms-visible="titletype ==1&&modelData[el.ColName]" ms-class-1="{{el.class}}">
+                    <span class="item-tit">{{el.ColText}}</span>
+                    <div class="item-con">{{ComFunJS.FnFormat(modelData[el.ColName],el)|html}}</div>
+                </div>
+                <div class="detail-item" ms-repeat-el="ShowColumns1" ms-visible="titletype ==2&&modelData[el.ColName]" ms-class-1="{{el.class}}">
+                    <span class="item-tit">{{el.ColText}}</span>
+                    <div class="item-con">{{ComFunJS.FnFormat(modelData[el.ColName],el)|html}}</div>
+                </div>
+                <div class="detail-item" ms-repeat-el="ShowColumns2" ms-visible="titletype ==3 && modelData[el.ColName]" ms-class-1="{{el.class}}">
+                    <span class="item-tit">{{el.ColText}}</span>
+                    <div class="item-con">{{ComFunJS.FnFormat(modelData[el.ColName],el)|html}}</div>
+                </div>
+                <div ms-include-src="/ViewV5/AppPage/{{PathCode}}/{{FormCode}}VIEW.html" data-include-rendered='Temprender'>
+                </div>
+                <div class="detail-item" ms-repeat-ext="modelData.SubExt">
+                    <span class="item-tit">{{ext.TableFiledName}}</span>
+                    <div class="item-con">{{ext.ExtendDataValue}} </div>
+                </div>
+                <div class="detail-item" ms-if="tpData&&tpData.size()!=0">
+                    <span class="item-tit">附件</span>
+                    <div class="fj clearfix mt10">
+                        <div class="pull-left" ms-repeat-file="tpData">
+                            <img ms-if="ComFunJS.isPic(file.FileExtendName)" ms-class="img-rounded:ComFunJS.isPic(file.FileExtendName)" ms-on-click="viewfile(file)" ms-attr-src="{{ComFunJS.getfile(file.ID)}}&width=45&height=45" ms-attr-imgyt="{{ComFunJS.getfile(file.ID)}}" style="border-radius: 2px" />
+                            <img ms-click="viewfile(file)" style="height: 45px; width: 45px" ms-if="!ComFunJS.isPic(file.FileExtendName)" ms-attr-src="/ViewV5/images/qywd/{{file.FileExtendName}}.png" onerror="javascript: this.src = '/ViewV5/images/qywd/file.png'" />
+                            <div class="fj-cont c999 ft12">
+                                <p class="word-break">{{file.Name}}.{{file.FileExtendName}}<span>({{Math.round(file.FileSize/1024)}}kb)</span></p>
+                                <p class="mt5">
+                                    <a ms-attr-href="{{file.YLUrl}}" ms-if="file.YLUrl" target="_blank">预览</a>
+                                    <a ms-attr-href="{{ComFunJS.getfile(file.ID)}}">下载</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="detail-item" ms-if="TASKDATA.size()!=0">
+                    <span class="item-tit">抄送人</span>
+                    <div class="item-con">{{ComFunJS.convertuser(PIMODEL.ChaoSongUser)}}</div>
+                </div>
+                <div class="detail-item" ms-if="TASKDATA.size()!=0">
+                    <span class="item-tit">审核状态</span>
+                    <div class="item-con">{{shzt}}</div>
+                </div>
+
+
+                <div class="detail-item" style="padding: 0; margin: 10px 0; overflow-x: auto; margin-bottom: 0px" ms-if="TASKDATA.size()!=0">
+                    <div class="lcspstep"></div>
+                </div>
+                <div class="" ms-if="CSQKData.size()!=0">
+                    <div>
+                        <table class="table table-bordered table-condensed table-hover table-striped">
+
+                            <thead>
+                                <tr>
+                                    <td style="text-align: center" ms-attr-colspan="CSQKData.size()+1">抄送接收状况</td>
+                                </tr>
+                                <tr>
+                                    <th>抄送人</th>
+                                    <td ms-repeat-el="CSQKData">{{ComFunJS.convertuser(el.UserTO)}}</td>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>接收抄送时间</th>
+                                    <td ms-repeat-el="CSQKData">{{el.ReadDate?el.ReadDate:"暂未接收"}}</td>
+                                    <!--   |date("yyyy-MM-dd HH:ss")-->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="pl20 mb10 tbs">
+                <!-- <div ms-include="btn"></div>-->
+                <button class="btn btn-info" ms-if="ispl" ms-click="addPL()"><i class="iconfont icon-pinglun mr5 ft14"></i>添加{{plTitle}}</button>
+                <button class="btn btn-primary" ms-if="isEndTask" ms-click="tempindex.EndTask(modelData.ID)"><i class="iconfont icon-stop mr5 ft14"></i>结束任务 </button>
+                <button class="btn btn-primary" ms-if="isEndTask&&modelData.CRUser==nowuser" ms-click="tempindex.SendTXMsg(modelData.ID)"><i class="iconfont icon-cb mr5 ft14"></i>任务催办 </button>
+            </div>
+            <div class="padding20" ms-if="plData.size()>0">
+                <div class="lookright-box">
+                    <div class="menu-general ft14">
+                        <ul>
+                            <li class="active">
+                                <a>{{plTitle}}({{plData.size()}})</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <!--<div class="crm-dt clearfix nopadding pt20">
+                        <button class="btn btn-info pull-right" ms-click="addPL()"><i class="iconfont icon-jiahao ft12 mr5"></i>添加评论</button>
+                    </div>-->
+                    <div class="crm-dt" ms-repeat-item="plData">
+                        <span class="crm-yuan"></span>
+                        <div class="crm-dt-cont">
+                            <i class="bg"></i>
+                            <span class="wt"></span>
+                            <div style="margin: 10px 30px;" class="c666">
+
+                                <p class="c999">{{ComFunJS.convertuser(item.CRUser)}} {{pf(item.Points)|html}}<span class="pull-right">{{item.CRDate|date("yyyy年MM月dd日 HH:mm")}}</span></p>
+                                <h3 class="crm-xg ft14 mt5" style="word-wrap: break-word; word-break: break-all;">{{ComFunJS.bqhContent(item.MSGContent)|html}}</h3>
+
+                                <div class="fj clearfix mt10" ms-if="item.FileList&&item.FileList.size()!=0">
+                                    <div class="pull-left" ms-repeat-file="item.FileList">
+                                        <img ms-if="ComFunJS.isPic(file.FileExtendName)" ms-class="img-rounded:ComFunJS.isPic(file.FileExtendName)" ms-on-click="viewfile(file)" ms-attr-src="{{ComFunJS.getfile(file.ID)}}&width=45&height=45" ms-attr-imgyt="{{ComFunJS.getfile(file.ID)}}" style="border-radius: 2px" />
+                                        <img ms-click="viewfile(file)" style="height: 40px; width: 40px" ms-if="!ComFunJS.isPic(file.FileExtendName)" ms-attr-src="/ViewV5/images/qywd/{{file.FileExtendName}}.png" onerror="javascript: this.src = '/ViewV5/images/qywd/file.png'" />
+                                        <div class="fj-cont c999 ft12">
+                                            <p class="word-break">{{file.Name}}.{{file.FileExtendName}}<span>({{Math.round(file.FileSize/1024)}}kb)</span></p>
+                                            <p class="mt5">
+                                                <a ms-attr-href="{{file.YLUrl}}" ms-if="file.YLUrl" target="_blank">预览</a>
+                                                <a ms-attr-href="{{ComFunJS.getfile(file.ID)}}">下载</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt5 ft12 oh">
+                                    <a class="pull-right" style="color: blue;" ms-click="scpl(item)" ms-if="item.CRUser==nowuser">删除</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/layer/layer.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160929"></script>
+    <script src="/ViewV5/JS/YSteps/Steps.js"></script>
+    <script src="/ViewV5/JS/raty/jquery.raty.js"></script>
+    <script type="text/javascript">
+
+        var model = avalon.define({
+            $id: "VIEW",
+            title: "",
+            title1: "",
+            title2: "",
+            titletype: 1,
+            modelData: {},
+            ShowColumns: [],
+            ShowColumns1: [],
+            ShowColumns2: [],
+            tpData: [],
+            plData: [],
+            ispl: '',
+            CSQKData: [],//抄送人接收情况数据
+            nowuser: ComFunJS.getnowuser(),
+            PathCode: "",
+            FormCode: "",
+            strId: ComFunJS.getQueryString("ID"),
+            PIID: ComFunJS.getQueryString("PIID"),//流程ID
+            PDID: ComFunJS.getQueryString("PDID"),//流程配置ID
+            lctype: ComFunJS.getQueryString("LCTYPE", "-1"),
+            isBack: ComFunJS.getQueryString("isback", "N"),
+            PIMODEL: {},//流程数据
+            TASKDATA: [],//任务数据
+            shzt: "",
+            isExport: false,
+            isEdit: "N",
+            ISCANCEL: "N",
+            plTitle: "评论",
+            isEndTask: false,
+            Temprender: function () {
+                if (typeof (tempindex) != "undefined") {
+                    tempindex.InitWigetData(model.strId);
+                }
+                avalon.templateCache = null;
+
+            },
+            seltitle: function (type) {
+                model.titletype = type;
+            },
+            viewfile: function (file) {
+                if (ComFunJS.isPic(file.FileExtendName)) {
+                    ComFunJS.viewbigimg(this)
+                    return;
+                }
+                if (ComFunJS.isOffice(file.FileExtendName) && file.ISYL == "Y") {
+                    window.open(file.YLUrl);
+                    return;
+                }
+            },
+            Edit: function (ID) {
+                var str = model.FormCode;
+                if (tempindex.PCode) { str = tempindex.PCode + "_" + str; }
+                window.location.href = "/ViewV5/AppPage/APP_ADD.html?FormCode=" + str + "&id=" + model.strId + "&PIID=" + model.PIID + "&PDID=" + model.PDID;
+            },
+
+            SenLCCB: function (id) {
+                ComFunJS.winconfirm("确认要催办此流程吗？", function () {
+                    $.getJSON('/API/VIEWAPI.ashx?Action=LCSP_SENDLCCB', { "P1": id }, function (result) {
+                        if (result.ErrorMsg == "") {
+                            ComFunJS.winsuccess("催办通知发送成功");
+                            $("#btnCB").attr("disabled", "disabled");
+                        }
+                    })
+                }, function () { })
+            },
+            pf: function (str) {
+                if (str) {
+                    var html = '<div></div>';
+                    var html1 = $(html).raty({
+                        readOnly: true,
+                        score: str * 1 / 20
+                    }).html();
+                    return html1;
+                }
+                else {
+                    return '';
+                }
+            },
+            print: function () {
+                window.print()
+            },
+            addPL: function () {
+                ComFunJS.winbtnwin("/ViewV5/Base/APP_COMMENT.html?ID=" + model.strId + "&contentdec=" + model.plTitle + "&Type=" + model.FormCode + "&r=" + Math.random(), model.plTitle, 600, 400, {}, function (layero, index) {
+                    var frameid = $("iframe", $(layero)).attr('id');
+                    var plnr = ComFunJS.isIE() ? window.frames[frameid].getpl() : window.frames[frameid].contentWindow.getpl();
+
+                    if (plnr.ID) {
+                        model.plData.push(plnr);
+                        top.ComFunJS.winsuccess(model.plTitle + "成功");
+                        layer.close(index);
+                    }
+                })
+            },
+            scpl: function (item) {
+                ComFunJS.winconfirm("确认要删除吗", function () {
+                    $.post('/API/VIEWAPI.ashx?Action=XTGL_DELCOMENT', { "P1": item.ID }, function (result) {
+                        if (result.ErrorMsg == "") {
+                            ComFunJS.winsuccess("删除成功");
+                            model.plData.remove(item);
+                        }
+                    })
+                }, function () { })
+            },
+            GetTypeDataByID: function (P1, callback) {//P1:字典类别ID，callback:回调函数
+                $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETZIDIANSLIST', { P1: P1 }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        if (callback) {
+                            return callback.call(this, resultData.Result);
+                        }
+                    }
+                })
+            }
+        });
+        avalon.ready(function () {
+            var FormCode = ComFunJS.getQueryString("FormCode")
+            if (FormCode.indexOf("_") > 0) {
+                model.PathCode = FormCode.split('_')[0];
+                model.FormCode = FormCode.split('_')[1];
+            } else {
+                model.PathCode = FormCode;
+                model.FormCode = FormCode;
+            }
+        })
+    </script>
+</body>
+</html>

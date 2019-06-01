@@ -1,0 +1,259 @@
+﻿<div style="background:#fbf9fe" ms-controller="XMGL">
+    <div ms-visible="pmodel.isHasDataQX=='Y'">
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">项目状态</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select class="weui-select" ms-duplex="modelData.Status">
+                        <option value="0" ms-attr-selected="modelData.Status=='0'?'selected':''">正在进行</option>
+                        <option value="1" ms-attr-selected="modelData.Status=='1'?'selected':''">已结束</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">项目类型</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select class="weui-select" ms-duplex="modelData.YXJ">
+                        <option ms-repeat-item="ColumnData" ms-attr-value="item.ID">{{item.TypeName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">项目名称</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.XMMC" type="text" class="weui_input szhl szhl_require" placeholder="请输入项目名称" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">负责人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.XMFZR" id="conFZR" type="text" placeholder="请输入负责人" class="weui_input szhl_getPeoples single" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">团队成员</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.XMCYR" id="xmcyr" type="text" placeholder="请输入团队成员" class="weui_input szhl_getPeoples multi" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">开始时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.StartDate" id="XMSTime" type="text" placeholder="请输入开始时间" class="weui_input null" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">结束时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.EndDate" id="XMETime" type="text" placeholder="请输入结束时间" class="weui_input null" />
+                </div>
+            </div>
+
+        </div>
+        <div class="weui_cells_title">项目描述</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd" style="display:none;"><label class="weui_label label">项目描述</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea ms-duplex="modelData.XMMS" rows="3" class="weui_textarea szhl szhl_require" placeholder="请输入项目描述"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">图片</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" ms-duplex="modelData.Files" class="wximgupload" style="display:none;" />
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells weui_cells_form">
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">项目进度</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <!--<input ms-duplex="modelData.XMJD" type="number" class="weui_input szhl" placeholder="请输入项目进度(%)" />-->
+                    <select class="weui-select" ms-duplex="modelData.XMJD">
+                        <option value="0">0%</option>
+                        <option value="10">10%</option>
+                        <option value="20">20%</option>
+                        <option value="30">30%</option>
+                        <option value="50">50%</option>
+                        <option value="75">75%</option>
+                        <option value="100">100%</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div ms-visible="pmodel.isHasDataQX=='N'">
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">项目状态</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select class="weui-select" ms-duplex="modelData.Status">
+                        <option value="0" ms-attr-selected="modelData.Status=='0'?'selected':''">正在进行</option>
+                        <option value="1" ms-attr-selected="modelData.Status=='1'?'selected':''">已结束</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">项目类型</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select class="weui-select" ms-duplex="modelData.YXJ">
+                        <option ms-repeat-item="ColumnData" ms-attr-value="item.ID">{{item.TypeName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">项目名称</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.XMMC}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">负责人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{ComFunJS.convusers(modelData.XMFZR)}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">团队成员</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{ComFunJS.convusers(modelData.XMCYR)}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">开始时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.StartDate|date("yyyy-mm-dd")}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">结束时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.EndDate|date("yyyy-mm-dd")}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">项目描述</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.XMMS}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">图片</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div class="viewimg" ms-attr-data="tpData">{{modelData.Files}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">项目进度</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.XMJD}}%
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    var tempmodel = avalon.define({
+        $id: "XMGL",
+        ColumnData: [],
+        name: "项目管理",
+        tpData: [],
+        wximg: "",
+        dataid: "",
+        inittemp: function (strId) { 
+
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETZIDIANLIST', { P1: 18 }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.ColumnData = resultData.Result;
+                    if (!tempmodel.modelData.YXJ) {
+                        tempmodel.modelData.YXJ = resultData.Result[0].ID
+                    };
+                }
+            })
+            if (strId) {
+
+                tempmodel.dataid = strId;
+                $.getJSON('/API/VIEWAPI.ashx?Action=XMGL_GETXMGLMODEL', { P1: strId }, function (resultData) {
+
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result[0];
+                        tempmodel.tpData = resultData.Result2;
+                        if (tempmodel.modelData.StartDate && tempmodel.modelData.StartDate.length > 10) {
+                            tempmodel.modelData.StartDate = tempmodel.modelData.StartDate.substring(0, 10);
+                        }
+                        if (tempmodel.modelData.EndDate && tempmodel.modelData.EndDate.length > 10) {
+                            tempmodel.modelData.EndDate = tempmodel.modelData.EndDate.substring(0, 10);
+                        }
+                        $("#XMSTime").calendar({
+                            value: [tempmodel.modelData.StartDate]
+                        })
+                        $("#XMETime").calendar({
+                            value: [tempmodel.modelData.EndDate]
+                        })
+
+                        ComFunJS.uploadimgnew(tempmodel.tpData);
+                        ComFunJS.viewimg(tempmodel.tpData);
+                        
+                        setTimeout(" ComFunJS.initForm()", 500)
+                    }
+                })
+            } else {
+                $("#XMSTime").calendar({
+                    value: [ComFunJS.getnowdate("yyyy-mm-dd")]
+                })
+                $("#XMETime").calendar({
+                    value: [ComFunJS.getnowdate("yyyy-mm-dd")]
+                })
+                tempmodel.modelData.StartDate = ComFunJS.getnowdate("yyyy-mm-dd");
+                tempmodel.modelData.EndDate = ComFunJS.getnowdate("yyyy-mm-dd");
+
+                ComFunJS.uploadimgnew();
+                ComFunJS.initForm();
+            }
+        },//初始化
+        modelData: { "Status": "0", "YXJ": "", "XMMC": "", "StartDate": "", "EndDate": "", "XMFZR": ComFunJS.getnowuser(), "XMCYR": "", "XMMS": "", "XMJD": "0", "Files": "" },
+        SaveData: function (callback) {
+            tempmodel.modelData.Files = "";
+            $("#imglist .tpli").each(function () {
+                if ($(this).hasClass("wximg")) { //微信上传未处理的图片
+                    if (tempmodel.wximg) {
+                        tempmodel.wximg += ",";
+                    }
+                    tempmodel.wximg += $(this).attr("itemid");
+
+                } else {
+                    if (tempmodel.modelData.Files) {
+                        tempmodel.modelData.Files = tempmodel.modelData.Files + ',' + $(this).attr("itemid");
+                    }
+                    else {
+                        tempmodel.modelData.Files = $(this).attr("itemid");
+                    }
+                }
+
+            })
+        
+            $.getJSON("/API/VIEWAPI.ashx?ACTION=XMGL_ADDXMGL", { P1: JSON.stringify(tempmodel.modelData.$model), P2: tempmodel.wximg }, function (result) {
+                return callback.call(this, result);
+            });
+        },
+        Complate: function () {
+            window.location.href = "/View_Mobile/UI/UI_XMGL_LIST.html?r=" + Math.random();
+        }
+    });//# sourceURL=MXMGL.js;
+
+</script>

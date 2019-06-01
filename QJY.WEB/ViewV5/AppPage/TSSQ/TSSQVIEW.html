@@ -1,0 +1,259 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>话题详情</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/ViewV5/CSS/icfont_qj/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/index.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/default.css">
+    <style>
+    </style>
+</head>
+
+<body style="background-color: #F8F8F8; height: 100%;" ms-controller="TSSQVIEW">
+    <div class="padding20">
+        <div class="card card3 mb20">
+            <div class="detail-nav">
+                <div class="tab-kh nav-bt">
+                    <span class="cur"><i class="iconfont icon-bookmark"></i>话题信息</span>
+
+
+                    <div class="pr20 tbs" style="float: right;">
+                        <button class="btn btn-danger" ms-if="modelData.CRUser == userName" ms-click="DEL()">删除</button>
+                    </div>
+                </div>
+            </div>
+            <div class="detail-con">
+                <div class="detail-item" ms-repeat-el="ShowColumns" ms-visible="modelData[el.ColName]">
+                    <span class="item-tit">{{el.ColText}}</span>
+                    <div class="item-con">{{ComFunJS.FnFormat(modelData[el.ColName],el)|html}}</div>
+                </div>
+                <div class="detail-item" ms-repeat-ext="modelData.SubExt">
+                    <span class="item-tit">{{ext.TableFiledName}}</span>
+                    <div class="item-con">{{ext.ExtendDataValue}} </div>
+                </div>
+                <div class="detail-item" ms-if="tpData&&tpData.size()!=0">
+                    <span class="item-tit">图片</span>
+                    <div class="fj clearfix mt10">
+                        <div class="pull-left" ms-repeat-file="tpData">
+                            <img ms-if="ComFunJS.isPic(file.FileExtendName)" ms-class="img-rounded:ComFunJS.isPic(file.FileExtendName)" ms-on-click="viewfile(file)" ms-attr-src="{{ComFunJS.getfile(file.ID)}}&width=45&height=45" ms-attr-imgyt="{{ComFunJS.getfile(file.ID)}}" style="cursor:zoom-in;border-radius:2px" />
+                            <img ms-click="viewfile(file)" style="height:45px;width:45px" ms-if="!ComFunJS.isPic(file.FileExtendName)" ms-attr-src="/ViewV5/images/qywd/{{file.FileExtendName}}.png" onerror="javascript: this.src = '/ViewV5/images/qywd/file.png'" />
+                            <div class="fj-cont c999 ft12">
+                                <p class="word-break">{{file.Name}}.{{file.FileExtendName}}<span>({{Math.round(file.FileSize/1024)}}kb)</span></p>
+                                <p class="mt5">
+                                    <a ms-attr-href="{{file.YLUrl}}" ms-if="file.YLUrl" target="_blank">预览</a>
+                                    <a ms-attr-href="{{ComFunJS.getfile(file.ID)}}">下载</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pl20 mb10">
+                <button class="btn btn-info" ms-click="AddPL()"><i class="iconfont icon-pinglun mr5 ft14"></i>添加评论</button>
+                <button class="btn btn-info" ms-click="DZAN()"><i class="iconfont  mr5 ft14" ms-class-1="icon-zan2:modelData.IsZan=='Y'" ms-class-2="icon-zan1:modelData.IsZan=='N'"></i>{{modelData.IsZan=='Y'?'已赞':'赞'}}</button>
+            </div>
+            <div class="padding20">
+                <div class="lookright-box">
+                    <div class="menu-general ft14">
+                        <ul>
+                            <li class="active">
+                                <a>评论({{plData.size()}})</a>
+                            </li>
+                            <li>
+                                <a>赞({{zancount}})</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="map">
+                    <div>
+                        <!--<div class="crm-dt clearfix nopadding pt20">
+                            <button class="btn btn-info pull-right" ms-click="addGJ()"><i class="iconfont icon-jiahao ft12 mr5"></i>添加评论</button>
+                        </div>-->
+                        <div class="crm-dt" ms-repeat-item="plData">
+                            <span class="crm-yuan"></span>
+                            <div class="crm-dt-cont">
+                                <i class="bg"></i>
+                                <span class="wt"></span>
+                                <div style="margin:10px 30px;" class="c666">
+                                    <p class="c999">{{ComFunJS.convertuser(item.CRUser)}}【{{item.DWName}}】 <span ms-if="item.ReUser" style="color:blue;">@{{ComFunJS.convertuser(item.ReUser)}}</span></p>
+                                    <h3 class="crm-xg ft14 mt5" style="word-break: break-all; word-wrap: break-word;">{{ComFunJS.bqhContent(item.MSGContent)|html}}</h3>
+                                    <div class="fj clearfix mt10" ms-if="item.FileList&&item.FileList.size()!=0">
+                                        <div class="pull-left" ms-repeat-file="item.FileList">
+                                            <img ms-if="ComFunJS.isPic(file.FileExtendName)" ms-class="img-rounded:ComFunJS.isPic(file.FileExtendName)" ms-on-click="viewfile(file)" ms-attr-src="{{ComFunJS.getfile(file.ID)}}&width=45&height=45" ms-attr-imgyt="{{ComFunJS.getfile(file.ID)}}" style="cursor:zoom-in;border-radius:2px" />
+                                            <img ms-click="viewfile(file)" style="height:45px;width:45px" ms-if="!ComFunJS.isPic(file.FileExtendName)" ms-attr-src="/ViewV5/images/qywd/{{file.FileExtendName}}.png" onerror="javascript: this.src = '/ViewV5/images/qywd/file.png'" />
+                                            <div class="fj-cont c999 ft12">
+                                                <p class="word-break">{{file.Name}}.{{file.FileExtendName}}<span>({{Math.round(file.FileSize/1024)}}kb)</span></p>
+                                                <p class="mt5">
+                                                    <a ms-attr-href="{{file.YLUrl}}" ms-if="file.YLUrl" target="_blank">预览</a>
+                                                    <a ms-attr-href="{{ComFunJS.getfile(file.ID)}}">下载</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p style="font-size:12px;" class="mt5">{{item.CRDate|date("yyyy年MM月dd日 HH:mm")}}
+                                        <span class="pull-right">
+                                            <a href="javascript:void(0)" ms-click="plhf(item)"><i class="fa fa-comment-o"></i>回复</a>
+                                            <a ms-if="item.CRUser == userName" href="javascript:void(0)" ms-click="delpl(item)"><i class="iconfont icon-shanchu" ></i>删除</a>
+                                        
+                                            </span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display:none;margin:10px;">
+
+                        <ul class="clearfix list-unstyled pic-list">
+                            <li ms-repeat-item="modelData.ZanList">
+                                <img style="width:60px;height:60px;" 
+                                     ms-attr-src="{{ComFunJS.getfile()}}&type=TX&user={{item.CRUser}}" onerror="javascript: this.src = 'images/head.jpg'">
+                                <div style="color:#999;font-size:12px;text-align:center;">{{ComFunJS.convertuser(item.CRUser)}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/layer/layer.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>
+    <script type="text/javascript">
+        $(".padding20 .lookright-box .menu-general ul li").each(function (i) {
+            $(this).click(function () {
+                $(this).addClass("active").siblings().removeClass("active");
+                $("#map>div:eq(" + i + ")").show().siblings().hide();
+            });
+        });
+
+        var model = avalon.define({
+            $id: "TSSQVIEW",
+            modelData: {},
+            ShowColumns: [],
+            tpData: [],
+            plData: [],
+            zancount: 0,
+            userName: ComFunJS.getnowuser(),
+            strId: ComFunJS.getQueryString("ID"),
+
+            GetModelData: function () {
+                if (model.strId) {
+                    //编辑加载数据
+                    $.getJSON('/API/VIEWAPI.ashx?Action=TSSQ_GETHTLIST', { P1: "0", ID: model.strId }, function (resultData) {
+                        if (resultData.ErrorMsg == "") {
+                            if (resultData.Result.length > 0) {
+                                model.modelData = resultData.Result[0];
+                                model.tpData = resultData.Result[0].FileList;
+                                model.plData = resultData.Result3;
+
+                                model.zancount = model.modelData.ZanList.size();
+                            }
+                            setTimeout(" ComFunJS.initForm()", 500)
+                        }
+                    })
+                }
+            },
+            AddPL: function () {
+                ComFunJS.winbtnwin("/ViewV5/Base/APP_COMMENT.html?ID=" + model.modelData.ID + "&Type=TSSQ&UserName=" + model.modelData.CRUser + "&r=" + Math.random(), "评论", 600, 400, {}, function (layero, index) {
+                    var frameid = $("iframe", $(layero)).attr('id');
+                    var plnr = ComFunJS.isIE() ? window.frames[frameid].getpl() : window.frames[frameid].contentWindow.getpl();
+
+                    if (plnr.ID) {
+                        model.plData.push(plnr);
+                        ComFunJS.winsuccess("评论成功");
+                        layer.close(index);
+                    }
+
+                })
+            },
+            DEL: function () {
+                top.ComFunJS.winconfirm("确认要删除吗？", function () {
+                    $.getJSON('/API/VIEWAPI.ashx?Action=TSSQ_DELHTBYID', { "P1": model.strId }, function (result) {
+                        if (result.ErrorMsg == "") {
+                            top.ComFunJS.winsuccess("删除成功");
+                        }
+                    })
+                })
+            },
+            delpl: function (item) {
+                top.ComFunJS.winconfirm("确认要删除吗？", function () {
+                    $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_DELCOMENT', { "P1": item.ID }, function (result) {
+                        if (result.ErrorMsg == "") {
+                            top.ComFunJS.winsuccess("删除成功");
+                            model.plData.remove(item)
+                        }
+                    })
+                })
+            },
+
+            plhf: function (item) {
+                ComFunJS.winbtnwin("/ViewV5/Base/APP_COMMENT.html?contentdec=评论回复&content=&r=" + Math.random(), "评论回复", 600, 400, {}, function (layero, inx) {
+                    var frameid = $("iframe", $(layero)).attr('id');
+                    var plnr = ComFunJS.isIE() ? window.frames[frameid].getpl() : window.frames[frameid].contentWindow.getpl();
+                    var fjids = ComFunJS.isIE() ? window.frames[frameid].getfj() : window.frames[frameid].contentWindow.getfj();
+                    $.post('/API/VIEWAPI.ashx?Action=TSSQ_ADDCOMENT&r=' + Math.random(), { "P1": plnr, "TLID": item.ID, "MsgLYID": item.MSGTLYID, "fjID": fjids }, function (resultData) {
+                        layer.close(inx);
+                        if (resultData.ErrorMsg == "") {
+                            ComFunJS.winsuccess("回复成功");
+                            resultData.Result.FileList = resultData.Result1;
+                            model.plData.push(resultData.Result);
+                        }
+                    })
+                })
+            },
+            DZAN: function () {
+                $.post('/API/VIEWAPI.ashx?Action=TSSQ_ZANHTBYID', { "P1": model.strId }, function (result) {
+                    if (result.ErrorMsg == "") {
+                        model.modelData.IsZan = "Y";
+                        model.modelData.ZanList.push(result.Result)
+
+                    } else if (result.ErrorMsg == "del") {
+                        model.modelData.IsZan = "N";
+                        model.modelData.ZanList.forEach(function (item) {
+                            if (item.CRUser == model.userName) {
+                                model.modelData.ZanList.remove(item);
+                            }
+                        })
+                    }
+                    model.zancount = model.modelData.ZanList.size();
+                })
+            },
+            viewfile: function (file) {
+                if (ComFunJS.isPic(file.FileExtendName)) {
+                    ComFunJS.viewbigimg(this)
+                    return;
+                }
+                if (ComFunJS.isOffice(file.FileExtendName) && file.ISYL == "Y") {
+                    window.open(file.YLUrl);
+                    return;
+                }
+            }
+        });
+        avalon.ready(function () {
+            model.ShowColumns.clear();
+            model.ShowColumns.pushArray([
+                { "ColName": "CRUser", "ColText": "创建人", "IsSel": true, "format": "username" },
+                { "ColName": "CRDate", "ColText": "发表时间", "IsSel": true, "format": "dateformat" },
+                { "ColName": "TypeName", "ColText": "话题类型", "IsSel": true },
+                { "ColName": "URL", "ColText": "链接", "IsSel": true, "format": "url" },
+                { "ColName": "HTNR", "ColText": "内容", "IsSel": true }
+            ]);
+
+            model.GetModelData();
+        })
+    </script>
+</body>
+
+</html>

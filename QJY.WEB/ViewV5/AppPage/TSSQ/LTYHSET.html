@@ -1,0 +1,252 @@
+﻿<div ms-controller="PLYHLIST">
+    <div class="btn-add">
+    </div>
+    <div class="tab-filter-type">
+        <div class="oh">
+            <h5 class="pull-left tr">是否禁言：</h5>
+            <ul class="tab-type ft14">
+                <li><span class="active" ms-click="SelectType('0')">全部</span></li>
+                <li ms-click="SelectType('1')"><span>是</span></li>
+                <li ms-click="SelectType('2')"><span>否</span></li>
+
+            </ul>
+        </div>
+        <div class="oh">
+            <h5 class="pull-left tr">不能被@：</h5>
+            <ul class="tab-type ft14">
+                <li><span class="active" ms-click="SelectType('0')">全部</span></li>
+                <li ms-click="SelectType('1')"><span>是</span></li>
+                <li ms-click="SelectType('2')"><span>否</span></li>
+
+            </ul>
+        </div>
+        <!--<div class="oh">
+            <h5 class="pull-left tr">姓名：</h5>
+            <ul class="tab-type ft14">
+                <li ms-click="SelectXJType('')"><span class="active">全部</span></li>
+                <li ms-repeat-el="TypeData" ms-click="SelectXJType(el.ID)"><span>{{el.TypeName}}</span></li>
+            </ul>
+        </div>-->
+        <!-- 搜索 -->
+        <div class="oh">
+            <div class="input-group ml15" style="width: 295px;">
+                <input type="search" class="form-control" ms-duplex="search.searchcontent" placeholder="搜索姓名">
+                <span class="input-group-addon" ms-click="GetLIST()">搜索</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="default-tab ft14 pt20">
+        <table class="table table-striped table-responsive table-hover">
+            <thead>
+                <tr>
+
+                    <th style="width: 80px" class="tc">
+                        <!--<div class="icheckbox_square-blue">
+                            <input type="checkbox">
+                            <span class="iconfont icon-check ft12"></span>
+                        </div>-->
+                        序号
+                    </th>
+                    <th>姓名</th>
+                    <th>发帖数</th>
+                    <th>评论数量</th>
+                    <th style="width: 140px">是否禁止@</th>
+
+                    <th style="width: 160px">是否禁言</th>
+                    <th style="width: 160px">截止时间</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ms-repeat-el="tmpListData">
+
+                    <td class="tc">
+                        {{$index+1+page.pagecount*(page.pageindex-1)}}
+
+                    </td>
+                    <td class="lk" ms-click="View(el)">{{el.UserRealName}}</td>
+                    <td>0</td>
+
+                    <td>0</td>
+                    <td ms-click="jztx(el)">
+                        <div class="icheckbox_square-blue" ms-class-1="checked:el.isTX=='Y'">
+                            <input type="checkbox">
+                            <span class="iconfont icon-check ft12"></span>
+                        </div>
+                    </td>
+                    <td>
+                        {{el.isJY=="Y"?"是":"否"}}
+                        <span class="btn-click">
+                            <a class="cz-btn ft18 sc-color tip" title="设置禁言" data-toggle="modal" data-target="#USERSET" ms-click="jy(el)">
+                                <i class="iconfont icon-shezhi"></i>
+                            </a>
+
+                        </span>
+                    </td>
+                    <td>
+                        <span ms-if="el.JYDate">  {{el.JYDate|date('yy年MM月dd日')}}</span>
+
+                    </td>
+
+
+                    <!--<td>
+                        <a class="cz-btn ft18 js-color" data-toggle="tooltip" title="审批" ms-click="ViewForm(el.ID,el.intProcessStanceid,$event)" ms-if="el.StateName!='-1'&&search.seartype==2">
+                            <i class="iconfont icon-user"></i>
+                        </a>
+                    </td>-->
+                </tr>
+
+            </tbody>
+            <tfoot>
+                <tr ms-if="isnull">
+                    <td class="tc"></td>
+                    <td>暂无数据</td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="ui-datatable-page ft14 pl20">
+
+            <div id="pageDiv" ms-visible="model.page.total>model.pageNum[0].num" class="pull-right"></div>
+            <div class="pull-right" ms-visible="tmpListData.size()!=0">
+                <span>共{{model.page.total}}条记录</span>
+                <span ms-visible="model.page.total>model.pageNum[0].num">
+                    选择每页条数
+                    <select style="height: 25px; width: 50px;" ms-change="selNum(this.value)" ms-duplex="model.page.pagecount">
+                        <option ms-repeat-pg="pageNum" ms-attr-value="pg.num" ms-attr-selected="pg.num==model.page.pagecount?'selected':''">{{pg.num}}</option>
+                    </select>
+                </span>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="USERSET" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 500px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">禁言设置</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label">禁止发言</label>
+                            <select class="form-control" style="width:200px" id="isJY">
+                                <option value="Y">是</option>
+                                <option value="N">否</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label">禁止截止时间</label>
+                            <input type="text" class="form-control szhl_require szhl_form_date" style="width: 200px" id="JYDate" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-success" id="conaddForder" ms-click="SaveJY()">确&nbsp;&nbsp;认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    var tempindex = avalon.define({
+        $id: "PLYHLIST",
+        tmpListData: [],
+        seluser: {},
+        InitWigetData: function () {
+
+            //显示的列名
+            model.ShowColumns.clear();
+
+            //类型数据
+
+            model.search.seartype = 3;
+            model.GetTypeData("19");
+            tempindex.GetLIST();
+            ComFunJS.initForm()
+        },
+        jztx: function (el) {
+            var istX = el.isTX == "Y" ? "N" : "Y";
+            $.getJSON('/API/VIEWAPI.ashx?Action=TSSQ_SETJZTZ', { "P1": el.UserName, "P2": el.isTX == "Y" ? "N" : "Y" }, function (result) {
+                if (result.ErrorMsg == "") {
+                    top.ComFunJS.winsuccess("操作成功");
+
+                }
+            })
+        },
+        jy: function (el) {
+            $("#isJY").val(el.isJY);
+            $("#JYDate").val(el.JYDate);
+            tempindex.seluser = el;
+
+        },
+        SaveJY: function () {
+            if ($("#isJY").val() == "Y" && !$("#JYDate").val()) {
+                top.ComFunJS.winwarning("截止时间不能为空");
+                return;
+            }
+            $.getJSON('/API/VIEWAPI.ashx?Action=TSSQ_SETJY', { "P1": tempindex.seluser.UserName, "P2": $("#isJY").val(), "JYDate": $("#JYDate").val() }, function (result) {
+                if (result.ErrorMsg == "") {
+                    top.ComFunJS.winsuccess("操作成功");
+                    $('#USERSET').modal('hide');
+                    tempindex.GetLIST();
+
+
+                }
+            })
+        },
+        selNum: function (item) {    //选择显示的条数
+            model.page.pagecount = item;
+            tempindex.GetLIST();
+        },
+        GetLIST: function () {
+            model.page.pageindex = 1;
+            tempindex.tmpListData.clear();
+            $.getJSON('/API/VIEWAPI.ashx?Action=TSSQ_GETZXJLYHLIST', { Content: model.search.searchcontent, pagecount: model.page.pagecount, p: model.page.pageindex, lb: tempindex.curXJType }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempindex.tmpListData = resultData.Result;
+                    model.page.total = resultData.Result1;
+                    if (tempindex.tmpListData.size() == 0) { model.isnull = true; } else { model.isnull = false; }
+                    model.Total = resultData.Result1;
+                    laypage({
+                        cont: 'pageDiv', //容器。值支持id名、原生dom对象，jquery对象。
+                        pages: Math.ceil(parseInt(resultData.Result1) * 1.0 / model.page.pagecount), //通过后台拿到的总页数
+                        curr: 1, //初始化当前页
+                        skin: 'molv',
+                        jump: function (e) { //触发分页后的回调
+                            if (e.curr != model.page.pageindex) {
+                                $.getJSON('/API/VIEWAPI.ashx?Action=TSSQ_GETZXJLYHLIST', { Content: model.search.searchcontent, pagecount: model.page.pagecount, p: e.curr, lb: tempindex.curXJType }, function (resultData) {
+                                    if (resultData.ErrorMsg == "") {
+                                        tempindex.tmpListData = resultData.Result;
+                                    }
+                                })
+                                model.page.pageindex = e.curr;
+                            }
+                        }
+                    });
+                }
+            })
+        },
+        DELHT: function (item, event) {
+            if (event.stopPropagation) {
+                event.stopPropagation();
+            }
+            top.ComFunJS.winconfirm("确认要删除吗？", function () {
+                $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_DELCOMENT', { "P1": item.ID }, function (result) {
+                    if (result.ErrorMsg == "") {
+                        top.ComFunJS.winsuccess("删除成功");
+                        tempindex.tmpListData.remove(item);
+                    }
+                })
+            })
+        }
+    })
+    //# sourceURL=TSSQLIST.js;
+</script>

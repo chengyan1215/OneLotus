@@ -1,0 +1,527 @@
+﻿<link href="/ViewV5/CSS/style.css" rel="stylesheet" />
+<style>
+    .classes {
+        margin: 0 20px 30px 28px;
+    }
+
+        .classes .hd {
+            margin: 0 0 16px;
+            overflow: hidden;
+        }
+
+    .hd .title {
+        font-size: 16px;
+        font-weight: 400;
+        float: left;
+        margin: 0;
+        padding: 0;
+        border: none;
+        background-color: transparent;
+    }
+
+    .hd .total {
+        float: left;
+        padding: 0 10px;
+    }
+
+    .hd .more {
+        font-size: 12px;
+        color: #333;
+    }
+
+    .class-text li a {
+        display: block;
+        font-size: 14px;
+        height: 166px;
+        overflow: hidden;
+        padding: 0 23px;
+        border: 1px solid #f4eed0;
+        background: #fffde7;
+        cursor: pointer;
+        color: #959792;
+        width: 168px;
+    }
+
+    .class-text li .text {
+        display: block;
+        height: 120px;
+        font-size: 14px;
+        overflow: hidden;
+        margin: 0 0 16px;
+        padding: 26px 0 0;
+        line-height: 18px;
+    }
+
+    .class-text li .time {
+        display: block;
+        color: #b8b6a6;
+        font-size: 14px;
+        font-family: tahoma;
+        text-align: right;
+    }
+
+    .text-list li, .vido-list li, .wenjian-list li, .pic-list li {
+        float: left;
+        margin: 0 10px 5px 0;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .class-text li a:hover {
+        background: #fefbdc;
+        border-color: #f4edc7;
+        color: #9f9f8f;
+    }
+
+    .hack {
+        padding-bottom: 20px;
+        overflow: hidden;
+        width: 168px;
+        border: 1px solid #eaeaea;
+        border-color: rgba(0,0,0,.08);
+    }
+
+    .obj {
+        height: 110px;
+        overflow: hidden;
+    }
+
+        .obj img {
+            width: 100%;
+            height: 110px;
+        }
+
+    .wp-title {
+        color: #333;
+        font-size: 14px;
+        height: 16px;
+        line-height: 16px;
+        padding: 18px 10px 16px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .content {
+        color: #a9acb0;
+        height: 34px;
+        line-height: 17px;
+        overflow: hidden;
+        padding: 0 10px;
+        margin-top: 10px;
+        font-size: 12px;
+    }
+
+    .domain {
+        color: #cac8cb;
+        overflow: hidden;
+        padding: 10px 10px 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .webpage-mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 227px;
+        width: 168px;
+        border: 1px solid #eaeaea;
+        border-color: rgba(0,0,0,.08);
+    }
+
+    .text-list li {
+        position: relative;
+    }
+
+    .text-list a:hover .webpage-mask {
+        border-color: #589aee;
+        border-color: rgba(48,131,235,.8);
+    }
+
+    .pic-list li {
+        border: 1px solid #e8e8e8;
+    }
+
+        .pic-list li:hover {
+            border-color: #589aee;
+            background-color: rgba(107,107,107,0.3);
+        }
+
+        .pic-list li img {
+            width: 168px;
+            height: 168px;
+            background: #cac8cb;
+        }
+
+    .vido-list li {
+        margin: 0 15px 50px 0;
+        text-align: center;
+        height: 136px;
+    }
+
+        .vido-list li img {
+            width: 168px;
+            height: 140px;
+            background-color: #ccc;
+        }
+
+        .vido-list li p {
+            font-size: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-top: 5px;
+        }
+
+        .vido-list li:hover span {
+            display: inline-block;
+        }
+
+    .bf {
+        width: 39px;
+        height: 39px;
+        background: url(bf.png) no-repeat center center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -19px;
+        margin-top: -19px;
+        display: none;
+    }
+
+    .wenjian-list li {
+        width: 120px;
+        text-align: center;
+        margin: 0 20px 15px 0;
+    }
+
+        .wenjian-list li img {
+            height: 100px;
+        }
+
+        .wenjian-list li p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-top: 5px;
+        }
+
+    .btn-sc {
+        margin: 0 20px 30px 28px;
+    }
+
+        .btn-sc .btn {
+            border-radius: 0;
+            color: #A4A4A4;
+        }
+
+            .btn-sc .btn.active {
+                background-color: #18a689;
+                color: #fff;
+                box-shadow: none;
+                border: 1px solid #18a689;
+            }
+
+    .category-text-list li {
+        border-bottom: 1px solid #e5ebf1;
+        color: #959792;
+        cursor: pointer;
+        height: 66px;
+        margin: 0;
+        margin: 10px 20px 20px 0;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+    }
+
+        .category-text-list li .title {
+            height: 18px;
+            line-height: 18px;
+            color: #535355;
+            padding: 3px 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .category-text-list li .content {
+            height: 36px;
+            line-height: 18px;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+
+        .category-text-list li .date {
+            color: #1AB394;
+            font-size: 14px;
+            margin-right: 5px;
+        }
+
+    .wj tr td img {
+        width: 40px;
+        margin-right: 10px;
+        height: 40px;
+    }
+
+    .table.wj > tbody > tr > td {
+        vertical-align: middle;
+    }
+
+    .bd ul li:hover .badge {
+        visibility: visible;
+    }
+
+    .bd ul li .badge {
+        position: absolute;
+        top: -5px;
+        right: -6px;
+        background-color: red;
+        padding-left: 5px;
+        padding-right: 5px;
+        visibility: collapse;
+    }
+
+    .bd ul li:hover .edit {
+        visibility: visible;
+    }
+
+    .bd ul li .edit {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        padding-left: 5px;
+        padding-right: 5px;
+        visibility: collapse;
+        border: solid 1px;
+        font-size: 14px;
+    }
+</style>
+<div class="wrapper wrapper-content  animated fadeInRight" ms-controller="APP_QYWD_SC">
+    <div class="row" style="margin:0px;">
+        <div class="col-xs-12 animated fadeInRight">
+            <div class="panel2 mb15">
+                <div class="row" style="margin:0;margin-bottom:10px;border-bottom: 1px solid rgb(238, 238, 238);">
+                    <div class="col-sm-12">
+                        <ul id="title" class="list-unstyled clearfix title" style="height:50px;margin:0;background-color:#fff;border:none;">
+                            <li ms-repeat-item="typeData" ms-class-1="ho:seartype==item.type" ms-click="SelectType(item.type)"><a href="javascript:void(0)">{{item.name}}</a><span></span><i></i></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mail-box" style="border:0;margin-left:10px;margin-right:10px;">
+                    <!--最近 -->
+                    <div ms-if="tempindex.seartype=='near'">
+                        <!--笔记 -->
+                        <div class="classes class-text">
+                            <div class="hd">
+                                <h3 class="title">笔记</h3>
+                                <span class="total">|</span>
+                                <a href="###" ms-click="AddSC('text','收藏-笔记')" class="more">添加</a>
+                                <a href="###" ms-click="SelectType('text')" class="more">更多</a>
+                            </div>
+                            <div class="bd">
+                                <ul class="list-unstyled text-list clearfix">
+                                    <li ms-repeat-item="typeData[1].Data">
+                                        <span class="badge" ms-click="DelSC(item,$event)">X</span>
+                                        <a ms-click="EDITText(item.ID,'text',$event)">
+                                            <span class="text">{{covText(item.MsgContent)}}</span>
+                                            <span class="time">{{item.CRDate|date("yyyy-MM-dd hh:mm")}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <span ms-if="typeData[1].Data.size()==0">没有找到数据哦</spanms-if>
+                            </div>
+                        </div>
+                        <!-- 网页-->
+                        <div class="classes class-web">
+                            <div class="hd">
+                                <h3 class="title">网页</h3>
+                                <span class="total">|</span>
+                                <a href="###" ms-click="AddSC('link','收藏-网页')" class="more">添加</a>
+                                <a href="###" ms-click="SelectType('link')" class="more">更多</a>
+                            </div>
+                            <div class="bd">
+                                <ul class="list-unstyled text-list clearfix">
+                                    <li ms-repeat-item="typeData[2].Data">
+                                        <span class="badge" ms-click="DelSC(item,$event)">X</span>
+                                        <div class="hack">
+                                            <a target="_blank" ms-attr-href="item.URL">
+                                                <div class="obj"> <img onerror="javascript: this.src = '/images/Vimg/qywd/tb.png'" ms-attr-src="{{ComFunJS.getfile(item.FileId)}}"> </div>
+                                                <div class="wp-title">{{item.Title}}</div>
+                                                <div class="domain">{{item.URL}}</div>
+                                            </a>
+                                            <a class="edit" ms-click="EDITText(item.ID,'link',$event)">编辑</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <span ms-if="typeData[2].Data.size()==0">没有找到数据哦</span>
+                            </div>
+                        </div>
+                        <!-- 图片 -->
+                        <div class="classes class-pic">
+                            <div class="hd">
+                                <h3 class="title">图片</h3>
+                                <span class="total">|</span>
+                                <a href="###" ms-click="SelectType('image')" class="more">更多</a>
+                            </div>
+                            <div class="bd">
+                                <ul class="list-unstyled vido-list clearfix">
+                                    <li ms-repeat-item="typeData[3].Data">
+                                        <span class="badge" ms-click="DelSC(item,$event)">X</span>
+                                        <a ms-attr-href="item.PicUrl" target="_blank"><img ms-attr-src="{{ComFunJS.getfile(item.FileId)}}"></a>
+                                        <p>{{item.CRDate|date("yyyy-MM-dd hh:mm")}}</p>
+                                    </li>
+                                </ul>
+                                <span ms-if="typeData[3].Data.size()==0">没有找到数据哦</span>
+                            </div>
+                        </div>
+                        <!-- 视频 -->
+                        <div class="classes class-pic">
+                            <div class="hd">
+                                <h3 class="title">视频</h3>
+                                <span class="total">|</span> <a href="###" ms-click="SelectType('shortvideo')" class="more">更多</a>
+                            </div>
+                            <div class="bd">
+                                <ul class="list-unstyled vido-list clearfix">
+                                    <li ms-repeat-item="typeData[4].Data">
+                                        <span class="badge" ms-click="DelSC(item,$event)">X</span>
+                                        <span class="bf"></span><span class="bf"></span><img ms-attr-src="item.PicUrl">
+                                        <p>{{item.CRDate|date("yyyy-MM-dd hh:mm")}}</p>
+                                    </li>
+                                </ul>
+                                <span ms-if="typeData[4].Data.size()==0">没有找到数据哦</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--笔记 -->
+                    <div class="classes class-text" ms-if="tempindex.seartype=='text'">
+                        <div class="bd">
+                            <ul class="list-unstyled text-list clearfix">
+                                <li ms-repeat-item="CommonData">
+                                    <span class="badge" ms-click="DelSC(item,$event)">X</span>
+                                    <a ms-click="EDITText(item.ID,'text',$event)">
+                                        <span class="text">{{covText(item.MsgContent)}}</span>
+                                        <span class="time">{{item.CRDate|date("yyyy-MM-dd hh:mm")}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <span ms-if="CommonData.size()==0">没有找到数据哦</span>
+                        </div>
+                    </div>
+                    <!-- 网页-->
+                    <div class="classes class-web" ms-if="tempindex.seartype=='link'">
+                        <div class="bd">
+                            <ul class="list-unstyled text-list clearfix">
+                                <li ms-repeat-item="CommonData">
+                                    <span class="badge" ms-click="DelSC(item,$event)">X</span>
+                                    <a ms-attr-href="item.URL" target="_blank">
+                                        <div class="hack">
+                                            <div class="obj"> <img onerror="javascript: this.src = '/images/Vimg/qywd/tb.png'" ms-attr-src="{{ComFunJS.getfile(item.FileId)}}"> </div>
+                                            <div class="wp-title">{{item.Title}}</div>
+                                            <div class="domain">{{item.URL}}</div>
+                                        </div>
+                                    </a>
+                                    <a class="edit" ms-click="EDITText(item.ID,'link',$event)">编辑</a>
+                                </li>
+                            </ul>
+                            <span ms-if="CommonData.size()==0">没有找到数据哦</span>
+                        </div>
+                    </div>
+                    <!-- 图片 -->
+                    <div class="classes class-pic" ms-if="tempindex.seartype=='image'">
+                        <div class="bd">
+                            <ul class="list-unstyled vido-list clearfix">
+                                <li ms-repeat-item="CommonData">
+                                    <span class="badge" ms-click="DelSC(item,$event)">X</span>
+                                    <span class=" bf"></span>
+                                    <a ms-attr-href="item.PicUrl" target="_blank"><img ms-attr-src="{{ComFunJS.getfile(item.FileId)}}"></a>
+                                    <p>{{item.CRDate|date("yyyy-MM-dd hh:mm")}}</p>
+                                </li>
+                            </ul>
+                            <span ms-if="CommonData.size()==0">没有找到数据哦</span>
+                        </div>
+                    </div>
+                    <!-- 视频 -->
+                    <div class="classes class-pic" ms-if="tempindex.seartype=='shortvideo'">
+                        <div class="bd">
+                            <ul class="list-unstyled vido-list clearfix">
+                                <li ms-repeat-item="CommonData">
+                                    <span class="badge" ms-click="DelSC(item,$event)">X</span>
+                                    <span class=" bf"></span>
+                                    <img ms-attr-src="item.PicUrl">
+                                    <p>{{item.CRDate|date("yyyy-MM-dd hh:mm")}}</p>
+                                </li>
+                            </ul>
+                            <span ms-if="CommonData.size()==0">没有找到数据哦</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var tempindex = avalon.define({
+        $id: "APP_QYWD_SC",
+        typeData: [{ type: "near", name: "最近", Data: [] }, { type: "text", name: "笔记", Data: [] }
+            , { type: "link", name: "网页", Data: [] }, { type: "image", name: "图片", Data: [] }
+            , { type: "shortvideo", name: "视频", Data: [] }],
+        CommonData: [],
+        seartype: "near",
+        InitWigetData: function () {
+            tempindex.GetSCDataAll();
+        },
+        SelectType: function (type) {
+            tempindex.seartype = type;
+            tempindex.GetSCData();
+        },
+        GetSCData: function () {
+            if (tempindex.seartype == "near") {
+                return;
+            }
+            $.getJSON('/API/VIEWAPI.ashx?Action=QYWD_COLLECTLIST', { P1: tempindex.seartype }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempindex.CommonData = resultData.Result;
+                }
+            })
+        },
+        covText: function (text) {
+            return ComFunJS.convstr($("<div>" + text + "</div>").text(), 40);
+        },
+        GetSCDataAll: function () {
+            tempindex.typeData.forEach(function (typeitem) {
+                if (typeitem.type == "near") {
+                    return;
+                }
+                $.getJSON('/API/VIEWAPI.ashx?Action=QYWD_COLLECTLIST', { P1: typeitem.type, P2: "near" }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        typeitem.Data = resultData.Result;
+                    }
+                })
+            })
+        }, AddSC: function (type, typeName) {
+            top.ComFunJS.winviewform("/View/Base/APP_ADD_WF.html?FormCode=QYSC&MsgType=" + type, typeName, "800", "530");
+        }, EDITText: function (id, type, event) {
+            if (event.stopPropagation) {
+                event.stopPropagation();
+            }
+            top.ComFunJS.winviewform("/View/Base/APP_ADD_WF.html?FormCode=QYSC&ID=" + id + "&MsgType=" + type, "我的收藏", "800", "530");
+        }, DelSC: function (item, event) {
+            if (event.stopPropagation) {
+                event.stopPropagation();
+            }
+            top.ComFunJS.winconfirm("确认要删除吗", function () {
+                $.post('/API/VIEWAPI.ashx?Action=QYWD_DELSC', { "P1": item.ID }, function (result) {
+                    if (result.ErrorMsg == "") {
+                        top.ComFunJS.winsuccess("删除成功");
+                        tempindex.typeData.forEach(function (typeitem) {
+                            typeitem.Data.remove(item);
+                        })
+                        tempindex.CommonData.remove(item);
+                    }
+                })
+            }, function () { })
+        }
+
+    }) 
+</script>

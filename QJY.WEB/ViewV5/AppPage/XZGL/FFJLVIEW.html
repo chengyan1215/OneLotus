@@ -1,0 +1,211 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>导入</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="/ViewV5/CSS/icfont_qj/iconfont.css">
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/index.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/default.css">
+    <style>
+        .progress-of .list {
+            width: 25%;
+        }
+
+        td {
+            min-width: 120px;
+        }
+
+        th {
+            background: #f5f5f5;
+        }
+
+        #gzd {
+            min-height: 350px;
+        }
+
+            #gzd > div {
+                /*display: none;*/
+            }
+
+        .border-1 {
+            border: 1px solid #eee;
+        }
+    </style>
+</head>
+<body ms-controller="FFJLVIEW">
+    <div class="worker mb20">
+        <div id="gzd">
+            <div class="table-responsive" style="min-height:300px;">
+               
+                <table class="table table-bordered  tc ft14">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" class="tc">人员</th>
+                            <th rowspan="2" class="tc">部门</th>
+                            <th rowspan="2" class="tc">用户编码</th>
+                            <th ms-attr-colspan="colnum(lmData.YF)" class="tc">
+                                <div class="input-box">
+                                    应发
+                                </div>
+                            </th>
+                            <th rowspan="2" class="tc">应发合计</th>
+
+                            <th ms-attr-colspan="colnum(lmData.YK)" class="tc">
+                                <div class="input-box">
+                                    应扣
+                                </div>
+                            </th>
+                            <th rowspan="2" class="tc">应扣合计</th>
+
+                            <th rowspan="2" class="tc">实发合计</th>
+                        </tr>
+                        <tr>
+                            <th ms-repeat="lmData.YF" class="tc">
+                                <div class="input-box">
+                                    {{$key|html}}
+                                </div>
+                            </th>
+                            <th ms-repeat="lmData.YK" class="tc">
+                                <div class="input-box">
+                                    {{$key|html}}
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ms-repeat-el="ctData" >
+                            <td>
+                                <div class="input-box">
+                                    {{el.姓名}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-box">
+                                    {{el.部门}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-box">
+                                    {{el.用户编码}}
+                                </div>
+                            </td>
+                            <td ms-repeat="el.YF">
+                                <div class="input-box" ms-attr-name="$key">
+                                    {{$val}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-box">
+                                    {{el.应发合计}}
+                                </div>
+                            </td>
+                            <td ms-repeat="el.YK">
+                                <div class="input-box" ms-attr-name="$key">
+                                    {{$val}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-box">
+                                    {{el.应扣合计}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-box">
+                                    {{el.实发合计}}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th class="tc" colspan="3">合计：</th>
+                            <th class="tc" ms-attr-colspan="colnum(lmData.YF)"></th>
+                            <th class="tc">{{yfhj}}(元)</th>
+                            <th class="tc" ms-attr-colspan="colnum(lmData.YK)"></th>
+                            <th class="tc">{{ykhj}}(元)</th>
+
+                            <th class="tc" >{{zhj}}</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>
+    <script src="/ViewV5/JS/layer/layer.js"></script>
+    <script src="/ViewV5/JS/Toast/toastr.js"></script>
+    <script>
+        function GetQuery(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(decodeURI(r[2]));
+            else return "";
+        }
+        var tempindex = avalon.define({
+            $id: "FFJLVIEW",
+            ctData: [],
+            lmData: {},
+            GetList: function () {
+                var id = ComFunJS.getQueryString("ID")
+                $.getJSON("/API/VIEWAPI.ashx?Action=XZGL_GETFFJLMODEL", { P1: id }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        tempindex.colmData = resultData.Result;
+
+                        tempindex.ctData = JSON.parse(tempindex.colmData.salaryData);
+                        if (tempindex.ctData.size() > 0) {
+                            tempindex.lmData = tempindex.ctData[0];
+                        }
+                        tempindex.hj();
+                    }
+                })
+            },
+            ylhj: function (obj) {
+                var m = 0;
+                if (obj.$model) {
+                    obj = obj.$model;
+                }
+                $.each(obj, function (i, n) {
+                    if (!isNaN(n)) {
+                        m = m + n * 1;
+                    }
+                })
+                return m.toFixed(2);
+            },
+            colnum: function (obj) {
+                return Object.getOwnPropertyNames(obj.$model).length
+            },
+            hjje: function (el) {
+                var m = tempindex.ylhj(el.YF) * 1;
+                var n = tempindex.ylhj(el.YK) * 1;
+                return (m - n).toFixed(2);
+            },
+            yfhj: 0,
+            ykhj: 0,
+            zhj: 0,
+            hj: function () {
+                var m = 0;
+                var n = 0;
+                $(tempindex.ctData).each(function (i, itm) {
+                    m = m + tempindex.ylhj(itm.YF) * 1;
+                    n = n + tempindex.ylhj(itm.YK) * 1;
+                })
+                tempindex.yfhj = m.toFixed(2);
+                tempindex.ykhj = n.toFixed(2);
+                tempindex.zhj = (m - n).toFixed(2);
+            }
+        });
+        avalon.ready(function () {
+            tempindex.GetList();
+        })
+        //# sourceURLffjlview.js
+    </script>
+</body>
+
+</html>

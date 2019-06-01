@@ -1,0 +1,110 @@
+﻿<style>
+    .szhl_getPeoples {
+        display: none;
+    }
+</style>
+<script type="text/javascript">
+
+    var tempindex = avalon.define({
+        $id: "PDSZ",
+        TypeData: [],
+        curLeiBie: "",
+        InitWigetData: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=FORMBI_GETLCBDLB', {}, function (resultData) {
+                tempindex.TypeData = resultData.Result;
+                tempindex.curLeiBie = tempindex.TypeData[0].ProcessClass;
+                tempindex.GetLIST();
+            })
+        },
+        SelectType: function (type) {
+            tempindex.curLeiBie = type;
+            tempindex.GetLIST();
+        },
+        DelProcess: function (item) {
+            //top.ComFunJS.winconfirm("确认要删除吗？(相关表单信息将全部删除)", function () {
+            top.ComFunJS.winconfirm("<span style='color:red'>确定要删除吗？</span>", function () {
+                $.post("/API/VIEWAPI.ashx", { Action: "FORMBI_DELPROCESSBYID", P1: item.ID }, function (result) {
+                    model.ListData.remove(item);
+                    top.ComFunJS.winsuccess("删除成功");
+                })
+            }, function () { })
+        },
+        setLCSZ: function (ID) {
+            top.ComFunJS.winviewform("/ViewV5/AppPage/FORMBI/LCSZSET.html?PDID=" + ID, "设置流程", "1000", "600");
+        },
+        SetColumnStatus: function (dom, item) {
+            top.ComFunJS.winconfirm("确定要" + $.trim($(dom).html()) + "“" + item.ProcessName + "”吗？", function () {
+                $.post("/API/VIEWAPI.ashx", { Action: "FORMBI_MODIFYLCSTATE", P1: $.trim($(dom).html()) == "禁用" ? "N" : "Y", P2: item.ID }, function (result) {
+                    top.ComFunJS.winsuccess($(dom).text() + "“" + item.ProcessName + "”成功");
+                    $(dom).html($.trim($(dom).html()) == "禁用" ? "启用" : "禁用");
+                })
+            })
+
+        },
+        manageUser: "",
+
+        ManageIndex: -1,
+
+        GetLIST: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=FORMBI_GETWFPDLIST', { Content: model.search.searchcontent, LB: tempindex.curLeiBie }, function (result) {
+                model.ListData = result.Result;
+            })
+        }
+
+    });
+    //# sourceURL=PDSZ.js;
+
+</script>
+
+
+<div id="dvContent" ms-controller="PDSZ">
+    <div class="btn-add">
+        <button type="button" class="btn btn-info btn-lg" ms-click="AddViewNOWF('FORMBI_PROCESS')"><i class="iconfont icon-jiahao ft12 mr5"></i>添加表单模板</button>
+    </div>
+    <div class="tab-filter-type">
+        <!-- 搜索 -->
+        <div class="oh">
+            <h5 class="pull-left tr">表单类别：</h5>
+            <ul class="tab-type ft14" style="height: 40px;">
+                <li ms-repeat-el="TypeData" ms-click="SelectType(el.ProcessClass)"><span ms-class-1="active:$first">{{el.ProcessClass}}</span></li>
+            </ul>
+        </div>
+        <div class="oh" style="display: none">
+            <div class="input-group ml15" style="width: 295px;">
+                <input type="search" class="form-control" ms-duplex="search.searchcontent" placeholder="搜索表单名称">
+                <span class="input-group-addon" ms-click="GetLIST()">搜索</span>
+            </div>
+        </div>
+    </div>
+    <div class="default-tab ft14 pt20">
+        <table class="table table-striped table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th class="tc width-70">序号</th>
+                    <th>表单名称</th>
+                    <th>表单类别</th>
+                    <th style="width: 400px;">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ms-repeat-item="ListData">
+                    <th class="tc ">{{$index+1}}</th>
+                    <td>{{item.ProcessName}}</td>
+                    <td>{{item.ProcessClass}}</td>
+                    <td>
+                        <a href="javascript:void(0);" ms-click="EditViewNOWF('FORMBI_PROCESS',item.ID,'',$event)" ms-if="item.lcstatus==1">设置表单信息</a>
+                        <a href="javascript:void(0);" style="color: red; margin-left: 10px;" ms-click="DelProcess(item)" ms-if="item.lcstatus==1">删除</a>
+                        <a href="javascript:void(0);" style="color: #FF7F24; margin-left: 10px" ms-click="SetColumnStatus(this,item)" ms-if="item.lcstatus==1">{{item.IsSuspended=="Y"?"禁用":"启用"}} </a>
+                        <a ms-attr-href="/ViewV5/AppPage/FORMBI/FormBuildV1.html?ID={{item.ID}}" target="_blank" style="color: green; margin-left: 10px" ms-if="item.lcstatus==1">表单设计</a>
+                        <a ms-attr-href="/ViewV5/AppPage/FORMBI/FormAdd.html?pdid={{item.ID}}" target="_blank" style="color: green; margin-left: 10px" ms-if="item.lcstatus==1">预览表单</a>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    
+</div>
+
+

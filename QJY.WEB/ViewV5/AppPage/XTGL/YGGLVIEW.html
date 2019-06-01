@@ -1,0 +1,71 @@
+﻿
+<div style="background-color:#F8F8F8" ms-controller="YGVIEW">
+
+    <script type="text/javascript">
+
+        var tempindex = avalon.define({
+            $id: "YGVIEW",
+            PCode: "XTGL",
+            InitWigetData: function (strId) {
+                model.title = "基本信息";
+                model.title1 = "其他信息";
+                model.title2 = "社保信息";
+                model.ShowColumns.pushArray(
+                [
+                { "ColName": "DeptName", "ColText": "部门", "IsSel": true },
+                { "ColName": "UserName", "ColText": "账号", "IsSel": true },
+                { "ColName": "UserRealName", "ColText": "姓名", "IsSel": true },
+                { "ColName": "zhiwu", "ColText": "职务", "IsSel": true },
+                { "ColName": "telphone", "ColText": "座机", "IsSel": true },
+                { "ColName": "mobphone", "ColText": "手机", "IsSel": true },
+                { "ColName": "mailbox", "ColText": "邮箱", "IsSel": true },
+                { "ColName": "RoomCode", "ColText": "房间号", "IsSel": true },
+                { "ColName": "Usersign", "ColText": "职责", "IsSel": true },
+                { "ColName": "UserGW", "ColText": "岗位", "IsSel": true },
+                ]);
+                model.ShowColumns1.pushArray([
+                { "ColName": "NickName", "ColText": "昵称", "IsSel": true, "class": "width50" },
+                { "ColName": "Sex", "ColText": "性别", "IsSel": true, "class": "width50" },
+                { "ColName": "weixinCard", "ColText": "微信号", "IsSel": true, "class": "width50" },
+                { "ColName": "JobNum", "ColText": "工号", "IsSel": true, "class": "width50" },
+                { "ColName": "QQ", "ColText": "QQ", "IsSel": true, "class": "width50" },
+                { "ColName": "IDCard", "ColText": "身份证", "IsSel": true, "class": "width50" },
+                { "ColName": "Nationality", "ColText": "籍贯", "IsSel": true, "class": "width50" },
+                { "ColName": "Nation", "ColText": "民族", "IsSel": true, "class": "width50" },
+                { "ColName": "HomeAddress", "ColText": "家庭住址", "IsSel": true, "class": "width50" },
+                { "ColName": "GSPhone", "ColText": "公司电话", "IsSel": true, "class": "width50" },
+                { "ColName": "EntryDate", "ColText": "入职时间", "IsSel": true, "class": "width50", "format": "dateformat" },
+                { "ColName": "DepartureDate", "ColText": "离职时间", "IsSel": true, "class": "width50", "format": "dateformat" },
+                { "ColName": "Birthday", "ColText": "生日", "IsSel": true, "class": "width50", "format": "dateformat" },
+                { "ColName": "Marriage", "ColText": "婚姻状况", "IsSel": true, "class": "width50" },
+                { "ColName": "Children", "ColText": "子女", "IsSel": true, "class": "width50" },
+                { "ColName": "JJLXR", "ColText": "紧急联系人", "IsSel": true, "class": "width50" },
+                { "ColName": "JJLXRDH", "ColText": "紧急联系人电话", "IsSel": true, "class": "width50" },
+                { "ColName": "Hire", "ColText": "雇佣方式", "IsSel": true, "class": "width50" },
+                { "ColName": "ZZTime", "ColText": "转正时间", "IsSel": true, "class": "width50", "format": "dateformat" },
+                { "ColName": "ContractSTime", "ColText": "劳动合同开始时间", "IsSel": true, "class": "width50", "format": "dateformat" },
+                { "ColName": "ContractETime", "ColText": "劳动合同结束时间", "IsSel": true, "class": "width50", "format": "dateformat" },
+                ]);
+                model.ShowColumns2.pushArray([
+                { "ColName": "SocialInsurance", "ColText": "社保号码", "IsSel": true },
+                { "ColName": "GJJID", "ColText": "公积金账号", "IsSel": true },
+                { "ColName": "BankCard", "ColText": "银行卡号", "IsSel": true },
+                { "ColName": "BankName", "ColText": "银行名称", "IsSel": true }
+                ]);
+                if (strId) {
+                    //编辑加载数据
+                    $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETUSERBYUSERNAME', { "P1": strId }, function (resultData) {
+                        if (resultData.ErrorMsg == "") {
+                            resultData.Result.User.DeptName = resultData.Result.BranchInfo.DeptName;
+                            model.modelData = resultData.Result.User;
+                            model.tpData = resultData.Result1;
+                            setTimeout(" ComFunJS.initForm()", 500);
+                        }
+                    })
+                }
+
+            }
+        });
+        //# sourceURLYGVIEW.js;
+    </script>
+</div>

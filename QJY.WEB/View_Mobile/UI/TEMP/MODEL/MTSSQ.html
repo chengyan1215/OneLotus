@@ -1,0 +1,306 @@
+﻿<div style="background:#fbf9fe" ms-controller="MTSSQ">
+    <div ms-if="isHasDataQX=='Y'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">类型</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select ms-duplex="modelData.LeiBie" class="weui-select szhl szhl_require">
+                        <option ms-repeat-item="ColumnData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.LeiBie?'selected':''">{{item.TypeName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">链接</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" placeholder="请输入链接" ms-duplex="modelData.URL" class="weui_input szhl szhl_Url" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">可见范围</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="conCSR" placeholder="请选择可见范围" ms-duplex="modelData.CYR" class="weui_input szhl szhl_getPeoples" />
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">话题内容</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd" style="display:none;"><label class="weui_label label">话题内容</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea ms-duplex="modelData.HTNR" rows="3" placeholder="请输入内容" class="weui_textarea szhl szhl_require"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">图片上传</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" ms-duplex="modelData.Files" class="wximgupload" style="display:none;" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ms-if="isHasDataQX=='N'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">类型</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select ms-duplex="modelData.LeiBie" class="weui-select szhl szhl_require">
+                        <option ms-repeat-item="ColumnData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.LeiBie?'selected':''">{{item.TypeName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">链接</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.URL|html}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">可见范围</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{ComFunJS.convusers(modelData.CYR)}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">话题内容</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.HTNR|html}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">图片上传</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div class="viewimg">{{modelData.Files}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--<div class="list-block" style="margin-top: 0;" ms-controller="MTSSQ">
+    <ul ms-if="isHasDataQX=='Y'">
+        <li>
+            <div class="item-content item-link">
+                <div class="item-inner">
+                    <div class="item-title label">类型</div>
+                    <div class="item-input">
+                        <select ms-duplex="modelData.LeiBie" class="szhl szhl_require">
+                            <option ms-repeat-item="ColumnData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.LeiBie?'selected':''">{{item.TypeName}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="item-content">
+                <div class="item-inner">
+                    <div class="item-title label">内容</div>
+                    <div class="item-input">
+                        <textarea ms-duplex="modelData.HTNR" rows="2" placeholder="请输入内容" class="szhl szhl_require"></textarea>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="item-content">
+                <div class="item-inner">
+                    <div class="item-title label">链接</div>
+                    <div class="item-input">
+                        <input type="text" placeholder="请输入链接" ms-duplex="modelData.URL" class="szhl szhl_Url" />
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="item-content item-link">
+                <div class="item-inner">
+                    <div class="item-title label">可见范围</div>
+                    <div class="item-input ">
+                        <input type="text" id="conCSR" placeholder="请选择可见范围" ms-duplex="modelData.CYR" class="szhl szhl_getPeoples" />
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="align-top">
+            <div class="item-content">
+                <div class="item-inner">
+                    <div class="item-title label">图片</div>
+                    <div class="item-input">
+                        <input type="text" ms-duplex="modelData.Files" class="wximgupload" style="display:none;" />
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <ul ms-if="isHasDataQX=='N'">
+        <li>
+            <div class="item-content">
+                <div class="item-inner">
+                    <div class="item-title label">类型</div>
+                    <div class="item-input">
+                        <select ms-duplex="modelData.LeiBie" class="szhl szhl_require">
+                            <option ms-repeat-item="ColumnData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.LeiBie?'selected':''">{{item.TypeName}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="item-content">
+                <div class="item-inner">
+                    <div class="item-title label">内容</div>
+                    <div class="item-input">
+                        <div style="overflow: hidden; word-wrap: break-word; word-break: break-all; ">{{modelData.HTNR|html}}</div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="item-content">
+                <div class="item-inner">
+                    <div class="item-title label">链接</div>
+                    <div class="item-input">
+                        <div style="overflow: hidden; word-wrap: break-word; word-break: break-all; ">{{modelData.URL|html}}</div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="item-content">
+                <div class="item-inner">
+                    <div class="item-title label">可见范围</div>
+                    <div class="item-input ">
+                        <div>{{ComFunJS.convusers(modelData.CYR)}}</div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="align-top">
+            <div class="item-content">
+                <div class="item-inner">
+                    <div class="item-title label">图片</div>
+                    <div class="item-input">
+                        <div class="viewimg">{{modelData.Files}}</div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>-->
+<script>
+
+    var tempmodel = avalon.define({
+        $id: "MTSSQ",
+        name: "发表话题",
+        ColumnData: [],
+        tpData: [],
+        dataid: "",
+        wximg: "",
+        linkid: ComFunJS.getQueryString("linkid"),
+        lbid: ComFunJS.getQueryString("lbid"),
+        modelData: { "Title": "", "HTNR": "", "LeiBie": "", "CYR": "", "Files": "", "URL": "" },
+        inittemp: function (strId) {
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETZIDIANLIST', { P1: 19 }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.ColumnData = resultData.Result;
+                    if (tempmodel.lbid) {
+                        tempmodel.modelData.LeiBie = tempmodel.lbid;
+                    }
+                    if (tempmodel.ColumnData.size() > 0 && !tempmodel.modelData.LeiBie) {
+                        tempmodel.modelData.LeiBie = resultData.Result[0].ID;
+                    }
+                }
+            })
+
+
+            if (strId) {
+
+                tempmodel.dataid = strId;
+                //编辑加载数据
+                $.getJSON('/API/VIEWAPI.ashx?Action=TSSQ_GETHTMODEL', { P1: strId }, function (resultData) {
+
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result;
+                        tempmodel.tpData = resultData.Result2;
+
+                        ComFunJS.uploadimgnew(tempmodel.tpData);
+                        ComFunJS.viewimg(tempmodel.tpData);
+
+                        setTimeout("ComFunJS.initForm()", 500)
+                    }
+                })
+            } else if (tempmodel.linkid) {
+                $.getJSON('/API/VIEWAPI.ashx?Action=TSSQ_GETFXLJMODEL', { P1: tempmodel.linkid }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        //tempmodel.modelData.Title = resultData.Result.Title;
+                        tempmodel.modelData.HTNR = resultData.Result.Title + resultData.Result.Description;
+                        tempmodel.modelData.URL = resultData.Result.URL;
+
+                        tempmodel.tpData = resultData.Result1;
+
+                        ComFunJS.uploadimgnew(tempmodel.tpData);
+                        ComFunJS.viewimg(tempmodel.tpData);
+
+                        setTimeout("ComFunJS.initForm()", 500)
+                    }
+                })
+            } else {
+
+                ComFunJS.uploadimgnew();
+             
+                    ComFunJS.initForm();
+            }
+
+        },//初始化
+        SaveData: function (callback) {
+            if (!tempmodel.modelData.LeiBie) {
+                top.ComFunJS.winwarning("请选择话题类型");
+                return;
+            }
+            var flag = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
+            if (tempmodel.modelData.URL && !flag.test(tempmodel.modelData.URL)) {
+                ComFunJS.winwarning("请输入正确的网址");
+                return;
+            }
+            tempmodel.modelData.Files = "";
+            $("#imglist .tpli").each(function () {
+                if ($(this).hasClass("wximg")) { //微信上传未处理的图片
+                    if (tempmodel.wximg) {
+                        tempmodel.wximg += ",";
+                    }
+                    tempmodel.wximg += $(this).attr("itemid");
+
+                } else {
+                    if (tempmodel.modelData.Files) {
+                        tempmodel.modelData.Files = tempmodel.modelData.Files + ',' + $(this).attr("itemid");
+                    }
+                    else {
+                        tempmodel.modelData.Files = $(this).attr("itemid");
+                    }
+                }
+
+            })
+            $.getJSON("/API/VIEWAPI.ashx?ACTION=TSSQ_ADDHT&r=" + Math.random(), { P1: JSON.stringify(tempmodel.modelData.$model), P2: tempmodel.wximg }, function (result) {
+                return callback.call(this, result);
+            });
+        },
+        Complate: function () {
+            window.location.href = "/View_Mobile/UI/UI_TSSQ_LIST.html?r=" + Math.random();
+        }
+
+    });//# sourceURL=MTSSQ.js;
+
+    tempmodel.modelData.$watch("HTNR", function (a, b) {
+        if (!pmodel.DataID) {
+            localStorage.setItem(pmodel.FormCode, JSON.stringify(tempmodel.modelData.$model));
+        }
+    })
+</script>

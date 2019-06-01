@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>普通页面</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/ViewV5/CSS/icfont_qj/iconfont.css">
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet"> 
+    <link href="/ViewV5/CSS/default.css" rel="stylesheet" />
+    <link href="/ViewV5/JS/zTree_v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none; /*元素不能被选中*/
+        }
+        label {
+        font-weight:normal;
+        }
+ 
+      
+        .ztree * {
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body ms-controller="BranchSelect">
+    <div class="container-fluid " style="margin:10px" id="dvContent">
+        <label ms-click="SelectIsHasQX(0)">
+            <div class="icheckbox_square-blue mr5" ms-class-1="checked:!IsHasQX">
+                <span class="iconfont icon-check ft12"></span>
+            </div>只可查看当前用户所在部门
+        </label>
+        <div>
+            <label ms-click="SelectIsHasQX(1)">
+                <div class="icheckbox_square-blue mr5" ms-class-1="checked:IsHasQX">
+                    <span class="iconfont icon-check ft12"></span>
+                </div>查看特定部门
+            </label>
+        </div>
+        <div style="width:150px;position:absolute;display:none" id="deptDiv" ms-visible="IsHasQX">
+            <div class="tab-content">
+                <ul id="tree" class="ztree"></ul>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>
+    <script src="/ViewV5/JS/zTree_v3/js/jquery.ztree.core-3.5.js"></script>
+    <script src="/ViewV5/JS/zTree_v3/js/jquery.ztree.excheck-3.5.min.js"></script>
+    <script>
+        var zTreeObj = null;
+        var model = avalon.define({
+            $id: "BranchSelect",
+            isSignle: ComFunJS.getQueryString("issignle") ? ComFunJS.getQueryString("issignle") : "N",
+            checkval: ComFunJS.getQueryString("checkvalue") ? ComFunJS.getQueryString("checkvalue") : "",
+            isqx: ComFunJS.getQueryString("isqx") ? ComFunJS.getQueryString("isqx") : "N",
+            IsHasQX: ComFunJS.getQueryString("hasQX", "N") == "Y" ? true : false,
+            selBM: "",//已选择部门
+            getBranchTree: function () { //获取组织机构
+                var setting = {
+                    data: {
+                        simpleData: {
+                            enable: true,
+                            idKey: "id",
+                            pIdKey: "pId",
+                            rootPId: 0
+                        }
+                    },
+                    view: {
+                        showLine: false
+                    },
+                    callback: {
+                        onClick: model.zTreeOnClick
+                    }, check: {
+                        enable: true,
+                        chkStyle: (model.isSignle == "Y" ? "radio" : "checkbox"),//"checkbox"
+                        chkboxType: { "Y": model.isSignle == "Y" ? "p" : "s", "N": model.isSignle == "Y" ? "p" : "s" },
+                        radioType: "all"
+                    }
+                };
+
+                $.getJSON("/API/VIEWAPI.ashx", { "Action": "XTGL_GETALLBMUSERLISTNEW", P1: model.checkval, P2: model.isqx }, function (msg) {
+                    zTreeObj = $.fn.zTree.init($("#tree"), setting, eval(msg.Result));
+                });
+            }, SelectIsHasQX: function (val) {
+                model.IsHasQX = val == 0 ? false : true;
+                if (!model.IsHasQX) { 
+                    zTreeObj.checkAllNodes(false); 
+                } 
+            }
+        })
+        avalon.ready(function () { 
+            model.getBranchTree();
+        })
+        function getselectedbranch() {
+            var nodes = zTreeObj.getCheckedNodes(true);
+            var branchid = "";
+            var branchname = "";
+            nodes.forEach(function (item) {
+                branchid = branchid + item.id + ",";
+                branchname = branchname + item.name + ",";
+            })
+            branchid = branchid.substr(0, branchid.length - 1);
+            branchname = branchname.substr(0, branchname.length - 1);
+            var branchinfo = { 'branchid': branchid, 'branchname': branchname, "ishasqx": model.IsHasQX ? "Y" : "N" };
+            return branchinfo;
+
+        }
+    </script>
+</body>
+</html>

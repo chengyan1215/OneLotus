@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title></title>
+    <script src="/View_Mobile/JS/layer/layer.m.js"></script>
+    <script src="/View_Mobile/JS/zepto.min.js"></script>
+    <script src="/View_Mobile/JS/ComFunJS.js?jsver=20160426"></script>
+    <script>
+        //document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        //    //隐藏右上角按钮
+        //    WeixinJSBridge.call('hideOptionMenu');
+        //});
+
+        window.localStorage.removeItem("alluserinfo");
+        var funcode = ComFunJS.getQueryString("funcode");
+        var code = ComFunJS.getQueryString("code");
+        var corpId = ComFunJS.getQueryString("corpId");
+        $(function () {
+            if (ComFunJS.getCookie("szhlcode") && ComFunJS.getCookie("username")) {  //缓存的用户名，直接跳到对应的地址
+                $.get("/API/WXAPI.ashx?action=isexist&r=" + Math.random(), { "corpid": corpId }, function (r) {
+                    r = JSON.parse(r)
+                    if (r.ErrorMsg == "") {
+                        if (r.Result == "NOCODE") {
+                            ComFunJS.delCookie("szhlcode");
+                            ComFunJS.delCookie("username");
+                            hqsq();
+                        } else {
+                            getRURL(funcode);
+                        }
+                    }
+
+                })
+            }
+            else {   //获取授权
+                hqsq();
+            }
+        })
+
+        function hqsq() {
+            if (code) {   //授权回来，抓取用户名
+                $.get("/API/WXAPI.ashx?action=GetUserCodeByCode&r=" + Math.random(), { "code": code, "corpid": corpId, "funcode": funcode }, function (r) {
+                    r = JSON.parse(r)
+                    if (r.ErrorMsg == "") {
+                        ComFunJS.setCookie("szhlcode", r.Result, 7);
+                        ComFunJS.setCookie("username", r.Result1, 7);
+                        getRURL(funcode);
+                    } else {
+                        window.location.replace('/View_Mobile/UI/UI_ERROR.html?r=' + Math.random() + "&msg=很抱歉，您没有权限!!!" + r.ErrorMsg + r.Result + r.Result1);
+                    }
+
+                })
+
+            } else { //微信企业号接口获取授权
+                var wx_r_url = encodeURIComponent(window.location.href + '&v=' + Math.random());
+                var wxurl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + corpId + "&redirect_uri=" + wx_r_url + "&response_type=code&scope=snsapi_base&state=STATE" + "&v=" + Math.random() + "#wechat_redirect";
+                window.location.replace(wxurl);
+            }
+        }
+
+        function getRURL(funcode) {
+
+            var CODE = funcode.split('_');
+            var id = "";
+            var funcode = "";
+            var ftype = "";
+            if (CODE.length > 0) {
+                funcode = CODE[0];
+            }
+            if (CODE.length > 1) {
+                ftype = CODE[1];
+            }
+            if (CODE.length > 2) {
+                id = CODE[2];
+            }
+
+            var returnmsg = [];
+            $.get("/API/VIEWAPI.ashx?action=XTGL_WXINIT&r=" + Math.random(), { P1: funcode, P2: ftype }, function (r) {
+                r= JSON.parse(r)
+                if (r.ErrorMsg == "") {
+                    var usersarr = r.Result;
+                    $(usersarr).each(function (index, ele) {
+                        returnmsg.push({ 'UserName': ele.UserName, 'UserRealName': ele.UserRealName, 'mobphone': ele.mobphone });
+                    })
+                    window.localStorage.setItem("alluserinfo", JSON.stringify(returnmsg));
+                    ComFunJS.setCookie('userinfo', r.Result2);
+                    ComFunJS.setCookie('fileapi', r.Result3);
+                    ComFunJS.setCookie('qycode', r.Result4);
+
+                    if (r.Result1) {
+                        var url = r.Result1;
+                        if (url.indexOf('?') > 0) {
+                            url += "&r=" + Math.random();
+                        } else {
+                            url += "?r=" + Math.random();
+                        }
+                        if (id) { url = url + '&id=' + id; }
+
+                        window.location.replace(url);
+                    }
+                    else {
+                        window.location.replace('/View_Mobile/UI/UI_ERROR.html?r=' + Math.random() + "&msg=很抱歉，您没有权限!!");
+                    }
+                }
+                if (r.ErrorMsg == "WXTIMEOUT" || data.ErrorMsg == "NOSESSIONCODE") {
+                    //微信端超时处理
+                    ComFunJS.delCookie("szhlcode");
+                    ComFunJS.delCookie("username");
+                    window.location.href = window.location.href + "&&r=" + Math.random()
+                }
+
+
+            })
+        }
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

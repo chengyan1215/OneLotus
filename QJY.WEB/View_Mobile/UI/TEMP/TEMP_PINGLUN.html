@@ -1,0 +1,86 @@
+﻿<div ms-controller="tempPINGLUN" class="list-block media-list" style="margin-top: 5px;">
+    <ul>
+        <li>
+            <div class="item-content">
+                <div class="item-inner" style="font-size:.7rem;">
+                     评论区（<span style="color:blue;font-weight:bold;">{{plData.size()}}</span>）
+                    <button class="button button-success" style="float:right;" ms-click="SavePL()">评论</button>
+                </div>
+            </div>
+        </li>
+        <li ms-repeat-el="plData">
+            <div class="item-content">
+                <div class="item-media">
+                    <img ms-attr-src="{{ComFunJS.getfile()+'&type=TX&user='+el.CRUser}}" style='width: 2.2rem; height: 2.2rem;' onerror="javascript: this.src = '/Upload/TX/def.jpg'">
+                </div>
+                <div class="item-inner">
+                    <div class="item-title-row" style="font-size: .6rem">
+                        <div class="item-title" >{{el.CRUserName}}</div><span>{{el.CRDate|date('yyyy-MM-dd')}}</span>
+                        <div ms-if="ispoint" class="item-after" style="line-height: 1;">{{pf(el.Points)|html}}</div>
+                    </div>
+                    <div class="item-subtitle" style="color: #5f646e; font-size: .7rem; white-space: normal;">{{el.MSGContent}}</div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<script>
+    var tempmodelPL = avalon.define({
+        $id: "tempPINGLUN",
+        name: "评论",
+        plData: [],
+        ispoint: false,
+        type: "",
+        dataid: "",
+        inittemp: function (strId, type, ispoint) {
+            tempmodelPL.dataid = strId;
+            tempmodelPL.type = type;
+            if (type == "GZBG") {
+                ispoint = true;
+            }
+            if (ispoint) {
+                tempmodelPL.ispoint = ispoint;
+            }
+
+            $.getJSON("/API/VIEWAPI.ashx?Action=XTGL_GETCOMENT", { P1: tempmodelPL.type, P2: tempmodelPL.dataid }, function (r) {
+                if (r.ErrorMsg == "") {
+                    tempmodelPL.plData = r.Result;
+                }
+
+            })
+
+        },//初始化
+        SavePL: function () {
+
+            ComFunJS.showCommentNew(function (result) {
+                $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_ADDCOMENT&r=' + Math.random(), { "P1": result.comment, "MsgType": tempmodelPL.type, "MsgLYID": tempmodelPL.dataid }, function (resultData) {
+;
+                    if (resultData.ErrorMsg == "") {
+                        tempmodelPL.plData.push(resultData.Result);
+                        $.toast("评论成功");
+                    }
+                    else {
+                        $.toast("评论失败");
+                    }
+                })
+
+            }, tempmodelPL.ispoint);
+        },
+        pf: function (str) {
+            if (str && tempmodelPL.ispoint) {
+                var html = '<div></div>';
+                var html1 = $(html).raty({
+                    readOnly: true,
+                    score: str * 1 / 20
+                }).html();
+                return html1;
+            }
+            else {
+                return '';
+            }
+        }
+
+    });//# sourceURL=PINGLUN.js;
+
+</script>

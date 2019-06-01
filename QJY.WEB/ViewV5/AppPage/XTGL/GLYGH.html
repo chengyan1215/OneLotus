@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        /*=======系统管理页面=======*/
+    </style>
+</head>
+<body class="margin-lr" ms-controller="APP_XTGL_GLYGH">
+
+    <div class="container-fluid" style="margin-top: 20px; margin-bottom: 120px">
+
+        <div class="form-horizontal" style=" padding-top:50px; padding-left:50px; ">
+            <div class="form-group">
+                <label for="companyName" class=" col-sm-2 control-label text-right">手机号</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" ms-duplex="phone" placeholder="请输入手机号">
+                </div>
+                <input type="button" value="发送验证码" ms-click="SendCode()" id="btnSend" class="btn btn-success">
+            </div>
+            <div class="form-group">
+                <label for="ContactUser" class="col-sm-2 control-label text-right">验证码</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" ms-duplex="phonecode" placeholder="请输入验证码">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class=" col-sm-8   text-center">
+                    <input type="button" value=" 保 存 " ms-click="SavePhone()" class="btn btn-success">
+                    <a class="btn btn-info "> 取 消 </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/ViewV5/JS/jquery-1.11.2.min.js"></script> 
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>  
+    <script src="/ViewV5/JS/jquery.md5.js"></script>
+    <script>
+        var msg = "";
+        var Times = 60;
+        var intervalId;
+        function TimeDown() {
+            Times = Times - 1;
+            if (Times == 0) {
+                $("#btnSend").val("重新获取");
+                $("#btnSend").attr("disabled", false);
+                clearInterval(intervalId);
+            }
+            else {
+                $("#btnSend").val(Times + "秒后重新获取");
+            }
+        }
+        model = avalon.define({
+            $id: "APP_XTGL_GLYGH",
+            phone: "",
+            phonecode: "",
+            SendCode: function () {
+                if (!model.phone) {
+                    top.ComFunJS.winwarning("请输入更换管理员的手机号");
+                    return;
+                }
+                if (model.phone && !(/^1[3|4|5|8|7][0-9]\d{8}$/).test(model.phone)) {
+                    top.ComFunJS.winwarning("请输入正确的手机号");
+                    return;
+                }
+                if (!msg) {
+                    Times = 60;
+                    $("#btnSend").val(Times + "秒后重新获取");
+                    $("#btnSend").attr("disabled", true);
+                    intervalId = setInterval(TimeDown, 1000);
+                    $.ajax({
+                        url: "/API/VIEWAPI.ashx?Action=Commanage_SENDCHKMSG&r=" + Math.random(),
+                        type: "POST",
+                        data: { P1: model.phone,type:"changeadmin" },
+                        async: false,
+                        success: function (result) {
+                            var jsonresult = $.parseJSON(result);
+                            if (jsonresult.ErrorMsg == "") {
+                                var exp = new Date();
+                                exp.setTime(exp.getTime() + 30 * 60 * 1000);
+                                document.cookie = "chkcode=" + escape(jsonresult.Result) + ";expires=" + exp.toGMTString() + ";path=/";
+                                document.cookie = "chkphone=" + escape(model.phone) + ";expires=" + exp.toGMTString() + ";path=/";
+                            } else {
+                                top.ComFunJS.winwarning(jsonresult.ErrorMsg);
+                            }
+                        },
+                        error: function (xhr) {
+                            top.ComFunJS.winwarning(xhr); 
+                        }
+                    });
+                }
+            }, SavePhone: function () {
+                if (!model.phone) {
+                    top.ComFunJS.winwarning("请输入更换管理员的手机号");
+                    return;
+                }
+                if (model.phone && !(/^1[3|4|5|8|7][0-9]\d{8}$/).test(model.phone)) {
+                    top.ComFunJS.winwarning("请输入正确的手机号");
+                    return;
+                }
+                if (!model.phonecode) {
+                    top.ComFunJS.winwarning("请输入验证码");
+                    return;
+                }
+                if (model.phonecode.length != 4) {
+                    top.ComFunJS.winwarning("请输入四位的验证码");
+                    return;
+                } else {
+                    var arr, reg = new RegExp("(^| )chkcode=([^;]*)(;|$)");
+                    if (arr = document.cookie.match(reg)) {
+                        var ckc = unescape(arr[2]);
+                        if ($.md5(model.phonecode).toUpperCase() == ckc) {
+                            var arr1, reg1 = new RegExp("(^| )chkphone=([^;]*)(;|$)");
+                            if (arr1 = document.cookie.match(reg1)) {
+                                var ckp = unescape(arr1[2]);
+                                if (ckp != model.phone) {
+                                    top.ComFunJS.winwarning("验证码和手机号不匹配");
+                                    return;
+                                }
+                            }
+                            else {
+                                top.ComFunJS.winwarning("输入的验证码错误");
+                                return;
+                            }
+                        }
+                        else {
+                            top.ComFunJS.winwarning("没有获取验证码或已过期");
+                            return;
+                        }
+                    } else {
+                        top.ComFunJS.winwarning("请输入正确的验证码");
+                        return;
+                    }
+                }
+                $.post("/API/VIEWAPI.ashx?ACTION=INIT_CHANGEADMIN", { P1: model.phone }, function (result) {
+                    if (result.ErrorMsg == "") { 
+                        layer.alert('管理员更换成功,请重新登录', function (index) { 
+                            top.location.href = "/web/adminlogin.html";
+                            layer.close(index);
+                        });
+                    }
+                });
+            }
+
+        })
+        avalon.ready(function () {
+
+        })
+
+    </script>
+</body>
+</html>

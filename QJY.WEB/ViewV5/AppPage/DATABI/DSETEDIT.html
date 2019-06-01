@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>数据集编辑</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/index.css?v=1">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/default.css">
+    <link href="/ViewV5/CSS/element/index.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/FORMBI.css?v=2">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_533449_zsibbu1n60f.css" />
+
+    <style>
+        .el-button-group button {
+            border-radius: 0px;
+        }
+
+        .widthmax {
+            width: 100%
+        }
+
+        .pd40 {
+            padding: 40px;
+        }
+
+        .pd0 {
+            padding: 0;
+        }
+    </style>
+</head>
+<body class="BG">
+
+    <div id="Loading">
+        <div class="loader-inner ball-beat">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div id="DATABI_DSETZZ" class="FormV" style="display:none">
+        <el-container>
+
+            <el-main class="elmain pd40">
+                <div class="panel-df">
+                    <div class="container containerb width840" style="padding:0">
+                        <div class="panel panel-defaul  panhead">
+
+
+                            <el-row>
+                                <el-col :xs="24" :sm="24">
+                                    <h4 class="text-center" style="font-size:20PX;font-weight:bolder">
+                                        <span v-text="FormData.Name"></span>   <i class="el-icon-edit" style="color:#3a8ee6;cursor:pointer" @click="dialogFormVisible = true"></i>
+                                    </h4>
+                                    <div style="text-align:right;">
+                                        <el-button type="success" ref="btAdd" @click="StarForm" style="border-radius:0px;"> <i class="iconfont icon-faqi"></i><span>保存数据集信息</span></el-button>
+                                    </div>
+                                    <el-dialog title="修改仪表名称" :visible.sync="dialogFormVisible">
+                                        <el-form>
+                                            <el-form-item label="仪表名称">
+                                                <el-input v-model="FormData.Name" autocomplete="off"></el-input>
+                                            </el-form-item>
+
+                                        </el-form>
+                                    </el-dialog>
+                                </el-col>
+                            </el-row>
+
+                        </div>
+
+                        <div class="panel panel-default panbody" style="padding:0" v-loading="loading" element-loading-text="拼命处理中...">
+                            <div class="success" v-show="formtatus =='1'">
+                                <div class="success-tip">
+                                    操作信息提示
+                                    <i></i>
+                                </div>
+                                <div class="icon-tip">
+                                    <div class="success-icon">
+                                        <img src="/ViewV5/images/xt-right.png" />
+                                    </div>
+                                    <p></p>
+                                </div>
+
+                                <div class="tip-mesg">
+                                </div>
+                            </div>
+
+                            <el-row class="padding20" v-show="formtatus =='0'">
+                                <el-form ref="FormData" label-position="top" :model="FormData">
+                                    <el-form-item label="SQL语句">
+                                        <el-input type="textarea" v-model="FormData.DSQL"></el-input>
+                                    </el-form-item>
+                                    <el-form-item class="mt10">
+                                        <el-button type="primary" @click="JxSQL">根据SQL解析经纬度</el-button>
+                                    </el-form-item>
+                                </el-form>
+
+                                <el-table :data="WDData"
+                                          height="360"
+                                          border
+                                          style="width: 100%" class="mt10">
+                                    <el-table-column label="纬度">
+
+                                        <el-table-column prop="ColumnName"
+                                                         label="CODE"
+                                                         width="180">
+                                        </el-table-column>
+                                        <el-table-column prop="Name"
+                                                         label="别名"
+                                                         width="180">
+                                            <template slot-scope="scope">
+                                                <el-input v-model="scope.row.Name"></el-input>
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column prop="ColumnType"
+                                                         label="类型">
+                                        </el-table-column>
+                                    </el-table-column>
+
+                                </el-table>
+
+                                <el-table :data="DLData"
+                                          height="290"
+                                          border
+                                          style="width: 100%" class="mt10">
+
+                                    <el-table-column label="度量">
+
+
+                                        <el-table-column prop="ColumnName"
+                                                         label="CODE"
+                                                         width="180">
+                                        </el-table-column>
+                                        <el-table-column prop="Name"
+                                                         label="别名"
+                                                         width="180">
+                                            <template slot-scope="scope">
+                                                <el-input v-model="scope.row.Name"></el-input>
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column prop="ColumnType"
+                                                         label="类型">
+                                        </el-table-column>
+                                    </el-table-column>
+                                </el-table>
+                            </el-row>
+
+                        </div>
+
+                        <div class="panel panel-default panwf " style="margin-bottom: 0px;">
+                            <el-row>
+                                <el-col :xs="24" :sm="24">
+                                    <div style="text-align:right;">
+
+                                        <el-button type="success" ref="btAdd" @click="StarForm" style="border-radius:0px;"> <i class="iconfont icon-faqi"></i><span>保存数据集信息</span></el-button>
+                                    </div>
+                                </el-col>
+                            </el-row>
+                        </div>
+
+                    </div>
+                </div>
+            </el-main>
+
+
+
+        </el-container>
+
+    </div>
+    <script src="/ViewV5/JS/vue.js"></script>
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/lodash.min.js"></script>
+    <script src="/ViewV5/JS/httpVueLoader.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <!-- 引入组件库 -->
+    <script src="/ViewV5/JS/element/element.js"></script>
+    <script src="/ViewV5/JS/bijs.js?v=4"></script>
+    <script>
+        var app = new Vue({
+            el: '#DATABI_DSETZZ',
+
+            data: {
+                loading: true,
+                formtatus: "0",
+                isshow: "1",
+                dialogFormVisible: false,
+                dsetid: ComFunJS.getQueryString('ID', '0'),
+                WDData: [],
+                DLData: [],
+                FormData: {
+
+                }
+
+            },
+
+            methods: {
+                StarForm: function () {
+                    app.loading = true;
+                    $.getJSON("/API/VIEWAPI.ashx?ACTION=BIDSET_UPBIDSET", { P1: JSON.stringify(app.FormData), WD: JSON.stringify(app.WDData), DL: JSON.stringify(app.DLData) }, function (result) {
+                        if (!result.ErrorMsg) {
+                            app.$notify({
+                                title: '成功',
+                                message: '操作成功',
+                                type: 'success'
+                            });
+                            app.loading = false;
+                            app.formtatus = "1";//成功状态
+                            app.$refs.FormData.resetFields();
+
+
+                        }
+                    });
+                },
+
+                mangewigdet: function () {
+                },
+                JxSQL: function () {
+                    $.getJSON("/API/VIEWAPI.ashx", { Action: "BIDSET_JXSQL", P1: app.dsetid, P2: app.FormData.DSQL }, function (result) {
+                        if (result.ErrorMsg == "") {
+                            app.WDData = result.Result;
+                            app.DLData = result.Result1;
+
+                        }
+                    })
+                },
+                InitWF: function () {
+                    $.getJSON("/API/VIEWAPI.ashx", { Action: "BIDSET_GETBIDBSET", P1: app.dsetid }, function (result) {
+                        if (result.ErrorMsg == "") {
+                            app.loading = false;
+                            app.FormData = result.Result;
+                            app.WDData = result.Result1;
+                            app.DLData = result.Result2;
+
+
+                        }
+                    })
+                }
+
+            },
+            mounted: function () {
+                var pro = this;
+                pro.$nextTick(function () {
+                    pro.InitWF();
+
+                })
+            },
+            created() {
+                document.body.removeChild(document.getElementById('Loading'))
+
+                var divBJ = document.getElementById('DATABI_DSETZZ');
+                divBJ.style.display = "block";
+            }
+
+        })
+
+
+    </script>
+
+</body>
+
+</html>

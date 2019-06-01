@@ -1,0 +1,58 @@
+﻿body{font: 12px/1.5 'Lucida Grande', 'Lucida Sans Unicode', 'Helvetica Neue', 'PingFangSC-Light', 'Microsoft Yahei', sans-serif;color: #000;}
+.header .topbar{width: 100%;height: 66px;line-height: 66px;position: absolute;top: 0px;border-bottom: 1px solid rgba(255,255,255,0.2);}
+.header .topbar .content{margin: 0 auto;width: 1000px;}
+.header .topbar .content .logo{position:relative;margin-left:10px;margin-top:2px;float: left;font-weight: bold;font-size: 30px;color: #e4e7ed;text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);-webkit-transition: all .2s linear;-moz-transition: all .2s linear;transition: all .2s linear;cursor:pointer;}
+.header .topbar .content .logo:hover{color:#fff;}
+.header .topbar .content .menu{float: right;list-style: none;}
+.header .topbar .content .menu li{float: left;margin-left: 40px;list-style: none;}
+.header .topbar .content .menu li a{font-size: 14px;text-decoration:none;color: #fff;}
+.header .topbar .content .menu li a:hover{color: #2DAF5A;}
+.header .explain{position: absolute;top: 130px;left: 50%;width:1100px;margin-left: -490px;}
+.header .explain h1{font-size: 36px;font-weight: 400;color: #e4e7ed;}
+.header .explain h2{color: #fff;font-weight: 400;margin-top: 20px;line-height:25px;font-size: 16px;font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Helvetica Neue', 'PingFangSC-Thin', 'Microsoft Yahei', sans-serif;}
+.header .explain .btn{margin-top: 90px;padding:0px;}
+.header .explain .btn a{color: #fff;text-decoration:none;width: 136px;height: 52px;line-height: 52px;display: inline-block;font-size: 24px;border: 1px solid #2DAF5A;background-color: #2DAF5A;text-align: center;box-sizing: border-box;border-radius: 3px;}
+.header .explain .btn a:hover{border: 1px solid #45CB73;background-color: #45CB73;}
+.header .explain .btn a.video{margin-left: 25px;border: 1px solid #fff;background-color: transparent;}
+.header .explain .btn a.video:hover{border: 1px solid #FFF;background-color: #FFF;color: #2DAF5A;}
+.header .banner{height: 590px;background-size: auto 590px;background: #242b31 url("../img/banner1.jpg") no-repeat 50% 100%;background-size: cover;color: white;
+   
+    background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==");
+    background-size: 100%;
+    background-image: -moz-linear-gradient(45deg, #125fb5, #258cff);
+    background-image: -webkit-linear-gradient(45deg, #125fb5, #258cff);
+    background-image: linear-gradient(45deg, #125fb5, #258cff);}
+.social{background-color: #f5f5f5;border-top: 1px solid #fff;border-bottom: 1px solid #ddd;}
+.social .content{margin: 0 auto;width: 1000px;height:40px;line-height:41px;font-size: 14px;}
+.wrapper{min-height:500px;}
+.wrapper .content{margin: 0 auto;width: 1000px;margin-top:60px;}
+.wrapper .content h2{font: 400 37px "PT Sans Narrow", Arial, sans-serif;font-family: Microsoft YaHei,Verdana, Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif !important;margin: 0 0 10px;text-transform: uppercase;text-align: center;color: #5f6f7e;}
+.wrapper .content h2:after{z-index: 2;content: " ";display: block;padding-top: 10px;border-bottom: 2px solid #b7bbbf;width: 73px;margin: 0 auto;}
+.wrapper .content h2 strong{color: #E54A1A;}
+.wrapper .content h4{font-size: 18px;color: #5f6f7e;text-align: center;margin-bottom: 75px;}
+.features ul{list-style: none;text-align: center;}
+.features ul li{padding-left: 20px;display: inline-block;margin-bottom: 80px;width: 33%;text-align: left;box-sizing: border-box;}
+.features ul li i{float: left;margin-right: 25px;border: 2px solid #7D858F;border-radius: 10px;height: 100px;line-height: 100px;width: 100px;text-align: center;font-size: 50px;color: #7D858F;box-sizing: border-box;}
+.features ul li .info{overflow: hidden;margin-top: 10px;}
+.features ul li .info strong{display: block;font-weight: 400;margin-bottom: 10px;font-size: 18px;color: #2DAF5A;}
+.features ul li .info p{font-size: 13px;line-height:22px;width: 180px;font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Helvetica Neue', 'PingFangSC-Thin', 'Microsoft Yahei', sans-serif;}
+.footer{color: #aaaaaa;background-color: #333333;padding-top: 30px;padding-bottom: 30px;}
+.footer .content{width:1000px;margin-right: auto;margin-left: auto;text-align:center;}
+.footer .content a{color: #aaaaaa !important;}
+.contentpay .hide_box{z-index: 999;filter: alpha(opacity=50);background: #666;opacity: 0.5;-moz-opacity: 0.5;left: 0;top: 0;height: 99%;width: 100%;position: fixed;display: none;}
+.contentpay .shang_box{width: 540px;height: 540px;padding: 10px;background-color: #fff;border-radius: 10px;position: fixed;z-index: 1000;left: 50%;top: 50%;margin-left: -280px;margin-top: -280px;border: 1px dotted #dedede;display: none;}
+.contentpay .shang_box img{border: none;border-width: 0;}
+.contentpay .shang_close{float: right;display: inline-block;}
+.contentpay .shang_logo{display: block;text-align: center;margin: 20px auto;}
+.contentpay .shang_tit{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('../img/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right: 2px;}
+.contentpay .shang_tit p{color: #a3a3a3;text-align: center;font-size: 16px;}
+.contentpay .shang_payimg{width: 170px;padding: 10px;border: 6px solid #EA5F00;margin: 0 auto;border-radius: 10px;height: 170px;}
+.contentpay .shang_payimg img{display: block;text-align: center;width: 140px;height: 140px;}
+.contentpay .pay_explain{text-align: center;margin: 10px auto;font-size: 12px;color: #545454;}
+.contentpay .radiobox{width: 16px;height: 16px;background: url('../img/radio2.jpg');display: block;float: left;margin-top: 5px;margin-right: 14px;}
+.contentpay .checked .radiobox{background: url('../img/radio1.jpg');}
+.contentpay .shang_payselect{text-align: center;margin: 0 auto;margin-top: 40px;cursor: pointer;height: 60px;width: 280px;}
+.contentpay .shang_payselect .pay_item{display: inline-block;margin-right: 10px;float: left;}
+.contentpay .shang_info{clear: both;}
+.contentpay .shang_info p, .shang_info a{color: #C3C3C3;text-align: center;font-size: 12px;text-decoration: none;line-height: 2em;}
+.weixin{height:195px;position: fixed;bottom: 15px;right:16px;text-align: center;border: solid 1px #e6e6e6;padding: 10px;background-color: rgb(249, 249, 249);border-radius: 4px;}

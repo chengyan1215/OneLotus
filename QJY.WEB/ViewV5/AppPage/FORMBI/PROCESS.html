@@ -1,0 +1,113 @@
+﻿<script>
+    var tempmodel = avalon.define({
+        $id: "ZiDian",
+        modelData: { "ProcessName": "", "isTemp": "1", "ManageUser": "", "ProcessType": "-1", "ProcessClass": "", "RelatedTable": "", "Files": "", "ExportFile": "", "ManageRole": "", "Alias": "", "SQUser": ""  },
+        iswf: false,//是否属于流程表单
+        BDLBData: [],
+        RoleData: [],
+        inittemp: function (strId) {
+            $.getJSON('/API/VIEWAPI.ashx?Action=FORMBI_GETLCBDLB', {}, function (resultData) {
+                for (var i = 0; i < resultData.Result.length; i++) {
+                    tempmodel.BDLBData.push(resultData.Result[i].ProcessClass)
+                }
+                if ($(".szhl_select").length > 0) {
+                    $('.szhl_select').typeahead({
+                        source: function (query, process) {
+                            return tempmodel.BDLBData.$model;
+                        }
+                    })
+                }
+            })
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETROLE', {}, function (resultData) {
+                tempmodel.RoleData = resultData.Result;
+                $(".chosen-select").chosen({ disable_search_threshold: 10, no_results_text: "没有找到对应数据" }).change(function (item) {
+                    if ($(".chosen-select").val()) {
+                        tempmodel.modelData.ManageRole = $(".chosen-select").val().join();
+                    } else {
+                        tempmodel.modelData.ManageRole = "";
+                    }
+                })
+            })
+            if (strId) {
+                //编辑加载数据
+                $.getJSON('/API/VIEWAPI.ashx?Action=FORMBI_GETPROCESSBYID', { P1: strId }, function (resultData) {
+                    tempmodel.modelData = resultData.Result;
+                    if (tempmodel.modelData.ManageRole) {
+                        $(".chosen-select").val(tempmodel.modelData.ManageRole.split(","))
+                    }
+                    setTimeout("ComFunJS.initForm()", 500)
+                })
+            } else {
+                ComFunJS.initForm()
+            }
+        },//初始化
+        SaveData: function (callback) {
+            $.post("/API/VIEWAPI.ashx?ACTION=FORMBI_ADDPROCESS", { P1: JSON.stringify(tempmodel.modelData.$model), modelCode: top.model.SelModel.ModelCode }, function (result) {
+                return callback.call(this, result);
+            });
+        }
+    });//# sourceURL=PROCESS.js;
+</script>
+<div class="form-horizontal" ms-controller="ZiDian" style="margin-top: 50px;">
+    <div class="form-group">
+        <label class="col-xs-3 control-label">类别</label>
+        <div class="col-xs-8">
+            <input type="text" class="form-control szhl_select " ms-duplex="modelData.ProcessClass">
+        </div>
+        <span class="input-group-addon" style="width: 40px; height: 34px;" ms-if="modelData.XMID" ms-click="ClearXM()"><i class="iconfont icon-shanchu ft14 " style="color: white"></i></span>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-3 control-label"><i>*</i>自定义表单名称</label>
+        <div class="col-xs-8">
+            <input type="text" value="" class="span2  form-control szhl_require" ms-duplex="modelData.ProcessName" id="qygg" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-3 control-label">授权管理员</label>
+        <div class="col-xs-8">
+            <input type="text" value="" class="span2  form-control szhl_getPeoples" ms-duplex="modelData.SQUser" signle="Y"/>
+            <label class="help-block">只有获得权限才能管理该表单模板,不选就默认创建人</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-3 control-label">可见人员</label>
+        <div class="col-xs-8">
+            <input type="text" value="" class="span2  form-control szhl_getPeoples" ms-duplex="modelData.ManageUser"  />
+            <label class="help-block">只有可见范围内的人员才能在表单模块中浏览该模板类型得表单</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-3 control-label">可见角色</label>
+        <div class="col-xs-8">
+            <select data-placeholder="选择角色" class="chosen-select span2  form-control" multiple style="width: 350px;" tabindex="4" ms-duplex="modelData.ManageRole">
+                <option ms-repeat-el="RoleData" ms-attr-value="el.RoleCode">{{el.RoleName}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-3 control-label">关联物理表</label>
+        <div class="col-xs-8">
+            <input type="text" value="" class="span2  form-control" ms-duplex="modelData.RelatedTable" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-3 control-label">表单附件</label>
+        <div class="col-xs-8">
+            <input type="text" ms-duplex="modelData.Files" class="span2  szhl_Upload form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-3 control-label">导出模板上传</label>
+        <div class="col-xs-8">
+            <input type="text" ms-duplex="modelData.ExportFile" class="span2  szhl_Upload form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-3 control-label"><i>*</i>表单填写说明</label>
+        <div class="col-xs-8">
+            <textarea class="form-control szhl_UEEDIT" id="shuomin" maxlength="1000" ms-duplex="modelData.Alias" umheight="300"></textarea>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>视频播放</title>
+
+    <script type="text/javascript">
+
+        function getLight(pars) {
+            if (pars == "open") {
+                close_light(this)
+            } else {
+                close_light(this)
+            }
+        };
+        function thisMovie(movieName) {
+            if (navigator.appName.indexOf("Microsoft") != -1) {
+                return window[movieName]
+            }
+            else {
+                return document[movieName]
+            }
+        }
+
+    </script>
+</head>
+
+<body style="margin:0;">
+    <!--极酷阳光播放器/代码开始-->
+    <script type="text/javascript" src="/ViewV5/JS/player/swfobject.js"></script>
+    <div class="video" id="CuPlayer" style=" display: flex;"></div>
+    <script src="/ViewV5/JS/jquery-1.11.2.min.js" type="text/javascript"></script>
+    <script language=javascript src="/ViewV5/JS/player/action.js" type=text/javascript></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>
+    <script type="text/javascript">
+        var id = ComFunJS.getQueryString("md5");
+        var videosrc = ComFunJS.getfileapi() + id;
+
+        var so = new SWFObject("/ViewV5/JS/player/player.swf", "myCuPlayer", "700", "500", "9", "#000000");
+        so.addParam("allowfullscreen", "true");
+        so.addParam("allowscriptaccess", "always");
+        so.addParam("wmode", "opaque");
+        so.addParam("quality", "high");
+        so.addParam("salign", "lt");
+        //播放器配置文件-----------------------------
+        so.addVariable("JcScpFile", "/ViewV5/JS/player/CuSunV3set.xml"); //配置文件地址
+        //视频文件及略缩图--------------------------
+        so.addVariable("JcScpVideoPath", "/ToolS/DownFile.aspx?type=video"); //视频地址
+        //so.addVariable("JcScpImg", "images/startpic.jpg"); //视频图片
+        so.addVariable("JcScpAutoPlay", "yes"); //是否自动播放
+        so.addVariable("JcScpStarTime", "0"); //起始时间点(暂未启用)
+        so.addVariable("JcScpEndTime", "0"); //结束时间点
+        so.addVariable("JcScpCuePointInfo", ""); //提示点信息
+        so.addVariable("JcScpCuePointTime", ""); //提示点秒数值
+
+        so.addVariable("JcScpSharetitle", "视频播放"); //视频标题信息
+
+        setTimeout("so.write('CuPlayer');", 500)
+    </script>
+
+
+</body>
+</html>
+

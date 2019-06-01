@@ -1,0 +1,138 @@
+﻿<div ms-controller="KQINSTALL">
+    <!-- 添加按钮 -->
+    <div class="btn-add">
+        <button type="button" class="btn btn-info btn-lg" ms-click="AddView('KQGL')"><i class="iconfont icon-jiahao ft12 mr5"></i>添加考勤班次</button>
+    </div>
+    <!-- 按条件选择 -->
+    <div class="tab-filter-type">
+
+        <!-- 搜索 -->
+        <div class="oh">
+            <div class="input-group ml15" style="width:295px;">
+                <input type="search" class="form-control" ms-duplex="search.searchcontent" placeholder="搜索班次">
+                <span class="input-group-addon" ms-click="GetLIST()">搜索</span>
+            </div>
+        </div>
+    </div>
+    <!-- 展开更多选项 -->
+    <div class="add-tab ft14 tc mt20" style="display:none;">
+        <span>更多筛选<i class="caret"></i></span>
+    </div>
+    <!-- 表格 -->
+    <div class="default-tab ft14 pt20">
+        <table class="table table-striped table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th class="tc">
+                    </th>
+                    <th>
+                        班次
+                    </th>
+                    <th>
+                        开始执行时间
+                    </th>
+                    <th>
+                        上班起止时间
+                    </th>
+
+                    <th>
+                        适用人员
+                    </th>
+                    <th style="width:100px;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ms-repeat-el="ListData" ms-on-mouseover="mouseover" ms-on-mouseout="mouseout">
+                    <td class=" tc"></td>
+                    <td>{{el.KQTitle}}</td>
+                    <td>{{el.KQZXDate|date('yyyy-MM-dd')}}</td>
+                    <td>{{el.KQStart+'-'+el.KQEnd}}</td>
+                    <td>{{el.KQRange==0?"全公司":ComFunJS.convertuser(el.KQUsers)}}</td>
+                    <td>
+                        <span class="tool" style="display:none;">
+                            <a class="cz-btn ft18 bj-color tip" data-toggle="tooltip" title="编辑" ms-if="el.CRUser==userName" ms-click="AddView('KQGL','考勤班次',el.ID,$event)">
+                                <i class=" iconfont icon-bianji">
+                                </i>
+                            </a>
+                            <a class="cz-btn ft18 sc-color tip" data-toggle="tooltip" title="删除" ms-if="el.CRUser==userName" ms-click="DELForm(el,$event)">
+                                <i class="iconfont icon-shanchu"></i>
+                            </a>
+                        </span>
+                    </td>
+                </tr>
+
+            </tbody>
+            <tfoot>
+                <tr ms-if="isnull"><td class="tc"></td><td>暂无数据</td></tr>
+            </tfoot>
+        </table>
+
+        <div class="ui-datatable-page ft14 pl20">
+            <div id="pageDiv" ms-visible="model.page.total>model.pageNum[0].num" class="pull-right"></div>
+            <div class="pull-right" ms-visible="ListData.size()!=0">
+                <span>共{{model.page.total}}条记录</span>
+                <span ms-visible="model.page.total>model.pageNum[0].num">
+                    选择每页条数
+                    <select style="height: 25px; width: 50px;" ms-change="selNum(this.value)" ms-duplex="model.page.pagecount">
+                        <option ms-repeat-pg="pageNum" ms-attr-value="pg.num" ms-attr-selected="pg.num==model.page.pagecount?'selected':''">{{pg.num}}</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var tempindex = avalon.define({
+        $id: "KQINSTALL",
+        curXJType: "",
+        InitWigetData: function () {
+
+            //类型数据
+
+            model.GetTypeData("1");
+            tempindex.GetLIST();
+        },
+        GetLIST: function () {
+            model.page.pageindex = 1;
+            model.ListData.clear();
+            $.getJSON('/API/VIEWAPI.ashx?Action=KQGL_GETKQINSTALL', { p: 1, P1: model.search.seartype, Content: model.search.searchcontent, pagecount: model.page.pagecount }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    model.ListData.pushArray(resultData.Result);
+                    model.page.total = resultData.Result1;
+                    if (model.ListData.size() == 0) { model.isnull = true; } else { model.isnull = false; }
+                    laypage({
+                        cont: 'pageDiv', //容器。值支持id名、原生dom对象，jquery对象。
+                        pages: Math.ceil(parseInt(resultData.Result1) * 1.0 / model.page.pagecount), //通过后台拿到的总页数
+                        curr: 1, //初始化当前页
+                        skin: 'molv',
+                        jump: function (e) { //触发分页后的回调
+                            if (e.curr != model.page.pageindex) {
+                                $.getJSON('/API/VIEWAPI.ashx?Action=KQGL_GETKQINSTALL', { p: e.curr, P1: model.search.seartype, Content: model.search.searchcontent, pagecount: model.page.pagecount }, function (resultData) {
+                                    if (resultData.ErrorMsg == "") {
+                                        model.ListData.clear();
+                                        model.ListData.pushArray(resultData.Result);
+                                    }
+                                })
+                                model.page.pageindex = e.curr;
+                            }
+                        }
+                    });
+                }
+            })
+        }, DELForm: function (item,event) {
+            if (event.stopPropagation) {
+                event.stopPropagation();
+            }
+            ComFunJS.winconfirm("确认要删除班次设置吗？", function () {
+                $.post("/API/VIEWAPI.ashx?ACTION=KQGL_DELKQBC", { P1: item.ID }, function (result) {
+                    if ($.trim(result.ErrorMsg) == "") {
+                        model.ListData.remove(item);
+                        ComFunJS.winsuccessnew("操作成功");
+                    }
+                });
+            })
+        }
+    })
+</script>

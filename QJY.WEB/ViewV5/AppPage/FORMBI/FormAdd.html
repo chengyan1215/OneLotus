@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>表单创建</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/index.css?v=1">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/default.css">
+    <link href="/ViewV5/CSS/element/index.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/FORMBI.css?v=2">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_533449_zsibbu1n60f.css" />
+
+    <style>
+        .el-button-group button {
+            border-radius: 0px;
+        }
+
+        .widthmax {
+            width: 100%;
+        }
+
+        .pd40 {
+            padding: 40px;
+        }
+
+        .pd0 {
+            padding: 0;
+        }
+    </style>
+</head>
+<body class="BG">
+    <!--<script>
+        if (!window.Promise) {
+            document.write('<script src="//cdn.jsdelivr.net/npm/es6-promise@4.1.1/dist/es6-promise.min.js"><\/script><script>ES6Promise.polyfill()<\/script>')
+        }
+    </script>-->
+    <div id="Loading">
+        <div class="loader-inner ball-beat">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div id="DATABI_YBZZ" class="FormV" style="display:none">
+        <el-container>
+
+            <el-main class="elmain pd40">
+                <div class="panel-df">
+                    <div class="container containerb" v-bind:class="{ width840: poption.width=='0'}" style="padding:0">
+                        <div class="panel panel-defaul  panhead">
+                            <div class="pull-left hidden-print" style="z-index:1000;position:absolute" v-if="vtype=='0'">
+                                <el-tooltip class="item" effect="dark" content="全屏" placement="bottom">
+                                    <i class="iconfont icon-quanping" @click="qp" style=" font-size: 20px;color: #3a8ee6; margin-right:10px"></i>
+                                </el-tooltip>
+                                <el-tooltip class="item" effect="dark" content="表单显示最大化" placement="bottom">
+
+                                    <i class="iconfont icon-pxgl" @click="zdh" style=" font-size: 20px;color: #3a8ee6; margin-right:10px"></i>
+                                </el-tooltip>
+
+                                <el-popover placement="left" width="480" trigger="hover">
+                                    <table class="table noborder" style="margin-bottom: 0">
+                                        <tr>
+                                            <td style="border: 0">
+                                                <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin1.png" />
+                                            </td>
+                                            <td style="border: 0">
+                                                <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin9.jpg" />
+                                            </td>
+                                            <td style="border: 0">
+                                                <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin3.png" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 0">
+                                                <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin4.png" />
+                                            </td>
+                                            <td style="border: 0">
+                                                <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin5.png" />
+                                            </td>
+                                            <td style="border: 0">
+                                                <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin6.jpg" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 0">
+                                                <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin7.jpg" />
+                                            </td>
+                                            <td style="border: 0">
+                                                <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin8.jpg" />
+                                            </td>
+                                            <td style="border: 0">
+                                                <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin9.jpg" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="block">
+                                        <span class="demonstration">透明度</span>
+                                        <el-slider v-model="bodyopacity" v-on:change="changeop"></el-slider>
+                                    </div>
+                                    <i class="iconfont icon-pifu" slot="reference" style=" font-size: 20px;color: #3a8ee6;"></i>
+                                </el-popover>
+
+
+                            </div>
+
+                            <el-row>
+                                <el-col :xs="24" :sm="24">
+                                    <h4 class="text-center" style="font-size:20PX;font-weight:bolder">
+                                        <span v-text="pddata.ProcessName"></span>
+                                        <el-tooltip class="item" effect="dark" content="表单填写说明" placement="top-start">
+                                            <i class="el-icon-question" style="color: cornflowerblue;" @click="FormDecVisible = true"></i>
+                                        </el-tooltip>
+                                    </h4>
+                                    <div style="text-align:right;" v-show="formtatus =='0'" v-if="vtype=='0'">
+                                        <el-dropdown split-button type="primary" @click="SaveDraft">
+                                            <i class="iconfont icon-caogao" style="    font-size: 12px;"></i>存草稿
+                                            <el-dropdown-menu slot="dropdown">
+                                                <el-dropdown-item v-for="(item,index) in draftdatas" @click.native="SelDraft(item)">创建于{{item.CRTime}} &nbsp;&nbsp;&nbsp; <i class="el-icon-delete" @click.stop="DelDraft(item,index)"></i></el-dropdown-item>
+                                                <el-dropdown-item v-if="draftdatas.length==0">当前没有已存得草稿</el-dropdown-item>
+
+                                            </el-dropdown-menu>
+                                        </el-dropdown>
+                                        <el-button type="success" ref="btAdd" @click="StarForm" style="border-radius:0px;border-radius: 0px;border-top-width: 0px;border-bottom-width: 0px;"> <i class="iconfont icon-faqi"></i><span v-text="pddata.ProcessType=='-1'?'保存':'送审'"></span></el-button>
+                                    </div>
+
+                                </el-col>
+                            </el-row>
+
+                        </div>
+
+                        <div class="panel panel-default panbody" style="padding:0" v-loading="loading" element-loading-text="拼命处理中...">
+                            <div class="success" v-show="formtatus =='1'">
+                                <div class="success-tip">
+                                    操作信息提示
+                                    <i></i>
+                                </div>
+                                <div class="icon-tip">
+                                    <div class="success-icon">
+                                        <img src="/ViewV5/images/xt-right.png" />
+                                    </div>
+                                    <p></p>
+                                </div>
+
+                                <div class="tip-mesg">
+                                    <el-button type="primary" icon="el-icon-view" style="border-radius:0px;" @click="GoForm">查看该表单</el-button>
+                                    <el-button type="success" icon="el-icon-edit-outline" style="border-radius:0px;" @click="ChangeStatus">继续添加</el-button>
+
+                                </div>
+                            </div>
+
+                            <el-row class="padding20" v-show="formtatus =='0'">
+                                <el-form ref="form" label-position="top" :model="FormData">
+                                    <component class="widget" v-for="(item, index) in FormData.wigetitems" :key="item.wigdetcode" :is="item.component" :index="index" :id="item.wigdetcode" :pzoption="item"  @data-change="datachange"></component>
+                                    <!--<qj-Custom ref="CustomCmponent"></qj-Custom>-->
+                                </el-form>
+
+                            </el-row>
+                        </div>
+                        <div class="panel panel-default panwf" v-if="pddata.ProcessType=='1'" style="margin-bottom: 0px;">
+                            <el-steps :active="0" finish-status="success"  :direction="direction" align-center  >
+                                <el-step v-for="item in wfdata" :title="item.TaskName+'--'+item.TaskAssInfo"></el-step>
+                            </el-steps>
+                        </div>
+                        <div class="panel panel-default panwf " style="margin-bottom: 0px;" id="FormFoot">
+                            <el-row>
+                                <el-col :xs="24" :sm="24">
+                                    <div style="text-align:right;" v-show="formtatus =='0'">
+                                        <el-dropdown split-button type="primary" @click="SaveDraft">
+                                            <i class="iconfont icon-caogao" style="    font-size: 12px;"></i>存草稿
+                                            <el-dropdown-menu slot="dropdown">
+                                                <el-dropdown-item v-for="(item,index) in draftdatas" @click.native="SelDraft(item)">创建于{{item.CRTime}} &nbsp;&nbsp;&nbsp; <i class="el-icon-delete" @click.stop="DelDraft(item,index)"></i></el-dropdown-item>
+                                                <el-dropdown-item v-if="draftdatas.length==0">当前没有已存得草稿</el-dropdown-item>
+
+                                            </el-dropdown-menu>
+                                        </el-dropdown>
+                                        <el-button type="success" ref="btAdd" @click="StarForm" style="border-radius:0px;border-radius: 0px;border-top-width: 0px;border-bottom-width: 0px;"> <i class="iconfont icon-faqi"></i><span v-text="pddata.ProcessType=='-1'?'保存':'送审'"></span></el-button>
+                                    </div>
+                                </el-col>
+                            </el-row>
+                        </div>
+
+                    </div>
+                </div>
+            </el-main>
+
+
+
+        </el-container>
+        <el-dialog title="表单填写说明" :visible.sync="FormDecVisible" v-cloak>
+            <div v-html="pddata.Alias">
+
+            </div>
+            <table class="table table-bordered table-hover" v-if="FormFile.length>0">
+                <tr><th>附件</th></tr>
+                <tr v-for="file in FormFile">
+                    <td><a style="color:dodgerblue" v-bind:href="getfileurl(file.ID)" v-text="file.Name"></a></td>
+                </tr>
+            </table>
+
+        </el-dialog>
+    </div>
+    <script src="/ViewV5/JS/vue.js"></script>
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/lodash.min.js"></script>
+    <script src="/ViewV5/JS/httpVueLoader.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <!-- 引入组件库 -->
+    <script src="/ViewV5/JS/element/element.js"></script>
+    <script src="/ViewV5/JS/bijs.js?v=4"></script>
+    <script src="formadd.js?v=6"></script>
+    <script>
+        $(document).ready(function () {
+
+            if (ComFunJS.isPC() && ComFunJS.getQueryString("isdig") != "1") {
+                var skinurl = "/ViewV5/images/skin/skin1.png";
+                if (localStorage.getItem("fskin")) {
+                    skinurl = localStorage.getItem("fskin");
+                }
+                $("body").css("background-image", "url('" + skinurl + "')");
+                $(".skintp").bind('click', function (event) {
+                    localStorage.setItem("fskin", $(this).attr("src"));
+                    $("body").css("background-image", "url('" + $(this).attr("src") + "')");
+                })
+
+                var opacity = "97";
+                if (localStorage.getItem("fopacity")) {
+                    opacity = localStorage.getItem("fopacity");
+                }
+                $("body").css("opacity", "." + opacity);
+            }
+            if (ComFunJS.getQueryString("isdig") == "1") {
+                $("body").removeClass("BG")
+                $("#FormFoot").addClass("FormFoot");
+            }
+        });
+    </script>
+</body>
+
+</html>

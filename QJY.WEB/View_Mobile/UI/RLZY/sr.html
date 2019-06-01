@@ -1,0 +1,131 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no">
+    <title>生日关怀</title>
+    <link href="../../Frozenui1.3/css/frozen.css" rel="stylesheet" />
+    <link href="css/sr.css" rel="stylesheet" />
+</head>
+<body ontouchstart>
+
+    <div class="act-wrapper">
+        <div class="page page-index">
+
+            <header>
+                <span class="avatar" style="background-image: url('/ViewV5/images/head.jpg')"></span>
+                <h2>亲爱的<span id="username"></span>，祝你生日快乐！</h2>
+                <!-- 音乐关闭添加 off 类 -->
+                <span class="music"></span>
+            </header>
+            <section>
+                <div class="cake">
+                    <span class="cake1"></span>
+                    <span class="cake2"></span>
+                    <span class="cake3"></span>
+
+                    <span class="flame animation-fire"></span>
+                </div>
+            </section>
+            <!--<span class="text-guide"></span>-->
+        </div>
+
+
+        <div class="fireworks">
+            <span class="pink p1"></span>
+            <span class="pink p2"></span>
+            <span class="pink p3"></span>
+            <span class="pink p4"></span>
+            <span class="pink p5"></span>
+            <span class="pink p6"></span>
+            <span class="pink p7"></span>
+            <span class="orange o1"></span>
+            <span class="orange o2"></span>
+            <span class="orange o3"></span>
+            <span class="orange o4"></span>
+            <span class="orange o5"></span>
+            <span class="orange o6"></span>
+            <span class="orange o7"></span>
+            <span class="red r1"></span>
+            <span class="red r2"></span>
+            <span class="red r3"></span>
+        </div>
+    </div>
+
+    <audio src="happybirthday.mp3" id="music" autoplay></audio>
+    <script src="/View_Mobile/JS/zepto.min.js"></script>
+
+    <script>
+
+        function getQueryString(name, defauval) {//获取URL参数,如果获取不到，返回默认值，如果没有默认值，返回空格
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) { return unescape(decodeURI(r[2])); }
+            else {
+                return defauval || "";
+            }
+        }
+
+        ; (function () {
+
+            $("#username").text(getQueryString('user'))
+
+
+
+            /* 大于320屏幕设备缩放页面 */
+            var autoScale = function () {
+                setTimeout(function () {
+                    var winW = document.documentElement.clientWidth;
+                    var scale = (winW / 320).toString().substring(0, 6);
+                    var cssText = '-webkit-transform: scale(' + scale + ');-webkit-transform-origin: top; opacity: 1;';
+                    $('.act-wrapper').attr('style', cssText);
+                }, 300);
+            };
+
+            if (document.documentElement.clientWidth > 320) {
+                autoScale();
+            } else {
+                $('.act-wrapper').css({ 'opacity': 1 });
+            }
+
+            window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", autoScale, false); //切换横竖屏
+
+
+            // 播放音乐
+            var flag = true,
+                $music = $('#music')[0];
+
+            $(document).on('touchstart', function () {
+                if (flag) {
+                    $music.play();
+                    flag = false;
+                }
+            });
+
+
+            $('.music').on('tap', function () {
+                if ($(this).hasClass('off')) {
+                    $music.play();
+                }
+                else {
+                    $music.pause();
+                }
+                $(this).toggleClass('off');
+            });
+
+
+
+            // 仅作演示，可以删除
+            $('.flame').on('tap', function () {
+                $('.flame').removeClass('animation-fire').addClass('animation-die');
+                $('.fireworks').addClass('animate');
+            });
+
+
+
+
+        })();
+    </script>
+</body>
+</html>

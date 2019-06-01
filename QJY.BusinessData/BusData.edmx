@@ -1,0 +1,444 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="QJ_OneLotusBIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="SZHL_GZGL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ComId" Type="int" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Year" Type="varchar" MaxLength="50" />
+          <Property Name="Month" Type="varchar" MaxLength="50" />
+          <Property Name="BranchName" Type="varchar" MaxLength="50" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" />
+          <Property Name="UserRealName" Type="varchar" MaxLength="50" />
+          <Property Name="JBGZ" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="GWJT" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="JX" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="FL" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="KK" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="YFGZ" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SFGZ" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="GRJN" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="GSJN" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Remark" Type="varchar(max)" />
+          <Property Name="Status" Type="int" />
+          <Property Name="CRUser" Type="varchar" MaxLength="50" />
+          <Property Name="CRDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SZHL_GZGL_FL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ComId" Type="int" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Rules" Type="int" />
+          <Property Name="Files" Type="varchar" MaxLength="50" />
+          <Property Name="Remark" Type="varchar(max)" />
+          <Property Name="CRUser" Type="varchar" MaxLength="50" />
+          <Property Name="CRDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SZHL_GZGL_JCSZ">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ComId" Type="int" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" />
+          <Property Name="JBGZ" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="GWJT" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IsSB" Type="int" />
+          <Property Name="IsGJJ" Type="int" />
+          <Property Name="Files" Type="varchar" MaxLength="50" />
+          <Property Name="Remark" Type="varchar(max)" />
+          <Property Name="CRUser" Type="varchar" MaxLength="50" />
+          <Property Name="CRDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SZHL_GZGL_WXYJ">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ComId" Type="int" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Base" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ComBL" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PerBL" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Files" Type="varchar" MaxLength="50" />
+          <Property Name="Remark" Type="varchar(max)" />
+          <Property Name="CRUser" Type="varchar" MaxLength="50" />
+          <Property Name="CRDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SZHL_TSSQ">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar(max)" />
+          <Property Name="HTNR" Type="nvarchar(max)" />
+          <Property Name="LeiBie" Type="int" />
+          <Property Name="Remark" Type="varchar(max)" />
+          <Property Name="Status" Type="int" />
+          <Property Name="Files" Type="varchar(max)" />
+          <Property Name="ComId" Type="int" />
+          <Property Name="CRUser" Type="varchar" MaxLength="100" />
+          <Property Name="CRDate" Type="datetime" />
+          <Property Name="CYR" Type="varchar(max)" />
+          <Property Name="URL" Type="varchar(max)" />
+          <Property Name="TZR" Type="varchar(max)" />
+          <Property Name="TZBM" Type="varchar(max)" />
+          <Property Name="ISJH" Type="varchar" MaxLength="255" />
+          <Property Name="biaoqian" Type="varchar" MaxLength="255" />
+          <Property Name="RedUsers" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="SZHL_XZ_GZD">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ComId" Type="int" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="YearMonth" Type="varchar" MaxLength="50" />
+          <Property Name="UserName" Type="varchar" MaxLength="100" />
+          <Property Name="UserRealName" Type="varchar" MaxLength="100" />
+          <Property Name="BranchCode" Type="int" />
+          <Property Name="BranchName" Type="varchar" MaxLength="50" />
+          <Property Name="Telephone" Type="varchar" MaxLength="50" />
+          <Property Name="salaryData" Type="varchar(max)" />
+          <Property Name="title" Type="varchar" MaxLength="500" />
+          <Property Name="rise" Type="varchar" MaxLength="500" />
+          <Property Name="Inscribe" Type="varchar" MaxLength="500" />
+          <Property Name="IsRead" Type="int" />
+          <Property Name="CRUser" Type="varchar" MaxLength="100" />
+          <Property Name="CRDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SZHL_XZ_JL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="YearMonth" Type="varchar" MaxLength="50" />
+          <Property Name="title" Type="varchar" MaxLength="500" />
+          <Property Name="rise" Type="varchar" MaxLength="500" />
+          <Property Name="Inscribe" Type="varchar" MaxLength="500" />
+          <Property Name="salaryData" Type="varchar(max)" />
+          <Property Name="CRUser" Type="varchar" MaxLength="50" />
+          <Property Name="CRDate" Type="datetime" />
+          <Property Name="ComId" Type="int" />
+        </EntityType>
+        <EntityContainer Name="QJ_OneLotusBIModelStoreContainer">
+          <EntitySet Name="SZHL_GZGL" EntityType="Self.SZHL_GZGL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SZHL_GZGL_FL" EntityType="Self.SZHL_GZGL_FL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SZHL_GZGL_JCSZ" EntityType="Self.SZHL_GZGL_JCSZ" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SZHL_GZGL_WXYJ" EntityType="Self.SZHL_GZGL_WXYJ" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SZHL_TSSQ" EntityType="Self.SZHL_TSSQ" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SZHL_XZ_GZD" EntityType="Self.SZHL_XZ_GZD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SZHL_XZ_JL" EntityType="Self.SZHL_XZ_JL" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="QJ_OneLotusBIModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="QJ_OneLotusBIEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SZHL_TSSQ" EntityType="QJ_OneLotusBIModel.SZHL_TSSQ" />
+          <EntitySet Name="SZHL_GZGL" EntityType="QJ_OneLotusBIModel.SZHL_GZGL" />
+          <EntitySet Name="SZHL_GZGL_FL" EntityType="QJ_OneLotusBIModel.SZHL_GZGL_FL" />
+          <EntitySet Name="SZHL_GZGL_JCSZ" EntityType="QJ_OneLotusBIModel.SZHL_GZGL_JCSZ" />
+          <EntitySet Name="SZHL_GZGL_WXYJ" EntityType="QJ_OneLotusBIModel.SZHL_GZGL_WXYJ" />
+          <EntitySet Name="SZHL_XZ_GZD" EntityType="QJ_OneLotusBIModel.SZHL_XZ_GZD" />
+          <EntitySet Name="SZHL_XZ_JL" EntityType="QJ_OneLotusBIModel.SZHL_XZ_JL" />
+        </EntityContainer>
+        <EntityType Name="SZHL_TSSQ">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="HTNR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LeiBie" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Files" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ComId" Type="Int32" />
+          <Property Name="CRUser" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CRDate" Type="DateTime" Precision="3" />
+          <Property Name="CYR" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="URL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TZR" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TZBM" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ISJH" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="biaoqian" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="RedUsers" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SZHL_GZGL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ComId" Type="Int32" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Year" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BranchName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserRealName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="JBGZ" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="GWJT" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="JX" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FL" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="KK" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="YFGZ" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SFGZ" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="GRJN" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="GSJN" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="CRUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CRDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SZHL_GZGL_FL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ComId" Type="Int32" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Rules" Type="Int32" />
+          <Property Name="Files" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CRUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CRDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SZHL_GZGL_JCSZ">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ComId" Type="Int32" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="JBGZ" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="GWJT" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IsSB" Type="Int32" />
+          <Property Name="IsGJJ" Type="Int32" />
+          <Property Name="Files" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CRUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CRDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SZHL_GZGL_WXYJ">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ComId" Type="Int32" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Base" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ComBL" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PerBL" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Files" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CRUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CRDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SZHL_XZ_GZD">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ComId" Type="Int32" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="YearMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UserRealName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BranchCode" Type="Int32" />
+          <Property Name="BranchName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="salaryData" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="title" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="rise" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Inscribe" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsRead" Type="Int32" />
+          <Property Name="CRUser" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CRDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SZHL_XZ_JL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="YearMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="title" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="rise" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Inscribe" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="salaryData" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CRUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CRDate" Type="DateTime" Precision="3" />
+          <Property Name="ComId" Type="Int32" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="QJ_OneLotusBIModelStoreContainer" CdmEntityContainer="QJ_OneLotusBIEntities">
+          <EntitySetMapping Name="SZHL_TSSQ">
+            <EntityTypeMapping TypeName="QJ_OneLotusBIModel.SZHL_TSSQ">
+              <MappingFragment StoreEntitySet="SZHL_TSSQ">
+                <ScalarProperty Name="RedUsers" ColumnName="RedUsers" />
+                <ScalarProperty Name="biaoqian" ColumnName="biaoqian" />
+                <ScalarProperty Name="ISJH" ColumnName="ISJH" />
+                <ScalarProperty Name="TZBM" ColumnName="TZBM" />
+                <ScalarProperty Name="TZR" ColumnName="TZR" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="CYR" ColumnName="CYR" />
+                <ScalarProperty Name="CRDate" ColumnName="CRDate" />
+                <ScalarProperty Name="CRUser" ColumnName="CRUser" />
+                <ScalarProperty Name="ComId" ColumnName="ComId" />
+                <ScalarProperty Name="Files" ColumnName="Files" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="LeiBie" ColumnName="LeiBie" />
+                <ScalarProperty Name="HTNR" ColumnName="HTNR" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SZHL_GZGL">
+            <EntityTypeMapping TypeName="QJ_OneLotusBIModel.SZHL_GZGL">
+              <MappingFragment StoreEntitySet="SZHL_GZGL">
+                <ScalarProperty Name="CRDate" ColumnName="CRDate" />
+                <ScalarProperty Name="CRUser" ColumnName="CRUser" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="GSJN" ColumnName="GSJN" />
+                <ScalarProperty Name="GRJN" ColumnName="GRJN" />
+                <ScalarProperty Name="SFGZ" ColumnName="SFGZ" />
+                <ScalarProperty Name="YFGZ" ColumnName="YFGZ" />
+                <ScalarProperty Name="KK" ColumnName="KK" />
+                <ScalarProperty Name="FL" ColumnName="FL" />
+                <ScalarProperty Name="JX" ColumnName="JX" />
+                <ScalarProperty Name="GWJT" ColumnName="GWJT" />
+                <ScalarProperty Name="JBGZ" ColumnName="JBGZ" />
+                <ScalarProperty Name="UserRealName" ColumnName="UserRealName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ComId" ColumnName="ComId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SZHL_GZGL_FL">
+            <EntityTypeMapping TypeName="QJ_OneLotusBIModel.SZHL_GZGL_FL">
+              <MappingFragment StoreEntitySet="SZHL_GZGL_FL">
+                <ScalarProperty Name="CRDate" ColumnName="CRDate" />
+                <ScalarProperty Name="CRUser" ColumnName="CRUser" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Files" ColumnName="Files" />
+                <ScalarProperty Name="Rules" ColumnName="Rules" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ComId" ColumnName="ComId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SZHL_GZGL_JCSZ">
+            <EntityTypeMapping TypeName="QJ_OneLotusBIModel.SZHL_GZGL_JCSZ">
+              <MappingFragment StoreEntitySet="SZHL_GZGL_JCSZ">
+                <ScalarProperty Name="CRDate" ColumnName="CRDate" />
+                <ScalarProperty Name="CRUser" ColumnName="CRUser" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Files" ColumnName="Files" />
+                <ScalarProperty Name="IsGJJ" ColumnName="IsGJJ" />
+                <ScalarProperty Name="IsSB" ColumnName="IsSB" />
+                <ScalarProperty Name="GWJT" ColumnName="GWJT" />
+                <ScalarProperty Name="JBGZ" ColumnName="JBGZ" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ComId" ColumnName="ComId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SZHL_GZGL_WXYJ">
+            <EntityTypeMapping TypeName="QJ_OneLotusBIModel.SZHL_GZGL_WXYJ">
+              <MappingFragment StoreEntitySet="SZHL_GZGL_WXYJ">
+                <ScalarProperty Name="CRDate" ColumnName="CRDate" />
+                <ScalarProperty Name="CRUser" ColumnName="CRUser" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Files" ColumnName="Files" />
+                <ScalarProperty Name="PerBL" ColumnName="PerBL" />
+                <ScalarProperty Name="ComBL" ColumnName="ComBL" />
+                <ScalarProperty Name="Base" ColumnName="Base" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ComId" ColumnName="ComId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SZHL_XZ_GZD">
+            <EntityTypeMapping TypeName="QJ_OneLotusBIModel.SZHL_XZ_GZD">
+              <MappingFragment StoreEntitySet="SZHL_XZ_GZD">
+                <ScalarProperty Name="CRDate" ColumnName="CRDate" />
+                <ScalarProperty Name="CRUser" ColumnName="CRUser" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="Inscribe" ColumnName="Inscribe" />
+                <ScalarProperty Name="rise" ColumnName="rise" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="salaryData" ColumnName="salaryData" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+                <ScalarProperty Name="UserRealName" ColumnName="UserRealName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="YearMonth" ColumnName="YearMonth" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ComId" ColumnName="ComId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SZHL_XZ_JL">
+            <EntityTypeMapping TypeName="QJ_OneLotusBIModel.SZHL_XZ_JL">
+              <MappingFragment StoreEntitySet="SZHL_XZ_JL">
+                <ScalarProperty Name="ComId" ColumnName="ComId" />
+                <ScalarProperty Name="CRDate" ColumnName="CRDate" />
+                <ScalarProperty Name="CRUser" ColumnName="CRUser" />
+                <ScalarProperty Name="salaryData" ColumnName="salaryData" />
+                <ScalarProperty Name="Inscribe" ColumnName="Inscribe" />
+                <ScalarProperty Name="rise" ColumnName="rise" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="YearMonth" ColumnName="YearMonth" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

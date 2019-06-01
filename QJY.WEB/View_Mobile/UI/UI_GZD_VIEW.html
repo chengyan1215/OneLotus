@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>我的工资单</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="/View_Mobile/CSS/msui.css">
+    
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1476090774_8365302.css">
+    <link href="/View_Mobile/CSS/szhlextend.css?ver=20160904" rel="stylesheet" />
+
+    <style type="text/css">
+        .ms-controller, [ms-controller] {
+            display: none;
+        }
+
+        .card {
+            margin: .9rem 0.5rem;
+            box-shadow: none !important;
+        }
+
+        .foot-tip {
+            width: 1px;
+            height: 0px;
+            position: absolute;
+            margin-left: 548px;
+            margin-top: -11px;
+            border-left: 50px solid #f2f2f2;
+        }
+
+        .facebook-card .list-cont-inner {
+            padding-bottom: 0;
+            padding-top: 0.4rem;
+        }
+
+        .break-word {
+            overflow: hidden;
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+    </style>
+
+</head>
+
+<body ms-controller="BGList">
+    <div class="page-group">
+        <div class="page page-current" id="pageindex1">
+            <div class="buttons-tab">
+                <a ms-if="DataID=='-1'" ms-on-click="getdata()" class="tab-link button external active">我的工资单</a>
+                <a ms-if="DataID!='-1'" class="tab-link button external active">工资条</a>
+
+            </div>
+            <div class="content infinite-scroll infinite-scroll-bottom touchcontent" data-distance="50" style="margin-top: 2.3rem;" id="touchcontent">
+                <div class="list-container">
+                    <div class="card facebook-card animated fadeInUp no-head" ms-repeat-el="ctData">                      
+                        <div class="card-header no-border">
+                            <div class="facebook-date head-ft16">{{covtitle(el.title)}}<span class="ml10 c999 ft14" ms-if="!el.isfold">{{$.timeago(el.CRDate)}}</span></div>
+                            <div class="facebook-date head-ft16" ms-if="el.isfold"><span class="c999 ft14">{{el.CRDate|date("MM月dd日")}}</span></div>
+                            <div class="facebook-date" ms-if="!el.isfold">
+                                <span>薪资：{{JSON.parse(el.salaryData).合计}}元</span>
+                            </div>
+                            <div style="clear:both"></div>
+                        </div>
+                        <div class="card-content" ms-visible="el.isfold">
+                            <!--<div class="card-item">
+                                <span>{{el.title}}</span>
+                            </div>-->
+                            <div class="card-item">
+                                <span>{{el.rise}}</span>
+                            </div>
+
+                            <div class="card-item">
+                                <span>应发</span>
+                            </div>
+                            <div class="card-item" ms-repeat="JSON.parse(el.salaryData).YF">
+                                <span style="color:gray">{{$key}}:</span> {{$val}}
+                            </div>
+                            <div class="card-item">
+                                <span>应扣</span>
+                            </div>
+                            <div class="card-item" ms-repeat="JSON.parse(el.salaryData).YK">
+                                <span style="color:gray">{{$key}}:</span> {{$val}}
+                            </div>
+                            <div class="card-item" style="color: #12b8f6">
+                                <span>合计:</span> {{JSON.parse(el.salaryData).合计}}
+                            </div>
+                            <div class="card-item">
+                                <span>{{el.Inscribe}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card facebook-card animated" ms-if="loadtip">
+                        <div class="card-header no-border">
+                            {{loadtip}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="infinite-scroll-preloader">
+                    <div class="preloader"></div>
+                </div>
+            </div>
+            <!--<span class="animated fadeIn" ms-if="DataID=='-1'" ms-click="changefold()" id="plus_list" style="z-index:99998;opacity:.9"><img ms-attr-src="'../images/'+(isfold?'rwglss':'rwglzk')+'.png'"></span>-->
+            <!--<span class="animated fadeIn" ms-if="DataID!='-1'" ms-click="changefold()" id="plus_list" style="z-index:99998;opacity:.9"><img ms-attr-src="'../images/'+(isfold?'rwglss':'rwglzk')+'.png'"></span>-->
+
+        </div>
+        <div class="page" id="pageindex2">
+
+        </div>
+    </div>
+
+    <script src="/View_Mobile/JS/layer/layer.m.js"></script>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.8/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.8/js/sm-extend.min.js' charset='utf-8'></script>
+    <script src="/View_Mobile/JS/touch/toucher.js"></script>
+    <script src="/View_Mobile/JS/avalon1.47.js"></script>
+    <script src="/View_Mobile/JS/raty/jquery.raty.js?v=1.3"></script>
+    <script src="/View_Mobile/JS/ComFunJS.js?jsver=20160425"></script>
+    <script>
+        var model = avalon.define({
+            $id: "BGList",
+            ctData: [],
+            loading: false,
+            loadtip: "",//切换页时显示信息
+            nowuser: ComFunJS.getnowuser(),
+            isfold: localStorage.getItem("BGListisfold") == "Y" ? true : false,//是否折叠显示
+            changefold: function () {
+                model.isfold = !model.isfold;
+                model.ctData.forEach(function (item) {
+                    item.isfold = model.isfold;
+                })
+                localStorage.setItem("BGListisfold", model.isfold ? "Y" : "N");
+            },//改变折叠状态
+            covtitle: function (title) {
+                return ComFunJS.convstr($("<div>" + title + "</div>").text(), 40);
+            },//转化 TITLE信息
+            showdetil: function (item) {
+                item.isfold = !item.isfold;
+                if (item.IsRead != '1') {
+                    $.getJSON('/API/VIEWAPI.ashx?Action=XZGL_READGZD', { P1: item.ID }, function (resultData) {
+                        if (resultData.ErrorMsg == "") {
+                            item.IsRead = '1';
+                        }
+                    })
+                }
+            },//展开显示信息
+            page: 1,
+            pagecount: 8,
+            DataID: ComFunJS.getQueryString("ID", "-1"),
+            loadMore: function () {
+                if (model.loading) return;
+                model.loading = true;
+                $.getJSON("/API/VIEWAPI.ashx?Action=Commanage_GETGZDLIST&r=" + Math.random(), { "p": model.page,ID: model.DataID }, function (r) {
+                    model.loading = false;
+                    if (r.ErrorMsg == "") {
+                        for (var i = 0; i < r.Result.length; i++) {
+                            r.Result[i].isfold = model.isfold;
+                            if (model.DataID != "-1") {//如果有数据ID，则展开显示
+                                r.Result[i].isfold = true;
+                            }
+                        }
+                        model.ctData.pushArray(r.Result);
+                        //判断是否加载完毕
+                        if (r.Result.length < model.pagecount) {
+                            // 加载完毕，则注销无限加载事件，以防不必要的加载
+                            $.detachInfiniteScroll($('.infinite-scroll'));
+                            // 删除加载提示符
+                            $('.infinite-scroll-preloader').hide();
+                            if (model.ctData.size() == 0) {
+                                model.loadtip = '没有找到数据哦'
+                            }
+                            return;
+                        }
+                        $.refreshScroller();
+                        model.page += 1;
+                        if (model.ctData.size() == 0) {
+                            model.loadtip = '没有找到数据哦'
+                        }
+                    }
+
+                });
+
+            },
+            viewfile: function (file) {
+                if (ComFunJS.isPic(file.FileExtendName)) {
+                    ComFunJS.viewbigimg(this)
+                    return;
+                }
+                if (ComFunJS.isOffice(file.FileExtendName) && file.ISYL == "Y") {
+                    window.location = file.YLUrl;
+                    return;
+                }
+            },
+            getdata: function (type) {
+                $.attachInfiniteScroll($('.infinite-scroll'))
+                model.loadtip = "";
+                $('.infinite-scroll-preloader').show();
+                model.type = type;
+                model.ctData.clear();
+                model.page = 1;
+                model.loadMore();
+            },
+            viewall: function () {
+                window.location = "/View_Mobile/UI/UI_GZT_LIST.html?r=" + Math.random();
+            }
+
+        })
+
+        avalon.ready(function () {
+            // 注册'infinite'事件处理函数
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                model.loadMore();
+            });
+            $.init();
+            model.getdata(model.type);
+        })
+    </script>
+
+</body>
+
+
+</html>

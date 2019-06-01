@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>操作成功</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/ViewV5/CSS/icfont_qj/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css" rel="stylesheet">
+    <link href="/ViewV5/CSS/BootOver.css" rel="stylesheet" />
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script>
+        var model = avalon.define({
+            $id: "wdlist",
+            wjjData: [], 
+            itemtype: ComFunJS.getQueryString("foldertype", "2"),
+            initfolderid: ComFunJS.getQueryString("folderid", "2"),
+            issigle: ComFunJS.getQueryString("issigle", "Y"),
+            selfolder: {},
+            pathdata: [],
+            getlist: function () {
+                $.getJSON("/API/VIEWAPI.ashx?Action=QYWD_GETLISTDATA&r=" + Math.random(), { P1: model.selfolder.ID, itemtype: 2 }, function (r) {
+                    if (r.ErrorMsg == "") {
+                        for (var i = 0; i < r.Result.length; i++) {
+                            r.Result[i].issel = false;
+                        }
+                        model.wjjData = r.Result; 
+                        model.selfiles.clear();//清空选中项
+                    }
+                })
+            },
+            enterwjj: function (item) {
+                var itemData = $.extend({}, item);
+                model.pathdata.push(itemData)
+                model.selfolder = item;
+                model.getlist();
+            },
+            gopath: function (item, itemindex) {
+                model.pathdata.splice(itemindex + 1, model.pathdata.length - itemindex);
+                model.selfolder = item;
+                model.getlist();
+            },
+            clickFolder: function (file,event) {
+                if (model.issigle == "Y") {
+                    model.wjjData.forEach(function (file) {
+                        file.issel = false;
+                    })
+                }
+                file.issel = !file.issel;
+                if (file.issel) {
+                    model.selfiles.push(file);
+                } else {
+                    model.selfiles.remove(file);
+                }
+            },
+            selfiles: []
+        })
+        avalon.ready(function () {
+            model.selfolder = { ID: model.initfolderid, Name: "个人文档" };
+            model.pathdata.push({ ID: model.initfolderid, Name: "个人文档" });
+            model.getlist();
+        })
+    </script>
+</head>
+<body ms-controller="wdlist">
+    <div class="container-fluid text-center" style="margin:0;padding:0">
+        <div class="panel panel-default" style="border:0">
+            <!-- Default panel contents -->
+            <div class="panel-heading text-left">
+                <ol class="breadcrumb" style="margin-bottom:0">
+                    <li ms-repeat-el="pathdata" ms-click="gopath(el,$index)"><a href="javascript:void(0)">{{el.Name}}</a></li>
+                </ol>
+            </div>
+            <!-- Table -->
+            <table class="table">
+                <tbody>
+                    <tr ms-repeat-wjj="wjjData" style="width:100%">
+                        <th><img style="height:40px;width:40px" src="/ViewV5/images/qywd/file1.png" /><a style="margin-left:5px" href="#" ms-click="enterwjj(wjj)"> {{wjj.Name}}</a>
+                            <div class="icheckbox_square-blue pull-right" ms-click="clickFolder(wjj,$event)" ms-class-1="checked:wjj.issel">
+                                <span class="iconfont icon-check ft12"></span>
+                            </div> </th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

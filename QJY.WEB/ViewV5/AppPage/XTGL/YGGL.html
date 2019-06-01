@@ -1,0 +1,345 @@
+﻿<script type="text/javascript">
+
+    var branchNo = ComFunJS.getQueryString("branchNo");
+    var tempmodel = avalon.define({
+        $id: "YGGLAdd",
+        name: "员工编辑",
+        iswf: true,//是否属于流程表单
+        BranchData: [],
+        RoleData: [],
+        DeptName: "",
+        userName: "",
+        seltype: 1,
+        modelData:{},
+        UserData: {
+            "UserName": "", "UserRealName": "", "UserPass": "abc123", "IsUse": "Y", "zhiwu": "", "mobphone": "", "mailbox": "", "Usersign": "", "BranchCode": 0, "UserOrder": 0, RoomCode: "", UserGW: "",
+            Sex: "", weixinCard: "", NickName: "", JobNum: "", QQ: "", IDCard: "", Nationality: "",
+            Nation: "", HomeAddress: "", GSPhone: "", EntryDate: "", DepartureDate: "", Birthday: "",
+            Marriage: "", Children: "", JJLXR: "", JJLXRDH: "", Hire: "", ZZTime: "", ContractSTime: "",
+            ContractETime: "", SocialInsurance: "", GJJID: "", BankCard: "", BankName: "", "Files": ""
+        },
+        inittemp: function (strId) {
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETROLE', { "P1": branchNo, "P2": "Y" }, function (resultData) {
+                tempmodel.RoleData = resultData.Result;
+                if (resultData.Result1) {
+                    tempmodel.DeptName = resultData.Result1.DeptName;
+                }
+                if (resultData.Result2) {
+                    tempmodel.ComId = resultData.Result2;
+                }
+                $(".chosen-select").chosen({ disable_search_threshold: 10 });
+                if (strId) {
+                    tempmodel.userName = strId;
+                    //人员信息
+                    $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETUSERBYUSERNAME', { "P1": strId }, function (resultData) {
+                        if (resultData.ErrorMsg == "") {
+                            tempmodel.UserData = resultData.Result.User;
+                            tempmodel.DeptName = resultData.Result.BranchInfo.DeptName;
+                            tempmodel.UserData.UserOrder = !tempmodel.UserData.UserOrder ? 0 : tempmodel.UserData.UserOrder;
+                            var rolecode = resultData.Result.UserRoleCode.split(',')
+                            $("#rolesel").val(rolecode)
+                            $('#rolesel').trigger('chosen:updated');
+                        }
+                    })
+                } else {
+                    tempmodel.UserData.BranchCode = branchNo;
+                    $("#rolesel").val(['1219'])
+                    $('#rolesel').trigger('chosen:updated');
+
+
+                }
+            
+
+            })
+        
+            ComFunJS.initForm();
+        }, SaveData: function (callback, dom) {
+            if (!(/^[0-9]*$/.test(tempmodel.UserData.UserOrder))) {
+                parent.ComFunJS.winwarning("序号必须是数字");
+                $(dom).attr("disabled", false).find(".fa").hide();//加上转圈样式
+                return;
+            }
+            var modelValue = JSON.stringify(tempmodel.UserData.$model);
+            tempmodel.modelData = tempmodel.UserData;
+            $.post("/API/VIEWAPI.ashx", { Action: "XTGL_ADDUSER", P1: modelValue, P2: $("#rolesel").val().join() }, function (result) {
+                return callback.call(this, result);
+            });
+        }, selecttype: function (type) {
+            tempmodel.seltype = type;
+        }
+    });
+    //# sourceURL=YGGL.JS
+</script>
+<div class="form-horizontal" ms-controller="YGGLAdd">
+    <div style="margin: 0 80px;">
+        <div class="detail-nav">
+            <div class="tab-kh nav-bt">
+<!--                <span ms-class-1="cur:seltype==1" ms-click="selecttype(1)"><i class="iconfont icon-bookmark"></i>基本信息</span>-->
+            <!--    <span ms-class-1="cur:seltype==2" ms-click="selecttype(2)"><i class="iconfont icon-bookmark"></i>其他信息</span>
+                <span ms-class-1="cur:seltype==3" ms-click="selecttype(3)"><i class="iconfont icon-bookmark"></i>社保信息</span>-->
+            </div>
+        </div>
+        <div ms-visible="seltype==1">
+            <div>
+                <ul class="clearfix" style="display: block; padding: 0">
+                    <li class="add-item  add-widthall">
+                        <label class="add-item-label"><i>*</i>所属部门</label>
+                        <div class="add-ic" style="display: block;">
+                            <input type="text" class="form-control szhl_require" disabled ms-duplex="DeptName" />
+                        </div>
+                    </li>
+                    <li class="add-item add-width  fl-left">
+                        <label class="add-item-label"><i>*</i>用户名</label>
+                        <div class="add-ic">
+                            <input type="text" class="form-control" ms-attr-disabled="UserData.ID" ms-duplex="UserData.UserName" placeholder="请输入用户名,建议使用手机号" />
+                        </div>
+                    </li>
+                    <li class="add-item add-width  fl-right">
+                        <label class="add-item-label"><i>*</i>手机号码</label>
+                        <div class="add-ic">
+                            <input type="text" class="form-control"  ms-duplex="UserData.mobphone" id="Telphone" placeholder="请输入手机号码" />
+                        </div>
+                    </li>
+                    <li class="add-item add-width  fl-left">
+                        <label class="add-item-label"><i>*</i>用户真实名称</label>
+                        <div class="add-ic">
+                            <input type="text" class="form-control szhl_require" autocomplete="off" ms-duplex="UserData.UserRealName" placeholder="请输入用户真实名称" />
+                        </div>
+                    </li>
+                    <li class="add-item add-width  fl-right">
+                        <label class="add-item-label">员工岗位</label>
+                        <div class="add-ic">
+                            <input type="text" class="form-control" ms-duplex="UserData.UserGW" maxlength="200" placeholder="请输入员工岗位" />
+                        </div>
+                     
+                    </li>
+                 
+
+                    <li class="add-item add-width  fl-right">
+                        <label class="add-item-label">是否可用</label>
+                        <div class="add-ic">
+                            <select id="isUse" class="form-control" ms-duplex="UserData.IsUse">
+                                <option value="Y" ms-attr-selected="UserData.IsUse=='Y'?'selected':''">是</option>
+                                <option value="N" ms-attr-selected="UserData.IsUse=='N'?'selected':''">否</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li class="add-item add-width  fl-left">
+                        <label class="add-item-label">座机</label>
+                        <div class="add-ic">
+                            <input type="text" class="form-control" ms-duplex="UserData.telphone" placeholder="请输入座机" />
+                        </div>
+                    </li>
+                    <li class="add-item add-width fl-right">
+                        <label class="add-item-label">邮箱</label>
+                        <div class="add-ic">
+                            <input type="text" class="form-control" ms-duplex="UserData.mailbox" maxlength="50" id="Email" placeholder="请输入邮箱" />
+                        </div>
+                    </li>
+
+                    <li class="add-item add-width  fl-left">
+                        <label class="add-item-label">序号</label>
+                        <div class="add-ic">
+                            <input type="text" class="form-control" ms-duplex="UserData.UserOrder" placeholder="序号" />
+                        </div>
+                    </li>
+                    <li class="add-item add-width   fl-right">
+                        <label class="add-item-label">房间号</label>
+                        <div class="add-ic">
+                            <input type="text" class="form-control" ms-duplex="UserData.RoomCode" maxlength="50" placeholder="请输入房间号" />
+                        </div>
+                    </li>
+                    <li class="add-item add-width  fl-left">
+                        <label class="add-item-label">用户职务</label>
+                        <div class="add-ic">
+                            <select data-placeholder="选择角色" style="width:350px;" multiple class="chosen-select" id="rolesel">
+                                <option ms-repeat-item="RoleData" ms-attr-value="item.RoleCode">{{item.RoleName}}</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li class="add-item add-widthall">
+                        <label class="add-item-label">员工职责</label>
+                        <div class="add-ic">
+                            <textarea ms-duplex="UserData.Usersign" rows="4" id="UserSign" maxlength="250" class="form-control" placeholder="请输入员工职责"></textarea>
+                        </div>
+                    </li>
+                    <li class="add-item add-widthall">
+                        <label class="add-item-label">附件</label>
+                        <div class="add-ic">
+                            <input type="text" ms-duplex="UserData.Files" class="szhl_Upload form-control" />
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="extdiv"></div>
+        </div>
+        <div ms-visible="seltype==2">
+            <ul class="clearfix" style="display: block; padding: 0">
+                <li class="add-item add-width  fl-left">
+                    <label class="add-item-label">昵称</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control " ms-duplex="UserData.NickName" />
+                    </div>
+                </li>
+                <li class="add-item add-width  fl-right ">
+                    <label class="add-item-label">工号</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control " ms-duplex="UserData.JobNum" />
+                    </div>
+                </li>
+                <li class="add-item add-width  fl-left">
+                    <label class="add-item-label">QQ</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control " ms-duplex="UserData.QQ" />
+                    </div>
+                </li>
+                <li class="add-item add-width  fl-right">
+                    <label class="add-item-label">微信</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control" ms-duplex="UserData.weixinCard" />
+                    </div>
+                </li>
+                <li class="add-item add-width fl-left">
+                    <label class="add-item-label">身份证</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control" ms-duplex="UserData.IDCard" />
+                    </div>
+                </li>
+                <li class="add-item add-width fl-right">
+                    <label class="add-item-label">籍贯</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control" ms-duplex="UserData.Nationality" />
+                    </div>
+                </li>
+                <li class="add-item add-width  fl-left">
+                    <label class="add-item-label">民族</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control" ms-duplex="UserData.Nation" />
+                    </div>
+                </li>
+                <li class="add-item add-width  fl-right">
+                    <label class="add-item-label">家庭住址</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control" ms-duplex="UserData.HomeAddress" />
+                    </div>
+                </li>
+                <li class="add-item add-width fl-left">
+                    <label class="add-item-label">公司电话</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control" ms-duplex="UserData.GSPhone" />
+                    </div>
+                </li>
+                <li class="add-item add-width  fl-right">
+                    <label class="add-item-label">生日</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control szhl_form_date null" ms-duplex="UserData.Birthday" />
+                    </div>
+                </li>
+                <li class="add-item add-width  fl-left">
+                    <label class="add-item-label">入职时间</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control szhl_form_date null" ms-duplex="UserData.EntryDate" />
+                    </div>
+                </li>
+                <li class="add-item add-width  fl-right">
+                    <label class="add-item-label">离职时间</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control szhl_form_date null" ms-duplex="UserData.DepartureDate" />
+                    </div>
+                </li>
+                <li class="add-item add-width fl-left">
+                    <label class="add-item-label">婚姻状况</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control" ms-duplex="UserData.Marriage" />
+                    </div>
+                </li>
+                <li class="add-item add-width  fl-right">
+                    <label class="add-item-label">子女</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control" ms-duplex="UserData.Children" />
+                    </div>
+                </li>
+                <li class="add-item add-width fl-left">
+                    <label class="add-item-label">紧急联系人</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control" ms-duplex="UserData.JJLXR" />
+                    </div>
+                </li>
+                <li class="add-item add-width  fl-right">
+                    <label class="add-item-label">紧急联系人电话</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control" ms-duplex="UserData.JJLXRDH" />
+                    </div>
+                </li>
+                <li class="add-item add-width fl-left">
+                    <label class="add-item-label">劳动合同开始时间</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control szhl_form_date null" ms-duplex="UserData.ContractSTime" />
+                    </div>
+                </li>
+                <li class="add-item add-width  fl-right">
+                    <label class="add-item-label">劳动合同结束时间</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control szhl_form_date null" ms-duplex="UserData.ContractETime" />
+                    </div>
+                </li>
+                <li class="add-item add-width fl-left">
+                    <label class="add-item-label">转正时间</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control szhl_form_date null" ms-duplex="UserData.ZZTime" />
+                    </div>
+                </li>
+
+                <li class="add-item add-width fl-right">
+                    <label class="add-item-label">雇佣方式</label>
+                    <div class="add-ic">
+                        <select ms-duplex="UserData.Hire" class="form-control">
+                            <option value="">请选择</option>
+                            <option value="全职">全职</option>
+                            <option value="兼职">兼职</option>
+                        </select>
+                    </div>
+                </li>
+                <li class="add-item add-width fl-left">
+                    <label class="add-item-label">性别</label>
+                    <div class="add-ic">
+                        <select ms-duplex="UserData.Sex" class="form-control">
+                            <option value="">请选择</option>
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                        </select>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div ms-visible="seltype==3">
+            <ul class="clearfix" style="display: block; padding: 0">
+                <li class="add-item add-width  fl-left">
+                    <label class="add-item-label">社保号码</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control " ms-duplex="UserData.SocialInsurance" />
+                    </div>
+                </li>
+                <li class="add-item add-width  fl-right ">
+                    <label class="add-item-label">公积金账号</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control " ms-duplex="UserData.GJJID" />
+                    </div>
+                </li>
+                <li class="add-item add-width  fl-left">
+                    <label class="add-item-label">银行卡</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control " ms-duplex="UserData.BankCard" />
+                    </div>
+                </li>
+                <li class="add-item add-width  fl-right">
+                    <label class="add-item-label">银行名称</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control" ms-duplex="UserData.BankName" />
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+

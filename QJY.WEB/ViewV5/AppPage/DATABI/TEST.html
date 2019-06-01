@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>数据集编辑</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/index.css?v=1">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/default.css">
+    <link href="/ViewV5/CSS/element/index.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/FORMBI.css?v=2">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_533449_zsibbu1n60f.css" />
+
+    <style>
+        .el-button-group button {
+            border-radius: 0px;
+        }
+
+        .widthmax {
+            width: 100%
+        }
+
+        .pd40 {
+            padding: 40px;
+        }
+
+        .pd0 {
+            padding: 0;
+        }
+    </style>
+</head>
+<body class="BG">
+
+    <div id="Loading">
+        <div class="loader-inner ball-beat">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div id="DATABI_DSETZZ" class="FormV" style="display:none">
+        <el-container>
+
+            <el-main class="elmain pd40">
+                <div class="panel-df">
+                    123213
+                </div>
+            </el-main>
+
+
+
+        </el-container>
+
+    </div>
+    <script src="/ViewV5/JS/vue.js"></script>
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="https://unpkg.com/@antv/data-set"></script>
+
+    <script src="/ViewV5/JS/lodash.min.js"></script>
+    <script src="/ViewV5/JS/httpVueLoader.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <!-- 引入组件库 -->
+    <script src="/ViewV5/JS/element/element.js"></script>
+    <script src="/ViewV5/JS/bijs.js?v=4"></script>
+
+    <script>
+        var app = new Vue({
+            el: '#DATABI_DSETZZ',
+
+            data: {
+                loading: true,
+                FormData: []
+
+            },
+
+            methods: {
+
+                InitWF: function () {
+                    $.getJSON("/API/VIEWAPI.ashx", { Action: "Commanage_GETJFLIST", P1: app.dsetid }, function (result) {
+                        if (result.ErrorMsg == "") {
+                            app.loading = false;
+                            app.FormData = result.Result;
+
+                            var dv = new DataSet.View().source(result.Result);
+                            //dv.transform({
+                            //    type: 'filter',
+                            //    callback(row) {
+                            //        return row.JFType == "考试积分";
+                            //    }
+                            //});
+                            //dv.transform({
+                            //    type: 'partition',
+                            //    groupBy: ['JFType','CRUser'] // 以year字段进行分组
+                            //});
+                            dv.transform({
+                                type: 'percent',
+                                field: 'JFValue',           // 统计销量
+                                dimension: 'CRUser',       // 每年的占比
+                                groupBy: ['JFType'], // 以不同产品类别为分组，每个分组内部各自统计占比
+                                as: 'percent'            // 结果存储在 percent 字段
+                            });
+                            console.log(dv.rows);
+
+                        }
+                    })
+                }
+
+            },
+            mounted: function () {
+                var pro = this;
+                pro.$nextTick(function () {
+                    pro.InitWF();
+
+                })
+            },
+            created() {
+                document.body.removeChild(document.getElementById('Loading'))
+
+                var divBJ = document.getElementById('DATABI_DSETZZ');
+                divBJ.style.display = "block";
+            }
+
+        })
+
+
+    </script>
+
+</body>
+
+</html>

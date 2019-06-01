@@ -1,0 +1,194 @@
+﻿<div style="background:#fbf9fe" ms-controller="JYGL">
+    <div ms-if="isHasDataQX=='Y'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label" style="WIDTH: 8EM;">借阅人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.JYRName}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label" style="WIDTH: 8EM;">借阅开始时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="StartTime" placeholder="请选择开始时间" ms-duplex="modelData.StartTime" class="szhl szhl_require weui_input">
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label" style="WIDTH: 8EM;">借阅结束时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="EndTime" placeholder="请选择结束时间" ms-duplex="modelData.EndTime" class="szhl szhl_require weui_input">
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label" style="WIDTH: 8EM;">借阅图书</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <span ms-repeat-item="TSData">{{item.TSName}},</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ms-if="isHasDataQX=='N'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label" style="WIDTH: 8EM;">借阅人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.JYRName}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label" style="WIDTH: 8EM;">图书名称</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <span>{{modelData.TSName}}</span>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label" style="WIDTH: 8EM;">借阅开始时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary" ms-if="modelData.StartTime">
+                    {{modelData.StartTime|date('yyyy-MM-dd HH:mm')}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label" style="WIDTH: 8EM;">借阅结束时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary" ms-if="modelData.EndTime">
+                    {{modelData.EndTime|date('yyyy-MM-dd HH:mm')}}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<script>
+    var tempmodel = avalon.define({
+        $id: "JYGL",
+        name: "借阅管理",
+        iswf: true,//是否属于流程表单
+        userpl: 0,
+        usertype: "",
+        isjl: "",
+        Name: "",
+        wximg: "",
+        dataid: "",
+        isDeploy: 0,
+        TSData: [],
+        tsIDs: ComFunJS.getQueryString("tsids"),
+        inittemp: function (strId) {
+            if (strId) {
+                tempmodel.dataid = strId;
+                $.getJSON('/API/VIEWAPI.ashx?Action=JYGL_GETJYGLMODEL', { P1: strId }, function (resultData) {
+
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result;
+
+
+                        if (tempmodel.modelData.StartTime && tempmodel.modelData.StartTime.length > 16) {
+                            tempmodel.modelData.StartTime = tempmodel.modelData.StartTime.substring(0, 16);
+                        }
+                        if (tempmodel.modelData.StartTime) {
+                            var ss = tempmodel.modelData.StartTime.split(' ');
+                            var ss1 = ss[0].split('-');
+                            var ss2 = ss[1].split(':');
+                            var hh = ss2[0];
+                            if (hh.substring(0, 1) == "0") { hh = hh.substring(1, 1); }
+                            $("#StartTime").datetimePicker({
+                                value: [ss1[0], ss1[1], ss1[2], hh, ss2[1]]
+                            });
+                        }
+                        if (tempmodel.modelData.EndTime && tempmodel.modelData.EndTime.length > 16) {
+                            tempmodel.modelData.EndTime = tempmodel.modelData.EndTime.substring(0, 16);
+                        }
+
+                        if (tempmodel.modelData.EndTime) {
+                            var ss = tempmodel.modelData.EndTime.split(' ');
+                            var ss1 = ss[0].split('-');
+                            var ss2 = ss[1].split(':');
+                            var hh = ss2[0];
+                            if (hh.substring(0, 1) == "0") { hh = hh.substring(1, 1); }
+                            $("#EndTime").datetimePicker({
+                                value: [ss1[0], ss1[1], ss1[2], hh, ss2[1]]
+                            });
+                        }
+
+                        setTimeout(" ComFunJS.initForm()", 500)
+                    }
+                })
+            } else {
+                var dates = ComFunJS.getnowdate("yyyy-mm-dd-hh-mm").split('-');
+
+                var enddate = tempmodel.getnextmon(ComFunJS.getnowdate("yyyy-mm-dd")).split('-');
+
+                $("#StartTime").datetimePicker({
+                    value: [dates[0], dates[1], dates[2], dates[3], dates[4]]
+                });
+                $("#EndTime").datetimePicker({
+                    value: [enddate[0], enddate[1], enddate[2], dates[3], dates[4]]
+                });
+
+                tempmodel.modelData.StartTime = dates[0] + "-" + dates[1] + "-" + dates[2] + " " + dates[3] + ":" + dates[4];
+                tempmodel.modelData.EndTime = enddate[0] + "-" + enddate[1] + "-" + enddate[2] + " " + dates[3] + ":" + dates[4];
+
+                ComFunJS.initForm();
+                tempmodel.GetTSLIST(tempmodel.tsIDs);
+            }
+        },//初始化
+        modelData: { "TSID": "", "TSName": "", "StartTime": "", "EndTime": "", "Remark": "", "JYR": ComFunJS.getnowuser(), "JYRName": ComFunJS.convertuser(ComFunJS.getnowuser()), "Files": "" },
+        SaveData: function (callback) {
+            var tsname = "";
+            for (var i = 0; i < tempmodel.TSData.length; i++) {
+                tsname = tsname + tempmodel.TSData[i].TSName + ",";
+            }
+            tempmodel.modelData.TSID = ComFunJS.trim(tempmodel.tsIDs);
+            tempmodel.modelData.TSName = ComFunJS.trim(tsname);
+            $.getJSON("/API/VIEWAPI.ashx?ACTION=JYGL_ADDJYGL", { P1: JSON.stringify(tempmodel.modelData.$model) }, function (result) {
+                return callback.call(this, result);
+            });
+        },
+        rebackform: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=JYGL_MODIFYTSSTATUS', { P1: tempmodel.modelData.TSID, P2: "0" }, function (resultData) {
+
+            })
+        },
+        Complate: function () {
+            window.location.href = "/View_Mobile/UI/UI_JYGL_LIST.html?r=" + Math.random();
+        }, GetTSLIST: function (tsids) {
+            $.getJSON('/API/VIEWAPI.ashx?Action=JYGL_GETTSIST', { P1: tsids }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.TSData = resultData.Result;
+
+                }
+            })
+        },
+        getnextmon: function (date) {
+            var arr = date.split('-');
+            var year = arr[0]; //获取当前日期的年份  
+            var month = arr[1]; //获取当前日期的月份  
+            var day = arr[2]; //获取当前日期的日  
+            var days = new Date(year, month, 0);
+            days = days.getDate(); //获取当前日期中的月的天数  
+            var year2 = year;
+            var month2 = parseInt(month) + 1;
+            if (month2 == 13) {
+                year2 = parseInt(year2) + 1;
+                month2 = 1;
+            }
+            var day2 = day;
+            var days2 = new Date(year2, month2, 0);
+            days2 = days2.getDate();
+            if (day2 > days2) {
+                day2 = days2;
+            }
+            if (month2 < 10) {
+                month2 = '0' + month2;
+            }
+
+            var t2 = year2 + '-' + month2 + '-' + day2;
+            return t2;
+        }
+    });//# sourceURL=MJYGL.js;
+
+</script>

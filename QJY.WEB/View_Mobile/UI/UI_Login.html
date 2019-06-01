@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>登录</title>
+    <link rel="stylesheet" type="text/css" href="/View_Mobile/css/login.css">
+    <link href="/View_Mobile/js/layer/need/layer.css" rel="stylesheet" />
+    <script src="/View_Mobile/js/layer/layer.m.js"></script>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script src="/View_Mobile/js/avalon1.47.js"></script>
+    <script src="/View_Mobile/js/ComFunJS.js"></script>
+    <script>
+        function changecode(obj) {
+            $(obj).attr("src", "/Tools/YZMCode.aspx?r=" + Math.random());
+        }
+
+        var model = avalon.define({
+            $id: "Login",
+            username: "13949029503",
+            Pasword: "abc123",
+            yzm: "",
+            LoginUser: function (dom) {
+
+                var msg = "";
+
+                if ($.trim(model.username) == "") {
+
+                    msg = "请输入用户名";
+                    ComFunJS.winwarning(msg);
+                    return;
+                }
+
+                if ($.trim(model.Pasword) == "") {
+
+                    msg = "请输入密码";
+                    ComFunJS.winwarning(msg);
+                    return;
+                }
+                $.getJSON('/API/WXAPI.ashx?Action=LOGIN', { "password": model.Pasword, "UserName": model.username, "chkcode": "APP"}, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        ComFunJS.setCookie('szhlcode', resultData.Result);
+                        ComFunJS.setCookie('username', resultData.Result1, 20000);
+                        ComFunJS.setCookie('fileapi', resultData.Result2, 20000);
+
+                        
+                        location.href = "/View_Mobile/UI/UI_ZHBG_INDEX.html";
+                    }
+                })
+
+            }
+        })
+    </script>
+</head>
+<body style="display: table; width: 100%" ms-controller="Login">
+
+    <div class="form-box">
+        <div class="logo-teacher tc" style="font-size: 40px; color: #1C8DF4">
+            企捷科技
+        </div>
+        <div class="logo-teacher tc" style="font-size: 16px;">
+            协同办公系统
+        </div>
+        <div class="input-panel" style="margin-top: 100px;">
+            <input type="text" placeholder="输入账号" ms-duplex="username">
+        </div>
+        <div class="input-panel">
+            <input type="password" placeholder="密码" ms-duplex="Pasword">
+        </div>
+        <div class="input-panel" style="padding-bottom: 6px; padding-top: 2px">
+            <input type="text" placeholder="输入验证码" ms-duplex="yzm" style="width: 70%">
+            <img src="../../ToolS/YZMCode.aspx" alt="Alternate Text" style="width: 28%" onclick="changecode(this)" />
+        </div>
+        <div class="input-panel-btn">
+            <button ms-click="LoginUser(this)">
+                登录
+            </button>
+            <div class="login-zc"></div>
+        </div>
+    </div>
+</body>
+</html>

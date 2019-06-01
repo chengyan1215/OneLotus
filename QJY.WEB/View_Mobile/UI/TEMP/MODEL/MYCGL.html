@@ -1,0 +1,324 @@
+﻿<div style="background: #fbf9fe" ms-controller="MYCGL">
+    <div ms-if="isHasDataQX=='Y'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">申请人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{ComFunJS.convuser(modelData.SYUser)}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">开始时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="StartTime" placeholder="请选择开始时间" ms-duplex="modelData.StartTime" class="weui_input szhl szhl_require">
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">结束时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="EndTime" placeholder="请选择结束时间" ms-duplex="modelData.EndTime" class="weui_input szhl szhl_require">
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">用车人数</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.SYRS" type="tel" min="1" placeholder="请输入用车人数" class="weui_input szhl szhl_require szhl_Int" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">行程类别</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select ms-duplex="modelData.XCType" class="weui-select ">
+                        <option value="">请选择</option>
+                        <option ms-attr-selected="modelData.XCType=='省内'">省内</option>
+                        <option ms-attr-selected="modelData.XCType=='短途'">短途</option>
+                        <option ms-attr-selected="modelData.XCType=='长途'">长途</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">出发地点</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.StartAddress" type="text" placeholder="请输入出发地点" class="weui_input szhl szhl_require" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">目的地点</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.EndAddress" type="text" placeholder="请输入目的地点" class="weui_input szhl szhl_require" />
+                </div>
+            </div>
+
+        </div>
+        <div class="weui_cells_title">使用说明</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd" style="display: none;">
+                    <label class="weui_label label">使用说明</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea ms-duplex="modelData.Remark" rows="4" placeholder="请输入使用说明" class="weui_textarea"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title" >车辆信息 <a href="/View_Mobile/UI/UI_CAR_LIST.html?isview=1" class="external"  style="float:right">查看</a> </div>
+        <div class="weui_cells weui_cells_form" ms-if="DataID">
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label label">使用车辆</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select ms-duplex="modelData.CarID" class="weui-select ">
+                        <option value="">请选择</option>
+                        <option ms-repeat-item="ColumnData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.CarID?'selected':''">{{item.CarBrand+'-'+item.CarNum}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">驾驶人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input id="jsr" ms-duplex="modelData.JSR" type="text" placeholder="请输入驾驶人" class="weui_input szhl szhl_getPeoples single" />
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">图片上传</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" ms-duplex="modelData.Files" class="wximgupload" style="display: none;" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ms-if="isHasDataQX=='N'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">申请人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{ComFunJS.convuser(modelData.SYUser)}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">开始时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div ms-if="modelData.StartTime">{{modelData.StartTime|date('yyyy-MM-dd HH:mm')}}</div>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">结束时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div ms-if="modelData.StartTime">{{modelData.EndTime|date('yyyy-MM-dd HH:mm')}}</div>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">用车人数</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.SYRS}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label label">行程类别</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.XCType}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">出发地点</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.StartAddress}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">目的地点</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.EndAddress}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title" ms-if="modelData.Remark">使用说明</div>
+        <div class="weui_cells weui_cells_form" ms-if="modelData.Remark">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.Remark|html}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title" >用车信息</div>
+        <div class="weui_cells weui_cells_form" >
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">使用车辆</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div ms-if="carData.ID">{{carData.CarBrand+'-'+carData.CarNum}}</div>
+                    <div ms-if="!modelData.CarID">无</div>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label label">驾驶人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{ComFunJS.convuser(modelData.JSR)}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title" ms-if="modelData.Files">图片上传</div>
+        <div class="weui_cells weui_cells_form" ms-if="modelData.Files">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div class="viewimg">{{modelData.Files}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+
+    var tempmodel = avalon.define({
+        $id: "MYCGL",
+        name: "用车管理",
+        ColumnData: [],
+        temptype: "edit",
+        tpData: [],
+        carData: {},
+        dataid: "",
+        wximg: "",
+        CarID: ComFunJS.getQueryString("rid"),
+        modelData: { "CarID": "", "XCType": "", "StartTime": "", "EndTime": "", "StartAddress": "", "EndAddress": "", "SPUser": "", "Remark": "", "JSR": "", "SYUser": ComFunJS.getnowuser(), "SYRS": "" },
+        inittemp: function (strId) {
+
+            $.getJSON('/API/VIEWAPI.ashx?Action=YCGL_GETKYCLLIST', { P1: "all" }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.ColumnData = resultData.Result;
+                    if (resultData.Result.length > 0) {
+                        if (tempmodel.CarID) {
+                            tempmodel.modelData.CarID = tempmodel.CarID;
+                        }
+                    }
+                }
+            })
+
+
+            if (strId) {
+                tempmodel.dataid = strId;
+                //编辑加载数据
+                $.getJSON('/API/VIEWAPI.ashx?Action=YCGL_GETYCGLMODEL', { P1: strId }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result;
+                        tempmodel.tpData = resultData.Result1;
+                        if (resultData.Result2) {
+                            tempmodel.carData = resultData.Result2;
+                        }
+
+                        ComFunJS.uploadimgnew(tempmodel.tpData);
+                        ComFunJS.viewimg(tempmodel.tpData);
+
+                        if (tempmodel.modelData.StartTime && tempmodel.modelData.StartTime.length > 16) {
+                            tempmodel.modelData.StartTime = tempmodel.modelData.StartTime.substring(0, 16);
+                        }
+                        if (tempmodel.modelData.StartTime) {
+                            var ss = tempmodel.modelData.StartTime.split(' ');
+                            var ss1 = ss[0].split('-');
+                            var ss2 = ss[1].split(':');
+                            var hh = ss2[0];
+                            if (hh.substring(0, 1) == "0") { hh = hh.substring(1, 1); }
+                            $("#StartTime").datetimePicker({
+                                value: [ss1[0], ss1[1], ss1[2], hh, ss2[1]]
+                            });
+                        }
+                        if (tempmodel.modelData.EndTime && tempmodel.modelData.EndTime.length > 16) {
+                            tempmodel.modelData.EndTime = tempmodel.modelData.EndTime.substring(0, 16);
+                        }
+
+                        if (tempmodel.modelData.EndTime) {
+                            var ss = tempmodel.modelData.EndTime.split(' ');
+                            var ss1 = ss[0].split('-');
+                            var ss2 = ss[1].split(':');
+                            var hh = ss2[0];
+                            if (hh.substring(0, 1) == "0") { hh = hh.substring(1, 1); }
+                            $("#EndTime").datetimePicker({
+                                value: [ss1[0], ss1[1], ss1[2], hh, ss2[1]]
+                            });
+                        }
+                        setTimeout("ComFunJS.initForm()", 500)
+                    }
+                })
+            } else {
+                var dates = ComFunJS.getnowdate("yyyy-mm-dd-hh-mm").split('-');
+                $("#StartTime").datetimePicker({
+                    value: [dates[0], dates[1], dates[2], dates[3], dates[4]]
+                });
+                $("#EndTime").datetimePicker({
+                    value: [dates[0], dates[1], dates[2], dates[3], dates[4]]
+                });
+
+                tempmodel.modelData.StartTime = dates[0] + "-" + dates[1] + "-" + dates[2] + " " + dates[3] + ":" + dates[4];
+                tempmodel.modelData.EndTime = dates[0] + "-" + dates[1] + "-" + dates[2] + " " + dates[3] + ":" + dates[4];
+
+                ComFunJS.uploadimgnew();
+                ComFunJS.initForm();
+            }
+
+
+        },//初始化
+        SaveData: function (callback) {
+            tempmodel.modelData.Files = "";
+            $("#imglist .tpli").each(function () {
+                if ($(this).hasClass("wximg")) { //微信上传未处理的图片
+                    if (tempmodel.wximg) {
+                        tempmodel.wximg += ",";
+                    }
+                    tempmodel.wximg += $(this).attr("itemid");
+
+                } else {
+                    if (tempmodel.modelData.Files) {
+                        tempmodel.modelData.Files = tempmodel.modelData.Files + ',' + $(this).attr("itemid");
+                    }
+                    else {
+                        tempmodel.modelData.Files = $(this).attr("itemid");
+                    }
+                }
+
+            })
+            tempmodel.modelData.JSR = $("#jsr").val();
+
+            $.getJSON("/API/VIEWAPI.ashx?ACTION=YCGL_ADDYCGL&r=" + Math.random(), { P1: JSON.stringify(tempmodel.modelData.$model), P2: tempmodel.wximg }, function (result) {
+                return callback.call(this, result);
+            });
+        },
+        WFComplate: function () {
+            $.post("/API/VIEWAPI.ashx?ACTION=YCGL_SENDMSG", { P1: JSON.stringify(tempmodel.modelData.ID) }, function (result) {
+            });
+        },
+        Complate: function () {
+            window.location.href = "/View_Mobile/UI/UI_YCGL_LIST.html?r=" + Math.random();
+        },
+        CancelWF: function (strId) {
+            $.getJSON('/API/VIEWAPI.ashx?Action=YCGL_DELYC', { P1: strId }, function (resultData) {
+            })
+        },
+
+
+    });//# sourceURL=MYCGL.js;
+
+</script>

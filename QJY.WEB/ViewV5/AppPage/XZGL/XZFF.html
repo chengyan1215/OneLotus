@@ -1,0 +1,1082 @@
+﻿<style>
+    .progress-of .list {
+        width: 25%;
+    }
+
+    td {
+        min-width: 120px;
+    }
+
+    th {
+        background: #f5f5f5;
+    }
+
+    #gzd {
+        min-height: 350px;
+    }
+
+        #gzd > div {
+            /*display: none;*/
+        }
+
+    .border-1 {
+        border: 1px solid #eee;
+    }
+
+    .article-wages {
+        float: left;
+        width: 150px;
+        height: 100%;
+        background: #f7f7f7;
+        overflow-y: auto;
+    }
+
+        .article-wages li {
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+            .article-wages li.active {
+                background: #fff;
+                color: #7bb7d5;
+            }
+
+    .article-wages-right {
+        margin-left: 150px;
+        height: 100%;
+        overflow-y: auto;
+        width: 600px;
+    }
+
+    .mail-head {
+        /* width: 100%; */
+        height: 33px;
+        line-height: 33px;
+        padding: 0 10px;
+        border: 1px solid #d9dadc;
+        border-radius: 2px;
+        width: 335px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .show-table table td {
+        border: 1px solid #e7e7eb;
+        padding: 10px 5px;
+        white-space: nowrap;
+    }
+
+    .output-key {
+        width: 80px;
+        background-color: #3498db;
+        color: #fff;
+        padding-right: 10px;
+        text-align: right;
+    }
+
+    .tab .col-xs-4 {
+        min-height: 450px;
+        border-right: 1px dotted #ccc;
+        padding-left: 25px;
+        padding-right: 25px;
+        position: relative;
+        font-size: 14px;
+    }
+
+        .tab .col-xs-4 p {
+            line-height: 22px;
+        }
+
+        .tab .col-xs-4:last-child {
+            border: none;
+        }
+
+    .btn-sc {
+        position: absolute;
+        left: 50%;
+        margin-left: -50px;
+        bottom: 50px;
+    }
+
+
+    th {
+        text-align: center;
+    }
+
+    .input-box {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+        .input-box input[type="text"] {
+            border: none;
+            width: 100%;
+            text-align: center;
+        }
+
+    .add-sc-fun {
+        font-size: 30px;
+        background: #c5c5c5;
+        color: #fff;
+        width: 15px;
+        height: 15px;
+        display: inline-block;
+        line-height: 10px;
+        border-radius: 50%;
+        position: absolute;
+        left: 0;
+        cursor: pointer;
+        top: 3px;
+    }
+
+        .add-sc-fun.add {
+            font-size: 15px;
+            font-weight: normal;
+            line-height: 15px;
+            right: 0;
+            left: auto;
+            background: none;
+            top: 1px;
+        }
+
+        .add-sc-fun.add2 {
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 12px;
+            right: 0;
+            left: auto;
+            top: 1px;
+        }
+
+        .add-sc-fun.add ins {
+            color: #ccc;
+            text-decoration: none;
+        }
+
+    label > i {
+        color: red;
+    }
+
+    .pCard {
+        float: none;
+        display: inline-block;
+        vertical-align: top;
+        border: 1px solid #d7dce1;
+        box-shadow: 0 0px 2px #d7dce1;
+        background-color: #f9f9f7;
+        position: relative;
+        -webkit-transition: all .5s ease-in-out;
+        -moz-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+        min-width: 130px;
+        margin: 9px 6px 9px 9px;
+    }
+
+    .pHead {
+        margin: 4px;
+        border-radius: 3px;
+        float: left;
+        height: 45px;
+        width: 45px;
+    }
+
+    .pCard .pName {
+        min-height: 14px;
+        max-width: 109px;
+    }
+
+    .pName {
+        padding: 6px 0 0 0;
+        position: relative;
+        display: inline-block;
+        font-weight: normal;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        color: brown;
+    }
+
+    .pCard:hover {
+        border-color: #66c9f3;
+        box-shadow: 0 0px 10px #66c9f3;
+        cursor: pointer;
+    }
+
+    .pCardSelect {
+        border-color: #66c9f3;
+        box-shadow: 0 0px 10px #66c9f3;
+        cursor: pointer;
+        color: #66c9f3;
+    }
+</style>
+
+
+
+<div class="padding20" ms-controller="XXFFIMPORT">
+    <div class="progress-of tc" style="margin-top: 40px; margin-bottom: 30px;">
+        <div class="list active">
+            <span></span>
+            <i>1.上传工资表</i>
+        </div>
+        <div class="list">
+            <span></span>
+            <i>2.预览工资表</i>
+        </div>
+        <div class="list">
+            <span></span>
+            <i>3.发送工资条</i>
+        </div>
+        <div class="list">
+            <span></span>
+            <i>4.发送结果</i>
+        </div>
+    </div>
+
+    <div id="gzd">
+        <!-- 1 -->
+        <div class="border-1 padding20 tab oh">
+
+            <div class="col-xs-4">
+                <p class="text-info">提示：</p>
+                <p class="pt20">
+                    1、支持上传任意格式的Excel工资表来以微信或短信方式发送工资条<a class="text-danger" href="/ViewV5/AppPage/XZGL/批量发薪通知模板.xlsx" target="_blank">（下载工资表模板）</a>
+                </p>
+                <p class="mt10">2、建议您的Excel第一行数据为工资表的列头，列数不限，但列名最好简单有意义，<i class="text-danger">不能为空，不能有合并单元格</i></p>
+                <p class="mt10">3、尽量不要包含特殊字符，上传前建议您删除无用数据行。</p>
+                <p class="mt10">4、上传的Excel文档中务必包含：姓名，用户编号（必填项），并且要确保这些列的数据的正确无误。</p>
+
+                <p class="tc pt20 btn-sc oh">
+                    <button type="button" class="btn btn-success btn-lg" ms-click="djsc()">上传工资条</button>
+                    <input type="file" name="upFile" id="upFile" class="form-control" ms-change="YLWJ()" accept=".xls,.xlsx" style="display: none;">
+                </p>
+                <p class="tc pt20">
+                    <div class="tp-man mt5 c999" style="width: 60%; display: none; background: transparent;">
+                        导入中....
+                    </div>
+                    <div>
+                        <span style="color: red;">{{msg|html}}</span>
+                    </div>
+                </p>
+            </div>
+            <div class="col-xs-4">
+                <p class="text-info mb20">提示：选择最近的发放历史复制,默认最近一条记录</p>
+
+                <div ms-repeat-el="LastData" class="pCard " ms-class-1="pCardSelect:$first" ms-click="xzgz(el)" style=" text-align: center; background-color: transparent;">
+                    <div style="height: 90px"><i class="iconfont icon-gongzidan0240" style="font-size: 70px;"></i></div>
+                    <div class="pName">{{el.title}}</div>
+                </div>
+                <p class="tc pt20 btn-sc oh">
+                    <button type="button" class="btn btn-info btn-lg" ms-click="CopySYGZ()">复制历史工资</button>
+
+                </p>
+
+            </div>
+            <div class="col-xs-4">
+                <p class="tc pt20 btn-sc oh">
+                    <button type="button" class="btn btn-warning btn-lg" ms-click="UserList()">直接添加</button>
+                </p>
+            </div>
+        </div>
+        <!-- 2 -->
+        <div class=" tab" style="display: none;">
+            <div class=" border-1  padding20">
+                <div class="table-responsive" style="min-height: 300px; max-height: 500px; overflow: auto;">
+
+                    <table class="table table-bordered  tc ft14">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">
+                                    <div class="input-box">
+                                        人员
+                                        <span class="add-sc-fun add2" ms-click="OpenRow()">
+                                            +
+                                        </span>
+
+                                    </div>
+                                </th>
+                                <th rowspan="2">部门</th>
+                                <th rowspan="2">用户编号</th>
+                                <th ms-attr-colspan="colnum(XGYFData)">
+                                    <div class="input-box">
+                                        应发
+                                        <span class="add-sc-fun  add2" ms-click="OpenCol(1,'')">
+                                            +
+
+                                        </span>
+
+                                    </div>
+                                </th>
+                                <th rowspan="2">应发合计</th>
+
+                                <th ms-attr-colspan="colnum(XGYKData)">
+                                    <div class="input-box">
+                                        应扣
+                                        <span class="add-sc-fun  add2" ms-click="OpenCol(2,'')">
+                                            +
+
+                                        </span>
+
+                                    </div>
+                                </th>
+                                <th rowspan="2">应扣合计</th>
+
+                                <th rowspan="2">实发合计</th>
+                            </tr>
+                            <tr>
+                                <th ms-repeat="XGYFData">
+                                    <div class="input-box">
+                                        {{$key|html}}
+                                        <span class="add-sc-fun add">
+                                            <ins class="iconfont icon-shezhi  ft12" data-toggle="dropdown"></ins>
+                                            <ul class="dropdown-menu  menu-tip animated fadeInRight c666">
+                                                <li>
+                                                    <a ms-click="OpenCol(1,$key)">修改</a>
+                                                </li>
+                                                <li>
+                                                    <a ms-click="DelCol(1,$key,$event)">删除</a>
+                                                </li>
+                                            </ul>
+                                        </span>
+                                    </div>
+                                </th>
+                                <th ms-repeat="XGYKData">
+                                    <div class="input-box">
+                                        {{$key|html}}
+                                        <span class="add-sc-fun add">
+                                            <ins class="iconfont icon-shezhi  ft12" data-toggle="dropdown"></ins>
+                                            <ul class="dropdown-menu  menu-tip animated fadeInRight c666">
+                                                <li>
+                                                    <a ms-click="OpenCol(2,$key)">修改</a>
+                                                </li>
+                                                <li>
+                                                    <a ms-click="DelCol(2,$key,$event)">删除</a>
+                                                </li>
+                                            </ul>
+                                        </span>
+
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ms-repeat-el="ctData" ms-attr-name="$key">
+                                <td>
+                                    <div class="input-box">
+                                        <span class="add-sc-fun" ms-click="DelRow(el,$event)">-</span>{{el.姓名}}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-box">
+                                        {{el.部门}}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-box">
+                                        {{el.用户编码}}
+                                    </div>
+                                </td>
+                                <td ms-repeat="el.YF">
+                                    <div class="input-box">
+                                        <input type="text" ms-duplex="$val" ms-change="xg(el)" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-box">
+                                        {{el.应发合计}}
+                                    </div>
+                                </td>
+                                <td ms-repeat="el.YK">
+                                    <div class="input-box">
+                                        <input type="text" ms-duplex="$val" ms-change="xg(el)" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-box">
+                                        {{el.应扣合计}}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-box">
+                                        {{el.实发合计}}
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="3">合计：</th>
+                                <th id="yfhj" ms-attr-colspan="colnum(XGYFData)"></th>
+                                <th>{{yfhj}}(元)</th>
+                                <th id="ykhj" ms-attr-colspan="colnum(XGYKData)"></th>
+                                <th>{{ykhj}}(元)</th>
+
+                                <th id="zhj">{{zhj}}</th>
+                            </tr>
+
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div>
+                <p class="text-danger mt10">请正确设置姓名，部门对应Excel文档中的列数据，否则数据将无法正确保存。</p>
+                <div class="tr mt10">
+                    <span style="color: red;">{{msg|html}}</span>
+                    <button type="button" class="btn btn-info btn-sm" ms-click="listnext(0)">上一步</button>
+                    <button type="button" class="btn btn-success btn-sm" ms-click="djsc()">重新上传</button>
+                    <button type="button" class="btn btn-info btn-sm" ms-click="listnext(2)">下一步</button>
+                </div>
+            </div>
+        </div>
+        <!-- 3 -->
+        <div class=" tab" style="display: none;">
+            <div class="border-1 padding20" style="background: #f9f9f9;">
+                <div class="form-group">
+                    <label class="self-label control-label">发薪月份：</label>
+                    <div>
+                        <select class="form-control" ms-duplex="curyMonth" ms-change="xiugaititle()">
+                            <option ms-repeat-item="yearm" ms-attr-value="item.value">{{item.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="self-label control-label">发放类型：</label>
+                    <div>
+                        <select class="form-control" ms-duplex="selxztype" ms-change="xiugaititle()">
+                            <option value="薪资">薪资</option>
+                            <option value="补助">补助</option>
+                            <option value="奖金">奖金</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="self-label control-label">标题：</label>
+                    <div class="self-con">
+                        <input placeholder="例如，20xx年xx月份工资条" type="text" class="form-control" id="xztitle">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="self-label control-label">抬头：</label>
+                    <div class="self-con">
+                        <input placeholder="如:您好,以下是您的xxxx年xx月份工资条" type="text" class="form-control" ms-duplex="taitou">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">落款：</label>
+                    <div>
+                        <input placeholder="如有疑问，请联系HR" type="text" class="form-control" ms-duplex="luokuan">
+                    </div>
+                </div>
+
+                <div class="form-group" ms-visible="UserInfo.QYinfo.IsUseWX=='Y'">
+                    <div class="icheckbox_square-blue checked  mr5" id="weixin">
+                        <input type="checkbox" id="weixinbox">
+                        <span class="iconfont icon-check ft12"></span>
+                    </div>
+                    <label for="weixinbox">发送微信</label>
+                </div>
+                <div class="form-group">
+                    <div class="icheckbox_square-blue  mr5" id="duanxin">
+                        <input type="checkbox" id="duanxinbox">
+                        <span class="iconfont icon-check ft12"></span>
+                    </div>
+                    <label for="duanxinbox">发送短信</label>
+                </div>
+            </div>
+            <div class="tr mt20">
+                <span style="color: red;">{{msg|html}}</span>
+                <button type="button" class="btn btn-info btn-sm" ms-click="listnext(1)">上一步</button>
+                <button type="button" class="btn btn-warning btn-sm" ms-click="importdata()">发送工资条</button>
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#gzyl" ms-click="selusergz(ctData[0])"><i class="iconfont icon-look mr5"></i>预览工资条</button>
+            </div>
+        </div>
+        <!-- 4 -->
+        <div class="border-1 padding20 tab " style="padding: 10% 20%; display: none;">
+            <p class="tc"><i class="iconfont icon-mail-success" style="font-size: 100px; color: #0094ff"></i></p>
+            <p class="pt20 tc">
+                工资条已发放成功！可通过发放记录查看发放信息！
+            </p>
+            <p class="tc pt20">
+                <span style="color: red;">{{msg|html}}</span><br />
+                <button type="button" class="btn btn-success btn-sm" ms-click="selmenu()">查看明细</button>
+            </p>
+        </div>
+    </div>
+
+    <div class="modal fade" id="gzyl" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 800px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">工资预览</h4>
+                </div>
+                <div class="modal-body" style="height: 600px; overflow: auto;">
+                    <div class="article-wages">
+                        <ul>
+                            <li ms-class-1="active:$index==0" ms-repeat-item="ctData" ms-click="selusergz(item,this)">
+                                <i>{{item.姓名}}</i>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="article-wages-right">
+                        <div class=" padding20">
+                            <div>标题：<span id="yltitle" class="mail-head color-6"></span></div>
+                            <h4 style="font-weight: 700" class="pt20 pb20 ft16">
+                                <span id="selusername"></span>
+                                <br>
+                                {{taitou}}
+                            </h4>
+                            <div class="show-table">
+                                <table class="odd-col color-6">
+                                    <tr>
+                                        <td class="output-key">姓名</td>
+                                        <td>{{YLName}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="output-key">部门</td>
+                                        <td>{{YLBM}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="output-key">用户编码</td>
+                                        <td>{{YLTel}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="output-key">实发合计</td>
+                                        <td>{{YLHJ}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="output-key" colspan="2">应发合计：{{YFHJ}}</td>
+                                    </tr>
+                                    <tr ms-repeat="YFData">
+                                        <td class="output-key">
+                                            {{$key}}
+                                        </td>
+                                        <td class="output-value">
+                                            {{$val}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="output-key" colspan="2">应扣合计：{{YKHJ}}</td>
+                                    </tr>
+                                    <tr ms-repeat="YKData">
+                                        <td class="output-key">
+                                            {{$key}}
+                                        </td>
+                                        <td class="output-value">
+                                            {{$val}}
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                            <h4 style="font-weight: 700" class="pt20 pb20 ft16">{{luokuan}}</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="ModifyColName" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 500px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">列名</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            <label for="branchName" class="col-xs-4 control-label text-right">列名</label>
+                            <div class="col-xs-6">
+                                <input type="text" class="form-control" id="ColName" ms-duplex="ColName" placeholder="请输入列名" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-success" id="conaddForder" ms-click="ColAdd()"><i class="fa fa-spinner fa-spin" style="display: none"></i>确&nbsp;&nbsp;认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="AddRow" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 500px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">新增人员</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            <label for="Name" class="col-xs-4 control-label text-right"><i>*</i>姓名</label>
+                            <div class="col-xs-6">
+                                <input type="text" class="form-control" id="Name" ms-duplex="UserData.Name" placeholder="请输入姓名" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Tel" class="col-xs-4 control-label text-right"><i>*</i>用户编码</label>
+                            <div class="col-xs-6">
+                                <input type="text" class="form-control" id="Tel" ms-duplex="UserData.Tel" placeholder="请输入用户编码" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="BM" class="col-xs-4 control-label text-right">部门</label>
+                            <div class="col-xs-6">
+                                <input type="text" class="form-control" id="BM" ms-duplex="UserData.BM" placeholder="请输入部门" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-success" id="conaddForder" ms-click="AddRow()"><i class="fa fa-spinner fa-spin" style="display: none"></i>确&nbsp;&nbsp;认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.icheckbox_square-blue').click(function () {
+        $(this).toggleClass("checked");
+    })
+
+    function getData() {
+        return tempindex.ctData;
+    }
+    var tempindex = avalon.define({
+        $id: "XXFFIMPORT",
+        LastData: [],
+        InitWigetData: function () {
+
+            var now = new Date();
+            var year = now.getFullYear();
+            var mm = now.getMonth() + 1;
+            for (var i = 1; i <= 12; i++) {
+                var str = (year - 1) + "年" + i + "月";
+                tempindex.yearm.push({ "name": str, "value": str })
+            }
+            for (var i = 1; i <= 12; i++) {
+                var str = year + "年" + i + "月";
+                tempindex.yearm.push({ "name": str, "value": str })
+            }
+            tempindex.curyMonth = year + "年" + mm + "月";
+            tempindex.xiugaititle();
+
+            $.getJSON('/API/VIEWAPI.ashx?Action=XZGL_GETGZTLAST', {}, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    if (resultData.Result.length > 0) {
+                        tempindex.LastData = resultData.Result;
+                        if (resultData.Result.length > 0) {
+                            tempindex.ctData = JSON.parse(resultData.Result[0].salaryData);
+                            tempindex.XGYFData = tempindex.ctData[0].YF;
+                            tempindex.XGYKData = tempindex.ctData[0].YK;
+                        }
+
+                    }
+                }
+            })
+        },
+        xiugaititle: function () {
+            $('#xztitle').val(tempindex.curyMonth + tempindex.selxztype);
+
+            tempindex.taitou = "您好!以下是您" + tempindex.curyMonth + tempindex.selxztype;
+        },
+        clog: function () {
+            console.log(JSON.stringify(tempindex.ctData))
+        },
+        selmenu: function () {
+            $('.menu-general li a').each(function (i) {
+                if ($('.menu-general li a').eq(i).text() == "发放记录") {
+                    $('.menu-general li').eq(i).click();
+                }
+            })
+        },
+        selxztype: "薪资",
+        curyTitle: "",
+        curyMonth: "",
+        yearm: [],
+        ctData: [],
+        lmData: {},
+        msg: "",
+        taitou: "",
+        luokuan: "如有疑问,请联系HR",
+        djsc: function () {
+            $("#upFile").trigger("click");
+        },
+        YLWJ: function () {
+            tempindex.ctData.clear();
+            tempindex.msg = "";
+            if (document.getElementById("upFile").files.length > 0) {
+                $(".tp-man").show();
+                var formData = new FormData();
+                formData.append("upFile", document.getElementById("upFile").files[0]);
+                $.ajax({
+                    url: "/API/VIEWAPI.ashx?ACTION=XZGL_EXCELTOTABLENEW&headrow=2&r=" + Math.random(),
+                    type: "POST",
+                    data: formData,
+                    /**
+                    *必须false才会自动加上正确的Content-Type
+                    */
+                    contentType: false,
+                    /**
+                    * 必须false才会避开jQuery对 formdata 的默认处理
+                    * XMLHttpRequest会对 formdata 进行正确的处理
+                    */
+                    processData: false,
+                    success: function (result) {
+                        $(".tp-man").hide();
+                        document.getElementById("upFile").outerHTML = document.getElementById("upFile").outerHTML;
+                        $("#upFile").change(function () {
+                            tempindex.YLWJ();
+                        });
+                        var r = $.parseJSON(result);
+                        if (r.ErrorMsg == "") {
+                            if (r.Result) {
+                                $(r.Result).each(function (inx, itm) {
+                                    itm.合计 = tempindex.hjje(itm);
+                                })
+                                tempindex.ctData = r.Result;
+
+                                tempindex.listnext(1);
+                                if (r.Result1.length > 0) {
+                                    tempindex.luokuan = r.Result1[0].Inscribe;
+                                }
+                            }
+                            if (r.Result.length > 0) {
+                                //tempindex.lmData = r.Result[0];
+                                tempindex.XGYFData = r.Result[0].YF;
+                                tempindex.XGYKData = r.Result[0].YK;
+                            }
+                            tempindex.hj();
+                        }
+                        else {
+                            tempindex.msg = r.ErrorMsg;
+                        }
+                    }
+                });
+            }
+            else {
+                tempindex.msg = "请上传文件";
+            }
+        },
+        listnext: function (indexs) {
+            $(".list").removeClass("active");
+            $(".list").eq(indexs).addClass("active");
+            $(".tab").hide();
+            $(".tab").eq(indexs).show();
+        },
+        importdata: function () {
+            if (tempindex.ctData.length > 0) {
+                var ffdx = 0;
+                if ($("#duanxin").hasClass("checked")) {
+                    ffdx = 1;
+                }
+                var ffwx = 0;
+                if ($("#weixin").hasClass("checked")) {
+                    ffwx = 1;
+                }
+                $.post('/API/VIEWAPI.ashx?Action=XZGL_FFXZ&r=' + Math.random(),
+                    {
+                        "P1": JSON.stringify(tempindex.ctData.$model),
+                        "P2": $('#xztitle').val(),
+                        "taitou": tempindex.taitou,
+                        "luokuan": tempindex.luokuan,
+                        "ffdx": ffdx,
+                        "ffwx": ffwx,
+                        "ym": tempindex.curyMonth
+                    }, function (resultData) {
+                        if (resultData.ErrorMsg == "") {
+                            tempindex.listnext(3);
+                            if (resultData.Result) {
+                                tempindex.msg = "部分发送成功！！<br/>" + resultData.Result + "-->失败！！";
+                            }
+                            //else {
+                            //    tempindex.msg = "发送成功！！ ";
+                            //}
+                        }
+
+                    })
+            }
+            else {
+                tempindex.msg = "请选择导入的文件";
+            }
+        },
+        //seluser: {},
+        YLName: "",
+        YLBM: "",
+        YLTel: "",
+        YLHJ: "",
+        YFHJ: "",
+        YKHJ: "",
+        YFData: {},
+        YKData: {},
+        selusergz: function (item, uli) {
+            if (uli) {
+                $('.article-wages ul li').removeClass('active');
+                $(uli).addClass('active');
+            }
+            else {
+                $('.article-wages ul li').removeClass('active');
+                $('.article-wages ul li').eq(0).addClass('active');
+            }
+            //tempindex.seluser = item;
+            tempindex.YLName = item.姓名;
+            tempindex.YLBM = item.部门;
+            tempindex.YLTel = item.用户编码;
+            tempindex.YLHJ = item.实发合计;
+            tempindex.YFHJ = item.应发合计;
+            tempindex.YKHJ = item.应扣合计;
+            tempindex.YFData = item.YF;
+            tempindex.YKData = item.YK;
+            $('#selusername').html(item.姓名)
+            $("#yltitle").html($('#xztitle').val());
+        },
+        ylhj: function (obj) {
+            var m = 0;
+            if (obj.$model) {
+                obj = obj.$model;
+            }
+            $.each(obj, function (i, n) {
+                if (!isNaN(n)) {
+                    m = m + n * 1;
+                }
+            })
+            return m.toFixed(2);
+        },
+        colnum: function (obj) {
+            return Object.getOwnPropertyNames(obj.$model).length
+        },
+        hjje: function (el) {
+            var m = tempindex.ylhj(el.YF) * 1;
+            var n = tempindex.ylhj(el.YK) * 1;
+            return (m - n).toFixed(2);
+        },
+        yfhj: 0,
+        ykhj: 0,
+        zhj: 0,
+        hj: function () {
+            var m = 0;
+            var n = 0;
+            $(tempindex.ctData).each(function (i, itm) {
+                m = m + tempindex.ylhj(itm.YF) * 1;
+                itm.应发合计 = tempindex.ylhj(itm.YF);
+                n = n + tempindex.ylhj(itm.YK) * 1;
+                itm.应扣合计 = tempindex.ylhj(itm.YK);
+                itm.实发合计 = (itm.应发合计 * 1 - itm.应扣合计 * 1).toFixed(2);
+            })
+            tempindex.yfhj = m.toFixed(2);
+            tempindex.ykhj = n.toFixed(2);
+            tempindex.zhj = (m - n).toFixed(2);
+        },
+        xg: function (el) {
+            el.合计 = tempindex.hjje(el);
+            tempindex.hj();
+        },
+        XGYFData: {},
+        XGYKData: {},
+        ColName: "",
+        ColName1: "",
+        Type: "",
+        OpenCol: function (type, str) {
+            tempindex.Type = type;
+            tempindex.ColName = str;
+            tempindex.ColName1 = str;
+            $('#ModifyColName').modal('show');
+        },
+        ColAdd: function () {
+            var ColName = $("#ColName").val();
+            if (!ColName) {
+                ComFunJS.winwarning("请输入列名");
+                return;
+            }
+            if (tempindex.ColName1 != ColName) {
+                $(tempindex.ctData).each(function (inx, itm) {
+                    if (tempindex.Type == 1) {
+                        var yf = itm.YF.$model;
+                        if (tempindex.ColName1) {
+                            var yf1 = {};
+                            $.each(yf, function (i, n) {
+                                if (i == tempindex.ColName1) {
+                                    i = ColName;
+                                }
+                                yf1[i] = n;
+                            })
+                            yf = yf1;
+                        }
+                        else {
+                            yf[ColName] = "";
+                        }
+
+                        itm.YF = yf;
+                    }
+                    else {
+                        var yk = itm.YK.$model;
+                        if (tempindex.ColName1) {
+                            var yk1 = {};
+                            $.each(yk, function (i, n) {
+                                if (i == tempindex.ColName1) {
+                                    i = ColName;
+                                }
+                                yk1[i] = n;
+                            })
+                            yk = yk1;
+                        }
+                        else {
+                            yk[ColName] = "";
+                        }
+                        itm.YK = yk;
+                    }
+                })
+                tempindex.XGYFData = tempindex.ctData[0].YF;
+                tempindex.XGYKData = tempindex.ctData[0].YK;
+            }
+            $('#ModifyColName').modal('hide');
+        },
+        DelCol: function (type, str, event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            top.ComFunJS.winconfirm("确认要删除吗", function () {
+                if (type == 1) {
+                    var cot = tempindex.colnum(tempindex.XGYFData);
+                    if (cot <= 1) {
+                        ComFunJS.winwarning("应发至少保留一列");
+                        return;
+                    }
+                }
+                else {
+                    var cot = tempindex.colnum(tempindex.XGYKData);
+                    if (cot <= 1) {
+                        ComFunJS.winwarning("应扣至少保留一列");
+                        return;
+                    }
+                }
+                $(tempindex.ctData).each(function (inx, itm) {
+                    if (type == 1) {
+                        var yf = itm.YF.$model;
+                        $.each(yf, function (i, n) {
+                            if (i == str) {
+                                delete yf[i];
+                            }
+                        })
+
+                        itm.YF = yf;
+                    }
+                    else {
+                        var yk = itm.YK.$model;
+                        $.each(yk, function (i, n) {
+                            if (i == str) {
+                                delete yk[i];
+                            }
+                        })
+                        itm.YK = yk;
+                    }
+
+                    itm.合计 = tempindex.hjje(itm);
+                })
+                //tempindex.lmData = tempindex.ctData[0].$model;
+                tempindex.XGYFData = tempindex.ctData[0].YF;
+                tempindex.XGYKData = tempindex.ctData[0].YK;
+                tempindex.hj();
+            }, function () { })
+        },
+        DelRow: function (el, event) {
+            top.ComFunJS.winconfirm("确认要删除吗", function () {
+                tempindex.ctData.remove(el);
+                tempindex.hj();
+            }, function () { })
+        },
+        xzgz: function (el) {
+            $(".pCard").removeClass("pCardSelect");
+            $(this).addClass("pCardSelect");
+            tempindex.ctData = JSON.parse(el.salaryData);
+            tempindex.XGYFData = el.YF;
+            tempindex.XGYKData = el.YK;
+        },
+        CopySYGZ: function () {
+            if (tempindex.LastData.length > 0) {
+                tempindex.listnext(1);
+                tempindex.hj();
+            }
+            else {
+                ComFunJS.winwarning("无最近发放的工资信息");
+            }
+        },
+        UserList: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=XZGL_GETUSERLIST', {}, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    if (resultData.Result.length==0) {
+                        ComFunJS.winwarning("找不到员工!!!");
+                        return;
+                    }
+                    $(resultData.Result).each(function (inx, itm) {
+                        itm.YF = { "基本工资": "", "绩效工资": "", "加班费": "", "交通补贴": "", "岗位津贴": "", "其它应发": "" };
+                        itm.YK = { "社保": "", "公积金": "", "病事假": "", "考勤违纪": "", "个税": "", "其它应扣": "" };
+                        itm.合计 = tempindex.hjje(itm);
+                    })
+                    tempindex.ctData = resultData.Result;
+                    //tempindex.lmData = tempindex.ctData[0];
+                    if (tempindex.ctData.length > 0) {
+                        tempindex.XGYFData = tempindex.ctData[0].YF;
+                        tempindex.XGYKData = tempindex.ctData[0].YK;
+                        tempindex.listnext(1);
+                    }
+
+                }
+            })
+        },
+        UserData: { "Name": "", "BM": "", "Tel": "" },
+        OpenRow: function () {
+            tempindex.UserData.Name = "";
+            tempindex.UserData.BM = "";
+            tempindex.UserData.Tel = "";
+            $('#AddRow').modal('show');
+        },
+        AddRow: function () {
+            if (!tempindex.UserData.Name) {
+                ComFunJS.winwarning("请输入姓名");
+                return;
+            }
+            //if (!tempindex.UserData.BM) {
+            //    ComFunJS.winwarning("请输入部门");
+            //    return;
+            //}
+            if (!tempindex.UserData.Tel) {
+                ComFunJS.winwarning("请输入用户编码");
+                return;
+            }
+            var user = {};
+            user.姓名 = tempindex.UserData.Name;
+            user.部门 = tempindex.UserData.BM;
+            user.用户编码 = tempindex.UserData.Tel;
+            user.YF = {};
+            $.each(tempindex.XGYFData.$model, function (i, n) {
+                user.YF[i] = "";
+            })
+            user.YK = {};
+            $.each(tempindex.XGYKData.$model, function (i, n) {
+                user.YK[i] = "";
+            })
+            user.合计 = "";
+
+            tempindex.ctData.push(user);
+
+            $('#AddRow').modal('hide');
+        }
+    })
+    //# sourceURL=XZFF.js;
+</script>

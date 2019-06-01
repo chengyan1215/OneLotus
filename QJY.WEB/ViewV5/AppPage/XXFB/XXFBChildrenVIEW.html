@@ -1,0 +1,355 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>公告查看</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css">
+    <link href="/ViewV5/CSS/BootOver.css" rel="stylesheet" />
+    <script src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/layer/layer.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <style>
+        body {
+            -webkit-touch-callout: none;
+            -webkit-text-size-adjust: none;
+            background-color: #f3f3f3;
+        }
+
+        #activity-detail .page-content, .page-bizinfo {
+            width: 700px;
+            margin: 0 auto;
+            padding: 20px 20px 0;
+            /*border-left: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            border-right: 1px solid #ccc;*/
+        }
+
+        #nickname {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 90%;
+        }
+
+        #activity-detail .page-content .text {
+            font-size: 16px;
+        }
+
+        .page-content {
+            /*background-color: #ffffff;
+            border: 1px solid #ccc;
+            -moz-border-radius: 1px;
+            border-radius: 1px;
+            -moz-box-shadow: 0 0 10px 5px #888;
+            -webkit-box-shadow: 0 0 10px 5px #888;
+            box-shadow: 0 0 5px 2px #888;*/
+        }
+
+        .header {
+            margin-top: 20px;
+        }
+
+
+        #activity-name {
+            text-align: center;
+            color: #000;
+            font-size: 20px;
+            font-weight: 700;
+            white-space: pre-wrap;
+            word-wrap: normal;
+            word-break: normal;
+            padding-bottom: 10px;
+        }
+
+        .ms-controller, [ms-controller] {
+            display: none;
+        }
+
+        .pCard {
+            min-width: 90px;
+        }
+
+            .pCard .pName {
+                padding-left: 10px;
+            }
+
+        .page-content {
+            padding-top: 20px;
+        }
+
+        .mobl {
+            height: 480px;
+            overflow: auto;
+            border: 0;
+        }
+
+        .moble {
+            display: block;
+            width: 368px;
+            height: 700px;
+            margin: 20px auto 0 auto;
+            background: #ffffff url('/images/Vimg/bk-mobile.png') no-repeat;
+            position: relative;
+            padding-top: 110px;
+            padding-left: 13px;
+        }
+    </style>
+
+</head>
+<body ms-controller="APP_XXFB_View" id="activity-detail" style="background-color:#ffffff">
+
+    <div ms-if="model.isShow==1" style="color: red; text-align: center;margin-top:20px;"> 此新闻公告不存在或已删除</div>
+    <div class="panel-body text-center" style="padding-bottom: 0; padding-top: 0; margin-top: 20px;" ms-if="isYL=='Y'">
+        <div class="btn-group" data-toggle="buttons">
+
+            <label class="btn btn-primary active" style="padding-bottom:5px;padding-top:5px" ms-click="selType('pc')">
+                <input type="radio" name="options" id="option2" autocomplete="off" checked> 电脑预览
+            </label>
+            <label class="btn btn-primary  btn-sm" style="padding-bottom:5px;padding-top:5px" ms-click="selType('mob')">
+                <input type="radio" name="options" id="option3" autocomplete="off"> 手机预览
+            </label>
+        </div>
+    </div>
+
+    <div class="page-content" ms-repeat-item="XXFBDataList" ms-visible="isYL=='Y'&&$index==showindex">
+        <div id="img-content" style="padding-top:10px">
+            <div class="header">
+                <h1 id="activity-name" style="border-bottom: 1px dotted #ccc;">{{item.XXTitle}}</h1>
+                <p class="activity-info text-right">
+                    <a href="javascript:viewProfile();" id="post-user" class="activity-meta"><span class="text-ellipsis"></span></a>
+                    <em class="activity-meta" style="font-style:normal">作者:{{item.Author}}</em>
+                </p>
+            </div>
+            <div id="details" class="text" ms-html="item.XXContent" style="overflow: hidden; word-wrap: break-word;">
+            </div>
+            <div style="padding: 5px 0">
+                <a ms-repeat-file="item.FileList" ms-attr-href="{{ComFunJS.getfile(file.ID)}}">
+                    <div style="margin: 0px;font-size: 16px;background-color: #ffffff">
+                        <div style="font-size: 14px;border: 1px solid #C8CACD; ">
+                            <div style="margin: 5px;">
+                                <div style="height: 40px;width: 40px;float: left;">
+                                    <img ms-attr-src="getImageUrl(file.ID,file.FileExtendName)" width="40" height="40">
+                                </div><div style="margin-left: 50px;line-height: 20px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width: 100%;"><span style="text-decoration:none;color: #232528">{{file.Name+'.'+file.FileExtendName}}</span></div>
+                                <div style="margin-left: 50px;color: #75777A;line-height: 20px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width: 100%;">{{(Math.round(file.FileSize/1024))+'kb'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="page-content" ms-if="XXFBDataList.size()==0&&model.isShow==0" style="margin-top: 20px;">
+        <div id="img-content" style="padding-top:10px">
+            <div class="header">
+                <h1 id="activity-name" style="border-bottom: 1px dotted #ccc;">{{modelItemData.XXTitle}}</h1>
+                <p class="activity-info text-right">
+                    <a href="javascript:viewProfile();" id="post-user" class="activity-meta"><span class="text-ellipsis"></span></a>
+
+                    <em class="activity-meta" style="font-style:normal">作者:{{modelItemData.Author}}</em>
+                    <em id="post-date" class="activity-meta no-extra" style="font-style:normal">{{modelItemData.FBTime|date("yy年MM月dd HH:mm")}}</em>
+
+                </p>
+            </div>
+
+            <div id="details" class="text" ms-html="modelItemData.XXContent" style="overflow: hidden; word-wrap: break-word;min-height:300px">
+            </div>
+            <div style="padding: 5px 0">
+                <div style="margin: 0px;font-size: 16px;background-color: #ffffff" ms-repeat-item="FileList">
+                    <div style="font-size: 14px;border: 1px solid #C8CACD; ">
+                        <div style="margin: 5px;">
+                            <div style="height: 40px;width: 40px;float: left;">
+                                <img ms-attr-src="getImageUrl(item.ID,item.FileExtendName)" width="40" height="40">
+                            </div>
+                            <a style="float:right;color:green; font-size:14px;line-height:40px; vertical-align:middle;" ms-attr-href="{{ComFunJS.getfile(item.ID)}}">下载 >下载 </a>
+                            <div style="margin-left: 50px;line-height: 20px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width: 90%;">
+                                <a style="text-decoration:none;color: #232528" ms-attr-href="item.YLUrl" target="_blank">{{item.Name+'.'+item.FileExtendName}}</a>
+                                <br />
+                                <span style="color: #75777A;">{{(Math.round(item.FileSize/1024))+'kb'}}</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="page-toolbar">
+                <em class="activity-meta" style="font-style:normal;margin-left:0;" ms-if="modelData.isPL!=0"><a href="javascript:void(0)" ms-click="PLDIVToggle()">评论({{plData.size()}})</a></em>
+                <em class="activity-meta" style="font-style:normal;margin-left:0"><a href="javascript:void(0)" ms-attr-data-toggle="model.ReadUserCount>0?'modal':''" data-target="#ReadUserModal">已阅({{model.ReadUserCount}})</a></em>
+                <em class="activity-meta" style="font-style:normal;margin-left:0"><a href="javascript:void(0)" ms-attr-data-toggle="model.NoReadUserList.size()>0?'modal':''" data-target="#NoReadUserModal">未阅({{model.NoReadUserList.size()}})</a></em>
+                <div id="PLDiv" class="tab-pane active" style="display:none" ms-if="modelData.isPL!=0">
+                    <div class="chat-widget" style="margin-top: 10PX; margin-bottom: 10px">
+                        <ul class="list-unstyled">
+                            <li class="by-me Yan-comment" ms-repeat-item="plData">
+                                <div class="avatar" style="float: left">
+                                    <img alt="" ms-attr-src="{{ComFunJS.getfile()}}&type=TX&user={{item.CRUser}}" style="width:65px;height:65px">
+                                </div>
+                                <div class="chat-content" style="margin-left: 80px;">
+                                    <div class="chat-meta">{{item.CRUserName}} <span style="float: right"><!--ms-if-->{{item.CRDate|date("MM月dd日 HH:mm")}}</span></div>
+                                    {{item.MSGContent}}
+                                    <div class="clearfix"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" class="form-control" ms-duplex="PLContent" ms-keypress="jptj($event)" placeholder="此处输入评论内容">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" ms-on-click="AddPL()" style="padding: 5px;margin: 0;">添加评论</button>
+                        </span>
+                    </div>
+                </div>
+            </p>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td class="text-center" style="border:none"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal fade" id="ReadUserModal" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 500px">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="pCard" ms-repeat-el="ReadUserList">
+                        <div class="pName">{{ComFunJS.convertuser(el)}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="NoReadUserModal" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 500px">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="pCard" ms-repeat-el="NoReadUserList">
+                        <div class="pName">{{ComFunJS.convertuser(el)}}</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script src="/ViewV5/JS/watermark.js"></script>
+    <script src="/ViewV5/JS/JQrCode.js"></script>
+    <script>
+        var strId = ComFunJS.getQueryString("ID");
+        var model = avalon.define({
+            $id: "APP_XXFB_View",
+            modelData: {},
+            modelItemData: {},
+            plData: [],
+            showindex: ComFunJS.getQueryString("index", 0),
+            isYL: ComFunJS.getQueryString("isYL", "N"),
+            confirmData: {},
+            PLContent: "",
+            ReadUserCount: 0,
+            ReadUserList: [],
+            NoReadUserList: [],
+            FileList: [],
+            selType: function (type) {
+                if (type == "pc") {
+                    $(".page-content:visible").width("700").removeClass("mobl").unwrap();
+                } else {
+                    $(".page-content:visible").width("275").addClass("mobl").css("border", "0").wrap('<div class="moble"></div>');
+
+                }
+            },
+            XXFBDataList: [],
+            AddPL: function () {
+                if ($.trim(model.PLContent) == "") {
+                    parent.ComFunJS.winwarning("请输入评论内容");
+                    return;
+                }
+                $.post('/API/VIEWAPI.ashx?Action=XTGL_ADDCOMENT', { "P1": model.PLContent, "MsgType": "XXFB", "MsgLYID": model.modelItemData.ID }, function (result) {
+                    if (result.ErrorMsg == "") {
+                        model.plData.push(result.Result)
+                        model.PLContent = "";
+                        $('#PLDiv').scrollTop($('#PLDiv')[0].scrollHeight);
+                    }
+                })
+            },
+            jptj: function (event) {
+                if (event.ctrlKey && (event.keyCode == 13 || event.keyCode == 10)) {
+                    model.AddPL();
+                }
+            }, PLDIVToggle: function () {
+                $("#PLDiv").toggle();
+            }, getImageUrl: function (Id, extent) {
+                var url = '/ViewV5/images/qywd/' + extent + '.png';
+                var array = new Array("jpg", "gif", "jpeg", "png","ai");
+                if ($.inArray(extent, array) > -1) {
+                    url = ComFunJS.getfile(Id);
+                }
+                return url;
+
+            }, isShow: -1,
+        });
+        avalon.ready(function () {
+            var viewContent = top.$("body").data("XXFBDataList");
+            if (viewContent) {
+                model.isShow = 0;
+                var jsonContent = JSON.parse(viewContent);
+                jsonContent.forEach(function (val) {
+                    val.FileList = [];
+                })
+                model.XXFBDataList = jsonContent;
+                $(model.XXFBDataList).each(function (i, val) {
+                    if (val.Files) {
+                        $.getJSON('/API/VIEWAPI.ashx?Action=QYWD_GETFILESLIST', { P1: val.Files }, function (resultData) {
+                            if (resultData.ErrorMsg == "") {
+                                val.FileList = resultData.Result;
+                            }
+                        })
+                    } else {
+                        val.FileList = [];
+                    }
+                })
+            } else {
+                if (strId != null) {
+                    $.post('/API/VIEWAPI.ashx?Action=XXFB_UPXXFBREADUSER', { "P1": strId, }, function (result) {
+                    
+                    })
+                    $.getJSON('/API/VIEWAPI.ashx?Action=XXFB_GETXXFBMODELWX', { P1: strId }, function (resultData) {
+                        if (resultData.ErrorMsg == "") {
+                            if (resultData.Result) {
+                                model.isShow = 0;
+                                model.modelItemData = resultData.Result;
+                                model.plData = resultData.Result1;
+                                model.FileList = resultData.Result2;
+                                model.NoReadUserList = resultData.Result3;
+                                model.modelData = resultData.Result4;
+                                if (resultData.Result.ReadUser != "") {
+                                    model.ReadUserList = resultData.Result.ReadUser.split(',');
+                                    model.ReadUserCount = resultData.Result.ReadUser.split(',').length;
+                                }
+
+                                var curuser = ComFunJS.convertuser(ComFunJS.getnowuser());
+                                if (curuser && model.modelData.IsSecret.toLowerCase() == "true") {
+                                    var w_x = $("body").width() / 3;
+                                    watermark({ watermark_txt: curuser, watermark_x: w_x, watermark_y: $(".header").height() + 50, watermark_page_width: $("#details").width(), watermark_page_height: $("#details").height() });
+                                }
+                            } else {
+                                model.isShow = 1;
+                            }
+                        }
+                    })
+
+                }
+            }
+
+        })
+    </script>
+</body>
+</html>

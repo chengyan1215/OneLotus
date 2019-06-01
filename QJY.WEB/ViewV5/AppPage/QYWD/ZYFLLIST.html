@@ -1,0 +1,183 @@
+﻿<div ms-controller="LIST">
+    <style>
+        .LEV1 {
+            padding-left: 40PX;
+        }
+    </style>
+    <div style="margin-left:30px">
+        <button type="button" class="btn btn-info btn-lg" ms-click="addFL()"><i class="iconfont icon-jiahao ft12 mr5"></i>添加分类</button>
+    </div>
+    <!-- 按条件选择 -->
+    <div class="tab-filter-type" style="display:none">
+
+        <!-- 搜索 -->
+        <div class="oh">
+            <div class="input-group ml15" style="width:295px;">
+                <input type="search" class="form-control" ms-duplex="search.searchcontent" placeholder="搜索分类内容">
+                <span class="input-group-addon" ms-click="GetLIST()">搜索</span>
+            </div>
+        </div>
+    </div>
+    <!-- 展开更多选项 -->
+    <!-- 表格 -->
+    <div class="default-tab ft14 pt20 hover-btn">
+        <div class=" pull-left ft14" style="width:100%;  padding-left:20px;padding-right:20px">
+            <ul class="jg-list-box">
+                <li>
+                    <div class="jg-item row">
+                        <div class="col-md-4">
+                            分类名称
+                        </div>
+                        <div class="col-md-4  text-center">
+
+                        </div>
+                        <div class="col-md-4 text-right ">
+                            操作
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+            <ul class="jg-list-box" ms-repeat-item="tmpListData">
+                <li>
+                    <div class="jg-item row">
+
+                        <div class="col-md-4 ">
+                            <i class="caret" ms-click="tolzfl(this)" ms-class-1="active:item.kcflitem.size()==0"></i>
+                            <span class="jg-name" style="width:200px">{{item.name}}</span>
+                        </div>
+                        <div class="col-md-4  text-center"></div>
+                        <div class="col-md-4 text-right">
+
+                            <!--<span class=" glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>-->
+                            <button class="btn btn-info btn-sm" style="line-height:1.2" ms-click="update(item)">修改</button>
+                            <button class="btn btn-warning btn-sm" style="line-height:1.2" ms-click="delkcfl(item)">删除</button>
+                        </div>
+
+
+
+
+                    </div>
+                </li>
+                <li class="zfl">
+                    <ul class="jg-list-box">
+                        <li ms-repeat-el="item.kcflitem">
+                            <div class="jg-item row">
+                                <div class="col-md-4 LEV1">
+                                    <i class=" iconfont icon-gongzuotai"></i>
+                                    <span class="jg-name" style="width:200px">{{el.name}}</span>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                </div>
+                                <div class="col-md-4 text-right">
+
+                                    <!--<span class=" glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                                    <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>-->
+                                    <button class="btn btn-info btn-sm" style="line-height:1.2" ms-click="update(el)">修改</button>
+                                    <button class="btn btn-warning btn-sm" style="line-height:1.2" ms-click="delkcfl(el)">删除</button>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+
+
+    <div class="modal fade" id="UpdateZD" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 500px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">分类管理</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label">父类</label>
+                            <select class="form-control" style="width:200px" id="flpid" ms-duplex="selitem.pid">
+                                <option value="1">根目录</option>
+                                <option ms-repeat-item="tmpListData" ms-attr-value="item.id">----{{item.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label"><span class="Required " style="color:red">*</span>名称</label>
+                            <input type="text" class="form-control szhl_require" style="width: 200px" ms-duplex="selitem.name" placeholder="请输入分类名称" />
+                        </div>
+                        <!--<div class="form-group">
+                            <label class="col-xs-4 control-label">序号</label>
+                            <input type="number" class="form-control szhl_require" style="width: 200px" ms-duplex="selitem.sort" placeholder="请输入分类排序序号" />
+                        </div>-->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-success" id="conaddForder" ms-click="SaveFL()">确&nbsp;&nbsp;认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var tempindex = avalon.define({
+        $id: "LIST",
+        tmpListData: [],
+        InitWigetData: function () {
+            model.search.seartype = '';
+            tempindex.GetLIST();
+        },
+        selitem: { ID: 0, pid: "1", name: "", sort: "0" },
+        addFL: function () {
+            $('#UpdateZD').modal('show');
+        },
+        update: function (item) {
+            tempindex.selitem.ID = item.id;
+            tempindex.selitem.pid = item.pid;
+            tempindex.selitem.name = item.name;
+            tempindex.selitem.sort = item.sort;
+            $('#UpdateZD').modal('show');
+        },
+        SaveFL: function () {
+            if (!tempindex.selitem.name) {
+                ComFunJS.winwarning("请输入分类名称");
+                return;
+            }
+            $.post("/API/VIEWAPI.ashx?ACTION=QYWD_ADDZYFL", { P1: tempindex.selitem.name, P2: tempindex.selitem.pid, selid: tempindex.selitem.ID }, function (jsonresult) {
+                if ($.trim(jsonresult.ErrorMsg) == "") {
+                    ComFunJS.winsuccess("操作成功");
+                    $('#UpdateZD').modal('hide');
+                    model.refpage()
+                }
+            });
+        },
+        delkcfl: function (item) {
+            top.ComFunJS.winconfirm("确定删除此分类吗？", function () {
+                $.post('/API/VIEWAPI.ashx?Action=QYWD_DELZYFL', { P1: item.id }, function (result) {
+                    if ($.trim(result.ErrorMsg) == "") {
+                        top.ComFunJS.winsuccess("删除成功");
+                        model.refpage()
+
+                    }
+                })
+            })
+        },
+        tolzfl: function (bom) {
+            $(bom).parent().parent().parent().parent().find(".zfl").toggle('normal');
+        },
+        GetLIST: function () {
+            tempindex.tmpListData.clear();
+            $.getJSON('/API/VIEWAPI.ashx?Action=QYWD_GETZYFLJSON', { p: 1, status: model.search.seartype, P1: model.search.searchcontent }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempindex.tmpListData = resultData.Result;
+                }
+            })
+        }
+    })//# sourceURL=ZYFLLIST.js;
+</script>

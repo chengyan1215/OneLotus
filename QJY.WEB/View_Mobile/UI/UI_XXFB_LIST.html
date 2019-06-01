@@ -1,0 +1,240 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>新闻列表</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="/View_Mobile/Frozenui1.3/css/frozen.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/View_Mobile/CSS/msui.css">
+    
+
+    <style type="text/css">
+        /*.ui-header {background-color: #06c1ae;color: #fff;}
+        .ui-header h1{color:#fff;}
+        .bar .button-link{color:#fff;}*/
+
+        .ms-controller, [ms-controller] {
+            display: none;
+        }
+
+        .item-subtitle p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .ititle {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            padding: 6px;
+            background-color: black;
+            opacity: .7;
+            width: 100%;
+            z-index: 2;
+            overflow: hidden;
+            white-space: nowrap;
+            color: white;
+        }
+
+        .card-cover {
+            max-height: 500px;
+            position: relative;
+            z-index: 1;
+        }
+        .list-block .item-inner:after{
+            height:0;
+        }
+                .hav:hover{
+                background: #eeeeee;
+        }
+    </style>
+</head>
+<body ms-controller="XXList">
+    <div class="page page-current" id="pageindex1">
+        <header class="bar bar-nav" ms-if="Name">
+            <a class="button button-link button-nav pull-left back">
+                <span class="icon icon-left"></span>
+            </a>
+            <h1 class="title">{{Name}}</h1>
+        </header>
+
+        <div class="content infinite-scroll infinite-scroll-bottom" data-distance="50">
+            <div class="list-block" style="margin:0">
+                <ul>
+                    <li class="item-content item-link" ms-repeat-el="ctData" ms-on-click="vieww(el)">
+                        <!--<div class="item-media" style="height:60px"><i class="icon icon-f7"></i></div>-->
+                        <div class="item-inner" style="height:60px">
+                            <div class="item-title">{{el.name}}</div>
+                            <!--<div class="item-after"></div>-->
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-container" ms-if="ctData.size() == 0">
+                <div class="card" ms-repeat-el="xxList" style="margin-bottom: 20px;padding:.4rem;box-shadow: 1px 1px 4px 0 #888;">
+                    <div class="card-content" ms-if="el.Item.size()==1" style="margin-top: 5px;margin-bottom:5px">
+                        {{el.XXTitle}}
+                        <br/>
+                        <span style="font-size: .5rem;color: gray;">{{el.FBTime|date("yy年MM月dd HH:mm")}}</span>
+                    </div>
+                    <div ms-repeat-item="el.Item">
+                        <div valign="bottom" class="card-header color-white no-border no-padding" ms-on-click="viewwxx(item)" ms-if="$index==0">
+                            <img class="card-cover" ms-attr-src="{{ComFunJS.getfile(item.ImageIds?item.ImageIds.split(',')[0]:'')}}" alt="" style="max-height:500px;">
+                            <span class="ititle" ms-if="el.Item.size()!=1">{{el.XXTitle}}</span>
+                        </div>
+                    </div>
+                    <div class="card-content" ms-if="el.Item.size()==1" style="margin-top: 10px;margin-bottom:10px" ms-click="viewwxx(el.Item[0])">
+                        查看全文
+                    </div>
+
+                    <div class="card-content">
+                        <div class="list-block media-list">
+                            <ul>
+                                <li class="item-content hav" ms-repeat-item="el.Item" ms-on-click="viewwxx(item)" ms-visible="$index!=0" style="border-top: 1px dotted #ccc;padding-left:0">
+                                    <div class="item-media">
+                                        <img ms-attr-src="{{ComFunJS.getfile(item.ImageIds?item.ImageIds.split(',')[0]:'')}}" width="44" height="44">
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title-row">
+                                            <div class="item-title">{{item.XXTitle}}</div>
+                                        </div>
+                                        <div class="item-subtitle">{{ComFunJS.convstr(item.XXContent,99999)}}</div>
+                                    </div>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-footer" ms-if="el.SHStatus==0||el.SHStatus==1">
+                        <span ms-if="el.SHStatus!=0&&el.SHStatus!=2">{{el.SHStatus==1?'同意':'退回'}}</span>
+                        <a class="link" style="color:black" ms-if="el.SHStatus==0">未审核</a>
+                        <a class="button button-fill button-success" ms-if="el.SHStatus==0" ms-on-click="UpStatus(el,'1')">同意</a>
+                        <a class="button button-fill button-danger" ms-if="el.SHStatus==0" ms-on-click="UpStatus(el,'-1')">退回</a>
+                        <a class="button button-fill button-success" ms-if="el.SHStatus==1" ms-on-click="UpStatus(el,'2')">发布</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="infinite-scroll-preloader" ms-if="ctData.size() == 0">
+                <div class="preloader"></div>
+            </div>
+        </div>
+
+    </div>
+    <script src="/View_Mobile/JS/layer/layer.m.js"></script>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.8/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.8/js/sm-extend.min.js' charset='utf-8'></script>
+    <script src="/View_Mobile/JS/avalon1.47.js"></script>
+    <script src="/View_Mobile/JS/ComFunJS.js?jsver=20160425"></script>
+    <script>
+       
+
+        var strId = ComFunJS.getQueryString("id");
+        if (!strId) { strId = "0" }
+        var model = avalon.define({
+            $id: "XXList",
+            ctData: [],
+            xxList: [],
+            loading: false,
+            page: 1,
+            pagecount:8,
+            Name: ComFunJS.getQueryString("name"),
+            vieww: function (el) {
+                window.location = "UI_XXFB_LIST.html?id=" + el.Id + "&name=" + el.name + "&r=" + Math.random();
+            },
+            viewwxx: function (el) {
+                window.location = "UI_XXFB_INFO.html?id=" + el.ID + "&r=" + Math.random();
+            },
+            GetModelList: function () {
+                if (model.loading) return;
+                model.loading = true;
+                $.getJSON("/API/VIEWAPI.ashx?Action=XXFB_GETXXFBLISTWX&r=" + Math.random(), { "p": model.page, "P2": strId }, function (r) {
+                    model.loading = false;
+                    if (r.ErrorMsg == "") {
+                        model.xxList.pushArray(r.Result);
+
+                        //判断是否加载完毕 
+                        if (r.Result.length < model.pagecount) {
+                            // 加载完毕，则注销无限加载事件，以防不必要的加载
+                            $.detachInfiniteScroll($('.infinite-scroll'));
+                            // 删除加载提示符
+                            $('.infinite-scroll-preloader').remove();
+                            return;
+                        }
+                       
+                        $.refreshScroller();
+                        model.page += 1;
+                    }
+
+                    
+                })
+
+            },
+            UpStatus: function (el, type) {
+                var msg = "退回";
+                var urlapi = "/API/VIEWAPI.ashx?ACTION=XXFB_SHXXFB&r=" + Math.random();
+                if (type == "1") {
+                    msg = "同意";
+                } else if (type == "-1") {
+                    msg = "退回";
+                } else if (type == "2") {
+                    msg = "发布";
+                    urlapi = "/API/VIEWAPI.ashx?ACTION=XXFB_SUREXXFB&r=" + Math.random();
+                }
+                ComFunJS.showSH("200", msg, function (nr) {
+                    $.getJSON(urlapi, { P1: el.ID, P2: type, jy: nr }, function (result) {
+                        if ($.trim(result.ErrorMsg) == "") {
+                            $.toast("已" + msg);
+                            el.SHStatus = type;
+                        }
+                        else {
+                            $.toast("操作失败");
+                        }
+                    });
+                })
+
+            },
+        })
+
+
+
+        avalon.ready(function () {
+
+            $.getJSON("/API/VIEWAPI.ashx?Action=XXFB_GETXXFBTYPELISTWX&r=" + Math.random(), { P1: strId }, function (data) {
+                if (data.ErrorMsg == "") {
+                    model.ctData = data.Result;
+                    if (model.ctData.size() == 0) {
+                        // 注册'infinite'事件处理函数
+                        $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                            model.GetModelList();
+                        });
+
+                        $.init();
+                        model.GetModelList();
+                    }
+                }
+            })
+
+        })
+
+        function read(str) {
+            if (str) {
+                return str.split(',').length
+            }
+            else {
+                return 0;
+            }
+        }
+
+    </script>
+
+</body>
+
+
+
+</html>

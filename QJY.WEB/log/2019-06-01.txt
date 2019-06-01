@@ -1,0 +1,10 @@
+Senparc.Weixin.Exceptions.ErrorJsonResultException: 微信 POST 请求发生错误！错误代码：48002，说明：api forbidden, hint: [1559361468_2_c0540dc2757bce6e45152b2873f7d7a0], more info at https://open.work.weixin.qq.com/devtool/query?e=48002
+   在 Senparc.Weixin.CommonAPIs.CommonJsonSend.<>c.<.cctor>b__6_1(String apiUrl, String returnText)
+   在 Senparc.CO2NET.HttpUtility.Post.PostGetJson[T](String url, CookieContainer cookieContainer, Stream fileStream, Encoding encoding, X509Certificate2 cer, Boolean useAjax, Boolean checkValidationResult, Action`2 afterReturnText, Int32 timeOut)
+   在 Senparc.Weixin.CommonAPIs.CommonJsonSend.Send[T](String accessToken, String urlFormat, Object data, CommonJsonSendType sendType, Int32 timeOut, Boolean checkValidationResult, JsonSetting jsonSetting)
+   在 Senparc.Weixin.Work.AdvancedAPIs.MassApi.<>c__DisplayClass6_0.<SendNews>b__0(String accessToken)
+   在 Senparc.Weixin.CommonAPIs.ApiHandlerWapper.ApiHandlerWapperBase.TryCommonApiBase[T](PlatformType platformType, Func`1 accessTokenContainer_GetFirstOrDefaultAppIdFunc, Func`2 accessTokenContainer_CheckRegisteredFunc, Func`3 accessTokenContainer_GetAccessTokenResultFunc, Int32 invalidCredentialValue, Func`2 fun, String accessTokenOrAppId, Boolean retryIfFaild)
+   在 Senparc.Weixin.Work.ApiHandlerWapper.TryCommonApi[T](Func`2 fun, String accessTokenOrAppKey, Boolean retryIfFaild)
+   在 Senparc.Weixin.Work.AdvancedAPIs.MassApi.SendNews(String accessTokenOrAppKey, String agentId, List`1 articles, String toUser, String toParty, String toTag, Int32 safe, Int32 timeOut)
+   在 QJY.API.WXHelp.SendTH(List`1 MODEL, String ModelCode, String type, String strUserS) 位置 G:\OCSPRO\QJ_Signle\QJY.API\WXHelp\WXHelp.cs:行号 110
+2019-06-01 11:56:42

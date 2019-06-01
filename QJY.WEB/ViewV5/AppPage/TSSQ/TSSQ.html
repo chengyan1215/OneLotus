@@ -1,0 +1,79 @@
+﻿<div class="form-horizontal" ms-controller="TSSQ">
+    <div class="form-group">
+        <label class="col-xs-2 control-label"><i>*</i>类型</label>
+        <div class="col-xs-8">
+            <select name="conType" id="conType" ms-duplex="modelData.LeiBie" class="form-control">
+                <option ms-repeat-item="ColumnData" ms-attr-value="item.ID">{{item.TypeName}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group" style="display:none">
+        <label class="col-xs-2 control-label">链接</label>
+        <div class="col-xs-8">
+            <input type="text" ms-duplex="modelData.URL" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group"  style="display:none">
+        <label class="col-xs-2 control-label"><i>*</i>可见范围</label>
+        <div class="col-xs-8">
+            <input type="text" ms-duplex="modelData.CYR" class="form-control szhl_getPeoples" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label"><i>*</i>话题内容</label>
+        <div class="col-xs-8">
+            <textarea type="text" ms-duplex="modelData.HTNR" id="bz" rows="3" class="span2 szhl_require   focus" style="width:100%"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label">只可上传图片及文档</label>
+        <div class="col-xs-8">
+            <input type="text" ms-duplex="modelData.Files" class="form-control szhl_Upload"  FileType="jpg,jpeg,png,doc,ppt,pdf,docx,pptx,mp4"/>
+        </div>
+    </div>
+
+</div>
+<script>
+
+    var tempmodel = avalon.define({
+        $id: "TSSQ",
+        iswf: false,
+        name: "同事社区",
+        ColumnData: [],
+        modelData: { "Title": "", "HTNR": "", "LeiBie": "", "Files": "", "CYR": "", "URL": "" },
+        inittemp: function (strId) {
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETZIDIANLIST', { P1: 19 }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.ColumnData = resultData.Result;
+                    if (tempmodel.ColumnData.size() > 0 && !tempmodel.modelData.LeiBie) {
+                        tempmodel.modelData.LeiBie = resultData.Result[0].ID;
+                    }
+                }
+            })
+            if (strId) {
+                //编辑加载数据
+                $.getJSON('/API/VIEWAPI.ashx?Action=TSSQ_GETHTMODEL', { P1: strId }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result;
+                        setTimeout("ComFunJS.initForm()", 500)
+                    }
+                })
+            } else {
+                pmodel.isDraft = true;
+                ComFunJS.initForm();
+            }
+
+        },//初始化
+        SaveData: function (callback, btdom) {
+            var flag = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
+            if (tempmodel.modelData.URL && !flag.test(tempmodel.modelData.URL)) {
+                ComFunJS.winwarning("请输入正确的网址");
+                $(btdom).attr("disabled", false).find(".fa").hide();//加上转圈样式
+                return;
+            }
+            $.post("/API/VIEWAPI.ashx?ACTION=TSSQ_ADDHT", { P1: JSON.stringify(tempmodel.modelData.$model) }, function (result) {
+                return callback.call(this, result);
+            });
+        }
+    });
+</script>

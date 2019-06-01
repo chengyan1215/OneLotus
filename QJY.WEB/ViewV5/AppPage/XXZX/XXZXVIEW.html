@@ -1,0 +1,33 @@
+﻿
+<div style="background-color:#F8F8F8" ms-controller="DXGLVIEW">
+
+    <script type="text/javascript">
+
+        var tempindex = avalon.define({
+            $id: "DXGLVIEW",
+            InitWigetData: function (strId) {
+                model.title = "消息详情";
+                model.ShowColumns.pushArray(
+                     [{ "ColName": "MsgType", "ColText": "消息类别", "IsSel": true },
+                     { "ColName": "MsgContent", "ColText": "内容", "IsSel": true},
+                     { "ColName": "CRDate", "ColText": "时间", "IsSel": true, "format": "dateformat" }
+                     ]);
+
+                if (strId) {
+                    //编辑加载数据
+                    $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETXXZXMODEL', { P1: strId }, function (resultData) {
+                        if (resultData.ErrorMsg == "") {
+
+                            model.modelData = resultData.Result;
+                            //      model.tpData = resultData.Result2;
+
+                            setTimeout(" ComFunJS.initForm()", 500)
+                        }
+                    })
+                }
+            }
+        });
+        //# sourceURLRWGLVIEW.js;
+    </script>
+</div>
+

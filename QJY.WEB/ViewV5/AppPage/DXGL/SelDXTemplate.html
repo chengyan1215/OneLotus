@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="/ViewV5/CSS/icfont_qj/iconfont.css">
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css" rel="stylesheet">
+    <link href="/ViewV5/CSS/animate.css" rel="stylesheet" />
+    <link href="/ViewV5/CSS/index.css" rel="stylesheet" />
+    <link href="/ViewV5/CSS/default.css" rel="stylesheet" />
+    <style>
+        .ms-controller, .ms-important, [ms-controller], [ms-important] {
+            visibility: hidden;
+        }
+    </style>
+    <script src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>
+    <script src="/ViewV5/JS/layer/layer.js"></script>
+    <script src="/ViewV5/JS/Toast/toastr.js"></script>
+    <script type="text/javascript">
+        var selmodel = avalon.define({
+            $id: "SelDXTemplate",
+            ColumnData: [],
+            chaxunData: [],
+            mbfl: [],
+            curModel: {},
+            TagData: { "Model": "DXGL", "TagName": "", "FLText": "", "FL": "-1" },
+            GetDXItemList: function () { //获取短信模板
+                $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETUSERGROUP', { P1: "DXGL" }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        selmodel.ColumnData = resultData.Result;
+                        selmodel.chaxunData = selmodel.ColumnData;
+                        selmodel.mbfl = resultData.Result1;
+                        var fllist = [];
+                        selmodel.mbfl.forEach(function (item) {
+                            fllist.push(item.DataContent1);
+                        })
+                        $('#ModelType').typeahead({
+                            source: function (query, process) {
+                                return fllist;
+                            }
+                        })
+                    }
+                })
+            },
+            InitWigetData: function () {
+                selmodel.ShowColumns.pushArray([
+                         { "ColName": "RWTitle", "ColText": "模板类型", "IsSel": true, "format": "text", "len": "9999" },
+                         { "ColName": "RWJZDate", "ColText": "模板内容", "IsSel": true, "format": "dateformat", "len": "9999" }
+                ])
+                selmodel.GetDXItemList();
+            },
+            SelTemplate: function (item) {
+                selmodel.curModel = item;
+            }, GetSelModel: function () {
+                var modeldata = selmodel.curModel.$model;
+                delete modeldata.issel;
+                return modeldata;
+            }, DelMatter: function (item, event) {
+                if (event.stopPropagation) {
+                    event.stopPropagation();
+                }
+                top.ComFunJS.winconfirm("确定要删除此短信模板吗？", function () {
+                    $.post("/API/VIEWAPI.ashx?ACTION=XTGL_DELUSERGROUP", { P1: item.ID }, function (result) {
+                        if ($.trim(result.ErrorMsg) == "") {
+                            top.ComFunJS.winsuccess("删除成功");
+                            selmodel.ColumnData.remove(item);
+                            selmodel.getmb(selmodel.TagData.FL);
+                            selmodel.GetDXItemList();
+                        }
+                    });
+                })
+            }, addTag: function () {
+                if (!selmodel.TagData.TagName) {
+                    top.ComFunJS.winwarning("请输入模板内容");
+                    return;
+                } else if (selmodel.TagData.TagName.length > 300) {
+                    top.ComFunJS.winwarning("模板内容不能超过300字");
+                    return;
+                }
+                var data = selmodel.TagData.$model;
+                var modelValue = JSON.stringify(data);
+                $.post("/API/VIEWAPI.ashx?ACTION=XTGL_ADDUSERGROUP", { P1: selmodel.TagData.TagName, P2: selmodel.TagData.FLText, "DataType": selmodel.TagData.Model }, function (result) {
+                    if ($.trim(result.ErrorMsg) == "") {
+                        selmodel.TagData.TagName = "";
+                        selmodel.TagData.FLText = "";
+                        selmodel.GetDXItemList();
+                        selmodel.getmb(selmodel.TagData.FL);
+                        top.ComFunJS.winsuccess("操作成功");
+                        location.reload();
+                    }
+                });
+            }, getmb: function (text) {
+                selmodel.TagData.FL = text;
+                selmodel.chaxunData = [];
+                selmodel.TagData.FLText = "";
+                if (selmodel.TagData.FL == '-1') {
+                    selmodel.chaxunData = selmodel.ColumnData;
+                }
+                else {
+                    selmodel.ColumnData.forEach(function (item) {
+                        if (item.DataContent1 == selmodel.TagData.FL) {
+                            selmodel.chaxunData.push(item);
+                        }
+                    })
+                    selmodel.TagData.FLText = selmodel.TagData.FL;
+                }
+            }
+        });
+        avalon.ready(function () {
+
+            selmodel.GetDXItemList();
+        })
+        $(document).on("click", ".tab-type li span", function () {
+            $(this).addClass("active").parent().siblings().children().removeClass("active")
+        });
+    </script>
+</head>
+<body ms-controller="SelDXTemplate">
+    <div style="padding-top:10px;">
+        <div class="tab-filter-type">
+            <div class="oh">
+                <h5 class="pull-left tr">模板分类：</h5>
+                <ul class="tab-type ft14">
+                    <li ms-click="getmb('-1')"><span class="active">全部模板</span></li>
+                    <li ms-repeat-item="mbfl" ms-click="getmb(item.DataContent1)"><span>{{item.DataContent1 == ''?'其他':item.DataContent1}}</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class=" container-fluid " style="padding:10px">
+            <table class="table table-striped table-responsive table-hover">
+                <thead>
+                    <tr>
+                        <!--<th class="tc">
+                            <div class="icheckbox_square-blue">
+                                <input type="checkbox">
+                                <span class="iconfont icon-check ft12"></span>
+                            </div>
+                        </th>-->
+                        <th class="tc" style="width:20px;"></th>
+                        <th style="width:100px">模板分类</th>
+                        <th>模板内容</th>
+                        <th style="width:50px"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ms-repeat-item="chaxunData" ms-click="SelTemplate(item)">
+                        <td class="tc">
+                            <label>
+                                <div class="icheckbox_square-blue mr5" ms-class-1="checked:curModel.ID==item.ID">
+                                    <span class="iconfont icon-check ft12"></span>
+                                </div>{{item.name}}
+                            </label>
+                            <!--<i class="fa " ms-class-2="fa-square-o:curModel.ID!=item.ID" ms-class-1="fa-check-square-o:curModel.ID==item.ID"></i>-->
+                        </td>
+                        <td>{{item.DataContent1}}</td>
+                        <td style="word-break:break-all">{{item.DataContent}}</td>
+                        <td>
+                            <a class="cz-btn ft18 sc-color tip" data-toggle="tooltip" title="删除" ms-click="DelMatter(item,$event)">
+                                <i class="iconfont icon-shanchu"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr style=" border-bottom: 1px solid #ddd;">
+                        <!--<td></td>-->
+                        <td class="tc"></td>
+                        <td><input type="text" class="form-control" ms-duplex="TagData.FLText" id="ModelType" placeholder="请输入模板分类"></td>
+                        <td><input type="text" ms-duplex="TagData.TagName" class="form-control" placeholder="请输入短信模板内容"></td>
+                        <td>
+                            <a class="cz-btn ft18 tip" data-toggle="tooltip" title="添加模板" ms-click="addTag()">
+                                <i class="iconfont icon-jiahao ft14"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+       
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1533 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>即时通讯</title>
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/im.css">
+    <style type="text/css">
+        body {
+            background: rgba(0,0,0,0);
+        }
+    </style>
+    <!--[if lte IE 8]>
+     <style>
+     body{filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr='#bf000000',EndColorStr='#bf000000')}
+         ;
+
+     </style>
+    <![endif]-->
+</head>
+<body>
+    <div id="div1" class="box">
+        <div class="panel-box">
+            <div class="panel-left">
+                <!-- left header -->
+                <div id='div' onmousedown="move()" class="left-header">
+                    <div class="header-pic">
+                        <img src="/ViewV5/images/IM/user2.jpg">
+                    </div>
+                    <!-- 头部信息 -->
+                    <div class="header-info">
+                        <h5 class="head-name">
+                            <span class="name-wrap">测试人员</span>
+                            <div style="position:relative;display:inline-block;">
+                                <a href="##" data-toggle="dropdown" aria-expanded="true">
+                                    <i class="font20 head-icon bg"></i>
+
+                                </a><ul class="dropdown-menu" style="width:130px;right:0">
+                                    <li><a href="">发起聊天</a></li>
+                                    <li><a href="#">打开桌面通知</a></li>
+                                    <li><a href="#">打开声音</a></li>
+                                </ul>
+                            </div>
+                        </h5>
+                    </div>
+                </div>
+                <!-- 搜索 -->
+                <div class="im-search-bar">
+                    <i class="font20 bg search-icon"></i>
+                    <input type="text" placeholder="搜索联系人或群组" class="input-search">
+                    <div class="search-resul" style="display:none">
+                        <ul>
+                            <li>
+                                <div class="lxr-title">
+                                    联系人
+                                </div>
+                                <ul class="lxr-list">
+                                    <li>
+                                        <div class="select2-result-label">
+                                            <img src="/ViewV5/images/IM/user2.jpg" class="img-30">测试搜索
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="select2-result-label">
+                                            <img src="/ViewV5/images/IM/user2.jpg" class="img-30">测试搜索
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="select2-result-label">
+                                            <img src="/ViewV5/images/IM/user2.jpg" class="img-30">测试很长的搜索啦啦啦
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div class="lxr-title">
+                                    联系人
+                                </div>
+                                <ul class="lxr-list">
+                                    <li>
+                                        <div class="select2-result-label">
+                                            <img src="/ViewV5/images/IM/user2.jpg" class="img-30">测试搜索
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="select2-result-label">
+                                            <img src="/ViewV5/images/IM/user2.jpg" class="img-30">测试搜索
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="select2-result-label">
+                                            <img src="/ViewV5/images/IM/user2.jpg" class="img-30">测试很长的搜索啦啦啦
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 左侧功能切换+右侧 -->
+                <ul id="left_ul" class="left-tab clearfix">
+                    <li onclick="change(0)" class="active">
+                        <i class="font20 tab-icon1 bg"></i>
+                    </li>
+                    <li onclick="change(1)">
+                        <i class="font20 tab-icon2 bg"></i>
+                    </li>
+                    <li onclick="change(2)">
+                        <i class="font20 tab-icon3 bg"></i>
+                    </li>
+                </ul>
+                <!-- 左侧切换内容 -->
+                <div id="left_b">
+                    <!-- 1 -->
+                    <div>
+                        <ul class="recent-list ">
+                            <li class="active">
+                                <div class="chart-div">
+                                    <i class="top-chat"></i>
+                                    <i class="icon-close-chat bg font20"></i>
+                                    <div class="chat-time pull-right">
+                                        <span>晚上 22：30</span>
+                                    </div>
+                                    <div class="pull-left img-ridus ml5">
+                                        <img src="/ViewV5/images/IM/user2.jpg">
+                                    </div>
+                                    <div class="pull-left ml10 chat-info">
+                                        <h4>李小姐</h4>
+                                        <p>这是一个被截断的消息</p>
+                                    </div>
+
+                                </div>
+                            </li>
+                            <li>
+                                <div class="chart-div">
+                                    <i class="icon-close-chat bg font20"></i>
+                                    <div class="chat-time pull-right">
+                                        <span>晚上 22：30</span>
+                                    </div>
+                                    <div class="pull-left ml5 img-ridus">
+                                        <img src="/ViewV5/images/IM/user2.jpg">
+                                    </div>
+                                    <div class="pull-left ml10 chat-info">
+                                        <h4>李小姐</h4>
+                                        <p>这是一个被截断的消息</p>
+                                    </div>
+                                    <i class="icon-message-mute font20 bg"></i>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 2 -->
+                    <div style="display: none" class="gs-jg">
+                        <ul class="recent-list ">
+                            <li class="active">
+                                <div class="chart-div">
+
+
+                                    <div class="pull-left img-ridus ml5">
+                                        <img src="/ViewV5/images/IM/user2.jpg">
+                                    </div>
+                                    <div class="pull-left ml10 chat-info grap">
+                                        <h4>[测试群组]功能 我是一个群组</h4>
+
+                                    </div>
+
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 3 -->
+                    <div style="display: none" class="gs-jg">
+                        <div>
+                            <h6 style="padding:0 20px">全公司</h6>
+                            <ul class="gs-box">
+                                <li>
+                                    <div class="down-open list-box-bt">
+                                        <i class="font20 bg grow-list"></i>
+                                        <span>研发部</span><i>3</i>
+                                    </div>
+                                    <ul class="children-list" style="display:none">
+
+                                        <li>
+                                            <div class="down-open list-box-bt">
+                                                <span>研发部</span><i>3</i>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="down-open list-box-bt">
+                                                <span>研发部</span><i>3</i>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="down-open list-box-bt">
+                                                <span>研发部</span><i>3</i>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <div class="down-open list-box-bt">
+
+                                        <span>研发部</span><i>3</i>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="down-open list-box-bt">
+                                        <i class="font20 bg grow-list"></i>
+                                        <span>研发部</span><i>3</i>
+                                    </div>
+                                    <ul class="children-list" style="display:none">
+
+                                        <li>
+                                            <div class="down-open list-box-bt">
+                                                <i class="font20 bg grow-list"></i>
+                                                <span>研发部</span><i>3</i>
+                                            </div>
+                                            <ul class="children-list" style="display:none">
+
+                                                <li>
+                                                    <div class="down-open list-box-bt">
+                                                        <span>研发部</span><i>3</i>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="down-open list-box-bt">
+                                                        <span>研发部</span><i>3</i>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="down-open list-box-bt">
+                                                        <span>研发部</span><i>3</i>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <div class="down-open list-box-bt">
+                                                <span>研发部</span><i>3</i>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="down-open list-box-bt">
+                                                <span>研发部</span><i>3</i>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <div class="down-open list-box-bt">
+
+                                        <span>研发部</span><i>3</i>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 右侧切换内容 -->
+            <div id="panel-r" style="height:100%">
+                <div class="panel-right">
+                    <div class="panel-top-cont" id="box">
+                        <div style="height:60px;padding:15px;" class="clearfix">
+                            <div class="touxiang pull-left">
+                                <img src="/ViewV5/images/IM/user2.jpg">
+                            </div>
+                            <div class="name-right pull-left">
+                                <h5>测试测试</h5>
+                            </div>
+                            <div class="hd-right pull-right">
+                                <span class="hd-right-sz">
+                                    <i class="bg font20" class="dropdown-toggle" data-toggle="dropdown"></i>
+                                    <ul class="dropdown-menu" style="right:0;left:auto">
+                                        <li><a href="#" class="look-zl">查看资料</a></li>
+                                        <li><a href="#">取消置顶</a></li>
+                                        <li><a href="#">恢复消息通知</a></li>
+                                    </ul>
+                                </span>
+                                <span class="hd-right-close">
+                                    <i class="bg font20"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="" id="window-box—t" style="overflow-y:auto;max-height:315px;">
+                            <div>
+                                <div style="padding:8px" class="clearfix">
+                                    <div class="message-time">
+                                        <span>5-12&nbsp;8:20</span>
+                                    </div>
+                                    <div class="msg-right message-content">
+                                        <i class="message-sj"></i>
+                                        <div class="chat-box-detail msg-lt">sascascaca好的好的好的好的卡号算了快女老师的卢克索女旅客随到可能是的克里斯楼上看你的vlk</div>
+                                    </div>
+                                </div>
+                                <div style="padding:8px" class="clearfix">
+                                    <div class="message-time">
+                                        <span>5-12&nbsp;8:20</span>
+                                    </div>
+                                    <div class="msg-left message-content">
+                                        <i class="message-sj"></i>
+                                        <div class="chat-box-detail msg-lt">sascascaca</div>
+                                    </div>
+                                </div>
+                                <div style="padding:8px" class="clearfix">
+                                    <div class="msg-left message-content">
+                                        <i class="message-sj"></i>
+                                        <div class="chat-box-detail msg-lt">这是一条测试短消息</div>
+                                    </div>
+                                </div>
+                                <div style="padding:8px" class="clearfix">
+                                    <div class="message-time">
+                                        <span>5-12&nbsp;8:20</span>
+                                    </div>
+                                    <div class="msg-right message-content">
+                                        <i class="message-sj"></i>
+                                        <div class="chat-box-detail msg-lt">这是一条测试的超级超级超级超级超级超级超级超级超级超级超级超级长的消息</div>
+                                    </div>
+                                </div>
+                                <div style="padding:8px;" class="clearfix">
+                                    <div class="msg-left message-content">
+                                        <i class="message-sj"></i>
+                                        <div class="chat-box-detail msg-lt">这是一条测试短消息</div>
+                                    </div>
+                                </div>
+                                <div style="padding:8px" class="clearfix">
+                                    <div class="message-time">
+                                        <span>5-12&nbsp;8:20</span>
+                                    </div>
+                                    <div class="msg-right message-content">
+
+                                        <i class="message-sj"></i>
+                                        <div class="chat-box-detail msg-lt"> <img src="/ViewV5/images/IM/a.png" class="lt-img"></div>
+                                    </div>
+                                </div>
+                                <div style="padding:8px" class="clearfix">
+                                    <div class="message-time">
+                                        <span>5-12&nbsp;8:20</span>
+                                    </div>
+                                    <div class="msg-left message-content">
+
+
+                                        <i class="message-sj"></i>
+                                        <div class="chat-box-detail msg-lt">  <img src="/ViewV5/images/IM/c.png" class="lt-img"></div>
+                                    </div>
+                                </div>
+                                <!-- 右边消息 -->
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-bottom-cont" id="panel-bottom-cont">
+                        <!-- icon -->
+                        <div class="im-toolbar clearfix" style="height:33px;">
+                            <div class="toolbar-item">
+                                <i class="font20 bg img-icon-face"></i>
+                                <div id="myCarousel" class="carousel slide" style="display:none">
+                                    <!-- 轮播（Carousel）指标 -->
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                                    </ol>
+                                    <!-- 轮播（Carousel）项目 -->
+                                    <div class="carousel-inner">
+                                        <div class="item active">
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="item">
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="toolbar-item">
+                                <i class="font20 bg img-icon-pic"></i>
+                            </div>
+                            <div class="toolbar-item">
+                                <i class="font20 bg img-icon-file"></i>
+                            </div>
+                            <div class="toolbar-item">
+                                <i class="font20 bg img-icon-cloud"></i>
+                            </div>
+                            <div class="toolbar-item">
+                                <i class="font20 bg img-icon-history" data-tip-content="lalal"></i>
+                            </div>
+                        </div>
+                        <!-- input -->
+                        <div class="im-enter-content" id="im-enter-content" style="max-height:94px;">
+                            <textarea class="im-edit-area"></textarea>
+                        </div>
+                        <!-- send -->
+                        <div class="im-action clearfix" style="height:33px;">
+                            <a class="msg-send pull-right button">发送</a>
+                            <p class="pull-right">按住Ctrl+enter换行,回车发送</p>
+                        </div>
+                    </div>
+                    <!--<div class="panel-right-button">button</div>-->
+                </div>
+                <!-- 2 -->
+                <div class="panel-right" style="display:none">
+                    <div class="panel-top-cont" id="box">
+                        <div style="height:60px;padding:15px;" class="clearfix">
+                            <div class="touxiang pull-left">
+                                <img src="/ViewV5/images/IM/user2.jpg">
+                            </div>
+                            <div class="name-right pull-left">
+                                <h5 class="grap-pop"><测试群组>功能 我是一个群组</h5>
+                            </div>
+                            <div class="hd-right pull-right">
+                                <span class="hd-right-sz">
+                                    <i class="bg font20" class="dropdown-toggle" data-toggle="dropdown"></i>
+                                    <ul class="dropdown-menu" style="right:0;left:auto">
+                                        <li><a href="#" data-toggle="modal" data-target="#myModal1">查看资料</a></li>
+                                        <li><a href="#">取消置顶</a></li>
+                                        <li><a href="#">恢复消息通知</a></li>
+                                    </ul>
+                                </span>
+                                <span class="hd-right-close">
+                                    <i class="bg font20"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="" id="window-box—t" style="overflow-y:auto;height:315px;">
+                            <div>
+                                <div style="padding:8px" class="clearfix">
+                                    <div class="message-time">
+                                        <span>5-12&nbsp;8:20</span>
+                                    </div>
+                                    <div class="msg-left message-content">
+                                        <i class="message-sj"></i>
+                                        <div class="chat-box-detail msg-lt">sascascaca好的好的好的好的卡号算了快女老师的卢克索女旅客随到可能是的克里斯楼上看你的vlk</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-bottom-cont" id="panel-bottom-cont">
+                        <!-- icon -->
+                        <div class="im-toolbar clearfix" style="height:33px;">
+                            <div class="toolbar-item">
+                                <i class="font20 bg img-icon-face"></i>
+                                <div id="myCarousel" class="carousel slide" style="display:none">
+                                    <!-- 轮播（Carousel）指标 -->
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                                    </ol>
+                                    <!-- 轮播（Carousel）项目 -->
+                                    <div class="carousel-inner">
+                                        <div class="item active">
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="item">
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="icon-face">
+                                                                <img src="/ViewV5/images/IM/face.png">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="toolbar-item">
+                                <i class="font20 bg img-icon-pic"></i>
+                            </div>
+                            <div class="toolbar-item">
+                                <i class="font20 bg img-icon-file"></i>
+                            </div>
+                            <div class="toolbar-item">
+                                <i class="font20 bg img-icon-cloud"></i>
+                            </div>
+                            <div class="toolbar-item">
+                                <i class="font20 bg img-icon-history" data-tip-content="lalal"></i>
+                            </div>
+                        </div>
+                        <!-- input -->
+                        <div class="im-enter-content" id="im-enter-content" style="min-height:94px;">
+                            <textarea class="im-edit-area"></textarea>
+                        </div>
+                        <!-- send -->
+                        <div class="im-action clearfix" style="height:33px;">
+                            <a class="msg-send pull-right button">发送</a>
+                            <p class="pull-right">按住Ctrl+enter换行,回车发送</p>
+                        </div>
+                    </div>
+                    <!--<div class="panel-right-button">button</div>-->
+                </div>
+                <!-- 3 -->
+                <div style="display:none">
+                    <div class="im-right-panel-header">
+                        <h5 class="ovdot">组织架构</h5>
+                        <span class="hd-right-close">
+                            <i class="bg font20"></i>
+                        </span>
+                    </div>
+                    <div style="height:85%;width:100%;overflow-y: auto;">
+                        <p class="list-jg"><a href="###">全公司</a>&gt;<a href="###">分公司</a>&gt;<a href="###">研发部</a></p>
+                        <div class="name-box">
+                            <ul>
+                                <li>
+                                    <div class="clearfix">
+                                        <img src="/ViewV5/images/IM/user2.jpg" class="img-30 pull-left">
+                                        <div class="pull-left" style="margin-left:15px">
+                                            <h5>张先生</h5>
+                                            <p>部门主管</p>
+                                        </div>
+                                    </div>
+
+                                </li>
+                                <li>
+                                    <div class="clearfix">
+                                        <img src="/ViewV5/images/IM/user2.jpg" class="img-30 pull-left">
+                                        <div class="pull-left" style="margin-left:15px">
+                                            <h5>张先生</h5>
+
+                                        </div>
+                                    </div>
+
+                                </li>
+                                <li>
+                                    <div class="clearfix">
+                                        <img src="/ViewV5/images/IM/user2.jpg" class="img-30 pull-left">
+                                        <div class="pull-left" style="margin-left:15px">
+                                            <h5>张先生</h5>
+                                            <p>部门主管</p>
+                                        </div>
+                                    </div>
+
+                                </li>
+                                <li>
+                                    <div class="clearfix">
+                                        <img src="/ViewV5/images/IM/user2.jpg" class="img-30 pull-left">
+                                        <div class="pull-left" style="margin-left:15px">
+                                            <h5>张先生</h5>
+                                            <p>部门主管</p>
+                                        </div>
+                                    </div>
+
+                                </li>
+                                <li>
+
+                                    <div class="clearfix">
+                                        <img src="/ViewV5/images/IM/user2.jpg" class="img-30 pull-left">
+                                        <div class="pull-left" style="margin-left:15px">
+                                            <h5>张先生</h5>
+
+                                        </div>
+                                    </div>
+
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 群组弹出层-->
+        <div class="grap-cont grap animated fadeInRight" style="display:none">
+            <div class="grap-cont-whit">
+                <div class="clearfix top-grap">
+                    <img src="/ViewV5/images/IM/user2.jpg" class="pic-80 pull-left">
+                    <div class="pull-left ml5">
+                        <h4 style="font-size:16px;margin-top:10px;color:#333">测试图标暂时替代</h4>
+                        <p style="margin-top:3px;font-size:12px">共<span>15</span>人</p>
+                    </div>
+                    <span class="hd-right-close pull-right">
+                        <i class="bg font20" id="close-grap"></i>
+                    </span>
+                </div>
+                <ul class="grap-name clearfix">
+                    <li class="">
+                        <img src="/ViewV5/images/IM/user2.jpg" class="pic-40">
+                        <span style="display:block;font-size:12px;">张散散</span>
+                    </li>
+                    <li class="">
+                        <img src="/ViewV5/images/IM/user2.jpg" class="pic-40">
+                        <span style="display:block;font-size:12px;">张散散</span>
+                    </li>
+                    <li class="">
+                        <img src="/ViewV5/images/IM/user2.jpg" class="pic-40">
+                        <span style="display:block;font-size:12px;">张散散</span>
+                    </li>
+                    <li class="">
+                        <img src="/ViewV5/images/IM/user2.jpg" class="pic-40">
+                        <span style="display:block;font-size:12px;">张散散</span>
+                    </li>
+                    <li class="">
+                        <img src="/ViewV5/images/IM/user2.jpg" class="pic-40">
+                        <span style="display:block;font-size:12px;">张散散</span>
+                    </li>
+                    <li class="">
+                        <img src="/ViewV5/images/IM/user2.jpg" class="pic-40">
+                        <span style="display:block;font-size:12px;">张散散</span>
+                    </li>
+                </ul>
+                <div class="profile-info-ft">
+                    <a href="javascript:void(0)" class="button button-create-chat" style="background-color: #F03F28;">解散群组</a>
+                </div>
+            </div>
+        </div>
+        <!-- 个人详情 -->
+        <div class="grap-cont personage animated fadeInRight" style="display:none">
+            <div class="grap-cont-whit">
+                <div class="head clearfix">
+                    <div class="pull-left">
+                        <img src="/ViewV5/images/IM/user2.jpg" style="width:60px;">
+                    </div>
+                    <div class="info-name pull-left">
+                        <h5>吴小小</h5>
+                        <p>前端开发</p>
+                    </div>
+                    <button type="button" class="close-zl close">
+                        &times;
+                    </button>
+                </div>
+                <div class="mt10">
+                    <div class="profile-info-item clearfix ng-scope" ng-if="!$root.fromSoftStone">
+                        <span>部门</span>
+                        <div class="info-detail">研发部</div>
+                    </div>
+                    <div class="profile-info-item clearfix ng-scope" ng-if="!$root.fromSoftStone">
+                        <span>手机</span>
+                        <div class="info-detail">0375-00000</div>
+                    </div>
+                    <div class="profile-info-item clearfix ng-scope" ng-if="!$root.fromSoftStone">
+                        <span>电话</span>
+                        <div class="info-detail">15738306799</div>
+                    </div>
+                    <div class="profile-info-item clearfix ng-scope" ng-if="!$root.fromSoftStone">
+                        <span>邮箱</span>
+                        <div class="info-detail">99999999@qq.com</div>
+                    </div>
+                </div>
+                <div style="border-bottom:1px solid #f0f0f0;margin-top:20px"></div>
+                <div class="mt10">
+                    <div class="profile-info-item clearfix ng-scope" ng-if="!$root.fromSoftStone">
+                        <span>入职</span>
+                        <div class="info-detail"></div>
+                    </div>
+                    <div class="profile-info-item clearfix ng-scope" ng-if="!$root.fromSoftStone">
+                        <span>生日</span>
+                        <div class="info-detail"></div>
+                    </div>
+                    <div class="profile-info-item clearfix ng-scope" ng-if="!$root.fromSoftStone">
+                        <span>QQ</span>
+                        <div class="info-detail"></div>
+                    </div>
+                    <div class="profile-info-item clearfix ng-scope" ng-if="!$root.fromSoftStone">
+                        <span>介绍</span>
+                        <div class="info-detail">我是一个测试的长文本我是一个测试的长文本我是一个测试的长文本我是一个测试的长文本</div>
+                    </div>
+                </div>
+                <div class="profile-info-ft">
+                    <a href="javascript:void(0)" class="button button-create-chat">发起聊天</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script type="text/javascript">
+        //		-----------------------------------------
+        var left_b = document.getElementById('left_b').children;
+        var left_ul = document.getElementById('left_ul').children;
+        var panel_r = document.getElementById('panel-r').children;
+        //		------------------------------------------------------------
+        var oDiv = document.getElementById('div');
+        var oDiv1 = document.getElementById('div1');
+        var magic = document.getElementById('magic');
+        //获取聊天框内div
+        var box = document.getElementById("box");
+        var box_t = document.getElementById("window-box—t");
+         var panel_right=document.getElementById('panel-r');
+        var panel_bottom = document.getElementById('panel-bottom-cont');
+        var obuttom = panel_bottom.children;
+        //		-------
+        panel_right.style.height = oDiv1.offsetHeight + 'px';//设置右边窗口高度和大体高度一致
+        box_t.style.height = box.offsetHeight - 60 + 'px';//上半部分
+        obuttom['1'].style.height = panel_bottom.offsetHeight - obuttom['0'].offsetHeight - obuttom['2'].offsetHeight + 'px';//下半部分
+        //-------------------------
+        var yy = 0;
+        var xx = 0;
+        function move(ent) {
+            var event = ent || window.event  //火狐和ie兼容
+            //获取点击位置
+            //var x=event.clientX;
+            //var y=event.clientY;
+            //var otop=oDiv1.offsetTop;
+            //var oleft=oDiv1.offsetLeft;
+            //yy=y-otop;
+            //xx=x-oleft;
+            //鼠标拖动事件
+            //window.document.onmousemove = domove;
+            //window.document.onmouseup = nn;
+        }
+        function domove(ent) {
+            //兼容IE和火狐浏览器兼容
+            var event = ent || window.event;
+            //获取移动位置
+            var x = event.clientX;
+            var y = event.clientY;
+            //判断？？？？？？
+            if (x < 0) x = 0;
+            if (y < 0) y = 0;
+            if (x < xx) x = x + oleft;
+            if (y < yy) y = x + otop;
+            //设置did的移动
+            oDiv1.style.top = (y - yy) + "px";
+            oDiv1.style.left = (x - xx) + "px";
+        };
+        //-------------聊天窗口的变换大小--------------
+        function tobig(ent) {
+            var event = ent || window.event  //火狐和ie兼容
+            //获取鼠标点击位置
+            //var x=event.clientX;
+            //var y=event.clientY;
+            //挪动鼠标执行函数dd()
+            //window.document.onmousemove = dd;
+            //window.document.onmouseup = nn;
+        }
+        function dd(e) {
+            var ev = e || event;
+            //把当前鼠标位置，赋值给div1
+            //oDiv1.style.height=ev.clientY-parseInt(div1.offsetTop)+"px";
+            //oDiv1.style.width=ev.clientX-parseInt(div1.offsetLeft)+"px";
+            //控制聊天窗口上下部分
+            // panel_right.style.height=oDiv1.offsetHeight+'px';
+            // box_t.style.height=box.offsetHeight-60+'px';
+            // obuttom['1'].style.height=panel_bottom.offsetHeight-obuttom['0'].offsetHeight-obuttom['2'].offsetHeight+'px';
+
+        }
+        function nn() {
+            window.document.onmousemove = null;
+        }
+        //-------------------left_ul点击切换------------------
+        function change(num) {
+            for (var i = 0; i < left_ul.length; i++) {
+                if (i == num) {
+                    left_b[i].style.display = 'block';
+                    left_ul[i].className = 'active';
+                    panel_r[i].style.display = 'block';
+                    panel_r[i].className = 'panel-right';
+
+                } else {
+                    left_b[i].style.display = 'none';
+                    left_ul[i].className = '';
+                    panel_r[i].style.display = 'none';
+                }
+            }
+        }
+
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $(".left-tab li").each(function (i) {
+                $(this).click(function () {
+                    $(this).addClass("active").siblings().removeClass("active");
+                })
+            })
+            $(".img-icon-face").click(function () {
+                $("#myCarousel").toggle();
+            })
+            // 组织结构 展开收起 不可删除
+            $(".gs-box .down-open").click(function () {
+                $(this).next(".children-list").toggle();
+            })
+            //弹出群组 关闭群组 展示使用
+            $(".grap-pop").click(function () {
+                $(".grap-cont.grap").show();
+            })
+            $("#close-grap").click(function () {
+                $(".grap-cont").hide();
+            })
+            //弹出个人信息 关闭 展示使用
+            $(".look-zl").click(function () {
+                $(".personage").show();
+            })
+            $(".close-zl").click(function () {
+                $(".personage").hide();
+            })
+            // 搜索框鼠标点击显示 仅为做效果展示 可删除
+            $(".input-search").focus(function () {
+                $(".search-resul").show();
+            })
+            $(".input-search").blur(function () {
+                $(".search-resul").hide();
+            });
+
+
+
+        })
+
+    </script>
+</body>
+</html>

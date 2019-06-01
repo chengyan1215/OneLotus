@@ -1,0 +1,231 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>评论</title>
+
+    <link rel="stylesheet" href="/ViewV5/CSS/icfont_qj/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/index.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/default.css">
+    <link href="/ViewV5/JS/raty/jquery.raty.css" rel="stylesheet" />
+
+    <script src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>
+    <script src="/ViewV5/JS/YSteps/Steps.js"></script>
+    <script src="/ViewV5/JS/raty/jquery.raty.js"></script>
+    <style>
+ 
+
+        .faceDiv {
+            background-color: #fff;
+        }
+
+            .faceDiv > img {
+                /*border: 1px solid #ccc;*/
+                float: left;
+                margin-left: -1px;
+                margin-top: -1px;
+                position: relative;
+                width: 32px;
+                height: 32px;
+                padding: 3px 3px 3px 3px;
+                cursor: pointer;
+            }
+
+                .faceDiv > img:hover {
+                    background-color: #efefef;
+                }
+
+                .faceDiv > img:active {
+                    padding: 4px 3px 2px 3px;
+                }
+    </style>
+    <script>
+        function GetQuery(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(decodeURI(r[2]));
+            else return "";
+        }
+        var model = avalon.define({
+            $id: "COMMENT",
+            ID: ComFunJS.getQueryString("ID", 0), //评论主表Id
+            Type: ComFunJS.getQueryString("Type", "0"), //评论主表ModelCode，如果是不需要添加评论记录的操作不需要传值
+            ConDec: GetQuery("contentdec"),//不需要添加评论记录的描述
+            content: GetQuery("content", ""), //评论内容，会议纪要会加载当前的会议纪要
+            Points: "0",
+            plnr: { "MSGContent": "" },
+            fjData: [],
+            tjfj: function () {
+                isShowImg = false;
+                $("#fj").show();
+                $(".faceDiv").hide();
+
+                $("#file").trigger("click");
+            },
+            scfj: function (el) {
+                model.fjData.remove(el);
+            },
+            AddPL: function () {
+                if ($('#pc').raty('score')) {
+                    model.Points = parseInt($('#pc').raty('score')) * 20;
+                }
+                var plcontent = model.content;
+             
+                if ($.trim(plcontent) == "") {
+                    parent.ComFunJS.winwarning("请输入" + (!model.ConDec ? '评论内容' : model.ConDec + '内容'));
+                    return;
+                }
+                if (model.Type != "0") {
+                    var ids = "";
+                    $(model.fjData).each(function (inx, itm) {
+                        if (ids) {
+                            ids = ids + "," + itm.ID;
+                        }
+                        else {
+                            ids = itm.ID;
+                        }
+                    })
+                    $.post('/API/VIEWAPI.ashx?Action=XTGL_ADDCOMENT', { "P1": plcontent, "Points": model.Points, "MsgType": model.Type, "MsgLYID": model.ID, "fjID": ids }, function (result) {
+                        if (result.ErrorMsg == "") {
+                            result.Result.FileList = result.Result1;
+                            model.plnr = result.Result;
+                        }
+                    })
+                }
+            }
+        });
+
+        var isShowImg = false;
+
+        avalon.ready(function () {
+            $('#pc').raty();
+            $.ajaxSetup({
+                async: false
+            });
+
+            $(".faceDiv").hide();
+
+            $(".imgBtn").click(function () {
+                if (isShowImg == false) {
+                    isShowImg = true;
+                    $("#fj").hide();
+                   
+                    $(".faceDiv").show();
+                    if ($(".faceDiv").children().length == 0) {
+                        for (var i = 0; i < ComFunJS.facePath.length; i++) {
+                            $(".faceDiv").append("<img title=\"" + ComFunJS.facePath[i].faceName + "\" src=\"/ViewV5/images/face/" + ComFunJS.facePath[i].facePath + "\" />");
+                        }
+                        $(".faceDiv>img").click(function () {
+                         
+                            ComFunJS.insertAtCursor($("#pl")[0], "[" + $(this).attr("title") + "]");
+                        });
+                    }
+                } else {
+                    isShowImg = false;
+                    $("#fj").show();
+
+                    $(".faceDiv").hide();
+                }
+            });
+        })
+        function getpl() {
+            model.AddPL();
+            //type==0为不添加评论记录的操作，返回评论内容；type为主表的ModelCode返回添加的评论记录
+            if (model.Type != "0") {
+                return model.plnr;
+            } else {
+                return model.content;
+            }
+        }
+        function getfj() {
+            var ids = "";
+            $(model.fjData).each(function (inx, itm) {
+                if (ids) {
+                    ids = ids + "," + itm.ID;
+                }
+                else {
+                    ids = itm.ID;
+                }
+            })
+            return ids;
+        }
+        function UploadLoad() {
+            if (document.getElementById("file").files.length > 0) {
+                var formData = new FormData();
+                for (var i = 0; i < document.getElementById("file").files.length; i++) {
+                    formData.append("upFile"+i, document.getElementById("file").files[i]);
+                }
+                $.ajax({
+                    url: "/API/VIEWAPI.ashx?ACTION=XTGL_UPLOADFILE&P1=3&r=" + Math.random(),
+                    type: "POST",
+                    data: formData,
+                    /**
+                    *必须false才会自动加上正确的Content-Type
+                    */
+                    contentType: false,
+                    /**
+                    * 必须false才会避开jQuery对 formdata 的默认处理
+                    * XMLHttpRequest会对 formdata 进行正确的处理
+                    */
+                    processData: false,
+                    success: function (result) {
+                        var r = $.parseJSON(result);
+                        if (r.ErrorMsg == "") {
+                            document.getElementById("file").outerHTML = document.getElementById("file").outerHTML;
+                            $("#file").change(function () {
+                                UploadLoad();
+                            });
+                            model.fjData.pushArray(r.Result);
+                            parent.ComFunJS.winsuccess("上传成功！");
+                        }
+                        else {
+                            parent.ComFunJS.winwarning("上传失败！");
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body ms-controller="COMMENT">
+    <div class="textarea-bj">
+        <div class="textarea-text">
+            <textarea id="pl" ms-duplex="content" autofocus ms-attr-placeholder="!ConDec?'填写评论...':'请输入'+ConDec" rows="5"></textarea>
+        </div>
+        <div class="operation c666">
+            <div class="pull-left operation-au">
+                <input type="file" style="display:none;" id="file" onchange="UploadLoad()" multiple="multiple">
+                <span ms-click="tjfj()"  style="display:none"><i class="iconfont icon-fj ft12"></i>添加附件</span>
+                <span class="imgBtn"><i class="iconfont icon-xiaolian"></i>添加表情</span>
+                <span ms-if="Type == 'GZBG'||Type == 'RWGL'">
+                    评分
+                    <div id="pc" style="display: inline-block;">
+                    </div>
+                </span>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+        <div class="faceDiv" style="overflow:auto;"></div>
+    </div>
+    <div style="margin-top:1px;" id="fj" ms-visible="fjData.size()>0">
+        <div class="oh fj-upload" ms-repeat-file="fjData">
+            <img ms-if="ComFunJS.isPic(file.FileExtendName)" ms-class="img-rounded:ComFunJS.isPic(file.FileExtendName)" ms-on-click="ComFunJS.viewfile(file)" ms-attr-src="{{ComFunJS.getfile(file.ID)}}&width=45&height=45" ms-attr-imgyt="{{ComFunJS.getfile(file.ID)}}" style="cursor:zoom-in;border-radius:2px" />
+
+            <img ms-click="ComFunJS.viewfile(file)" style="height:45px;width:45px" ms-if="!ComFunJS.isPic(file.FileExtendName)" ms-attr-src="/ViewV5/images/qywd/{{file.FileExtendName}}.png" onerror="javascript: this.src = '/ViewV5/images/qywd/file.png'" />
+            <div class="fj-cont c999 ft14">
+                <p class="word-break">
+                    {{file.Name}}.{{file.FileExtendName}}<span>({{Math.round(file.FileSize/1024)}}kb)</span>
+                    <button class="btn btn-danger btn-xs pull-right" style="padding-left:15px;padding-right:15px;" ms-click="scfj(file)">删除</button>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

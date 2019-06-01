@@ -1,0 +1,350 @@
+﻿<style>
+    .pt20 {
+        padding-top: 0px;
+    }
+
+    .jg-right {
+        padding-top: 20px;
+    }
+</style>
+<div ms-controller="JCSZ">
+    <div class="jg-left pull-left ft14">
+        <p class="mb10 ft16 padding20 c999" style="border-bottom:1px solid #e5e5e5;"><i class="iconfont icon-zuzhi ft14 mr5"></i>组织机构</p>
+        <script type="avalon" id="tmpltree">
+            <li ms-repeat-branch="branch.ChildBranch">
+                <div class="jg-item" ms-class-1="active:branch.DeptCode==SelDeptItem.DeptCode">
+                    <b ms-click="BranchClick(branch,$event)">
+                        <i class="caret" ms-click="BranchToggle(this,$event)" ms-class-1="active:branch.ChildBranch.size()>0"></i>
+                        <span class="jg-name">{{ConBranch(branch.DeptName)}}</span><!--<i class="jg-number ft12 c999">（8人）</i>-->
+                    </b>
+                </div>
+                <ul class="children-list" ms-include="'tmpltree'"></ul>
+            </li>
+        </script>
+        <ul class="jg-list-box">
+            <li ms-repeat-branch="BranchListData">
+                <div class="jg-item" ms-class-1="active:branch.DeptCode==SelDeptItem.DeptCode">
+                    <b ms-click="BranchClick(branch,$event)">
+                        <i class="caret" ms-click="BranchToggle(this,$event)" ms-class-1="active:branch.ChildBranch.size()>0"></i>
+                        <span class="jg-name">{{ConBranch(branch.DeptName)}}</span>
+                    </b>
+                </div>
+                <ul class="children-list" ms-include="'tmpltree'"></ul>
+            </li>
+        </ul>
+    </div>
+    <div class="jg-right ">
+        <div class="btn-add">
+            <!--<button type="button" class="btn btn-info" ms-click="UserImport()"><i class="iconfont icon-dr ft12 mr5"></i>批量导入</button>
+            <a class="btn btn-info" ms-click="dcyg()"><i class="iconfont icon-dc ft12 mr5"></i>导出</a>-->
+        </div>
+        <!-- 机构管理详情 -->
+        <div class="jg-cont ft14">
+
+            <div class=" ml15" style="position:relative">
+                <a class="c-default dropdown-toggle ft16" >
+                    <i class="iconfont icon-bookmark c-default mr5"></i>{{SelDeptItem.DeptName}}<span class="caret ml10"></span>
+                </a>
+            </div>
+            <div class="detail-con">
+
+                <div class="detail-item">
+                    <span class="item-tit" ms-visible="SelDeptItem.DeptDesc">部门描述：</span>
+                    <div class="item-con">{{SelDeptItem.DeptDesc}}</div>
+                </div>
+                <div class="detail-item">
+                    <span class="item-tit">部门负责人：</span>
+                    <div class="item-con">{{SelDeptItem.BranchLeader?ComFunJS.convertuser(SelDeptItem.BranchLeader):""}}</div>
+                </div>
+                <div class="detail-item" ms-visible="SelDeptItem.RoomCode">
+                    <span class="item-tit">房间号：</span>
+                    <div class="item-con">{{SelDeptItem.RoomCode}}</div>
+                </div>
+                <div class="ml15 pb20 mr15">
+                    <div class="input-group ml15" style="width:295px;float: right;margin-right: 20px;">
+                        <input type="search" class="form-control" placeholder="搜索姓名，账号，部门，手机号" ms-duplex="searchContent">
+                        <span class="input-group-addon" ms-click="GetUserList()">搜索</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  -->
+        <div class="default-tab ft14">
+            
+            <div class="default-tab ft14 pt20 table-responsive">
+                <table class="table table-striped  table-hover" id="branchTab">
+                    <thead>
+                        <tr>
+                            <th class="tc">
+                            </th>
+                            <th>姓名</th>
+                            <th>基本工资(元)</th>
+                            <th>岗位津贴(元)</th>
+                            <th>社保</th>
+                            <th>公积金</th>
+                            <th style="width:80px;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ms-repeat-item="UserData" ms-click="ViewForm('XTGL_YGGL',item.un,$event)">
+                            <td class="tc">
+                            </td>
+                            <td style="min-width:120px;">
+                                {{item.UserRealName}}
+                            </td>
+                            <td>{{item.JBGZ}}</td>
+                            <td>{{item.GWJT}}</td>
+                            <td>{{item.IsSB+''?(item.IsSB=='1'?'缴纳':'不缴纳'):''}}</td>
+                            <td>{{item.IsGJJ+''?(item.IsGJJ=='1'?'缴纳':'不缴纳'):''}}</td>
+                            <td>
+                                <span >
+                                    <a class="cz-btn ft18 bj-color tip" data-toggle="tooltip" title="编辑" ms-click="OpenJCSZ(item,$event)">
+                                        <i class="iconfont icon-bianji"></i>
+                                    </a>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr ms-if="isnull"><td class="tc"></td><td>暂无数据</td></tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="ui-datatable-page ft14 pl20">
+                <div id="pageDiv" ms-visible="model.page.total>model.pageNum[0].num" class="pull-right"></div>
+                <div class="pull-right" ms-visible="UserData.size()!=0">
+                    <span>共{{model.page.total}}条记录</span>
+                    <span ms-visible="model.page.total>model.pageNum[0].num">
+                        选择每页条数
+                        <select style="height: 25px; width: 50px;" ms-change="selNum(this.value)" ms-duplex="model.page.pagecount">
+                            <option ms-repeat-pg="pageNum" ms-attr-value="pg.num" ms-attr-selected="pg.num==model.page.pagecount?'selected':''">{{pg.num}}</option>
+                        </select>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal fade" id="ModifyJCSZModal" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 500px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">编辑</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="branchName" class="col-xs-4 control-label text-right">基本工资(元)</label>
+                            <div class="col-xs-6">
+                                <input type="text" class="form-control" id="jbgz" ms-duplex="JCSZData.JBGZ" placeholder="请输入基本工资" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="branchDesc" class="col-xs-4 control-label text-right">岗位津贴(元)</label>
+                            <div class="col-xs-6">
+                                <input type="text" class="form-control" ms-duplex="JCSZData.GWJT" id="gwjt" placeholder="请输入岗位津贴" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="branchShort" class="col-xs-4 control-label text-right">社保</label>
+                            <div class="col-xs-6">
+                                <div class="icheckbox_square-blue" ms-class-1="checked:JCSZData.IsSB=='1'" id="sb" style=" margin-top: 8px;" ms-click="isxz()">
+                                    <span class="iconfont icon-check ft12"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="branchShort" class="col-xs-4 control-label text-right">公积金</label>
+                            <div class="col-xs-6">
+                                <div class="icheckbox_square-blue" ms-class-1="checked:JCSZData.IsGJJ=='1'" id="gjj" style=" margin-top: 8px;" ms-click="isxz()">
+                                    <span class="iconfont icon-check ft12"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-success" id="conaddForder" ms-click="BranchAdd()"><i class="fa fa-spinner fa-spin" style="display: none"></i>确&nbsp;&nbsp;认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var tempindex = avalon.define({
+        $id: "JCSZ",
+        BranchListData: [],
+        UserData: [],
+        searchContent: "",
+        SelDeptItem: {},
+        selNum: function (item) {    //选择显示的条数
+            model.page.pagecount = item;
+            tempindex.GetUserList();
+        },
+        InitWigetData: function () {
+            tempindex.GetBranch();
+            tempindex.GetUserList();
+            ComFunJS.initForm();
+        },
+        ConBranch: function (str) {
+            if (str.length > 12) {
+                str = str.substring(0, 12) + "...";
+            }
+            return str;
+        },
+        GetBranch: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETALLBMNEW',{}, function (resultData) {
+                tempindex.BranchListData = resultData.Result;
+                tempindex.SelDeptItem = resultData.Result[0];
+                tempindex.GetUserList();
+            })
+        }, BranchToggle: function (dom, event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            if (dom) {
+                $(".jg-item b i").removeClass("active");
+                if ($(dom).parent().parent().next(".children-list").css("display") == "none") {
+                    $(dom).addClass("active");
+                }
+                $(dom).parent().parent().next(".children-list").slideToggle('fast');
+            }
+        }, BranchClick: function (item, event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            tempindex.SelDeptItem = item;
+            tempindex.GetUserList();
+
+        },
+        dcyg: function () {
+            if (model.page.total > 0) {
+                $(this).attr("href", "/API/VIEWAPI.ashx?Action=XTGL_EXPORTYG&P1=" + tempindex.SelDeptItem.DeptCode + "&P2=" + tempindex.searchContent + "&pagecount=" + model.page.total);
+            }
+            else {
+                ComFunJS.winwarning("无数据");
+            }
+        },
+        totalUserCount: 0,
+        GetUserList: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=XZGL_GETUSERJBSZLIST', { "P1": tempindex.SelDeptItem.DeptCode, P2: tempindex.searchContent, pagecount: model.page.pagecount, p: 1 }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempindex.UserData = resultData.Result;
+                    model.page.total = resultData.Result1;
+                    if (tempindex.UserData.size() == 0) { model.isnull = true; } else { model.isnull = false; }
+                    tempindex.totalUserCount = resultData.Result1;
+                    var page = 1;
+                    laypage({
+                        cont: 'pageDiv', //容器。值支持id名、原生dom对象，jquery对象。
+                        //  pages: resultData.Result1, //通过后台拿到的总页数
+                        pages: Math.ceil(parseInt(resultData.Result1) * 1.0 / model.page.pagecount), //通过后台拿到的总页数
+                        curr: 1, //初始化当前页
+                        skin: 'molv',
+                        jump: function (e) { //触发分页后的回调
+                            if (e.curr != page) {
+                                $.getJSON('/API/VIEWAPI.ashx?Action=XZGL_GETUSERJBSZLIST', { "P1": tempindex.SelDeptItem.DeptCode, P2: tempindex.searchContent, pagecount: model.page.pagecount, p: e.curr }, function (resultData) {
+                                    tempindex.UserData = resultData.Result;
+                                    tempindex.totalUserCount = resultData.Result1;
+                                })
+                                page = e.curr;
+                            }
+                        }
+                    });
+                }
+            })
+        },
+        selUserName: "",
+        UserImport: function () {
+            top.ComFunJS.winviewform("/ViewV5/AppPage/XTGL/IMPORTUSER.html", "导入用户", 1000, 600);
+        },
+        JCSZData: { UserName: "", JBGZ: "", GWJT: "", IsSB: "", IsGJJ: "" },
+        uid:"",
+        OpenJCSZ: function (item, event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            tempindex.uid = item.uid;
+            if (item.ID) {
+                $.getJSON('/API/VIEWAPI.ashx?Action=XZGL_GETJCSZMODEL', { "P1": item.ID }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        tempindex.JCSZData = resultData.Result;
+                    }
+                })
+                //tempindex.JCSZData = { ID:item.ID,UserName: item.UserName, JBGZ: item.JBGZ, GWJT: item.GWJT, IsSB: item.IsSB, IsGJJ: item.IsGJJ };
+            }
+            else {
+                tempindex.JCSZData = { UserName: item.un, JBGZ: "", GWJT: "", IsSB: "", IsGJJ: "" };
+            }
+            $('#ModifyJCSZModal').modal('show');
+        },
+        BranchAdd: function () {
+            var reg = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$/;
+            if (!tempindex.JCSZData.JBGZ) {
+                ComFunJS.winwarning("请输入基本工资");
+                return;
+            }
+            else {
+                if (!reg.test(tempindex.JCSZData.JBGZ)) {
+                    ComFunJS.winwarning("基本工资格式错误,保留2位小数");
+                    return;
+                }
+            }
+            if (!tempindex.JCSZData.GWJT) {
+                ComFunJS.winwarning("请输入岗位津贴");
+                return;
+            }
+            else {
+                if (!reg.test(tempindex.JCSZData.GWJT)) {
+                    ComFunJS.winwarning("岗位津贴格式错误,保留2位小数");
+                    return;
+                }
+            }
+            
+            if ($("#sb").hasClass("checked")) {
+                tempindex.JCSZData.IsSB = "1";
+            }
+            else {
+                tempindex.JCSZData.IsSB = "0";
+            }
+            if ($("#gjj").hasClass("checked")) {
+                tempindex.JCSZData.IsGJJ = "1";
+            }
+            else {
+                tempindex.JCSZData.IsGJJ = "0";
+            }
+
+            var modelValue = JSON.stringify(tempindex.JCSZData.$model);
+            $.post("/API/VIEWAPI.ashx", { Action: "XZGL_ADDJCSZ", P1: modelValue },
+            function (result) {
+                if ($.trim(result.ErrorMsg) == "") {
+                
+                    tempindex.UserData.forEach(function (item) {
+                        if (item.uid == tempindex.uid) {
+                            item.ID = result.Result.ID;
+                            item.JBGZ = result.Result.JBGZ;
+                            item.GWJT = result.Result.GWJT;
+                            item.IsSB = result.Result.IsSB;
+                            item.IsGJJ = result.Result.IsGJJ;
+                        }
+                    })
+                    
+                    ComFunJS.winsuccess("操作成功");
+                    $('#ModifyJCSZModal').modal('hide');
+                }
+            });
+        },
+        isxz: function () {
+            $(this).toggleClass("checked");
+        }
+    });
+
+    function jptj(event) {
+        if (event.keyCode == 13 || event.keyCode == 10) {
+            tempindex.GetUserList();
+        }
+    }
+    //# sourceURLJCSZ.js;
+</script>

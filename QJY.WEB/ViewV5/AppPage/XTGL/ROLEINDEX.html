@@ -1,0 +1,422 @@
+﻿<style>
+    .pt20 {
+        padding-top: 0px;
+    }
+
+    .jg-right {
+        padding-top: 20px;
+    }
+</style>
+<div ms-controller="ROLEINDEX">
+    <div class="jg-left pull-left ft14">
+        <p class="mb10 ft16 padding20 c999" style="border-bottom: 1px solid #e5e5e5;">
+            <i class="iconfont icon-tuodong  mr5"></i>职务列表
+            <i class="iconfont icon-jiahao ft12 pull-right mt5 pl20" ms-click="RoleEdit(1)" title="添加职务" style="cursor: pointer"></i>
+        </p>
+        <ul class="jg-list-box">
+            <li>
+                <div>
+                    <input type="text" name="name" value="" ms-duplex="searchrole" placeholder="搜索" class="form-control"  style=" width: 95%; margin: 2px;" />
+                </div>
+            </li>
+            <li ms-repeat-item="RoleListData" ms-click="GetUserList(item,$index)"   ms-visible="item.RoleName.indexOf(searchrole) > -1">
+                <div class="jg-item" ms-class="active:item.RoleCode==SelRoleItem.RoleCode">
+                    <b class="ml15">
+                        <i class="iconfont icon-group"></i>
+                        <span class="jg-name">{{item.RoleName}}</span><i class="jg-number ft12 c999">（{{item.userCount}}人）</i>
+                    </b>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="jg-right pt20 ft14">
+        <div class="btn-add">
+            <button type="button" class="btn btn-info" ms-click="DelRole()" ms-if="SelRoleItem.isSysRole=='N'"><i class="iconfont icon-shanchu ft14 mr5"></i>删除职务</button>
+            <button type="button" class="btn btn-info" ms-click="RoleEdit(2)" ms-if="SelRoleItem.RoleCode!=0"><i class="iconfont icon-bianji ft14 mr5"></i>修改职务</button>
+        </div>
+        <!-- 机构管理详情 -->
+        <div class="jg-cont ft14">
+            <div class=" ml15" style="position: relative">
+                <a class="c-default dropdown-toggle ft16" data-toggle="dropdown">
+                    <i class="iconfont icon-bookmark c-default mr5"></i>职务详情
+                </a>
+            </div>
+            <div class="detail-con">
+
+                <div class="detail-item">
+                    <span class="item-tit">职位名称：</span>
+                    <div class="item-con">{{RoleUserData.RoleName}}</div>
+                </div>
+                <div class="detail-item">
+                    <span class="item-tit">职位详情：</span>
+                    <div class="item-con">{{RoleUserData.RoleDec}}</div>
+                </div>
+                <div class="detail-item" style="max-height: 400PX; overflow: AUTO;">
+                    <span class="item-tit">职务人员：</span>
+                    <div class="item-con oh" style="word-wrap: normal; white-space: normal;">
+                        <span class="personnel ft14" ms-repeat-item="RoleUser" ms-css-display="ComFunJS.convertuser(item.UserName)?'inline-block':'none'">{{ComFunJS.convertuser(item.UserName)}}<i class="iconfont icon-chenghao-copy" ms-click="DelRoleUser(item)"></i></span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 分割线 -->
+        <div class="add-tab ft14 tc"></div>
+
+        <div class="panel-all" style="margin: 20px">
+            <div class="tab-box">
+                <ul>
+                    <li ms-click="selqx(0)" ms-class-1="active:qxtype=='0'">
+                        <a>功能权限</a>
+                    </li>
+
+                    <li ms-click="selqx(1)" ms-class-1="active:qxtype=='1'">
+                        <a>机构权限</a>
+                    </li>
+
+                </ul>
+            </div>
+            <div id="wrap">
+                <div class="detail-con" ms-if="qxtype=='0'">
+
+                    <div class="mb20">
+                        <button type="button" class="btn btn-info btn-lg" ms-click="SaveModelAction()">保存职务权限</button>
+                    </div>
+                    <div ms-repeat-arr="MenuModel">
+                        <div class="page-title ft16 " style="margin-top: 5px; margin-bottom: 0px;">
+                            <h4 class="title">{{arr}}</h4>
+                        </div>
+                        <div class="xtgl-list" ms-repeat-item="MenuAuthFun" ms-visible="item.ModelType==arr">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="child1" ms-click="SelAction(item,0)">
+                                            <div class="icheckbox_square-blue" ms-class-1="checked:item.issel"><span class="iconfont icon-check ft12"></span></div>
+                                            {{item.ModelName}}
+                                        </td>
+                                        <td class="child2">
+                                            <div ms-repeat-fun="item.FunData" ms-click="SelAction(fun,1)">
+                                                <div class="icheckbox_square-blue" ms-class-1="checked:fun.issel"><span class="iconfont icon-check ft12"></span></div>
+                                                {{fun.PageName}}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="mt20 mb20">
+                        <button type="button" class="btn btn-info btn-lg" ms-click="SaveModelAction()">保存职务权限</button>
+                    </div>
+                </div>
+                <div class="detail-con" ms-if="qxtype=='1'">
+                    <div class="mt20 mb20">
+                        <button type="button" class="btn btn-info btn-lg" ms-click="SaveJQQX()">保存机构权限</button>
+                    </div>
+                    <iframe marginwidth="0" class="tabiframe" marginheight="0" frameborder="0" scrolling="no" height="100%" id="jgqx" name="jgqx" width="100%" style="min-height: 500px"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- 权限 -->
+        <div class="padding20">
+        </div>
+
+    </div>
+    <div class="modal fade" id="EditRoleModal" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 700px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">编辑职务</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="branchName" class="col-xs-3 control-label text-right">职务名称</label>
+                            <div class="col-xs-7">
+                                <input type="text" class="form-control"  ms-duplex="RoleData.RoleName" placeholder="请输入职务名称" />
+                            </div>
+                        </div>
+                        <div class="form-group" style="display: none">
+                            <label for="branchShort" class="col-xs-3 control-label text-right">职务类型</label>
+                            <div class="col-xs-7">
+                                <select id="roleType" ms-attr-disabled="RoleData.RoleCode!=''" class="form-control" ms-duplex="RoleData.roleType">
+                                    <option value="职务职务" ms-attr-selected="RoleData.roleType=='职务职务'?'selected':''">职务职务</option>
+                                    <option value="业务职务" ms-attr-selected="RoleData.roleType=='业务职务'?'selected':''">业务职务</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="branchDesc" class="col-xs-3 control-label text-right">职务描述</label>
+                            <div class="col-xs-7">
+                                <textarea class="form-control" ms-duplex="RoleData.RoleDec" id="branchDesc" placeholder="请输入职务描述"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">职务人员</label>
+                            <div class="col-xs-7">
+                                <input type="text" value="" class="span2   form-control  szhl_getPeoples" ms-duplex="strRoleUser" id="qygg2" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-success" id="conaddForder" ms-click="EditFun()"><i class="fa fa-spinner fa-spin" style="display: none"></i>确&nbsp;&nbsp;认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var tempindex = avalon.define({
+        $id: "ROLEINDEX",
+        RoleUserData: {},
+        RoleUser: [],
+        RoleListData: [],
+        SelRoleItem: {},
+        selRoleIndex: 0,
+        searchrole:"",
+        qxtype: "0",
+        selqx: function (qxtype) {
+            tempindex.qxtype = qxtype;
+            if (qxtype == "1") {
+                $("#jgqx").attr("src", "/ViewV5/AppPage/XTGL/TopBranchSelect.html?checkvalue=" + tempindex.SelRoleItem.RoleQX + "&hasQX=" + tempindex.SelRoleItem.IsHasQX);
+            }
+        },
+        InitWigetData: function () {
+            //获取主要菜单
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETROLE', {}, function (resultData) {
+                if (resultData.Result.length > 0) {
+                    tempindex.RoleListData = resultData.Result;
+                    tempindex.GetUserList(tempindex.RoleListData.$model[0], 0);
+
+                }
+            })
+            if (ComFunJS.getQueryString("isInit") == "Y") {//如果是初始化页面,删除职务操作
+                $(".isInit").remove();
+            }
+        },
+        GetUserList: function (item, i) {
+            tempindex.qxtype = "0";
+
+            tempindex.SelRoleItem = item;
+            tempindex.selRoleIndex = i;
+            tempindex.GetFunction(item.RoleCode);
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETROLEBYCODE', { "P1": item.RoleCode }, function (resultData) {
+                tempindex.RoleUserData = resultData.Result;
+                tempindex.RoleUser = resultData.Result1;
+
+            })
+
+        },
+        DelRole: function () {
+            top.ComFunJS.winconfirm("确认要删除“" + tempindex.SelRoleItem.RoleName + "”吗？", function () {
+                $.post("/API/VIEWAPI.ashx", { Action: "XTGL_DELROLE", P1: tempindex.SelRoleItem.RoleCode },
+                function (result) {
+                    if ($.trim(result.ErrorMsg) == "") {
+
+                        top.ComFunJS.winsuccess("删除" + tempindex.SelRoleItem.$model.RoleName + "成功")
+                        tempindex.RoleListData.removeAt(tempindex.selRoleIndex);
+                        tempindex.SelRoleItem = tempindex.RoleListData[0];
+                    }
+                });
+            })
+        },
+        MenuModel: [],
+        MenuAuthFun: [],
+        IsInitRole: "N",//是否需要默认加载权限，及分配权限
+        GetFunction: function (roleCode) {
+            //获取主要菜单
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETFUNCTION', { P1: roleCode }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempindex.IsInitRole = resultData.Result1;
+                    if (resultData.Result != "") {
+                        resultData.Result.forEach(function (val) {
+                            var valflag = false;
+                            val.FunData.forEach(function (fun) {
+                                fun.ActionData = eval(fun.ActionData);
+                                var flag = false;
+                                if (fun.FunCode || (tempindex.IsInitRole == "Y" && fun.IsInit == "Y" && typeof (parent.permodel) != "undefined")) {
+                                    flag = true;
+                                }
+                                fun.ActionData.forEach(function (act) {
+                                    if (fun.RoleFun && Array.isArray(fun.RoleFun.split(','), act.ActionName)) {
+                                        act.issel = true;
+                                    } else {
+                                        act.issel = false;
+                                    }
+                                })
+                                fun.issel = flag;
+                                if (fun.issel) {
+                                    valflag = true;
+                                }
+                            })
+                            val.issel = valflag;
+
+                        })
+                        tempindex.MenuAuthFun = resultData.Result;
+                        var temp = [];
+                        for (var i = 0; i < resultData.Result.length; i++) {
+                            if ($.inArray(resultData.Result[i].ModelType, temp) == -1) {
+                                temp.push(resultData.Result[i].ModelType)
+                            }
+
+                        }
+                        tempindex.MenuModel = temp;
+                    }
+                }
+            })
+        },
+        SelAction: function (item, type) {
+            var status = !item.issel;
+            item.issel = status;
+            if (type == 0) {
+                item.FunData.forEach(function (fun) {
+                    fun.issel = status;
+                    fun.ActionData.forEach(function (act) {
+                        act.issel = status;
+                    })
+                })
+            } else if (type == 1) {
+                item.ActionData.forEach(function (act) {
+                    act.issel = status;
+                })
+            } else {
+                item.issel = status;
+            }
+        },
+        RoleFunData: [],
+        SaveModelAction: function () {
+            tempindex.RoleFunData.clear();
+            tempindex.MenuAuthFun.forEach(function (val) {
+                val.FunData.forEach(function (fun) {
+                    if (fun.issel) {
+                        fun.ActionData = eval(fun.ActionData);
+                        var FunData = { "RoleCode": "", "FunCode": "", "ActionCode": "" };
+                        FunData.RoleCode = tempindex.SelRoleItem.RoleCode;
+                        FunData.FunCode = fun.ID;
+                        var ActionCode = "";
+                        fun.ActionData.forEach(function (act) {
+                            if (act.issel) {
+                                ActionCode = act.ActionName + "," + ActionCode;
+                            }
+                        })
+                        FunData.ActionCode = ComFunJS.delendchar(ActionCode);
+                        tempindex.RoleFunData.push(FunData);
+
+                    }
+                })
+
+            })
+            var modelValue = JSON.stringify(tempindex.RoleFunData.$model);
+
+            $.post("/API/VIEWAPI.ashx", { Action: "XTGL_ADDROLEFUN", P1: tempindex.SelRoleItem.RoleCode, P2: modelValue },
+               function (result) {
+                   if ($.trim(result.ErrorMsg) == "") {
+
+                       top.ComFunJS.winsuccess("操作成功");
+                   }
+               });
+        },
+        DelRoleUser: function (item) {
+            top.ComFunJS.winconfirm("确认要删除从角色中删除此用户吗？", function () {
+                $.post("/API/VIEWAPI.ashx", { Action: "XTGL_DELROLEUSER", P1: item.RoleCode, P2: item.UserName },
+                function (result) {
+                    if ($.trim(result.ErrorMsg) != "") {
+                        top.ComFunJS.winwarning(result.ErrorMsg);
+                    } else {
+                        top.ComFunJS.winsuccess("删除成功");
+                        tempindex.RoleUser.remove(item);
+                        tempindex.RoleListData[tempindex.selRoleIndex].userCount--;
+                        // tempindex.GetUserList(tempindex.RoleListData.$model[0], 0);
+                    }
+                });
+            })
+        },
+        SaveJQQX: function () {
+            var branch = $("#jgqx")[0].contentWindow.getselectedbranch();
+            var id = tempindex.SelRoleItem.RoleCode;
+            $.getJSON("/API/VIEWAPI.ashx", { Action: "XTGL_SETROLEQX", P1: branch.branchid, P2: tempindex.SelRoleItem.RoleCode, qx: branch.ishasqx },
+                function (result) {
+                    if (result.ErrorMsg == "") {
+                        tempindex.RoleListData.forEach(function (item) {
+                            if (item.RoleCode == tempindex.SelRoleItem.RoleCode) {
+                                item = result.Result;
+                                tempindex.SelRoleItem = result.Result;
+                            }
+                        })
+                        top.ComFunJS.winsuccess("设置成功");
+                    }
+                });
+        },
+        RoleData: { "RoleCode": "", "RoleName": "", "RoleDec": "", "IsUse": "Y", "IsSysRole": "N", "roleType": "业务职务" },
+        strRoleUser: "",
+        RoleEdit: function (type) {
+            if (type == 1)//添加角色
+            {
+                tempindex.RoleData = { "RoleCode": 0, "RoleName": "", "RoleDec": "", "IsUse": "Y", "IsSysRole": "N", "roleType": "业务职务" };
+                tempindex.strRoleUser = "";
+                setTimeout("ComFunJS.initForm()", 500)
+                $('#EditRoleModal').modal('show');
+            } else {
+                if (tempindex.SelRoleItem.RoleCode) {
+                    //获取主要菜单
+                    $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETROLEBYCODE', { "P1": tempindex.SelRoleItem.RoleCode }, function (resultData) {
+                        if (resultData.ErrorMsg == "") {
+                            tempindex.RoleData = resultData.Result;
+                            if (resultData.Result1) {
+                                tempindex.strRoleUser = "";
+                                $(resultData.Result1).each(function (i, item) {
+                                    tempindex.strRoleUser += item.UserName + ",";
+                                })
+                            }
+                            tempindex.strRoleUser = tempindex.strRoleUser.substring(0, tempindex.strRoleUser.length - 1);
+                            setTimeout("ComFunJS.initForm()", 500)
+                            $('#EditRoleModal').modal('show');
+                        }
+                    })
+                } else {
+
+                    parent.ComFunJS.winwarning("请选择要修改的职务");
+                }
+            }
+        },
+        EditFun: function () {
+            if (!tempindex.RoleData.RoleName) {
+                parent.ComFunJS.winwarning("请输入职务名称");
+                return;
+            }
+            var modelValue = JSON.stringify(tempindex.RoleData.$model);
+            $.post("/API/VIEWAPI.ashx", { Action: "XTGL_EditRole", P1: modelValue, P2: tempindex.strRoleUser },
+            function (result) {
+                if ($.trim(result.ErrorMsg) != "") {
+                    parent.ComFunJS.winwarning(result.ErrorMsg);
+                } else {
+                    parent.ComFunJS.winsuccess("操作成功");
+                    if (tempindex.RoleData.RoleCode) {
+                        tempindex.RoleData = result.Result;
+                        tempindex.RoleListData.set(tempindex.selRoleIndex, tempindex.RoleData);
+                        tempindex.RoleListData[tempindex.selRoleIndex].userCount = tempindex.strRoleUser.split(',').length;
+                        tempindex.RoleUserData = tempindex.RoleListData[tempindex.selRoleIndex];
+                        tempindex.RoleUser.clear();
+                        tempindex.strRoleUser.split(',').forEach(function (item) {
+                            var roleModel = { "UserName": "", "RoleCode": "" };
+                            roleModel.UserName = item;
+                            roleModel.RoleCode = tempindex.RoleData.RoleCode;
+                            tempindex.RoleUser.push(roleModel);
+                        })
+                    } else {
+                        tempindex.RoleData = result.Result;
+                        tempindex.RoleListData.push(tempindex.RoleData);
+                        tempindex.RoleListData[tempindex.selRoleIndex].userCount = tempindex.strRoleUser.split(',').length;
+                    }
+                    $('#EditRoleModal').modal('hide');
+                }
+            });
+        }
+    });
+
+    //# sourceURL=ROLEINDEX.js;
+</script>

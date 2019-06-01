@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_533449_6cz802rnwc9.css" />
+    <link rel="stylesheet" href="/ViewV5/CSS/element/index.css">
+
+</head>
+<body>
+    <div id="app">
+        <el-container>
+            <el-main>
+                <el-row :gutter="20">
+                    <el-col :span="24">
+                        <el-form :inline="true" :model="formInline" class="demo-form-inline" label-position="top">
+                            <el-select v-model="formInline.formtype" placeholder="请选择表单类型" filterable @change="ViewData()">
+                                <el-option-group v-for="group in LCLBData"
+                                                 :key="group.label"
+                                                 :label="group.label">
+                                    <el-option v-for="item in group.options"
+                                               :key="item.ID"
+                                               :label="item.ProcessName"
+                                               :value="item.ID">
+                                    </el-option>
+                                </el-option-group>
+                            </el-select>
+                            <el-date-picker v-model="formInline.sedate"
+                                            type="daterange"
+                                            align="right"
+                                            value-format="yyyy-MM-dd"
+                                            unlink-panels
+                                            range-separator="至"
+                                            start-placeholder="创建开始日期"
+                                            end-placeholder="创建结束日期"
+                                            :picker-options="pickerOptions2">
+                            </el-date-picker>
+                            <el-button type="primary" @click="QueryData">查询</el-button>
+                            <el-button  type="danger" @click="DelPIData" style="float:right">删除</el-button>
+ 
+                        </el-form>
+
+                    </el-col>
+
+                </el-row>
+
+                <el-table :data="tabledata" style="width:100%;min-height:300px;margin-top:10px" height="500" class="data-table" @header-dragend="widchange" @row-click="rowclick"  @selection-change="handleSelectionChange" stripe border>
+                    <el-table-column :label="tabletitle">
+                           <el-table-column type="selection"
+                                         width="55">
+                        </el-table-column>
+                        <el-table-column type="index" width="50" fixed> </el-table-column>
+                                          <el-table-column prop="BranchName" label="发起部门" fixed> </el-table-column>
+                                                <el-table-column prop="ProcessName" label="表单类型" fixed> </el-table-column>
+
+                        <el-table-column prop="CRDate" width="180" label="发起时间" fixed> </el-table-column>
+                        <el-table-column prop="CRUserName" label="发起人" fixed> </el-table-column>
+                        <el-table-column prop="StatusName" label="表单状态" fixed> </el-table-column>
+                        <el-table-column fixed="right"
+                                         label="操作"
+                                         width="120">
+                            <template slot-scope="scope">
+                                <a :href='"/ViewV5/AppPage/FORMBI/FormManage.html?piid=" + scope.row.ID' target="_blank">查看明细</a>
+
+                            </template>
+                        </el-table-column>
+
+                    </el-table-column>
+
+                </el-table>
+            </el-main>
+        </el-container>
+
+    </div>
+</body>
+<script src="/ViewV5/JS/vue.js"></script>
+<script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+<script src="/ViewV5/JS/lodash.min.js"></script>
+<script src="/ViewV5/JS/httpVueLoader.js"></script>
+<script src="/ViewV5/JS/element/element.js"></script>
+<script src="/ViewV5/JS/bijs.js?v=2"></script>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        components: {
+            'qj-selbranch': httpVueLoader('../../AppPage/FORMBI/vue/qjSelbranch.vue'),
+            'qj-seluser': httpVueLoader('../../AppPage/FORMBI/vue/qjSeluser.vue')
+        },
+        data: function () {
+            return {
+                pdid: ComFunJS.getQueryString('pdid', ''),
+                ishasadd: ComFunJS.getQueryString('add', '0'),
+                isGD: "N",
+                FiledData: [],
+                formInline: {
+                    formtype: "", sedate: [ComFunJS.getnowdate("yyyy") + "-01-01", ComFunJS.getnowdate("yyyy-mm-dd")], pzoption: { placeholder: "请选择统计部门" }
+                },
+                tabletitle: "流程监控列表",
+                tabledata: [],
+                LCLBData: [],
+                multipleSelection: [],
+                pickerOptions2: {
+                    shortcuts: [{
+                        text: '最近一周',
+                        onClick: function (picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近一个月',
+                        onClick: function (picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近三个月',
+                        onClick: function (picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
+                fileList: []
+            }
+        },
+        methods: {
+            rowclick: function (row, event, column) {
+            },
+            widchange: function (newWidth, oldWidth, column, event) {
+
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+            QueryData: function () {
+                this.ViewData();
+            },
+            gdChange: function () {
+                this.ViewData();
+            },
+            ExportData: function () {
+                if (app.tabledata.length > 0) {
+                    location.href = "/API/VIEWAPI.ashx?Action=FORMBI_EXPORTBDTJDATA&P1=" + app.formInline.formtype + "&sdate=" + app.formInline.sedate[0] + "&edate=" + app.formInline.sedate[1];
+                    //  $(this).attr("href", "/API/VIEWAPI.ashx?Action=FORMBI_EXPORTBDTJDATA&P1=" + app.formInline.formtype + "&sdate=" + app.formInline.sedate[0] + "&edate=" + app.formInline.sedate[1]);
+                }
+                else {
+                    app.$notify({
+                        title: '警告',
+                        message: "无数据",
+                        type: 'warning'
+                    });
+                }
+
+            },
+            DelPIData: function () {
+                this.$confirm('此操作将会彻底删除表单的相关信息,你确定要进行此操作?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    var gdids = _.map(this.multipleSelection, 'ID');
+                    if (gdids.length > 0) {
+                        $.getJSON('/API/VIEWAPI.ashx?Action=FORMBI_DELFORM', { P1: gdids.join(',') }, function (resultData) {
+                            if (!resultData.ErrorMsg) {
+                                app.$notify({
+                                    title: '成功',
+                                    message: "删除成功",
+                                    type: 'success'
+                                });
+                                app.ViewData();
+
+                            }
+                        })
+                    }
+                }).catch(() => {
+
+                });
+
+            },
+            ViewData: function () {
+                $.getJSON('/API/VIEWAPI.ashx?Action=FORMBI_GETBDJKDATA', { P1: app.formInline.formtype, sdate: app.formInline.sedate[0], edate: app.formInline.sedate[1] }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        app.tabledata = resultData.Result;
+                        app.tabletitle = "共计找到" + app.tabledata.length + "条记录";
+
+                    }
+                })
+            },
+
+        },
+        mounted: function () {
+            var pro = this;
+            pro.$nextTick(function () {
+                //获取表单类型
+                $.getJSON('/API/VIEWAPI.ashx?Action=FORMBI_GETWFPDLIST', { P1: 1 }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        var tempdata = [];
+                        for (var i = 0; i < resultData.Result.length; i++) {
+                            var tempname = resultData.Result[i].ProcessClass;
+                            if (_.findIndex(tempdata, { "label": tempname }) == -1) {
+                                tempdata.push({ "label": tempname, options: _.filter(resultData.Result, { 'ProcessClass': tempname }) })
+                            }
+                        }
+                        app.LCLBData = tempdata;
+                    }
+                })
+                app.formInline.formtype = app.pdid;
+                this.ViewData();
+                // pro.InitForm();
+            })
+        }
+    })
+</script>
+</html>

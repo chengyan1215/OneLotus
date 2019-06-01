@@ -1,0 +1,32 @@
+﻿
+<div style="background-color:#F8F8F8" ms-controller="DXGLVIEW">
+
+    <script type="text/javascript">
+
+        var tempindex = avalon.define({
+            $id: "DXGLVIEW",
+            InitWigetData: function (strId) {
+                model.title = "短信内容";
+                model.ShowColumns.pushArray(
+                     [{ "ColName": "dxContent", "ColText": "短信内容", "IsSel": true },
+                { "ColName": "dxnums", "ColText": "接收号码", "IsSel": true },
+                { "ColName": "SendTime", "ColText": "发送时间","IsSel": true, "format": "dateformat" },
+                { "ColName": "CRUser", "ColText": "发送人","IsSel": true, "format": "username" }
+                     ]);
+
+                if (strId) {
+                    //编辑加载数据
+                    $.getJSON('/API/VIEWAPI.ashx?Action=DXGL_GETDXGLMODEL', { P1: strId }, function (resultData) {
+                        if (resultData.ErrorMsg == "") {
+
+                            model.modelData = resultData.Result;
+                      //      model.tpData = resultData.Result2;
+
+                            setTimeout(" ComFunJS.initForm()", 500)
+                        }
+                    })
+                }
+            }
+        });
+    </script>
+</div>

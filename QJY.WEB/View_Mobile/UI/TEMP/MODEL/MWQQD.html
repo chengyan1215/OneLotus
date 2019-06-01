@@ -1,0 +1,280 @@
+﻿
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1476090774_8365302.css">
+<style>
+    .szhlloading {
+        -webkit-animation: rotateplane 1.2s infinite ease-in-out;
+        animation: rotateplane 1.2s infinite ease-in-out;
+    }
+
+    @-webkit-keyframes rotateplane {
+        0% {
+            -webkit-transform: perspective(120px);
+        }
+
+        50% {
+            -webkit-transform: perspective(120px) rotateY(180deg);
+        }
+
+        100% {
+            -webkit-transform: perspective(120px) rotateY(180deg);
+        }
+    }
+
+    @keyframes rotateplane {
+        0% {
+            transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+            -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+        }
+
+        50% {
+            transform: perspective(120px) rotateY(0deg);
+            -webkit-transform: perspective(120px) rotateY(-180.1deg);
+        }
+    }
+
+    .anchorBL {
+        display: none;
+    }
+
+    .amap-logo {
+        display: none !important;
+    }
+
+    .amap-copyright {
+        display: none !important;
+    }
+
+    #map h3 {
+        margin: 0 !important;
+    }
+</style>
+<div style="background:#fbf9fe" ms-controller="MWQQD">
+    <div ms-if="isHasDataQX=='Y'">
+        <!--  通过 iframe 嵌入前端定位组件，此处没有隐藏定位组件，使用了定位组件的在定位中视觉特效  -->
+        <iframe id="geoPage" width="100%" height="50px" frameborder=0 scrolling="no"
+                src="https://apis.map.qq.com/tools/geolocation?key=APHBZ-SWPCX-6VY4H-ZB35Y-NV6HK-BKBA5&referer=myapp&effect=zoom"></iframe>
+
+        <!-- 接收到位置信息后 通过 iframe 嵌入位置标注组件 -->
+        <!--<div id="map" style="height:200px;width:100%;"></div>-->
+        <iframe id="map" style="height:200px;width:100%;" frameborder=0 scrolling="no" src=""></iframe> 
+        <div class="weui_cells weui_cells_form">
+
+            <!--<div class="weui_cell">
+            <div class="weui_cell_hd"><label class="weui_label label">当前位置</label></div>
+            <div class="weui_cell_bd weui_cell_primary" style="text-align:center">
+                {{modelData.Position}}河南省大学科技园
+            </div>
+        </div>-->
+            <div class="weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_hd" style="display:none;"><label class="weui_label label">签到备注</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <textarea ms-duplex="modelData.QDContent" rows="3" placeholder="请输入签到备注" class="weui_textarea szhl szhl_require"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input type="text" ms-duplex="modelData.Files" class="wximgupload" style="display:none;" />
+                    </div>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">汇报人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="conCSR" placeholder="请选择汇报人" ms-duplex="modelData.HBUser" class="weui_input szhl szhl_getPeoples" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ms-if="isHasDataQX=='N'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">当前位置</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.Position}}
+                </div>
+            </div>
+            <div class="weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        {{modelData.QDContent|html}}
+                    </div>
+                </div>
+            </div>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <div class="viewimg">{{modelData.Files}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">汇报人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{ComFunJS.convusers(modelData.HBUser)}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).on("click", ".amap-geo", function () {
+        if ($("#bz")) {
+            $("#bz").text("正在定位中...");
+        }
+    });
+    var loc;
+    var isMapInit = false;
+    var address = '';
+    //监听定位组件的message事件
+    window.addEventListener('message', function (event) {
+        loc = event.data; // 接收位置信息
+        //console.log('location', loc);
+        //alert(loc.module);
+        if (loc && loc.module == 'geolocation') { //定位成功,防止其他应用也会向该页面post信息，需判断module是否为'geolocation'
+            var markUrl = 'https://apis.map.qq.com/tools/poimarker' +
+            '?marker=coord:' + loc.lat + ',' + loc.lng +
+            ';title:我的位置;addr:' + address +
+            '&key=APHBZ-SWPCX-6VY4H-ZB35Y-NV6HK-BKBA5&referer=myapp';
+            //给位置展示组件赋值
+
+            document.getElementById('map').src = markUrl;
+            address = loc.province + loc.city + loc.district + loc.addr;
+            tempmodel.modelData.Position = address;
+            tempmodel.Position = address;
+            //"nation": "中国",
+            //"province": "广州省",   
+            //"city":"深圳市",
+            //"district":"南山区",
+            //"addr":"深圳大学杜鹃山(白石路北250米)",
+
+        } else { //定位组件在定位失败后，也会触发message, event.data为null
+            alert('定位失败');
+        }
+
+        /* 另一个使用方式
+        if (!isMapInit && !loc) { //首次定位成功，创建地图
+            isMapInit = true;
+            createMap(event.data);
+        } else if (event.data) { //地图已经创建，再收到新的位置信息后更新地图中心点
+            updateMapCenter(event.data);
+        }
+        */
+    }, false);
+    //为防止定位组件在message事件监听前已经触发定位成功事件，在此处显示请求一次位置信息
+    document.getElementById("geoPage").contentWindow.postMessage('getLocation', '*');
+
+    //设置6s超时，防止定位组件长时间获取位置信息未响应
+    setTimeout(function () {
+        if (!loc) {
+            //主动与前端定位组件通信（可选），获取粗糙的IP定位结果
+            document.getElementById("geoPage")
+                .contentWindow.postMessage('getLocation.robust', '*');
+        }
+    }, 6000); //6s为推荐值，业务调用方可根据自己的需求设置改时间，不建议太短
+    var tempmodel = avalon.define({
+        $id: "MWQQD",
+        name: "外勤签到",
+        ColumnData: [],
+        pageType: "edit",
+        tpData: [],
+        plData: [],
+        plcount: 0,
+        dataid: "",
+        wximg: "",
+        Position: "正在定位中...",
+        modelData: { "Position": "", "Longitude": "", "Latitude": "", "QDContent": "", "Files": "", "HBUser": "" },
+        inittemp: function (strId) {
+            //circle.getCurrentPosition(locationResult); 
+            //map.addOverlay(circle);
+
+            if (strId) {
+
+                tempmodel.dataid = strId;
+                //编辑加载数据
+                $.getJSON('/API/VIEWAPI.ashx?Action=WQQD_GETWQQDMODEL', { P1: strId }, function (resultData) {
+
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result;
+
+                        tempmodel.plData = resultData.Result1;
+                        tempmodel.plcount = resultData.Result1.length;
+                        tempmodel.tpData = resultData.Result2;
+
+                        ComFunJS.uploadimgnew(tempmodel.tpData);
+                        ComFunJS.viewimg(tempmodel.tpData);
+                        if (tempmodel.modelData.RBDate && tempmodel.modelData.RBDate.length > 10) {
+                            tempmodel.modelData.RBDate = tempmodel.modelData.RBDate.substring(0, 10);
+
+                            $("#appDate").calendar({
+                                value: [tempmodel.modelData.RBDate]
+                            });
+                        }
+
+
+                        setTimeout("ComFunJS.initForm();", 500)
+                    }
+                })
+            } else {
+
+                tempmodel.modelData.RBDate = ComFunJS.getnowdate("yyyy-mm-dd");
+              
+                    ComFunJS.initForm();
+
+                ComFunJS.uploadimgnew();
+
+            }
+            $('.btnSucc').html('<i class="fa fa-plus"></i>签到');
+
+        },//初始化
+        SaveData: function (callback) {
+            if (!tempmodel.modelData.Position) {
+                top.ComFunJS.winwarning("请先获取位置");
+                return;
+            }
+            tempmodel.modelData.Files = "";
+            $("#imglist .tpli").each(function () {
+                if ($(this).hasClass("wximg")) { //微信上传未处理的图片
+                    if (tempmodel.wximg) {
+                        tempmodel.wximg += ",";
+                    }
+                    tempmodel.wximg += $(this).attr("itemid");
+
+                } else {
+                    if (tempmodel.modelData.Files) {
+                        tempmodel.modelData.Files = tempmodel.modelData.Files + ',' + $(this).attr("itemid");
+                    }
+                    else {
+                        tempmodel.modelData.Files = $(this).attr("itemid");
+                    }
+                }
+
+            })
+
+            $.getJSON("/API/VIEWAPI.ashx?ACTION=WQQD_ADDWQQD&r=" + Math.random(), { P1: JSON.stringify(tempmodel.modelData.$model), P2: tempmodel.wximg }, function (result) {
+
+                return callback.call(this, result);
+
+            });
+        },
+        Complate: function () {
+            window.location.href = "/View_Mobile/UI/UI_WQQD_LIST.html?r=" + Math.random();
+        },
+        reload: function () {
+            tempmodel.modelData.Position = "";
+            tempmodel.Position = "正在定位中...";
+            $(".load").toggleClass("szhlloading");
+            //circle.getCurrentPosition(locationResult);
+            //map.addOverlay(circle);
+            geolocation.getCurrentPosition();
+        }
+    });//@ sourceURL=MGZBG.js;
+    tempmodel.modelData.$watch("QDContent", function (a, b) {
+        if (!pmodel.DataID) {
+            localStorage.setItem(pmodel.FormCode, JSON.stringify(tempmodel.modelData.$model));
+        }
+    })
+</script>

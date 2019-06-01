@@ -1,0 +1,446 @@
+﻿
+
+.panel-default {
+    border: 0px;
+}
+
+.panel {
+    box-shadow: none;
+}
+
+.detaldec {
+    text-align: center;
+    font-size: 18px;
+    width: 100%;
+    line-height: 20px;
+    position: absolute;
+    top: 45%;
+}
+
+.el-input__inner {
+    border-radius: 1px;
+}
+
+.el-date-editor {
+    width: 100% !important;
+}
+
+
+.input-with-select .el-input-group__prepend {
+    background-color: #FFF;
+}
+
+.form-group {
+    margin: 15px 15px 0 0;
+}
+
+.el-form-item {
+    margin-bottom: 0;
+}
+
+.el-form-item__content {
+    line-height: 28px;
+}
+
+.line {
+    text-align: center;
+}
+
+.el-input__inner {
+    min-width: 80px;
+}
+
+.el-form-item__label {
+    line-height: 20px;
+    padding: 0px !important;
+    margin-top: 10px;
+}
+
+.widgetactive {
+    box-shadow: 0 1px 3px #12b8f6;
+    border: 1px solid #12b8f6;
+}
+
+.filetype {
+    float: right;
+    font-size: 10px;
+    color: cornflowerblue;
+}
+
+/*基础样式*/
+[v-cloak] {
+    display: none;
+}
+
+.qjchart {
+    position: initial !important;
+}
+
+.BG {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -10;
+    position: static;
+    zoom: 1;
+    background-color: #e7ecf1;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-position: center 0;
+}
+
+#Loading {
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    -webkit-transform: translateY(-50%) translateX(-50%);
+    transform: translateY(-50%) translateX(-50%);
+    z-index: 100;
+}
+
+@-webkit-keyframes ball-beat {
+    50% {
+        opacity: 0.2;
+        -webkit-transform: scale(0.75);
+        transform: scale(0.75);
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@keyframes ball-beat {
+    50% {
+        opacity: 0.2;
+        -webkit-transform: scale(0.75);
+        transform: scale(0.75);
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+.ball-beat > div {
+    background-color: #279fcf;
+    width: 15px;
+    height: 15px;
+    border-radius: 100% !important;
+    margin: 2px;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    display: inline-block;
+    -webkit-animation: ball-beat 0.7s 0s infinite linear;
+    animation: ball-beat 0.7s 0s infinite linear;
+}
+
+    .ball-beat > div:nth-child(2n-1) {
+        -webkit-animation-delay: 0.35s !important;
+        animation-delay: 0.35s !important;
+    }
+
+.wrap {
+    width: 100%;
+    height: 188px;
+    position: absolute;
+    top: -8px;
+    left: 8px;
+    overflow: hidden;
+}
+
+    .wrap:before {
+        content: "";
+        display: block;
+        border-radius: 8px 8px 0px 0px;
+        width: 40px;
+        height: 8px;
+        position: absolute;
+        right: 100px;
+        background: #4D6530;
+    }
+
+    .wrap:after {
+        content: "";
+        display: block;
+        border-radius: 0px 8px 8px 0px;
+        width: 8px;
+        height: 40px;
+        position: absolute;
+        right: 0px;
+        top: 100px;
+        background: #4D6530;
+    }
+
+.silk-ribbon6 {
+    display: inline-block;
+    text-align: center;
+    width: 200px;
+    height: 40px;
+    line-height: 40px;
+    position: absolute;
+    top: 30px;
+    right: -50px;
+    z-index: 2;
+    overflow: hidden;
+    transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    border: 1px dashed;
+    box-shadow: 0 0 0 3px #57DD43,0px 21px 5px -18px rgba(0,0,0,0.6);
+    background: #57DD43;
+}
+
+
+
+.widget {
+    padding: 5px;
+    border: 1px solid #ffffff;
+}
+
+.el-input-number {
+    width: 100%;
+}
+
+
+.panhead {
+    padding: 20px;
+    margin-bottom: 2px;
+}
+
+.panbody {
+    padding: 20px;
+    min-height: 520px;
+    margin-bottom: 2px;
+}
+
+.panwf {
+    padding: 20px;
+}
+
+.width840 {
+    width: 840px;
+}
+
+.el-step__title {
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.qjSeluer .el-input.is-focus .el-input__inner {
+    border-color: #409EFF !important;
+}
+
+.widgetdel {
+    z-index: 10000;
+}
+/*基础样式*/
+/*构建表单样式*/
+.FormB .widget:hover {
+    box-shadow: 0 1px 3px #12b8f6;
+    border: 1px solid #12b8f6;
+}
+
+.FormB .widgetsel {
+    box-shadow: 0 1px 3px #12b8f6;
+    border: 1px solid #12b8f6;
+}
+
+.FormB .el-tag {
+    margin-left: 10px;
+}
+
+.FormB .button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.FormB .input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
+}
+
+.FormB .el-upload__input {
+    display: none !important;
+}
+
+
+.FormB .FormFoot{
+    margin-bottom: 0px;
+    POSITION: ABSOLUTE;
+    BOTTOM: 0PX;
+    WIDTH: 100%;
+}
+
+/*构建表单样式*/
+
+
+/*移动端样式*/
+.mob{
+    background-color:transparent !important;
+}
+.mob .el-message-box {
+    width: 90% !important;
+}
+
+.mob .mobeldiog .el-dialog {
+    width: 90% !important;
+}
+
+/*表单处理样式*/
+.FormV .el-upload__input {
+    display: none !important;
+}
+
+.FormV .widgetdel {
+    display: none !important;
+}
+
+.FormV .widgetset {
+    display: none !important;
+}
+
+.FormV .el-input.is-disabled .el-input__inner {
+    color: black;
+}
+
+.FormV .el-textarea.is-disabled .el-textarea__inner {
+    color: black;
+}
+
+.FormV .success-tip {
+    position: absolute;
+    top: 30px;
+    padding: 6px 20px;
+    background: #2ecc71;
+    color: #fff;
+    font-size: 14px;
+    text-indent: 0.5em;
+}
+
+.FormV .success {
+    background: #fff;
+    min-height: 520px;
+    border-top: 1px solid #2ecc71;
+    margin: 0;
+    position: relative;
+}
+
+.FormV .success-tip {
+    position: absolute;
+    left: -14px;
+    top: 30px;
+    padding: 6px 20px;
+    background: #2ecc71;
+    color: #fff;
+    font-size: 14px;
+    text-indent: 0.5em;
+}
+
+    .FormV .success-tip i {
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-bottom: 10px solid #27b362;
+        border-left: 14px solid transparent;
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        top: -10px;
+    }
+
+.FormV .icon-tip {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.FormV .success-icon {
+    width: 120px;
+    height: 120px;
+    margin: 100px auto 10px auto;
+}
+
+    .FormV .success-icon img {
+        width: 100%;
+        height: 100%;
+    }
+
+.FormV .success-fun {
+    width: 640px;
+    height: 130px;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 40px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+
+    .FormV .success-fun > div {
+        -webkit-box-flex: 1;
+        -moz-box-flex: 1;
+        width: 20%;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+    }
+
+.FormV .success-fun-icon img {
+    width: 90px;
+    height: 90px;
+}
+
+.FormV .success-fun-icon p {
+    color: #999;
+    margin-top: 5px;
+}
+
+.FormV .tip-mesg {
+    text-align: center;
+    color: #838383;
+    font-size: 14px;
+    margin-top: 90px;
+}
+
+.FormV .el-dialog__header {
+    background-color: #12b8f6 !important;
+    color: #fff !important;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.FormV .el-dialog__title, .el-dialog__close {
+    color: #fff !important;
+}
+
+.FormV .el-dialog__headerbtn {
+    top: 15px;
+}
+
+.FormV .el-dialog__body {
+    padding: 20px 20px;
+}
+.FormV .FormFoot{
+    margin-bottom: 0px;
+    POSITION: ABSOLUTE;
+    BOTTOM: 0PX;
+    WIDTH: 100%;
+}
+
+/*表单处理样式*/

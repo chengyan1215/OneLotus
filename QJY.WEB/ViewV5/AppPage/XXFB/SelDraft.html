@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/ViewV5/AppPage/XXFB/WX.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css">
+    <style>
+        .select {
+            border: 2px solid #0094ff;
+        }
+
+        .ms-controller, .ms-important, [ms-controller], [ms-important] {
+            visibility: hidden;
+        }
+          .video_image:hover .badge {
+              visibility: visible;
+        }
+
+        .video_image .badge {
+            position: absolute;
+            top: -5px;
+            right: -6px;
+            background-color: red;
+            padding-left: 5px;
+            padding-right: 5px;
+            visibility: collapse;
+        }
+    </style>
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>
+    <script type="text/javascript">
+        var selmodel = avalon.define({
+            $id: "SelDraft",
+            XXFBDataList: [],
+            curModel: {},
+            GetXXItemList: function () {
+                $.getJSON('/API/VIEWAPI.ashx?Action=XXFB_GETDRAFTLIST',{}, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        resultData.Result.forEach(function (val) {
+                            if (val.Remark) {
+                                val.Remark1 = $.parseJSON(val.Remark);
+                                val.issel = false;
+                                selmodel.XXFBDataList.push(val)
+                            }
+
+                        })
+                    }
+                })
+            }, SetSelModel: function (item) {
+                selmodel.XXFBDataList.forEach(function (el) {
+                    el.issel = false;
+                })
+                item.issel = true;
+                selmodel.curModel = item;
+            }, GetSelModel: function () {
+                var modeldata = selmodel.curModel.$model;
+                delete modeldata.issel;
+
+                return modeldata;
+            }, DelMatter: function (item,event) {
+                if (event.stopPropagation) {
+                    event.stopPropagation();
+                }
+                top.ComFunJS.winconfirm("确定要删除草稿吗？", function () {
+                    $.post("/API/VIEWAPI.ashx?ACTION=XXFB_DELDRAFTS", { P1: item.ID }, function (jsonresult) {
+                        if ($.trim(jsonresult.ErrorMsg) == "") {
+                            top.ComFunJS.winsuccess("删除成功"); 
+                            selmodel.XXFBDataList.remove(item);
+                        }
+                    });
+                })
+            }
+        });
+        avalon.ready(function () {
+            selmodel.GetXXItemList();
+        })
+    </script>
+</head>
+<body ms-controller="SelDraft">
+
+    <div class=" container-fluid " style="padding:10px">
+        <div class="video_unit" ms-class-1="select:item.issel" ms-repeat-item="XXFBDataList" style="width:46%;float:left;" ms-click="SetSelModel(item)">
+            <div class="js_list">
+                <!-- 当选中的时候，添加class：active和delete，其中active用来显示蓝色边框delete用来显示删除按钮；ps：当video_artical数量大于两个的时候，video_artical选中的时候才出现关闭按钮 -->
+                <a class="js_article video_image" ms-repeat-el="item.Remark1" ms-visible="$first" target="_blank">
+                    <span class="badge" ms-click="DelMatter(item,$event)" style=" position:absolute; z-index:999;">X</span>
+                    <div class="choose_mode_style"></div>
+                    <span class="js_delete icon icon_delete delete_artical"></span>
+                    <div class="video_image_wrap" ms-visible="el.ImageIds!=''">
+                        <img ms-attr-src="{{ComFunJS.getfile(el.ImageIds)}}">
+                    </div>
+                    <p class="image_edit_placeholder" ms-visible="el.ImageIds==''">
+                        <span class="placeholder_text">封面图片<br>推荐尺寸:900像素*500像素</span>
+                        <span class="placeholder_vertical"></span>
+                    </p>
+                    <p class="js_article_title video_sub_title" style="margin-bottom:0px">{{el.XXTitle}}</p>
+                </a>
+                <a class="js_article video_artical" href="javascript:;" ms-repeat-el="item.Remark1" target="_blank" ms-visible="!$first&&el.XXTitle">
+                    <div class="choose_mode_style"></div>
+                    <span class="js_delete icon icon_delete delete_artical"></span>
+                    <img class="video_artical_img" ms-visible="el.ImageIds!=''" ms-attr-src="{{ComFunJS.getfile(el.ImageIds)}}">
+                    <p class="image_edit_placeholder" ms-visible="el.ImageIds==''"></p>
+                    <p class="js_article_title video_artical_title" style="margin-top: 30px;font-size: 18px;">{{el.XXTitle}}</p>
+                    <span class="video_vertical"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

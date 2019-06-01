@@ -1,0 +1,42 @@
+﻿
+    <div ms-controller="DXQZ">
+        <div class="row">
+            <div class="col-sm-12 animated fadeInRight">
+                <div class="form-horizontal">
+                    <div class="col-sm-10">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">短信前缀</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" ms-duplex="modelData.DXQZ" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8" style="margin-left:150px;"><input type="button" value="保存" ms-click="SaveQZ()" class="btn btn-lg btn-success" /></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var tempindex = avalon.define({
+            $id: "DXQZ",
+            modelData: {},
+            InitWigetData: function () {
+                tempindex.modelData = model.CompanyData;
+            },
+            SaveQZ: function () {
+                if (confirm("确定要修改前缀吗？")) {
+                    $.post('/API/VIEWAPI.ashx?Action=XTGL_SAVECOMPANYQZ', {P1: model.modelData.DXQZ }, function (result) {
+                        if ($.trim(result.ErrorMsg) == "") {
+                          
+                            top.ComFunJS.winsuccess("修改成功");
+                            model.CompanyData.DXQZ = model.modelData.DXQZ;
+                        }
+                    })
+                }
+            }
+        })
+
+    </script>
+

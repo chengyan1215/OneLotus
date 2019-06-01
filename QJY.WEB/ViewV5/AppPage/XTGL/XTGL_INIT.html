@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css">
+    <link href="/ViewV5/CSS/BootOver.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/index.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/default.css">
+    <script src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>
+    <style>
+         .ms-controller, .ms-important, [ms-controller], [ms-important] {
+            visibility: hidden;
+        }
+         .szhl_Upload{
+             display:none
+         }
+
+        .progress-of {
+            height: 3px;
+            background: #e1e6ea;
+        }
+
+            .progress-of .list {
+                width: 33.333%;
+                float: left;
+                height: 100%;
+                position: relative;
+            }
+
+                .progress-of .list span {
+                    width: 15px;
+                    height: 15px;
+                    display: inline-block;
+                    position: absolute;
+                    left: 50%;
+                    margin-left: -5px;
+                    top: -5px;
+                    background: #e1e6ea;
+                    border-radius: 50%;
+                }
+
+                .progress-of .list i {
+                    position: relative;
+                    top: -30px;
+                    display: inline-block;
+                }
+
+                .progress-of .list.active {
+                    background: #2798df;
+                }
+
+                    .progress-of .list.active span {
+                        background: #2798df;
+                    }
+
+        .progress-item {
+            margin-bottom: 40px;
+        }
+
+        .progress-item-select {
+            margin-left: 25px;
+        }
+
+            .progress-item-select select {
+                width: 200px;
+                height: 25px;
+                margin-top: 5px;
+            }
+
+        .progress-btn {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            padding: 20px;
+            border-top: 1px solid #E7E7E7;
+            width: 100%;
+            background: #F9F9F9;
+        }
+    </style>
+    <script type="text/javascript">
+        var tempmodel = avalon.define({
+            $id: "APP_XTGL_INIT",
+            CompanyData: {},
+            up: function (type) {
+                if (type==0) {
+                    tempmodel.CompanyData.FZRDH = tempmodel.CompanyData.Mobile;
+                    tempmodel.CompanyData.FZR = tempmodel.CompanyData.ContactUser;
+                } else {
+                    tempmodel.CompanyData.FLXRDH = tempmodel.CompanyData.Mobile;
+                    tempmodel.CompanyData.FinanceLXR = tempmodel.CompanyData.ContactUser;
+                }
+             
+            },
+            SaveData: function () {
+                var modelValue = JSON.stringify(tempmodel.CompanyData.$model);
+                $.post("/API/VIEWAPI.ashx", { Action: "XTGL_EDITCOMPANY", P1: modelValue },
+                function (result) {
+                    top.model.CompanyData = tempmodel.CompanyData;
+                    top.ComFunJS.winsuccess("保存成功");
+                    setTimeout("top.layer.closeAll()",1500)
+
+                });
+            },qx: function () {
+              top.layer.closeAll();
+            }
+        })
+
+        avalon.ready(function () {
+            tempmodel.CompanyData = top.model.CompanyData;
+            ComFunJS.initForm();
+        })
+    </script>
+</head>
+<body>
+    <div class="container-fluid" ms-controller="APP_XTGL_INIT">
+        <div class="padding20" style="padding-bottom:90px;">
+            <div class="tab">
+                <div class="form-horizontal" style="margin:20px  auto auto 50px;">
+                    <div class="form-group">
+                        <label for="companyName" class=" col-xs-2 control-label text-right">企业名称</label>
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" id="companyName" ms-duplex="CompanyData.QYName" placeholder="请输入企业名称" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Address" class="col-xs-2 control-label text-right">FileServerUrl</label>
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" ms-duplex="CompanyData.FileServerUrl" id="Address" placeholder="文档服务器地址" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="companyName" class=" col-xs-2 control-label text-right">QYCode</label>
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" id="companyName" ms-duplex="CompanyData.QYCode"  placeholder="请输入QYCode" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="WebSite" class="col-xs-2 control-label text-right">企业Logo</label>
+                        <div class="col-xs-6 text-left">
+                            <input type="text" class="szhl_Upload" ms-duplex="CompanyData.LogoID"  />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab" style="display:none;">
+
+            </div>
+        </div>
+        <div class="progress-btn tr">
+            <button type="button" class="btn btn-default" id="qxbtn" ms-click="qx()">取消</button>
+            <button type="button" class="btn btn-info" ms-click="SaveData()" id="ksdr">保存企业信息</button>
+        </div>
+
+    </div>
+</body>
+</html>

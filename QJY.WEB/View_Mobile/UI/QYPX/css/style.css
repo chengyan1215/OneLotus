@@ -1,0 +1,76 @@
+@import url(http://at.alicdn.com/t/font_itj7jkf99y3c8fr.css);
+/*自定义样式*/
+.bar.bar-nav{background:#51a2fe;}
+.title{color: #fff;}
+.bar.bar-nav .icon{color: #fff;}
+.bar:after {
+   
+   background-color:#458DDF;
+}
+/*公共样式*/
+ul,li{list-style: none;margin: 0;padding:0;}
+dt,dd,dl{margin: 0 !important;}
+/*img{width: 100%}*/
+.c000{color: #000;}
+.c333{color: #333;}
+.c666{color: #666;}
+.c999{color: #999 !important;}
+.nomargin { margin: 0;}
+.ft7{font-size: 0.7rem !important}
+.c-red{color:#EE5B5B !important}
+.c-green{color: #40C787 !important}
+.inline-block{display: inline-block;}
+.mr5{margin-right:5px }
+.ml5{margin-left:5px }
+.item-title{font-size: .8rem;}
+.word-break {white-space: nowrap;word-break: keep-all;overflow: hidden;text-overflow: ellipsis;}
+/*考试结果/详情*/
+.box-block{background:#51a2fe;color:#fff;text-align: center;padding-bottom: 1.5rem;}
+.no-content{text-align: center;font-size: .7rem;color: #666;}
+.block-icon{display: inline-block;float: left;margin-left:1.5rem; }
+.block-icon i{font-size:1.5rem;color: #fff;}
+.block-text{float: left;margin-left: 0.5rem;}
+.block-text b{font-size: 1.2rem;font-weight: normal;}
+.block-text span{display: block;font-size: 0.6rem;}
+.box-block .col-50{padding-top:1.5rem; }
+.exambox{padding: 2.2rem 1rem 1rem 1rem;color: #666;}
+.exam-result{text-align: center;}
+.exam-result .block-text{float: none;}
+.exam-score{font-size: 3rem;margin: 0;font-weight: normal;}
+.exam-score span{font-size: .6rem;font-weight: normal;}
+/**/
+.answer-sheet{position: fixed;top: 0;left: 0;z-index: 9999;width: 100%;height: 80%;background: rgba(0,0,0,.5);}
+.answer-panel{background: #fff;padding:.8rem;max-height: 70%;min-height: 50%;overflow-y:auto }
+.answer-panel li{float: left;width: 16.6%;text-align: center;}
+.answer-title{margin: .2rem;background: #999;height: 2.2rem;line-height: 2.2rem;color: #fff;border-radius: .1rem;}
+.answer-title.active{background-color: #20affe}
+.title-list{margin: .3rem 0}
+.overflow{overflow: hidden;}
+.answer-sheet{position: fixed;top: 0;left: 0;z-index: 9999;width: 100%;height: 80%;background: rgba(0,0,0,.2);transition: all .2s ease;display: none;}
+/**/
+.course-img{height:12rem;position: relative;text-align: center;color: #fff;}
+.course-mes{height: 100%;background: rgba(0,0,0,.3);position: absolute;left: 0;top:0;
+z-index: 999;width: 100%;}
+.course-mes>div{padding: 1rem;}
+.course-mes .button{width:35%;display: inline-block;border-radius:inherit;height: 1.8rem;line-height: 1.8rem;}
+
+.video li {position: relative;padding-left:.2rem;padding:.3rem 0 .3rem .3rem;background-color: #fff;margin-bottom:.5rem;font-size: .8rem;}
+.video li a{color:#71777d; font-size: .7rem}
+.course-panel{padding:1rem;}
+.course-info-tip dt {padding: .8rem 0 .2rem;line-height: .7rem;font-size: .7rem;color: #2b333b;}
+.course-info-tip dd {line-height: 1rem;font-size: .6rem;color: #71777d;}
+.ksfs{width:44px;height:44px;line-height:44px;text-align:center;font-size: 1rem;color: #fff;background-color: #20affe;border-radius: 100%;}
+.bg-red{background-color:#FF5E5E;}
+.card{background: #fff;box-shadow: 0 .05rem .1rem rgba(0,0,0,.1);}
+
+#btnSelect{display: inline-block;}
+.ulDiv li{float: inherit;width: 100%;line-height:1.8rem;position: relative;font-size: .7rem;color: #666;text-indent: 1em;text-align: left;}
+.ulDiv li.cor{color:#0894ec;}
+.answer-panel.ulDiv{padding:0;}
+
+.bar-ks.bar:after{background: #e7e7e7;}
+.bar-ks.bar{background: #fff;}
+.bar-ks.bar .title{color: #666;}
+/*#dtk{margin-right: .5rem;font-size: .6rem;}*/
+
+

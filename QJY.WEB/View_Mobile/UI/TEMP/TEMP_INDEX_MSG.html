@@ -1,0 +1,79 @@
+﻿<div class="content infinite-scroll infinite-scroll-bottom" data-distance="50" ms-controller="MSG" style="position:static">
+    <ul class="mess-lis clearfix" style="    margin-top: 0rem;">
+        <li ms-repeat-el="newsData" style="border-bottom: 1px dashed #f1f1f1;border-top: 1px solid #f1f1f1;">
+            <a href="#" class="clearfix" ms-click="vieww(el)"> 
+                <span ms-attr-class="el.isRead=='1'?'mes-icon':'mes-icon has-mess'"><img ms-src="/View_Mobile/Images/icon/{{el.MsgModeID}}.png" alt=""></span>
+                <div class="mess-r">
+                    <h4>{{el.MsgType}}<span class="time">{{el.CRDate|date("MM-dd HH:mm")}}</span></h4>
+                    <p>{{el.MsgContent}}</p>
+                </div>
+            </a>
+        </li>
+    </ul>
+    <div class="infinite-scroll-preloader">
+        <div class="preloader"></div>
+    </div>
+</div>
+<script>
+    var tempmodel = avalon.define({
+        $id: "MSG",
+        newsData: [],//消息数据
+        name: "消息页面",
+        loading: false,
+        page: 1,
+        pagecount: 20,
+        inittemp: function () {
+            $.init();
+            tempmodel.IsReadMsg();
+            tempmodel.GetNewsData();
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                tempmodel.GetNewsData();
+            });
+        },
+        GetNewsData: function () {
+            if (tempmodel.loading) return;
+            tempmodel.loading = true;
+            $.getJSON("/API/VIEWAPI.ashx?Action=XTGL_GETXXZXIST_PAGE&r=" + Math.random(), { "p": tempmodel.page, "pagecount": tempmodel.pagecount }, function (r) {
+                if (r.ErrorMsg == "") {
+                    tempmodel.newsData.pushArray(r.Result);
+
+                    //判断是否加载完毕
+                    if (r.Result.length < tempmodel.pagecount) {
+                        // 加载完毕，则注销无限加载事件，以防不必要的加载
+                        $.detachInfiniteScroll($('.infinite-scroll'));
+                        // 删除加载提示符
+                        $('.infinite-scroll-preloader').remove();
+                        return;
+                    }
+
+                    $.refreshScroller();
+                    tempmodel.page += 1;
+                    tempmodel.loading = false;
+                }
+
+
+            })
+
+        },
+        IsReadMsg: function () {
+            $.getJSON("/API/VIEWAPI.ashx?Action=XTGL_HASREADMSG&r=" + Math.random(), {}, function (r) {
+                if (r.ErrorMsg == "" && r.Result == "1") {
+                    $(".footer_nav .mess").addClass("has-mess");
+                }
+            })
+        },
+        vieww: function (el) {
+            $.getJSON("/API/VIEWAPI.ashx?Action=XTGL_UPDTEREADSTATES&r=" + Math.random(), { P1: el.ID, s: "1" }, function (r) {
+                if (r.ErrorMsg == "") {
+                    el.isRead = 1;
+                    if (el.wxLink) {
+                        window.location = el.wxLink + "&r=" + Math.random();
+                    }
+                }
+            })
+        }
+
+
+    })//# sourceURL=MSG.js;
+
+</script>

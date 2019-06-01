@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>流程列表</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="/View_Mobile/CSS/msui.css">
+    
+    <style type="text/css">
+        .ms-controller, [ms-controller] {
+            display: none;
+        }
+    </style>
+
+</head>
+<body ms-controller="list">
+    <div class="page page-current" id="pageindex1">
+        <div class="content infinite-scroll infinite-scroll-bottom">
+            
+            <div class="list-block" style="margin:0" ms-repeat-lb="LCLBData">
+                <p style="padding: 6px;background-color: whitesmoke;margin:0px;padding-left:10px;border-left: 2px solid #49d2ad;">{{lb}}</p>
+                <ul>
+                    <li class="item-content item-link" ms-repeat-el="LCTypeData" ms-visible="el.ProcessClass==lb" ms-on-click="vieww(el)">
+                        <!--<div class="item-media" style="height:60px"><i class="icon icon-f7"></i></div>-->
+                        <div class="item-inner" style="height:60px">
+                            <div class="item-title">{{el.ProcessName}}</div>
+                            <!--<div class="item-after"></div>-->
+                        </div>
+                    </li>
+                   
+                </ul>
+            </div>
+            <div class="list-block" style="margin:0">
+                <ul>
+                    <li class="item-content" ms-if="issj=='0'">
+                        <div class="item-inner" style="height:60px">
+                            <div class="item-title">无流程</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <script src="/View_Mobile/JS/layer/layer.m.js"></script>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.8/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.8/js/sm-extend.min.js' charset='utf-8'></script>
+    <script src="/View_Mobile/JS/avalon1.47.js"></script>
+    <script src="/View_Mobile/JS/ComFunJS.js?jsver=20160425"></script>
+    <script>
+
+        var model = avalon.define({
+            $id: "list",
+            LCTypeData: [],
+            LCLBData: [],
+            issj: '',
+            vieww: function (el) {
+                window.location = "/ViewV5/AppPage/FORMBI/FormAdd.html?vtype=1&pdid=" + el.ID + "&r=" + Math.random();
+            }
+        });
+        avalon.ready(function () {
+            $.getJSON("/API/VIEWAPI.ashx?Action=FORMBI_GETWFPDLIST&r=" + Math.random(), { "P1": "1" }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    model.LCTypeData = resultData.Result;
+                    var tempdata = [];
+                    for (var i = 0; i < resultData.Result.length; i++) {
+                        if ($.inArray(resultData.Result[i].ProcessClass, tempdata) == -1) {
+                            tempdata.push(resultData.Result[i].ProcessClass)
+                        }
+                    }
+                    model.LCLBData = tempdata;
+                    if (resultData.Result.length == 0)
+                    {
+                        model.issj = '0';
+                    }
+                }
+            });
+        })
+        function back() {
+            window.history.back();
+        }
+    </script>
+</body>
+
+</html>

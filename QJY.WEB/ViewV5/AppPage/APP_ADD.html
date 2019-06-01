@@ -1,0 +1,323 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title></title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css">
+    <link href="/ViewV5/CSS/BootOver.css?v=1" rel="stylesheet" />
+    <link rel="stylesheet" href="/ViewV5/CSS/icfont_qj/iconfont.css">
+    <link href="/ViewV5/JS/chosen/chosen.css" rel="stylesheet" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/jquery-migrate-1.1.0.min.js"></script>
+    <script src="/ViewV5/JS/layer/layer.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160925"></script>
+    <script src="/ViewV5/JS/ADDJS.js?ver=20170327"></script>
+    <script src="/ViewV5/JS/chosen/chosen.jquery.min.js"></script>
+
+
+    <style>
+        .dvFile {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+            .dvFile .dvimg {
+                text-align: center;
+                cursor: pointer;
+            }
+
+            .dvFile .dvtitle {
+                font-size: 12px;
+                text-align: center;
+            }
+
+        .pCard {
+            min-width: 80px;
+            text-align: center;
+            margin: 0 5px 5px 5px;
+        }
+
+        .fa-spin {
+            -webkit-animation: fa-spin 2s infinite linear;
+            animation: fa-spin 2s infinite linear;
+        }
+
+        @-webkit-keyframes fa-spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(359deg);
+                transform: rotate(359deg);
+            }
+        }
+
+        @keyframes fa-spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(359deg);
+                transform: rotate(359deg);
+            }
+        }
+
+        .szhl_getPeoples {
+            display: none;
+        }
+
+        .szhl_Upload {
+            display: none;
+        }
+
+        .ystep-lg {
+            font-size: 12px;
+        }
+        /*=======系统管理页面=======*/
+        i, b, small, big {
+            font-style: normal;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+            font-family: inherit;
+            font-weight: normal;
+            color: inherit;
+        }
+
+        h4, .h4, h5, .h5, h6, .h6 {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        p {
+            margin: 0px;
+        }
+
+        .margin-lr {
+            margin: 0 15px;
+        }
+
+        .margin-tb {
+            margin: 15px 0;
+        }
+
+        .pic-80 {
+            width: 80px;
+            height: 80px;
+        }
+
+        .border-radius {
+            border-radius: 1000px;
+        }
+
+        .color-333 {
+            color: #333;
+        }
+
+        .color-666 {
+            color: #666;
+        }
+
+        .color-999 {
+            color: #999;
+        }
+
+        .font-12 {
+            font-size: 12px;
+        }
+
+        .font-24 {
+            font-size: 24px;
+        }
+        /*分隔竖线*/
+        .vertical-bar {
+            color: #999;
+            font-size: 13px;
+        }
+        /*块居中显示*/
+        .margin-center {
+            margin: 0 auto;
+        }
+
+        .add-item {
+            margin-bottom: 8px;
+        }
+
+        .add-item-label {
+            font-weight: normal;
+        }
+
+            .add-item-label i {
+                color: #ff6450;
+            }
+
+        .add-item.add-width {
+            width: 45%;
+        }
+
+        .add-item.add-width2 {
+            width: 65%;
+            clear: both;
+        }
+
+        .add-widthall {
+            clear: both;
+        }
+
+        .fl-left {
+            float: left;
+        }
+
+        .fl-right {
+            float: right;
+        }
+
+        .clear-all {
+            clear: both;
+        }
+
+        .fg-item {
+            color: #999;
+            border-bottom: 1px solid #eaeaea;
+            position: relative;
+            margin: 20px 0;
+        }
+
+            .fg-item span {
+                position: absolute;
+                top: -15px;
+                background: #fff;
+                display: inline-block;
+                height: 30px;
+                line-height: 30px;
+                left: 0;
+            }
+
+            .fg-item i {
+                width: 0;
+                display: inline-block;
+                position: absolute;
+                right: 0;
+                top: -10px;
+                cursor: pointer;
+                height: 20px;
+                line-height: 20px;
+                width: 50px;
+                color: #fff;
+                background: #FF7713;
+                text-align: center;
+                border-radius: 10px;
+                font-size: 12px;
+                cursor: pointer;
+            }
+
+        .input-group-addon {
+            color: #FFF;
+            background-color: #12B8F6;
+            border: none;
+            border-radius: 0px;
+            cursor: pointer;
+        }
+
+        .gb {
+            width: 20px;
+            height: 20px;
+            background: #D4D4D4;
+            display: inline-block;
+            text-align: center;
+            border-radius: 50%;
+            line-height: 20px;
+            color: #949494;
+            margin-left: 15px;
+        }
+
+        label {
+            font-weight: normal;
+        }
+
+        .control-label i {
+            color: red;
+        }
+    </style>
+
+
+</head>
+<body ms-controller="APP_ADD" ms-keypress="jptj(event,$(this))">
+    <div class="container-fluid" style="margin-top: 20px; margin-bottom: 150px">
+        <div ms-include-src="/ViewV5/AppPage/{{PathCode}}.html?V=1" data-include-rendered='render'></div>
+        <div ms-if="ExtData.size()>0" id="extdiv" >
+            <div>
+                <!--<div class="fg-item"><span>{{FormCode=='LCSP'?'表单信息':'扩展信息'}}</span></div>-->
+                <ul class="clearfix" style="padding: 0" id="ExtDiv">
+                    <li class="add-item add-width2 fl-left" ms-repeat-item="ExtData">
+                        <label class="add-item-label">{{item.TableFiledName}}</label>
+                        <div class="add-ic" ms-if="item.TableFileType=='1'||item.TableFileType=='3'">
+                            <input type="text" class="form-control" ms-class-1="szhl_form_date:item.TableFileType=='3'" ms-duplex="item.ExtendDataValue" />
+                        </div>
+                        <div class="add-ic" ms-if="item.TableFileType=='2'">
+                            <textarea class="form-control" ms-duplex="item.ExtendDataValue"></textarea>
+                        </div>
+                        <div class="add-ic" ms-if="item.TableFileType=='4'">
+                            <select name="conType" ms-duplex="item.ExtendDataValue" class="form-control">
+                                <option ms-repeat-option="item.DefaultOption.split(',')" ms-attr-value="option" ms-attr-selected="option==item.ExtendDataValue?'selected':''">{{option}}</option>
+                            </select>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+
+
+    <table class="table navbar-fixed-bottom toolfootbar" style="background-color: #F8F8F8; width: 100%;">
+        <tbody>
+            <tr class="trss" >
+                <!--只有没有数据（添加页面）和拥有数据编辑权限时才显示此选项-->
+                <td class="text-right">
+                    <div class="input-group" style="height: 40px">
+
+                        <span class="input-group-btn">
+                            <button class="btn btn-danger btnqx" ms-click="qx()" style="width: 120px; height: 40px;">取消</button>
+                            <button class="btn btn-success btnSucc" style="width: 120px; height: 40px; margin-left: 10px; " ms-click="SaveData(this,false)"><i class="fa fa-spinner fa-spin" style="display: none"></i>提交信息</button>
+                            <!--<button class="btn btn-info" ms-if="lctype==0||lctype==1" style="width: 120px; height: 40px;margin-left:2px;" ms-click="SaveDraft(this)" >存草稿</button>-->
+                        
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            
+        </tbody>
+    </table>
+    <link href="/ToolS/umeditor122/themes/default/css/umeditor.css" type="text/css" rel="stylesheet" />
+    <script src="/ToolS/umeditor122/umeditor.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/ToolS/umeditor122/umeditor.config.js" type="text/javascript" charset="utf-8"></script>
+    <link href="/ViewV5/JS/YanSelect/YanSelect.css" rel="stylesheet" />
+    <script src="/ViewV5/JS/YanSelect/YanSelect.js"></script>
+
+</body>
+</html>

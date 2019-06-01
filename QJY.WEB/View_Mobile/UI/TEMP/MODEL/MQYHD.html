@@ -1,0 +1,303 @@
+﻿<div style="background:#fbf9fe" ms-controller="MQYHD">
+    <div ms-if="temptype=='edit'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">发起方</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.FQF" type="text" placeholder="请输入发起方" class="weui_input szhl szhl_require" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">活动主题</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.Title" type="text" placeholder="请输入活动主题" class="weui_input szhl_require" />
+                </div>
+            </div>
+            <div class="weui_cell" ms-visible="modelData.Type == 0">
+                <div class="weui_cell_hd"><label class="weui_label label">活动时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.HDDate" type="text" placeholder="请输入活动时间" class="szhl weui_input" />
+                </div>
+            </div>
+            <div class="weui_cell" ms-visible="modelData.Type == 0">
+                <div class="weui_cell_hd"><label class="weui_label label">活动地址</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.HD_Adress" type="text" placeholder="请输入活动地址" class="szhl weui_input" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label label">参与人</label></div>
+                <div class="weui_cell_bd weui_cell_primary" style="margin: -12px;">
+                    <input type="text" id="conSYR" placeholder="请选择参与人" ms-duplex="modelData.CYR" class="weui_input szhl_require szhl_getPeoples" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">{{modelData.Type==1?'投票':'报名'}}开始</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="StartTime" placeholder="请选择开始时间" ms-duplex="modelData.StartTime" class="weui_input">
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">{{modelData.Type==1?'投票':'报名'}}结束</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="EndTime" placeholder="请选择结束时间" ms-duplex="modelData.EndTime" class="weui_input">
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">{{modelData.Type==1?'投票':'报名'}}结果</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select ms-duplex="modelData.TP_IsPublic" class="szhl weui-select">
+                        <option value="1">报名人均可见</option>
+                        <option value="0">仅自己可见</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title" ms-visible="modelData.Type == 1">投票选项</div>
+        <div class="weui_cells weui_cells_form" ms-visible="modelData.Type == 1">
+            <div class="weui_cell" ms-repeat-item="tempmodel.XXItemList">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="item.OptionText" type="text" placeholder="请输入投票选项" class="szhl weui_input" style="width:85%;" />
+                    <a href="###" ms-if="XXItemList.size() > 2" ms-click="deltpxx(item)"> 删除</a>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label"><a href="###" ms-click="tpxxs()">添加选项+</a></label></div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">匿名投票</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select ms-duplex="modelData.TP_IsNM" class="szhl weui-select">
+                        <option value="0">关</option>
+                        <option value="1">开</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">可投票数</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select ms-duplex="modelData.TP_Type" class="szhl weui-select">
+                        <option ms-repeat-item="tpxxnum" ms-attr-value="item.value">{{item.value}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title" ms-visible="modelData.Type == 0">活动简介</div>
+        <div class="weui_cells weui_cells_form" ms-visible="modelData.Type == 0">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea ms-if="temptype=='edit'" ms-duplex="modelData.HD_Content" rows="2" placeholder="请输入活动简介" class="szhl weui_textarea"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title" ms-visible="modelData.Type == 0">图片上传</div>
+        <div class="weui_cells weui_cells_form" ms-visible="modelData.Type == 0">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" ms-duplex="modelData.Files" class="wximgupload" style="display:none;" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ms-if="temptype=='view'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">发起方</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.FQF}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">活动主题</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.Title}}
+                </div>
+            </div>
+            <div class="weui_cell" ms-visible="modelData.Type == 0">
+                <div class="weui_cell_hd"><label class="weui_label label">活动时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.HDDate}}
+                </div>
+            </div>
+            <div class="weui_cell" ms-visible="modelData.Type == 0">
+                <div class="weui_cell_hd"><label class="weui_label label">活动地址</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.HD_Adress}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">参与人</label></div>
+                <div class="weui_cell_bd weui_cell_primary" style="margin: -12px;">
+                    {{ComFunJS.convusers(modelData.CYR)}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">{{modelData.Type==1?'投票':'报名'}}开始</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.StartTime|date('yyyy-MM-dd HH:mm')}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">{{modelData.Type==1?'投票':'报名'}}结束</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.EndTime|date('yyyy-MM-dd HH:mm')}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">{{modelData.Type==1?'投票':'报名'}}结果</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select ms-duplex="modelData.TP_IsPublic" class="szhl weui-select">
+                        <option value="1">报名人均可见</option>
+                        <option value="0">仅自己可见</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title" ms-visible="modelData.Type == 0">活动简介</div>
+        <div class="weui_cells weui_cells_form" ms-visible="modelData.Type == 0">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.HD_Content|html}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title" ms-visible="modelData.Type == 0">图片上传</div>
+        <div class="weui_cells weui_cells_form" ms-visible="modelData.Type == 0">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div class="viewimg">{{modelData.Files}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var hdtype = ComFunJS.getQueryString("hdtype");
+    var tempmodel = avalon.define({
+        $id: "MQYHD",
+        name: hdtype == 0 ? "活动报名" : "企业投票",
+        temptype: "edit",
+        tpData: [],
+        plData: [],
+        plcount: 0,
+        XXItemList: [{ "OptionText": "" }, { "OptionText": "" }],
+        tpxxnum: [{ "value": 1 }],
+        dataid: "",
+        wximg: "",
+        modelData: {
+            "FQF": ComFunJS.convusers(ComFunJS.getnowuser()), "Type": hdtype, "Title": "", "JZDate": "", "CRDate": "", "CRUser": "", "HDDate": "", "Files": "", "ComId": "", "CYR": ""
+            , "StartTime": "", "EndTime": "", "HD_Content": "", "TP_IsNM": 0, "TP_Type": 1, "HD_Adress": "", "TP_IsPublic": 1, "IsPublic": 0
+        },
+        inittemp: function (strId) {
+            tempmodel.bangdinxxnum();
+            if (strId) {
+                //tempmodel.temptype = pmodel.pageType;
+                if (pmodel.isHasDataQX != 'Y') {
+                    tempmodel.temptype = 'view';
+                }
+                tempmodel.dataid = strId;
+                //编辑加载数据
+                $.getJSON('/API/VIEWAPI.ashx?Action=QYHD_GETQYHDMODEL', { P1: strId }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result;
+                        tempmodel.tpData = resultData.Result2;
+
+                        ComFunJS.uploadimgnew(tempmodel.tpData);
+                        ComFunJS.viewimg(tempmodel.tpData);
+
+                        if (tempmodel.modelData.StartTime && tempmodel.modelData.StartTime.length > 16) {
+                            tempmodel.modelData.StartTime = tempmodel.modelData.StartTime.substring(0, 16);
+                        }
+                        if (tempmodel.modelData.StartTime) {
+                            var ss = tempmodel.modelData.StartTime.split(' ');
+                            var ss1 = ss[0].split('-');
+                            var ss2 = ss[1].split(':');
+                            var hh = ss2[0];
+                            if (hh.substring(0, 1) == "0") { hh = hh.substring(1, 1); }
+                            $("#StartTime").datetimePicker({
+                                value: [ss1[0], ss1[1], ss1[2], hh, ss2[1]]
+                            });
+                        }
+                        if (tempmodel.modelData.EndTime && tempmodel.modelData.EndTime.length > 16) {
+                            tempmodel.modelData.EndTime = tempmodel.modelData.EndTime.substring(0, 16);
+                        }
+
+                        if (tempmodel.modelData.EndTime) {
+                            var ss = tempmodel.modelData.EndTime.split(' ');
+                            var ss1 = ss[0].split('-');
+                            var ss2 = ss[1].split(':');
+                            var hh = ss2[0];
+                            if (hh.substring(0, 1) == "0") { hh = hh.substring(1, 1); }
+                            $("#EndTime").datetimePicker({
+                                value: [ss1[0], ss1[1], ss1[2], hh, ss2[1]]
+                            });
+                        }
+
+
+
+                        setTimeout("ComFunJS.initForm()", 500)
+                    }
+                })
+            } else {
+                var dates = ComFunJS.getnowdate("yyyy-mm-dd-hh-mm").split('-');
+                $("#StartTime").datetimePicker({
+                    value: [dates[0], dates[1], dates[2], dates[3], dates[4]]
+                });
+                $("#EndTime").datetimePicker({
+                    value: [dates[0], dates[1], dates[2], dates[3], dates[4]]
+                });
+
+                tempmodel.modelData.StartTime = dates[0] + "-" + dates[1] + "-" + dates[2] + " " + dates[3] + ":" + dates[4];
+                tempmodel.modelData.EndTime = dates[0] + "-" + dates[1] + "-" + dates[2] + " " + dates[3] + ":" + dates[4];
+
+                ComFunJS.uploadimgnew();
+
+                ComFunJS.initForm();
+            }
+
+
+        },//初始化
+        SaveData: function (callback) {
+            tempmodel.modelData.Files = "";
+            $("#imglist .tpli").each(function () {
+                if ($(this).hasClass("wximg")) { //微信上传未处理的图片
+                    if (tempmodel.wximg) {
+                        tempmodel.wximg += ",";
+                    }
+                    tempmodel.wximg += $(this).attr("itemid");
+
+                } else {
+                    if (tempmodel.modelData.Files) {
+                        tempmodel.modelData.Files = tempmodel.modelData.Files + ',' + $(this).attr("itemid");
+                    }
+                    else {
+                        tempmodel.modelData.Files = $(this).attr("itemid");
+                    }
+                }
+
+            })
+            $.getJSON("/API/VIEWAPI.ashx?ACTION=QYHD_ADDQYHD&r=" + Math.random(), { P1: JSON.stringify(tempmodel.modelData.$model), P2: JSON.stringify(tempmodel.XXItemList.$model), wximg: tempmodel.wximg }, function (result) {
+                return callback.call(this, result);
+            });
+        }, deltpxx: function (item) {
+            tempmodel.XXItemList.remove(item);
+            tempmodel.bangdinxxnum();
+        }, tpxxs: function () {
+            tempmodel.XXItemList.push({ "OptionText": "" });
+            tempmodel.bangdinxxnum();
+
+        }, bangdinxxnum: function () {
+            tempmodel.tpxxnum = [];
+            var size = tempmodel.XXItemList.size();
+            for (var i = 1; i <= size; i++) {
+                tempmodel.tpxxnum.push({ "value": i });
+            }
+        },
+        Complate: function () {
+            window.location.href = "/View_Mobile/UI/UI_QYHD_LIST.html?r=" + Math.random();
+        }
+
+    });//# sourceURL=MGZBG.js;
+</script>

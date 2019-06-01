@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>上传头像</title>
+    <script type="text/javascript" src="/ViewV5/JS/txsc/swfobject.js"></script>
+    <script type="text/javascript" src="/ViewV5/JS/txsc/fullAvatarEditor.js"></script>
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>
+
+</head>
+<body>
+    <div style="width: 630px; margin: 0 auto;">
+        <h1 style="text-align: center">头像上传</h1>
+        <div>
+            <p id="swfContainer">
+                本组件需要安装Flash Player后才可使用，请从<a href="http://www.adobe.com/go/getflashplayer">这里</a>下载安装。
+            </p>
+        </div>
+        <!--<button type="button" id="upload">自定义上传按钮</button>-->
+    </div>
+    <script type="text/javascript">
+        swfobject.addDomLoadEvent(function () {
+            var swf = new fullAvatarEditor("swfContainer", {
+                id: 'swf',
+                upload_url: '/ToolS/UploadTX.ashx?Action=TX&UserName=' + ComFunJS.getCookie('username'),
+                tab_visible: false
+            }, function (msg) {
+                switch (msg.code) {
+                    case 5:
+                        if (msg.type == 0) {
+                            alert("操作成功");
+                            top.location.reload();
+                        }
+                        break;
+                }
+            }
+            );
+
+        });
+    </script>
+    <script>
+    </script>
+</body>
+</html>

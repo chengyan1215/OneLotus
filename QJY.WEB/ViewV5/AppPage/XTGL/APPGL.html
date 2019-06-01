@@ -1,0 +1,42 @@
+﻿<style>
+    .pt20 {
+        padding-top: 0px;
+    }
+
+    .jg-right {
+        padding-top: 20px;
+        min-height: 650px;
+    }
+</style>
+<div class="pl20 pr20 " ms-controller="APP_XTGL_APP">
+    <div class="page-title" style="margin-bottom:0;">
+        <h4 class="title">工作</h4>
+    </div>
+    <div class="app-box">
+        <div class="app-item" ms-repeat-item="ColumnData">
+            <a href="###"><img ms-attr-src="/ViewV5/images/icon/{{item.ModelCode}}.png" class="app-icon"></a>
+            <div class="app-block">
+                <span class="app-title">
+                    {{item.ModelName}}
+                </span>
+                <span class="app-bj">官方</span>
+                <p class="app-desc">流程审批流程审批流程审批流程审批</p>
+            </div>
+            <a href="javascript:void(0)" class="app-pz btn btn-info btn-sm">配置</a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var tempindex = avalon.define({
+        $id: "APP_XTGL_APP",
+        ColumnData: [],
+        InitWigetData: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETAPPLIST',{}, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempindex.ColumnData = resultData.Result;
+                }
+            })
+        }
+    })
+</script>

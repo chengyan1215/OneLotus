@@ -1,0 +1,118 @@
+﻿<div ms-controller="W_NOTE">
+    <!-- 添加按钮 -->
+    <div class="btn-add">
+        <button type="button" class="btn btn-info btn-lg" ms-click="AddNote()"><i class="iconfont icon-jiahao ft12 mr5"></i>添加</button>
+    </div>
+    <!-- 按条件选择 -->
+    <div class="tab-filter-type">
+        <div class="oh">
+            <h5 class="pull-left tr">全部类型：</h5>
+            <ul class="tab-type ft14">
+                <!--<li><span class="active" ms-click="fnselecttag('')">全部</span></li>-->
+                <li ms-repeat-item="NoteTagData" ms-click="fnselecttag(item)"><span ms-class-1="active:item==NoteTagData[0]">{{item}}</span></li>
+            </ul>
+        </div>
+    </div>
+    <!-- 表格 -->    
+    <div class="default-tab ft14 pt20 hover-btn">
+        <table class="table table-striped table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th class="tc width-70">
+                        序号
+                    </th>
+                    <th>标题</th>
+                    <th>创建时间</th>
+                    <th width="10%">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ms-repeat-item="NoteDataList" ms-visible="item.isshow">
+                    <td class="tc">
+                        {{$index+1}}
+                    </td>
+                    <td><a ms-click="ViewNote(item)" style="color:#3085DB">{{item.Title}}</a></td>
+                    <td>{{item.CRDate|date("yyyy-MM-dd HH:mm")}}</td>
+                    <td>
+                        <span class="btn-click">
+                            <a class="cz-btn ft18 bj-color tip" data-toggle="tooltip" title="编辑" ms-click="ViewNote(item)">
+                                <i class="iconfont icon-bianji"></i>
+                            </a>
+                            <a class="cz-btn ft18 sc-color tip" data-toggle="tooltip" title="删除" ms-click="DelNote(item)">
+                                <i class="iconfont icon-shanchu"></i>
+                            </a>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr ms-if="isnull"><td class="tc"></td><td>暂无数据</td></tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+    var tempindex = avalon.define({
+        $id: "W_NOTE",
+        NoteTagData: [],//笔记类别
+        NoteDataList: [],//笔记数据
+        seltag: "",
+        fnselecttag: function (tag) {//根据标签过滤数据
+            tempindex.seltag = tag;
+            tempindex.NoteDataList.forEach(function (item) {
+                if (tag) {
+                    item.isshow = (item.Tags == tag);
+                } else {
+                    item.isshow = true;
+                }
+            })
+        },
+        InitWigetData: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=QYWD_COLLECTLIST', { P1: "text" }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    for (var i = 0; i < resultData.Result.length; i++) {
+                        resultData.Result[i].isshow = true;
+                    }//添加显示属性
+                    tempindex.NoteDataList = resultData.Result;
+                    if (tempindex.NoteDataList.size() == 0) { model.isnull = true; } else { model.isnull = false; }
+                    for (var i = 0; i < tempindex.NoteDataList.length; i++) {
+                        if ($.inArray(tempindex.NoteDataList[i].Tags, tempindex.NoteTagData) == "-1" && tempindex.NoteDataList[i].Tags != "") {
+                            tempindex.NoteTagData.push(tempindex.NoteDataList[i].Tags)
+                        }
+                    }
+                    model.isshowload = true;
+                    if (tempindex.seltag == "")
+                    {
+                        tempindex.seltag = tempindex.NoteTagData[0];
+                    }
+                    tempindex.fnselecttag(tempindex.seltag);
+                }
+            })
+        },
+        ViewNote: function (item) {
+            top.ComFunJS.winviewform("/ViewV5/AppPage/APP_ADD.html?FormCode=QYWD_QYSC&ID=" + item.ID + "&MsgType=text", "记事本", "800", "530");
+        },
+        DelNote: function (item) {
+            top.ComFunJS.winconfirm("确认要删除吗", function () {
+                $.getJSON('/API/VIEWAPI.ashx?Action=QYWD_DELSC', { "P1": item.ID }, function (result) {
+                    if (result.ErrorMsg == "") {
+                        top.ComFunJS.winsuccess("删除成功");
+                        tempindex.NoteDataList.remove(item);
+                    }
+                })
+            }, function () { })
+        },
+        AddNote: function (item) {
+            top.ComFunJS.winviewform("/ViewV5/AppPage/APP_ADD.html?FormCode=QYWD_QYSC&MsgType=text", "添加记事", "800", "530", function () {
+                tempindex.InitWigetData();
+                tempindex.fnselecttag(tempindex.seltag);
+            });
+        }
+    })
+    //# sourceURL=W_NOTE.js;
+</script>

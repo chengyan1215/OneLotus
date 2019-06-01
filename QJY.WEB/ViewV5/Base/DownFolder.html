@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>下载文件夹</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css">
+    <link href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="container-fluid text-center">
+        <p><i class="fa fa-spinner fa-spin" id="tb" style="font-size:80px; color: crimson; margin-top:40PX"></i></p>
+        <p class="text-info" id="pinfo">正在压缩文件夹...请稍后</p>
+        <a class="btn btn-success" href="#" style="display:none">下载文件</a>
+    </div>
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>
+
+    <script>
+        $(document).ready(function () {
+            var code = ComFunJS.getQueryString("code");
+            if (code) {
+                $.getJSON('/API/VIEWAPI.ashx?Action=QYWD_COMPRESSFOLDER', { "P1": code, "P2": "" }, function (result) {
+                    if (result.ErrorMsg == "") {
+                        window.document.getElementById("tb").className = "fa fa-flag";
+                        window.document.getElementById("pinfo").innerHTML = "压缩完毕,正在下载,您可以离开此页面";
+                        window.location.href = ComFunJS.getfileapi() + "/document/zipfile/" + result.Result;
+                    }
+                })
+            }
+        });
+    </script>
+</body>
+
+
+
+</html>

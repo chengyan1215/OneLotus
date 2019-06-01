@@ -1,0 +1,3 @@
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 QJY.API.WXHelp.SendTH(List`1 MODEL, String ModelCode, String type, String strUserS) 位置 G:\OCSPRO\QJ_BIOA\QJY.API\WXHelp\WXHelp.cs:行号 101
+2019-05-06 15:47:26

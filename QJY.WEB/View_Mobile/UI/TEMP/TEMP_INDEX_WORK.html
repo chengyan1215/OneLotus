@@ -1,0 +1,134 @@
+﻿<style>
+    .block_nav > li {
+        border-left: 0;
+        border-bottom: 0;
+    }
+
+        .block_nav > li > a > i {
+            width: 1.8rem;
+            height: 1.8rem;
+        }
+
+    .ico {
+        border-radius: 0.2rem;
+    }
+
+    .s-title {
+        border-left: 2px solid blueviolet;
+    }
+
+    .msg {
+        width: 0.7rem;
+        height: 0.7rem;
+        border-radius: 0.7rem;
+        line-height: 0.7rem;
+        background-color: #ff5722;
+        font-size: 1em;
+        font-weight: bold;
+        text-align: center;
+        color: #fff;
+        position: absolute;
+        top: -5px;
+        left: 1.4rem;
+    }
+    .yymsg
+    {
+    width: 0.7rem;
+    height: 0.7rem!important;
+    border-radius: 0.7rem;
+    line-height: 0.7rem;
+    background-color: #ff5722;
+    font-size: 1em;
+    text-align: center;
+    color: #fff;
+    position: absolute;
+    margin-left: 1.5rem;
+    margin-top: -7px;
+    font-style:normal;
+
+    }
+</style>
+
+<div ms-controller="WORD" style="margin-top: 0.4rem;">
+    <div class="culture">
+        <ul class="block_nav clearfix" style="border:0">
+            <li ms-repeat-el="MENUData">
+                <a ms-attr-href="el.WXUrl" external>
+                    <i>
+                        <span class="yymsg" ms-if="el.number>0">{{el.number}}</span>
+                        <img style="border-radius: 100px;" class="ico" ms-attr-src="/View_Mobile/Images/icon/{{el.ModelCode}}.png" onerror="javascript: this.src = '/View_Mobile/Images/icon/Common.png'" />
+                    </i>
+                    <span>{{el.ModelName}}</span>
+                </a>
+            </li>
+            <li>
+                <a href="/View_Mobile/UI/BASE/APP_MOBILE_APPLIST.html?V=1" external>
+                    <i>
+                        <img style="border-radius: 100px;" class="ico" src="/View_Mobile/Images/icon/ZHBGBACK.jpg" />
+                    </i>
+                    <span>添加应用</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <h3 style="padding: 5px;background-color: whitesmoke; border-left: 3px solid blueviolet;">消息列表</h3>
+    <ul class="mess-lis clearfix" style=" margin-top: 0;">
+        <li ms-repeat-el="newsData" class="" style="border-bottom:0;padding-left: 15px;" ms-click="vieww(el)">
+            <a href="#" class="clearfix">
+                <span class="mes-icon"><img ms-src="/View_Mobile/Images/icon/{{el.MsgModeID}}.png" style="  border-radius: 100px;"><span class="msg" ms-visible="el.num>0">{{el.num}}</span></span>
+                <div class="mess-r">
+                    <h4>{{el.MsgType}}<span class="time">{{el.NewXX[0].CRDate|date("MM-dd HH:mm")}}</span></h4>
+                    <p style="line-height: 0.7rem;height: 0.7rem;">
+                        {{el.NewXX[0].MsgContent}}
+                    </p>
+                </div>
+            </a>
+        </li>
+    </ul>
+    
+</div>
+<script>
+    var tempmodel = avalon.define({
+        $id: "WORD",
+        MENUData: [],
+        GetMenuModel: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=INIT_GETINDEXMENUNEW', { P1: "APPINDEX" }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.MENUData = [];
+                    for (var i = 0; i < resultData.Result.length; i++) {
+                        if (resultData.Result[i].WXUrl) {
+                            tempmodel.MENUData.push(resultData.Result[i]);
+
+                        }
+                    }
+                }
+            })
+        },
+        newsData: [],//消息数据
+        inittemp: function () {
+            $.init();
+            tempmodel.GetMenuModel()
+            tempmodel.GetNewsData();
+
+        },
+        GetNewsData: function () {
+            $.getJSON("/API/VIEWAPI.ashx?Action=XTGL_GETXXZXMODELINFO&r=" + Math.random(), {}, function (r) {
+                if (r.ErrorMsg == "") {
+                    tempmodel.newsData = r.Result;
+                }
+            })
+
+        },
+        vieww: function (el) {
+            localStorage.setItem("WORK_MsgModeID", el.MsgModeID);
+            localStorage.setItem("WORK_MsgType", el.MsgType);
+            $.router.loadPage("#pageindex2");
+        }
+
+
+    })
+    avalon.ready(function () {
+    })//# sourceURL=WOrk.js;
+
+</script>

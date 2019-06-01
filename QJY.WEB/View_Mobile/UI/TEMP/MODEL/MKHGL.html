@@ -1,0 +1,350 @@
+﻿<div style="background:#fbf9fe" ms-controller="KHGL">
+    <div ms-if="isHasDataQX=='Y'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">客户名称</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.KHName" type="text" placeholder="(必填)" class="szhl szhl_require weui_input" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">客户类型</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select ms-duplex="modelData.KHType" class="szhl szhl_require weui-select">
+                        <option ms-repeat-item="ColumnData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.KHType?'selected':''">{{item.TypeName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">负责人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="conFZR" placeholder="请选择负责人" ms-duplex="modelData.FZUser" class="szhl szhl_getPeoples single weui_input" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">电话</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.TelePhone" type="text" placeholder="请输入电话" class="weui_input" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">地址</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.Address" type="text" placeholder="请输入地址" class="weui_input" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">跟进状态</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select ms-duplex="modelData.Status" class="weui-select">
+                        <option value="">请选择跟进状态</option>
+                        <option ms-repeat-item="ColumnData1" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.Status?'selected':''">{{item.TypeName}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="extdiv"></div>
+        </div>
+        <div class="weui_cells_title" ms-if="!modelData.ID">联系人信息</div>
+        <div class="weui_cells weui_cells_form" ms-if="!modelData.ID">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">姓名</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="lxrData.UserXM" type="text" placeholder="(必填)" class=" weui_input szhl szhl_require" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">电话</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="lxrData.TelePhone" type="text" placeholder="(必填)" class=" weui_input szhl szhl_require" />
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">备注信息</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea ms-duplex="modelData.Remark" rows="3" placeholder="请输入备注" class="weui_textarea"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">详细信息<a class="show-up" ms-click="isZK()" id="zk">展开</a></div>
+        <div ms-if="isDeploy == 1">
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label label">邮箱</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input ms-duplex="modelData.Email" type="text" placeholder="请输入邮箱" class=" weui_input" />
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label label">邮编</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input ms-duplex="modelData.PostCode" type="text" placeholder="请输入邮编" class=" weui_input" />
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label label">传真</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input ms-duplex="modelData.FixNo" type="text" placeholder="请输入传真" class=" weui_input" />
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label label">网址</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input ms-duplex="modelData.WebSite" type="text" placeholder="请输入网址" class=" weui_input" />
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label label">客户来源</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <select ms-duplex="modelData.Source" class="weui-select">
+                            <option value="">请选择客户来源</option>
+                            <option ms-repeat-item="ColumnData2" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.Source?'selected':''">{{item.TypeName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label label">人员规模</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <select ms-duplex="modelData.Scale" class="weui-select">
+                            <option value="">请选择人员规模</option>
+                            <option ms-repeat-item="ColumnData4" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.Scale?'selected':''">{{item.TypeName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label label">所属行业</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <select ms-duplex="modelData.Industry" class="weui-select">
+                            <option value="">请选择所属行业</option>
+                            <option ms-repeat-item="ColumnData3" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.Industry?'selected':''">{{item.TypeName}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">图片上传</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" ms-duplex="modelData.Files" class="wximgupload" style="display:none;" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ms-if="isHasDataQX=='N'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">客户名称</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.KHName}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">客户类型</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.TypeName}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">负责人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{ComFunJS.convusers(modelData.FZUser)}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">电话</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.TelePhone}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">备注信息</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.Remark|html}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">详细信息</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">邮箱</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.Email}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">邮编</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.PostCode}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">传真</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.FixNo}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">网址</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.WebSite}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">跟进状态</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.GJZT}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">客户来源</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.KHLY}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">人员规模</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.RYGM}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">所属行业</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.SSHY}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">地址</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.Address}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">图片上传</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div class="viewimg">{{modelData.Files}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var tempmodel = avalon.define({
+        $id: "KHGL",
+        ColumnData: [],
+        ColumnData1: [],
+        ColumnData2: [],
+        ColumnData3: [],
+        ColumnData4: [],
+        name: "客户管理",
+        tpData: [],
+        wximg: "",
+        dataid: "",
+        isDeploy: 0,
+        isZK: function () {
+            if (tempmodel.isDeploy == 0) {
+                tempmodel.isDeploy = 1;
+                $("#zk").text("收起");
+            }
+            else {
+                tempmodel.isDeploy = 0;
+                $("#zk").text("展开");
+            }
+            //tempmodel.isDeploy == 0 ? 1 : 0;
+        },
+        inittemp: function (strId) {
+
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETZIDIANLIST', { P1: 10 }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.ColumnData = resultData.Result;
+                    if (!tempmodel.modelData.KHType) {
+                        tempmodel.modelData.KHType = resultData.Result[0].ID
+                    };
+                }
+            })
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETZIDIANLIST', { P1: 11 }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.ColumnData1 = resultData.Result;
+                }
+            })
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETZIDIANLIST', { P1: 12 }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.ColumnData2 = resultData.Result;
+                }
+            })
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETZIDIANLIST', { P1: 13 }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.ColumnData3 = resultData.Result;
+                }
+            })
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETZIDIANLIST', { P1: 14 }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.ColumnData4 = resultData.Result;
+                }
+            })
+
+            if (strId) {
+
+                tempmodel.dataid = strId;
+                $.getJSON('/API/VIEWAPI.ashx?Action=CRM_GETKHGLMODEL', { P1: strId }, function (resultData) {
+
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result[0];
+                        tempmodel.tpData = resultData.Result1;
+
+
+                        ComFunJS.uploadimgnew(tempmodel.tpData);
+                        ComFunJS.viewimg(tempmodel.tpData);
+
+                        setTimeout(" ComFunJS.initForm()", 500)
+                    }
+                })
+            } else {
+
+                ComFunJS.uploadimgnew();
+                ComFunJS.initForm();
+            }
+        },//初始化
+        modelData: { "KHType": "", "KHName": "", "TelePhone": "", "FixNo": "", "WebSite": "", "PostCode": "", "Address": "", "Status": "", "Lev": "", "Source": "", "FZUser": ComFunJS.getnowuser(), "CYUser": "", "Remark": "", "Files": "", "Industry": "", "Scale": "", "Email": "" },
+        lxrData: { "UserXM": "", "TelePhone": "" },
+        SaveData: function (callback) {
+
+            tempmodel.modelData.Files = "";
+            $("#imglist .tpli").each(function () {
+                if ($(this).hasClass("wximg")) { //微信上传未处理的图片
+                    if (tempmodel.wximg) {
+                        tempmodel.wximg += ",";
+                    }
+                    tempmodel.wximg += $(this).attr("itemid");
+
+                } else {
+                    if (tempmodel.modelData.Files) {
+                        tempmodel.modelData.Files = tempmodel.modelData.Files + ',' + $(this).attr("itemid");
+                    }
+                    else {
+                        tempmodel.modelData.Files = $(this).attr("itemid");
+                    }
+                }
+
+            })
+            $.getJSON("/API/VIEWAPI.ashx?ACTION=CRM_ADDKHGL", { P1: JSON.stringify(tempmodel.modelData.$model), P2: tempmodel.wximg, lxr: JSON.stringify(tempmodel.lxrData.$model) }, function (result) {
+                return callback.call(this, result);
+            });
+        },
+        Complate: function () {
+            window.location.href = "/View_Mobile/UI/CRM/UI_KHGL_LIST.html?r=" + Math.random();
+        }
+    });//# sourceURL=MHYGL.js;
+
+</script>

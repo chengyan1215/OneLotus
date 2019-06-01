@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>考试中心</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+   
+  </head>
+  <body>
+    
+    <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+        <div class="page">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav">
+                <a class="icon icon-left pull-left"></a>
+                <h1 class="title">考试中心</h1>
+            </header>
+
+            <!-- 工具栏 -->
+           <!--  <nav class="bar bar-tab">
+                <a class="tab-item external active" href="#">
+                    <span class="icon icon-home"></span>
+                    <span class="tab-label">首页</span>
+                </a>
+                <a class="tab-item external" href="#">
+                    <span class="icon icon-star"></span>
+                    <span class="tab-label">收藏</span>
+                </a>
+                <a class="tab-item external" href="#">
+                    <span class="icon icon-settings"></span>
+                    <span class="tab-label">设置</span>
+                </a>
+            </nav> -->
+
+            <!-- 这里是页面内容区 -->
+           <div class="content">
+             <div class="buttons-tab fixed-tab" data-offset="44">
+                <a href="#tab1" class="tab-link active button">未完成</a>
+                <a href="#tab2" class="tab-link button">已完成</a>
+               
+              </div>
+              
+                <div class="tabs">
+                  <div id="tab1" class="tab active">
+                   <div class="list-block media-list nomargin ">
+                      <ul>
+                        <li>
+                           <a href="details-test.html" class="item-link item-content">
+                                <div class="item-inner">
+                                  <div class="item-title-row">
+                                    <div class="item-title">变压器油中溶解气体分析和判断导则</div>
+                                    <div class="item-after c-red">已结束</div>
+                                  </div>
+                                  <div class="item-subtitle c999 ft7"><i class="iconfont icon-shijian"></i>2016-11-12  8:00</div>
+                            </div>
+                           </a>                
+                        </li>
+                         <li>
+                           <a href="details-test-ing.html" class="item-link item-content">
+                                <div class="item-inner">
+                                  <div class="item-title-row">
+                                    <div class="item-title">综合检测第一节</div>
+                                    <div class="item-after c-green">正在进行</div>
+                                  </div>
+                                  <div class="item-subtitle c999 ft7"><i class="iconfont icon-shijian"></i>2016-11-12  8:00</div>
+                            </div>
+                           </a>                
+                        </li>
+                      </ul>
+                    </div>
+                    <p class="no-content">没有更多</p>
+                  </div>
+                  <div id="tab2" class="tab">
+                    <div class="list-block media-list nomargin ">
+                      <ul>
+                        <li>
+                           <a href="details-test.html" class="item-link item-content">
+                                <div class="item-inner">
+                                  <div class="item-title-row">
+                                    <div class="item-title">变压器油中溶解气体分析和判断导则</div>
+                                    <div class="item-after c-red">已结束</div>
+                                  </div>
+                                  <div class="item-subtitle c999 ft7"><i class="iconfont icon-shijian"></i>2016-11-12  8:00</div>
+                            </div>
+                           </a>                
+                        </li>
+                       
+                         <li>
+                           <a href="" class="item-link item-content">
+                                <div class="item-inner">
+                                  <div class="item-title-row">
+                                    <div class="item-title">综合检测第一节</div>
+                                    <div class="item-after c-green">正在进行</div>
+                                  </div>
+                                  <div class="item-subtitle c999 ft7"><i class="iconfont icon-shijian"></i>2016-11-12  8:00</div>
+                            </div>
+                           </a>                
+                        </li>
+                      </ul>
+                    </div>
+                    <p class="no-content">没有更多</p>
+                  </div>
+                  
+                </div>
+              
+            </div>
+        </div>
+
+        <!-- 其他的单个page内联页（如果有） -->
+        <div class="page">...</div>
+    </div>
+ <script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script type="text/javascript">
+    $(function () {
+        $(document).on("pageInit", function() {
+            $('.buttons-tab').fixedTab({offset:44});           
+        });
+        $.init();
+    });
+       
+
+    </script>
+
+  </body>
+</html>

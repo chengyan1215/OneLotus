@@ -1,0 +1,459 @@
+﻿<div style="background:#fbf9fe" ms-controller="CPGL">
+    <div ms-if="isHasDataQX=='Y'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">负责人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="conFZR" placeholder="请选择负责人" ms-duplex="modelData.FZR" class="weui_input szhl_require szhl szhl_getPeoples single" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">合同标题</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.Title" type="text" placeholder="(必填)" class="weui_input szhl szhl_require" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">对应客户</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <!--<select ms-duplex="modelData.KHID" class="weui-select szhl">
+                        <option value="">请选择</option>
+                        <option ms-repeat-item="khData" ms-attr-value="item.ID">{{item.KHName}}</option>
+                    </select>-->
+                    <input type="text" id="conKH" placeholder="请选择对应客户" ms-duplex="modelData.KHID" class="szhl szhl_getKH single weui_input" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">合同状态</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select class="weui-select" ms-duplex="modelData.HTStatus">
+                        <option ms-repeat-item="HTStateData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.HTStatus?'selected':''">{{item.TypeName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">合同类型</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select ms-duplex="modelData.HTType" class="weui-select">
+                        <option ms-repeat-item="ColumnData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.HTType?'selected':''">{{item.TypeName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">总金额(元)</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.Price" class="weui_input szhl szhl_require szhl_Float" type="number" placeholder="(必填)" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">开始日期</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.HTStartTime " id="htstart" class="weui_input appdate szhl szhl_require" type="text" placeholder="请输入合同开始日期" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">结束日期</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.HTEndTime" id="htend" class="weui_input appdate szhl_require" type="text" placeholder="请输入合同结束日期" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">签约日期</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.QYDate" id="qydate" type="text" placeholder="请输入签约日期" class="weui_input " />
+                </div>
+            </div>
+            <div class="extdiv"></div>
+        </div>
+        <div class="weui_cells_title">备注</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea ms-duplex="modelData.Remark" rows="3" placeholder="请输入备注" class="weui_textarea"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">图片上传</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" ms-duplex="modelData.Files" class="wximgupload" style="display:none;" />
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">详细信息<a class="show-up" ms-click="isZK()" id="zk">展开</a></div>
+        <div ms-if="isDeploy == 1">
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label label">关联产品</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <select ms-duplex="modelData.PID" class="weui_input">
+                            <option value="">请选择关联产品</option>
+                            <option ms-repeat-item="cplistData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.PID?'selected':''">{{item.Name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label label">付款方式</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <select ms-duplex="modelData.FKFS" class="weui-select szhl ">
+                            <option value="">请选择</option>
+                            <option ms-repeat-item="fkfsData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.FKFS?'selected':''">{{item.TypeName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label label">付款说明</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input ms-duplex="modelData.FKSM" type="text" placeholder="比如:全款等。" class="weui_input" />
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label label">有效期</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input ms-duplex="modelData.ExpiryDate" id="exdate" type="text" placeholder="请输入有效期" class="weui_input " />
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label label">客户签约人</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input ms-duplex="modelData.KHQYR" type="text" placeholder="请输入客户方签约人" class="weui_input" />
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label label">我方签约人</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input ms-duplex="modelData.WFQYR" type="text" placeholder="请输入我方签约人" class="weui_input" />
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label label">合同编号</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input ms-duplex="modelData.HTCode" class="weui_input" type="text" placeholder="请输入合同编号" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ms-if="isHasDataQX=='N'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">负责人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{ComFunJS.convuser(modelData.FZR)}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">合同标题</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.Title}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">对应客户</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select ms-duplex="modelData.KHID" class="weui-select">
+                        <option value="">请选择</option>
+                        <option ms-repeat-item="khData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.KHID?'selected':''">{{item.KHName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label label">总金额</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.Price}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">开始日期</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.HTStartTime|date('yyyy-MM-dd')}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">结束日期</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.HTEndTime|date('yyyy-MM-dd')}}
+                </div>
+            </div>
+        </div>
+        <div class="extdiv"></div>
+        <div class="weui_cells_title">备注</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.Remark|html}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title" ms-if="modelData.Files">图片上传</div>
+        <div class="weui_cells weui_cells_form" ms-if="modelData.Files">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div class="viewimg">{{modelData.Files}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">详细信息</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">合同状态</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{showHTStatus(modelData.HTStatus)}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">合同类型</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select ms-duplex="modelData.HTType" class="weui-select ">
+                        <option ms-repeat-item="ColumnData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.HTType?'selected':''">{{item.TypeName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">关联产品</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select ms-duplex="modelData.PID" class="weui_input">
+                        <option value="">请选择关联产品</option>
+                        <option ms-repeat-item="cplistData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.PID?'selected':''">{{item.Name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">付款方式</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select ms-duplex="modelData.FKFS" class="weui-select">
+                        <option ms-repeat-item="fkfsData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.FKFS?'selected':''">{{item.TypeName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">付款说明</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.FKSM}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">有效期</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.ExpiryDate|html}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">客户签约人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.KHQYR}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">我方签约人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.WFQYR}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">合同编号</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.HTCode}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">签约日期</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.QYDate|html}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var tempmodel = avalon.define({
+        $id: "CPGL",
+        ColumnData: [],
+        cplistData: [],
+        fkfsData: [],
+        khData: [],
+        name: "合同管理",
+        tpData: [],
+        wximg: "",
+        dataid: "",
+        isDeploy: 0,
+        khid: ComFunJS.getQueryString("khid"),
+        isZK: function () {
+            if (tempmodel.isDeploy == 0) {
+                tempmodel.isDeploy = 1;
+                $("#zk").text("收起");
+            }
+            else {
+                tempmodel.isDeploy = 0;
+                $("#zk").text("展开");
+            }
+            //tempmodel.isDeploy == 0 ? 1 : 0;
+        },
+        inittemp: function (strId) {
+            if (tempmodel.khid) {
+                tempmodel.modelData.KHID = tempmodel.khid;
+                $("#conKH").val(tempmodel.khid);
+            }
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETZIDIANLIST', { P1: 16 }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.ColumnData = resultData.Result;
+                    if (tempmodel.ColumnData.size() > 0 && !tempmodel.modelData.HTType) {
+                        tempmodel.modelData.HTType = resultData.Result[0].ID;
+                    }
+                }
+            })
+
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETZIDIANLIST', { P1: 17 }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.fkfsData = resultData.Result;
+                }
+            })
+            $.getJSON('/API/VIEWAPI.ashx?Action=CRM_GETCPALL', function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.cplistData = resultData.Result;
+                    //if (tempmodel.cplistData.size() > 0 && !tempmodel.modelData.PID) {
+                    //    tempmodel.modelData.PID = resultData.Result[0].ID;
+                    //}
+                }
+            })
+            if (strId) {
+
+                tempmodel.dataid = strId;
+                $.getJSON('/API/VIEWAPI.ashx?Action=CRM_GETHTMODEL', { P1: strId }, function (resultData) {
+
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result;
+                        if (tempmodel.modelData.HTStartTime && tempmodel.modelData.HTStartTime.length > 10) {
+                            tempmodel.modelData.HTStartTime = tempmodel.modelData.HTStartTime.substring(0, 10);
+                            $("#htstart").calendar({
+                                value: [tempmodel.modelData.HTStartTime]
+                            });
+                        }
+                        else {
+                            $("#htstart").calendar({
+                                value: []
+                            });
+                        }
+                        if (tempmodel.modelData.HTEndTime && tempmodel.modelData.HTEndTime.length > 10) {
+                            tempmodel.modelData.HTEndTime = tempmodel.modelData.HTEndTime.substring(0, 10);
+                            $("#htend").calendar({
+                                value: [tempmodel.modelData.HTEndTime]
+                            });
+                        }
+                        else {
+                            $("#htend").calendar({
+                                value: []
+                            });
+                        }
+                        if (tempmodel.modelData.QYDate && tempmodel.modelData.QYDate.length > 10) {
+                            tempmodel.modelData.QYDate = tempmodel.modelData.QYDate.substring(0, 10);
+                            $("#qydate").calendar({
+                                value: [tempmodel.modelData.QYDate]
+                            });
+                        }
+                        else {
+                            $("#qydate").calendar({
+                                value: []
+                            });
+                        }
+                        if (tempmodel.modelData.ExpiryDate && tempmodel.modelData.ExpiryDate.length > 10) {
+                            tempmodel.modelData.ExpiryDate = tempmodel.modelData.ExpiryDate.substring(0, 10);
+                            $("#exdate").calendar({
+                                value: [tempmodel.modelData.ExpiryDate]
+                            });
+                        }
+                        else {
+                            $("#exdate").calendar({
+                                value: []
+                            });
+                        }
+                        tempmodel.tpData = resultData.Result1;
+                        ComFunJS.uploadimgnew(tempmodel.tpData);
+                        ComFunJS.viewimg(tempmodel.tpData);
+                        setTimeout(" ComFunJS.initForm()", 500)
+                    }
+                })
+            } else {
+                $("#htstart").calendar({
+                    value: [ComFunJS.getnowdate("yyyy-mm-dd")]
+                });
+                tempmodel.modelData.HTStartTime = ComFunJS.getnowdate("yyyy-mm-dd");
+                $("#htend").calendar({
+                    value: [ComFunJS.getnowdate("yyyy-mm-dd")]
+                });
+                tempmodel.modelData.HTEndTime = ComFunJS.getnowdate("yyyy-mm-dd");
+                $("#qydate").calendar({
+                    value: []
+                });
+                $("#exdate").calendar({
+                    value: []
+                });
+                ComFunJS.uploadimgnew();
+                setTimeout(" ComFunJS.initForm()", 500)
+            }
+        },//初始化
+        HTStateData: [{ "ID": "0", "TypeName": "未开始" }, { "ID": "1", "TypeName": "执行中" },
+          { "ID": "2", "TypeName": "成功结束" }, { "ID": "3", "TypeName": "意外终止" }, ],
+        modelData: {
+            "Title": "", "Files": "", "FZR": ComFunJS.getnowuser(), "HTStartTime": "", "Price": "", "KHID": "", "Remark": "", "QYDate": "", "FKSM": "",
+            "WFQYR": "", "KHQYR": "", "FKFS": "", "HTType": "", "PID": "", "HTCode": "", "HTStatus": 0, "HTEndTime": "", "ExpiryDate": ""
+        },
+        showHTStatus: function (status) {
+            var statusName = "";
+            switch (status) {
+                case "0":
+                    statusName = "未开始";
+                    break;
+                case "1":
+                    statusName = "执行中";
+                    break;
+                case "2":
+                    statusName = "成功结束";
+                    break;
+                case "3":
+                    statusName = "意外终止";
+                    break;
+            }
+            return statusName;
+        },
+        SaveData: function (callback) {
+
+            tempmodel.modelData.Files = "";
+            $("#imglist .tpli").each(function () {
+                if ($(this).hasClass("wximg")) { //微信上传未处理的图片
+                    if (tempmodel.wximg) {
+                        tempmodel.wximg += ",";
+                    }
+                    tempmodel.wximg += $(this).attr("itemid");
+
+                } else {
+                    if (tempmodel.modelData.Files) {
+                        tempmodel.modelData.Files = tempmodel.modelData.Files + ',' + $(this).attr("itemid");
+                    }
+                    else {
+                        tempmodel.modelData.Files = $(this).attr("itemid");
+                    }
+                }
+
+            })
+            $.getJSON("/API/VIEWAPI.ashx?ACTION=CRM_ADDHT", { P1: JSON.stringify(tempmodel.modelData.$model), P2: tempmodel.wximg }, function (result) {
+                return callback.call(this, result);
+            });
+        },
+        Complate: function () {
+            if (tempmodel.khid) {
+                window.location.href = "/View_Mobile/UI/CRM/UI_KHGL_LIST.html?id=" + tempmodel.khid + "&r=" + Math.random();
+            }
+            else {
+                window.location.href = "/View_Mobile/UI/CRM/UI_HTGL_LIST.html?r=" + Math.random();
+            }
+
+        }
+    });//# sourceURL=MHTGL.js;
+
+</script>

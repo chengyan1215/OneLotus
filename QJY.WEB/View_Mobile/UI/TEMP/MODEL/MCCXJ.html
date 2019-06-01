@@ -1,0 +1,218 @@
+﻿<div style="background:#fbf9fe" ms-controller="MCCXJ">
+    <div ms-if="isHasDataQX=='Y'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">申请人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.ShenQingRen}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">申请类型</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select class="weui-select" name="conType" id="conType" ms-duplex="modelData.LeiBie">
+                        <option ms-repeat-item="ColumnData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.LeiBie?'selected':''">{{item.TypeName}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">开始时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" placeholder="请选择开始时间" id="StarTime" ms-duplex="modelData.StarTime" class="weui_input szhl szhl_require" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">结束时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" placeholder="请选择结束时间" id="EndTime" ms-duplex="modelData.EndTime" class="weui_input szhl szhl_require" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">请假天数</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="number" ms-duplex="modelData.Daycount" class="weui_input szhl szhl_require szhl_Int" min="1" placeholder="请输入请假天数" />
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">请假事由</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd" style="display:none;"><label class="weui_label label">请假事由</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea ms-duplex="modelData.ZhuYaoShiYou" rows="4" class="weui_textarea szhl szhl_require" placeholder="请输入请假事由"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">图片上传</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" ms-duplex="modelData.Files" class="wximgupload" style="display:none;" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ms-if="isHasDataQX=='N'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">申请人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.ShenQingRen}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">申请类型</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{typename}}
+                </div>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">开始时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.StarTime}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">结束时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.EndTime}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">请假天数</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.Daycount}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">请假事由</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.ZhuYaoShiYou|html}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title" ms-if="modelData.Files">图片上传</div>
+        <div class="weui_cells weui_cells_form" ms-if="modelData.Files">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div class="viewimg">{{modelData.Files}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var tempmodel = avalon.define({
+        $id: "MCCXJ",
+        ColumnData: [],
+        tpData: [],
+        name: "出差休假",
+        iswf: true,//是否属于流程表单
+        wximg: "",
+        typename: "",
+        CancelWF: function (dataid) {
+            $.getJSON('/API/VIEWAPI.ashx?Action=CCXJ_DELCCXJ', { P1: dataid }, function (resultData) {
+
+            })
+        },
+        inittemp: function (strId) {
+
+
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETZIDIANLIST', { P1: 1 }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.ColumnData = resultData.Result;
+                    if (!tempmodel.modelData.LeiBie) {
+                        tempmodel.modelData.LeiBie = resultData.Result[0].ID
+                    };
+                }
+            })
+            tempmodel.modelData.ShenQingRen = ComFunJS.convertuser(ComFunJS.getnowuser());
+            if (strId) {
+
+
+                $.getJSON('/API/VIEWAPI.ashx?Action=CCXJ_GETCCXJMODEL', { P1: strId }, function (resultData) {
+
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result;
+                        tempmodel.typename = resultData.Result1;
+                        tempmodel.tpData = resultData.Result2;
+                        ComFunJS.uploadimgnew(tempmodel.tpData);
+                        ComFunJS.viewimg(tempmodel.tpData);
+                        if (tempmodel.modelData.StarTime && tempmodel.modelData.StarTime.length > 10) {
+                            tempmodel.modelData.StarTime = tempmodel.modelData.StarTime.substring(0, 10);
+
+                            $("#StarTime").calendar({
+                                value: [tempmodel.modelData.StarTime]
+                            });
+                        }
+                        if (tempmodel.modelData.EndTime && tempmodel.modelData.EndTime.length > 10) {
+                            tempmodel.modelData.EndTime = tempmodel.modelData.EndTime.substring(0, 10);
+
+                            $("#EndTime").calendar({
+                                value: [tempmodel.modelData.EndTime]
+                            });
+                        }
+                        setTimeout("ComFunJS.initForm()", 500)
+
+                    }
+                })
+            } else {
+                $("#StarTime").calendar({
+                    value: [ComFunJS.getnowdate("yyyy-mm-dd")]
+                });
+                $("#EndTime").calendar({
+                    value: [ComFunJS.getnowdate("yyyy-mm-dd")]
+                });
+                tempmodel.modelData.StarTime = ComFunJS.getnowdate("yyyy-mm-dd");
+                tempmodel.modelData.EndTime = ComFunJS.getnowdate("yyyy-mm-dd");
+                ComFunJS.uploadimgnew();
+
+                ComFunJS.initForm();
+
+
+            }
+        },//初始化
+        modelData: { "ShenQingRen": "", "StarTime": "", "EndTime": "", "Daycount": "1", "LeiBie": "", "SPUser": "", "ChaoSongRen": "", "ZhuYaoShiYou": "", "Files": "" },
+        SaveData: function (callback) {
+            tempmodel.modelData.Files = "";
+            $("#imglist .tpli").each(function () {
+                if ($(this).hasClass("wximg")) { //微信上传未处理的图片
+                    if (tempmodel.wximg) {
+                        tempmodel.wximg += ",";
+                    }
+                    tempmodel.wximg += $(this).attr("itemid");
+
+                } else {
+                    if (tempmodel.modelData.Files) {
+                        tempmodel.modelData.Files = tempmodel.modelData.Files + ',' + $(this).attr("itemid");
+                    }
+                    else {
+                        tempmodel.modelData.Files = $(this).attr("itemid");
+                    }
+                }
+
+            })
+
+            $.getJSON("/API/VIEWAPI.ashx?ACTION=CCXJ_ADDCCXJ", { P1: JSON.stringify(tempmodel.modelData.$model), P2: tempmodel.wximg }, function (result) {
+                return callback.call(this, result);
+            });
+        },
+        Complate: function () {
+            window.location.href = "/View_Mobile/UI/UI_CCXJ_LIST.html?r=" + Math.random();
+        }
+    });//# sourceURL=MCCXJ.js;
+    tempmodel.modelData.$watch("ZhuYaoShiYou", function (a, b) {
+        if (!pmodel.DataID) {
+            localStorage.setItem(pmodel.FormCode, JSON.stringify(tempmodel.modelData.$model));
+        }
+    })
+</script>

@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>应用设置</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/index.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/default.css">
+
+    <style>
+        .panel-all {
+            background: #fff;
+            min-height: 100%;
+        }
+
+        .tab-box {
+            /*background: #f5f5f7;*/
+            height: 50px;
+            border-bottom: 1px solid #dcdcdc;
+        }
+
+            .tab-box li {
+                float: left;
+                line-height: 48px;
+                text-align: center;
+            }
+
+                .tab-box li a {
+                    width: 100%;
+                    height: 100%;
+                    display: inline-block;
+                    border-top: 2px solid transparent;
+                    border-left: 1px solid transparent;
+                    border-right: 1px solid transparent;
+                    padding: 0 25px;
+                }
+
+                .tab-box li.active a {
+                    background: #fff;
+                    border-top-color: #42a0f8;
+                    border-right-color: #dcdcdc;
+                    border-left-color: #dcdcdc;
+                    color: #222;
+                }
+
+        .gs-box li {
+            line-height: 40px;
+            color: #222;
+        }
+
+            .gs-box li .list-box-bt {
+                padding: 0 20px;
+                position: relative;
+                border-top: 1px solid #e5e5e5;
+            }
+
+                .gs-box li .list-box-bt:hover {
+                    background-color: #f3f3f3;
+                }
+
+                .gs-box li .list-box-bt span {
+                    margin-left: 10px;
+                }
+
+        .children-list li {
+            padding-left: 0px;
+        }
+
+        .gs-box li .children-list .list-box-bt span {
+            margin-left: 28px;
+        }
+
+        .down-open {
+            color: #222;
+        }
+
+        #typeIn {
+            height: 30px;
+            line-height: 30px;
+            border: none;
+            border: 1px solid #ccc;
+        }
+
+        .none-ds {
+            display: none;
+            cursor: pointer;
+        }
+
+        .down-open:hover .none-ds {
+            display: initial;
+        }
+
+        .item-tit {
+            width: 120px !important;
+        }
+
+        .detail-item {
+            padding: 0 0 15px 120px !important;
+        }
+    </style>
+</head>
+<body ms-controller="APP_XTGL_APPSET">
+    <div class="padding20" style="min-height: 100%;">
+        <div class="panel-all">
+            <div class="tab-box">
+                <ul>
+                    <li class="active">
+                        <a>绑定企业号应用</a>
+                    </li>
+
+                    <li ms-if="ModelData.AppType=='1'">
+                        <a>设置应用菜单</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="wrap">
+                <div class="detail-con user-list ft14" style="width: 70%">
+
+                    <div class="detail-item">
+                        <span class="item-tit">应用名称</span>
+                        <div class="item-con">{{ModelData.ModelName}}</div>
+                    </div>
+                    <div class="detail-item">
+                        <span class="item-tit">应用代码</span>
+                        <div class="item-con">{{ModelData.ModelCode}}</div>
+                    </div>
+                    <div class="detail-item">
+                        <span class="item-tit">应用类型</span>
+                        <div class="item-con">{{ModelData.AppType=="2"?"主页型":"消息型"}}</div>
+                    </div>
+                       <div class="detail-item">
+                        <span class="item-tit">微信验证URL</span>
+                        <div class="item-con">{{top.model.CompanyData.WXUrl}}/API/WXAPI.ashx?Action=XXJS&Code={{ModelData.ModelCode}}</div>
+                    </div>
+                
+                     <div class="detail-item">
+                        <span class="item-tit">agentid</span>
+                        <input type="text" ms-duplex="ModelData.AppID" class="settings-input form-control" />
+                    </div>
+                      <div class="detail-item">
+                        <span class="item-tit">appSecret</span>
+                        <input type="text" ms-duplex="ModelData.Remark1" class="settings-input form-control" />
+                    </div>
+                    <div class="detail-item" ms-if="ModelData.AppType=='1'">
+                        <span class="item-tit">Token</span>
+                        <input type="text" id="Token" ms-duplex="ModelData.Token" class="settings-input form-control" />
+                    </div>
+                    <div class="detail-item" ms-if="ModelData.AppType=='1'">
+                        <span class="item-tit">EncodingAESKey</span>
+                        <input type="text" id="EKey" ms-duplex="ModelData.EncodingAESKey" class="settings-input form-control" />
+                    </div>
+
+                   
+                    <div class="detail-item" ms-if="ModelData.AppType=='2'">
+                        <span class="item-tit">主页URL</span>
+                        <div class="item-con">{{top.model.CompanyData.WXUrl}}/View_Mobile/UI/UI_COMMON.html?funcode={{ModelData.ModelCode}}&corpId={{top.model.CompanyData.corpId}}</div>
+                    </div>
+
+                   
+                    <div class="detail-item">
+                        <span class="item-tit"></span>
+                        <button type="button" class="btn btn-info mt20" ms-click="saveyy()">保存应用数据</button>
+<!--                        <button type="button" class="btn btn-warning mt20" ms-click="fireyy()" ms-if="isbind">解除绑定</button>-->
+                    </div>
+                </div>
+
+                <div class="detail-con" style="display: none">
+                    <button type="button" class="btn btn-info" ms-click="wxmenu(this)">生成默认菜单</button>
+                    <table class="table table-bordered table-hover table-striped mt10">
+                        <tbody ms-repeat-el="MenuData" style="border-top: 0;">
+                            <tr>
+                                <td style="width: 20px"><i class="caret ml5"></i></td>
+                                <td>{{el.MenuName}}-{{el.Url1}}</td>
+                            </tr>
+                             
+                        </tbody>
+
+                        <!--<tr>
+                            <td></td>
+                            <td>我的报告</td>
+                        </tr>-->
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <script src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.min.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js?ver=1"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js"></script>
+    <script>
+        $(".tab-box li").each(function (i) {
+            $(this).click(function () {
+                $(this).addClass("active").siblings().removeClass("active");
+                $("#wrap>div:eq(" + i + ")").show().siblings().hide();
+            });
+        });
+
+        var model = avalon.define({
+            $id: "APP_XTGL_APPSET",
+            ID: ComFunJS.getQueryString("id"),
+            ModelData: {},
+            MenuData: [],
+            appurl: "",
+            isbind: "",
+            GetData: function () {
+                $.getJSON('/API/VIEWAPI.ashx?Action=INIT_GETQYAPP', { P1: model.ID }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        model.ModelData = resultData.Result1;
+                        model.MenuData = resultData.Result2;
+                        model.appurl = resultData.Result3;
+                        if (model.ModelData.AppID) { model.isbind = "1"; }
+                    }
+                })
+            },
+            saveyy: function () {
+                $.post("/API/VIEWAPI.ashx?ACTION=INIT_SAVEMODEL", { P1: JSON.stringify(model.ModelData.$model) }, function (result) {
+                    if (result.ErrorMsg == "") {
+                        ComFunJS.winsuccess("绑定成功");
+                        model.isbind = "1";
+                    }
+                });
+            },
+            wxmenu: function (dom) {
+                $.getJSON('/API/VIEWAPI.ashx?Action=INIT_CREATEMENU', { P1: model.ID }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        $(dom).removeClass("btn-info").addClass("btn-success").text("生成成功")
+                    }
+                })
+            },
+            fireyy: function () {
+                top.ComFunJS.winconfirm("确认要解除绑定吗", function () {
+                    $.getJSON('/API/VIEWAPI.ashx?Action=INIT_FIREMODEL', { "P1": model.ID }, function (result) {
+                        if (result.ErrorMsg == "") {
+                            top.ComFunJS.winsuccess("解除成功");
+                            model.ModelData.Token = "";
+                            model.ModelData.EncodingAESKey = "";
+                            model.ModelData.AppID = "";
+                            model.isbind = "";
+                        }
+                    })
+                }, function () { })
+            }
+        })
+        avalon.ready(function () {
+            model.GetData();
+        })
+    </script>
+
+</body>
+
+</html>

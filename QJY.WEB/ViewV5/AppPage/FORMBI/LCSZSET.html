@@ -1,0 +1,284 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="/ViewV5/CSS/icfont_qj/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/default.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/index.css">
+    <style>
+        .ms-controller, .ms-important, [ms-controller], [ms-important] {
+            visibility: hidden;
+        }
+    </style>
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script src="/ViewV5/JS/layer/layer.js"></script>
+    <script src="/ViewV5/JS/layer/extend/layer.ext.js"></script>
+    <script src="/ViewV5/JS/toastr.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>
+    <script>
+     
+        var processId = ComFunJS.getQueryString("PDID");
+        
+    </script>
+</head>
+<body>
+    <div class="container-fluid maindiv" style="margin-top: 20px" id="dvContent" ms-controller="APP_WF_LCSZ">
+
+        <div class="row contentdv" style="margin-left: 0px">
+            <div class="col-xs-12 ">
+                <div class="form-group">
+                    <label>流程类型</label>
+                    <select class="form-control" ms-change="xglx()" id="lclx">
+                        <option value="-1">关闭流程</option>
+                        <option value="1">固定流程</option>
+                    </select>
+                </div>
+                <div class="form-group" ms-visible="modelData.ProcessType==-1">
+                    <label class="text-info">关闭流程时新增数据不需要审批直接保存</label>
+                </div>
+                <div class="form-group" ms-visible="modelData.ProcessType==1" style="margin-bottom: 0;">
+                    <label class="text-danger">字段管理设置功能需要在保存步骤后才能显示,默认情况下,发起人对所有字段具有编辑权限,其他人只有可读权限</label>
+                </div>
+                <div class="ft14 pt20" ms-visible="modelData.ProcessType==1">
+                    <table class="table table-striped table-responsive table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>节点</th>
+                                <th style="width:180px">节点名称</th>
+                                <th>节点类型</th>
+                                <th>节点处理人</th>
+                                <th style="width: 140px">字段权限</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ms-repeat-item="LCItemList">
+                                <td>{{item.Taskorder}}</td>
+                                <td>
+                                    <input type="text" class="form-control" ms-duplex="item.TaskName" placeholder="节点名称">
+                                </td>
+                                <td>{{GetNodeTypeName(item.NodeType)}}</td>
+                                <td ms-click="SelRole(item)"><a href="javascript:void(0)" class="btn-link">{{item.TaskAssInfo}}</a></td>
+
+                                <td>
+                                    <a ms-if="item.ID!='0'" href="javascript:void(0)" class="btn-link" ms-click="SetFiled(item)">管理字段权限</a>
+
+                                </td>
+                                <td>
+                                    <a class="cz-btn ft18 sc-color tip" data-toggle="tooltip" title="删除" ms-if="!$first" ms-click="deljd(item,$event)">
+                                        <i class="iconfont icon-shanchu"></i>
+                                    </a>
+                                    <a class="cz-btn ft18 tip" data-toggle="tooltip" title="添加" ms-if="!$last" ms-click="addzjjd(item,$index)">
+                                        <i class="iconfont icon-jiahao ft14"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr id="addwf" style="border-bottom: 1px solid #ddd;">
+                                <td></td>
+                                <td>
+                                    <input type="text" class="form-control" ms-duplex="LCItem.TaskName" placeholder="节点名称">
+                                </td>
+                                <td>
+                                    <select class="form-control" ms-duplex="LCItem.NodeType">
+                                        <option value="NODE">中间节点</option>
+                                        <option value="END">结束节点</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" ms-click="SelRole(LCItem)" ms-duplex="LCItem.TaskAssInfo" placeholder="节点处理人">
+                                </td>
+
+                                <td></td>
+                                <td>
+                                    <a class="cz-btn ft18 tip" data-toggle="tooltip" title="添加" ms-click="addjd()">
+                                        <i class="iconfont icon-jiahao ft14"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="form-group">
+                    <label>默认抄送人</label>
+                    <input type="text" ms-duplex="modelData.ChaoSongUser" class="form-control szhl_getPeoples" style="display: none;" />
+                </div>
+                <div style="text-align: center">
+                    <button type="button" class="btn btn-info btn-lg" ms-click="AddLCSZ()"><i class="iconfont icon-jiahao ft12 mr5"></i>保存数据</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+        var tempindex = avalon.define({
+            $id: "APP_WF_LCSZ",
+            modelData: {},
+            LCItem: { ID: "0",TaskName: "审核", Taskorder: "", AssignedRole: "", TaskAssInfo: "请选择", NodeType: "NODE", ProcessDefinitionID: processId, isSJ: "0", TDCODE: "", WritableFields: "" },
+            LCItemList: [{ID:"0", TaskName: "提出申请", Taskorder: "1", AssignedRole: "", TaskAssInfo: "", NodeType: "START", ProcessDefinitionID: processId, isSJ: "0", TDCODE: processId + "-1", WritableFields: "" }],//固定流程数据
+
+            addzjjd: function (item, index) {
+                tempindex.LCItemList.splice(index * 1 + 1, 0, tempindex.LCItem.$model);
+                tempindex.LCItemList.forEach(function (item, i) {
+                    item.Taskorder = i * 1 + 1
+                })
+            },
+            addjd: function () {
+                if (tempindex.LCItem.TaskName == "") {
+                    top.ComFunJS.winwarning("请输入节点步骤");
+                    return;
+                }
+                if (tempindex.LCItem.TaskAssInfo == "") {
+                    top.ComFunJS.winwarning("请选择节点处理人");
+                    return;
+                }
+                if (tempindex.LCItem.NodeType == "END") {
+                    $("#addwf").css("display", "none")
+                }
+           
+                tempindex.LCItem.Taskorder = tempindex.LCItemList.size() + 1;
+                tempindex.LCItem.TDCODE = tempindex.LCItem.ProcessDefinitionID + "-" + tempindex.LCItem.Taskorder;
+                tempindex.LCItemList.push($.extend({}, tempindex.LCItem.$model));
+               
+                tempindex.LCItem.Taskorder = "";
+                tempindex.LCItem.TaskName = "";
+                tempindex.LCItem.TDCODE = "";
+                tempindex.LCItem.TaskAssInfo = "";
+
+            },
+            deljd: function (item) {
+                if (item.NodeType == "END") {
+                    $("#addwf").css("display", "")
+                }
+                tempindex.LCItemList.remove(item);
+                tempindex.LCItemList.forEach(function (item, index) {
+                    item.Taskorder = index * 1 + 1
+                })
+            },
+            AddLCSZ: function () {
+                var warnmsg = "";
+                var modelValue;
+                var modelValue2;
+                modelValue = JSON.stringify(tempindex.modelData.$model)
+                modelValue2 = tempindex.LCItemList.size() > 0 ? JSON.stringify(tempindex.LCItemList.$model) : "";
+                var qymodelId = "";
+          
+                tempindex.LCItemList.forEach(function (item, index) {
+                    if (item.TaskName == "") {
+                        warnmsg = "请完善节点步骤";
+                    }
+                    if (item.TaskAssInfo == "请选择") {
+                        warnmsg = "请完善节点处理人信息";
+                    }
+                })
+
+                if (tempindex.LCItemList[tempindex.LCItemList.size() - 1].NodeType != "END" && tempindex.modelData.ProcessType == 1) {
+                    warnmsg = "没有结束节点,不能保存不完整的流程";
+                }
+                if (warnmsg) {
+                    top.ComFunJS.winwarning(warnmsg);
+                }
+                else {
+                    $.post("/API/VIEWAPI.ashx", { Action: "FORMBI_ADDPROCESS", P1: modelValue, P2: modelValue2, qymodelId: qymodelId, modelCode: "LCSP" },
+              function (result) {
+                  if (result.ErrorMsg == "") {
+                      tempindex.modelData = result.Result;
+                      if (!ComFunJS.getQueryString("PDID")) {
+                          top.model.SelModel.PDID = result.Result.ID;
+                      }
+                      top.ComFunJS.winsuccess("设置成功");
+                  }
+              });
+                }
+
+            },
+
+
+            SetFiled: function (item) {
+                top.ComFunJS.winviewform("/ViewV5/AppPage/FORMBI/FormFiledSet.html?pdid=" + item.ProcessDefinitionID+"&tdid=" + item.ID, "设置字段", 600, 550, function (layero, index) {
+                    top.layer.close(index)
+                })
+            },
+            SelRole: function (item) {
+                if (item.NodeType == "START") {
+                    return;
+                }
+                top.ComFunJS.winbtnwin("/ViewV5/AppPage/FORMBI/LCSZSelect.html?pdid=" + item.ProcessDefinitionID +"&rytype=" + item.isSJ + "&&checkvalue=" + item.AssignedRole, "选择角色", 500, 400, {}, function (layero, index) {
+                    var frameid = $("iframe", $(layero)).attr('id');
+                    var data = ComFunJS.isIE() ? top.window.frames[frameid].getlcry() : top.window.frames[frameid].contentWindow.getlcry();
+
+                    item.AssignedRole = data.RoleCode;
+                    item.TaskAssInfo = data.LCName;
+                    item.isSJ = data.LCtype;
+                    top.layer.close(index)
+                })
+            }
+
+            , GetNodeTypeName: function (nodeType) {
+                var nodeName = "";
+                if (nodeType == "START") {
+                    nodeName = "开始节点";
+                }
+                if (nodeType == "NODE") {
+                    nodeName = "中间节点";
+                }
+                if (nodeType == "END") {
+                    nodeName = "结束节点";
+                }
+                return nodeName;
+            },
+            InitWigetData: function () {
+                if (processId) {
+                    //编辑加载数据
+                    $.getJSON('/API/VIEWAPI.ashx?Action=FORMBI_GETPROCESSBYID', { P1: processId }, function (resultData) {
+                        if (resultData.ErrorMsg == "") {
+                            tempindex.modelData = resultData.Result;
+                            if (!tempindex.modelData.ProcessType) {
+                                tempindex.modelData.ProcessType = -1;
+                            }
+                            $("#lclx").val(tempindex.modelData.ProcessType);
+                            setTimeout("ComFunJS.initForm()", 500);
+                        }
+                    })
+                    //编辑加载数据
+                    $.getJSON('/API/VIEWAPI.ashx?Action=FORMBI_GETTDLIST', { P1: processId }, function (resultData) {
+                        if (resultData.ErrorMsg == "") {
+                            if (resultData.Result.length > 0) {
+                                tempindex.LCItemList = resultData.Result;
+                                tempindex.LCItemList.forEach(function (val) {
+                                    if (val.NodeType == "END") {
+                                        $("#addwf").css("display", "none")
+                                    }
+                                })
+                            }
+                        }
+                    })
+                } else {
+                    tempindex.modelData = { ID: 0, "ProcessName": "", "Alias": "", "ProcessType": -1, "isTemp": 0, "ChaoSongUser": "" };
+                
+                    $("#lclx").val(tempindex.modelData.ProcessType);
+                    ComFunJS.initForm();
+                }
+            },
+            xglx: function () {
+                tempindex.modelData.ProcessType = $("#lclx").val() * 1;
+            }
+        })
+        avalon.ready(function () {
+            tempindex.InitWigetData();
+        });
+        //# sourceURLLCSZ.js;
+    </script>
+</body>
+</html>

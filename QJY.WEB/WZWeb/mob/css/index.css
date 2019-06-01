@@ -1,0 +1,61 @@
+﻿@charset "utf-8";
+/* CSS Document */
+body, ul, dl, dd, dt, ol, li, p, h1, h2, h3, h4, h5, h6, textarea, form, select, fieldset, table, td, div, input {margin:0;padding:0;-webkit-text-size-adjust: none}
+h1, h2, h3, h4, h5, h6{font-size:36px;}
+body>div{margin:0 auto}
+div {text-align:left}
+a img {border:0}
+body { color: #333; text-align: center; font-size:12px; font-family:"微软雅黑"}
+ul, ol, li {list-style-type:none;vertical-align:0}
+a {outline-style:none;color:#535353;text-decoration:none}
+/*a:hover { color: #D40000; text-decoration: none}*/
+.clear{height:0; overflow:hidden; clear:both}
+
+
+.page { height: 100%; position: relative;text-align:center; width:100p%;}
+.btn{width:120px; height:30px;display:block;position: absolute;top: 75%;z-index: 10000;line-height: 30px;color: #fff;font-size:16px;margin: 0 auto;left: 50%;margin-left: -60px;border-radius:100px; border:1px solid #fff;}
+.bt_cont{font-size:24px; color:#3a3a3a; }
+.xbt_cont{ color:#b1b1b1; font-size:16px;}
+
+.app{ color:#3a3a3a; text-align:center; margin:0 5%; font-size:12px; margin-top:10%;}
+.app>ul{ overflow:hidden; margin-top:15px;}
+.app>ul>li{ float:left; width:25%;}
+.app img{ width:75%; border-radius:100px}
+
+.page2{ background-color:#F0F0F0; padding-top:10%; margin-top:10%; padding-bottom:5%;}
+
+.page3{ padding:10% 0;} 
+.sec_tab { width:80%; margin:0 auto; overflow:hidden; margin-top:5%;}
+.sec_tab li{ width:25%; float:left; font-size:12px;}
+.sec_tab li span{ width:90%; border:1px solid #E9E9E9; display:inline-block; padding:5px 0; color:#CBCBCB; border-radius:100px;}
+.sec_tab li span.active{ background-color:#5d86fc; border-color:#5d86fc; color:#fff;}
+#wrap>div{ margin-top:5%; display:none}
+#wrap>div h3{ font-weight:normal; font-size:18px;}
+#wrap>div h3 p{ font-size:12px; line-height:16px;}
+#wrap>div.show{ display:block;}
+
+.main_content{ background:#fff; width:90%; margin:0 auto; padding-top:5%;}
+.input_default{ margin-top:18px; overflow:hidden; position:relative}
+.intro{ width:30%; text-align:right; float:left; line-height:32px; font-style:normal; font-size:12px}
+.input_default input{ width:60%; float:left; height:30px;}
+.input_spec input{ width:25%;}
+.yzm{ width:30%; float:right; margin-right:10%; height:30px; border:none; background:#f77e32; color:#fff;}
+.input_yuming .yuming{ position:absolute; right:10%; top:8px; font-size:14px; color:#666; font-weight:normal}
+
+.input_default .tips{ clear:both; margin-left:30%;}
+.input_error input{border: 1px solid #ef777d;background-color: #fff8f6;}
+.input_error .intro{color: #ef777d;}
+.input_error .J_form_input{background-color: #fff8f6;}
+.input_error .validation-icon {background-position: 0 -17px;display: block;}
+.input_error .tips{color: #ef777d;display: block;left: 117px;}
+.input_error .yuming{color: #ef777d;}
+.input_focus input{border:1px solid #7cd;background-color:#f4fbfc;color:#7cd}
+.input_focus .intro,.input_focus .yuming{color:#7cd}
+.input_focus .J_form_input{background-color:#f4fbfc}
+.input_focus .tips{color: #b3bbcc;display: block;left: 117px;}
+.J_form_button{ width:80%; color:#fff; background:#dd6600; border-radius:10px; display:block; line-height:30px; font-size:18px; margin:0 auto;margin-top:5%; border:none;}
+
+.ts{font-size:12px;  border:1px dashed #E7E7E7; margin:0 auto; background:#fff; color:#999; line-height:18px; margin-top:5%}
+.ts span{ padding:5px 10px; display:block}
+
+

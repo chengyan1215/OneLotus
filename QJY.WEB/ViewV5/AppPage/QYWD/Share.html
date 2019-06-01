@@ -1,0 +1,574 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>共享文件</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="/ViewV5/CSS/icfont_qj/iconfont.css">
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/index.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/default.css">
+    <style>
+        bady {
+            overflow-x: hidden;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        .panel-df {
+            padding: 0 20px;
+            height: 100%;
+        }
+
+        .img120 {
+            width: 140px;
+        }
+
+        .cont-20 {
+            padding: 30px 0;
+            border-bottom: 1px dotted #ccc;
+        }
+
+        .heightauto {
+            height: 707px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .msg {
+                display: none;
+            }
+
+            .heightauto {
+                height: auto;
+            }
+
+            .head-center.clearfix.c2 {
+                min-width: 100%;
+                padding: 0;
+            }
+        }
+
+        .zhezhao {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            display: table;
+            display: table;
+            width: 100%;
+        }
+
+        .insert-input {
+            text-align: center;
+            vertical-align: middle;
+            display: table-cell;
+        }
+
+        .pickpw {
+            font-size: 14px;
+            padding: 50px 15px;
+        }
+
+        ul.box {
+            margin: 0 auto;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+            ul.box li {
+                list-style-type: none;
+                margin: 20px 10px;
+                padding: 0;
+                width: 300px;
+                height: 220px;
+                border: 2px solid #efefef;
+                position: relative;
+                float: left;
+                background: #ffffff; /* old browsers */
+                line-height: 220px;
+                text-align: center;
+                -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27), 0 0 60px rgba(0, 0, 0, 0.1) inset;
+                -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27), 0 0 60px rgba(0, 0, 0, 0.1) inset;
+                -o-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27), 0 0 60px rgba(0, 0, 0, 0.1) inset;
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27), 0 0 60px rgba(0, 0, 0, 0.1) inset;
+                behavior: url(ie-css3.htc);
+            }
+
+                ul.box li:before {
+                    z-index: -2;
+                    position: absolute;
+                    background: transparent;
+                    width: 90%;
+                    height: 80%;
+                    content: '';
+                    left: 20px;
+                    bottom: 8px;
+                    -webkit-transform: skew(-12deg) rotate(-4deg);
+                    -moz-transform: skew(-12deg) rotate(-4deg);
+                    -o-transform: skew(-12deg) rotate(-4deg);
+                    -ms-transform: skew(-12deg) rotate(-4deg);
+                    -webkit-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+                    -moz-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+                    -o-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+                    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+                    behavior: url(ie-css3.htc);
+                }
+
+
+
+                ul.box li:after {
+                    z-index: -1;
+                    position: absolute;
+                    background: transparent;
+                    width: 90%;
+                    height: 80%;
+                    content: '';
+                    right: 20px;
+                    bottom: 8px;
+                    -webkit-transform: skew(12deg) rotate(4deg);
+                    -moz-transform: skew(12deg) rotate(4deg);
+                    -o-transform: skew(12deg) rotate(4deg);
+                    -ms-transform: skew(12deg) rotate(4deg);
+                    -webkit-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+                    -moz-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+                    -o-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+                    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+                    behavior: url(ie-css3.htc);
+                }
+
+        .box li img {
+            width: 290px;
+            height: 210px;
+            padding: 5px;
+        }
+
+        .iconfont {
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+<body style="background-color: #e7ecf1" ms-controller="QYWD_SHARE">
+    <nav class="navbar navbar-inverse box-shadow" style="border-radius: 0; background-color: #fff; border-color: #fff; " ms-if="!ErrMsg" ms-if="isShowFile">
+        <div class="head-center clearfix c2">
+            <div class="logo c666 pull-left">
+                <img onerror="javascript: this.src = '/ViewV5/images/logo.png'" style="max-height: 40px; margin-right: 10px;" ms-attr-src="{{ComFunJS.getfile(ShareInfo.LogoID)}}">{{ShareInfo.QYName}}
+            </div>
+        </div>
+    </nav>
+    <div class="panel-df" ms-visible="isShowFile">
+        <div class="row" ms-if="!ErrMsg">
+            <div class="col-sm-3">
+                <div class="panel panel-default heightauto">
+                    <div class="tc cont-20">
+                        <img ms-attr-src="GetShareSrc()" class="mr5 img120 ">
+                        <p class="pt20" style="font-weight:bold"> {{ShareInfo.Name}}</p>
+                        <div class="pt20 au">
+                            <a class="btn btn-info mr20" ms-click="download()">下载文件</a>
+                            <a class="btn btn-success ml20" ms-if="ShareInfo.YLUrl&&!ComFunJS.isPic(ShareInfo.FileExtendName)&&ShareInfo.RefType=='file'" ms-click="viewitem(ShareInfo)">预览文件</a>
+                        </div>
+                    </div>
+                    <div class="padding20 msg">
+                        <p>分享信息</p>
+                        <p>企业名称:{{ShareInfo.QYName}}</p>
+                        <p>分享人:{{ShareInfo.CRUserName}}</p>
+                        <p>分享时间:{{ShareInfo.CRDate|date('yyyy-MM-dd')}}</p>
+                        <p>风险提示</p>
+                        <p>此页面文件由企捷云盘的用户分享，文件内容与企捷云盘无关。</p>
+                        <p> 下载文件时请注意识别涉嫌欺诈的文件，如网赚、打码、挂机、监控、偷拍等相关文件，避免给您造成经济损失。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9" ms-if="ComFunJS.isPC()||FileList.size()!=1">
+                <div class="panel panel-default">
+                    <div class="main-content c666  heightauto">
+                        <div>
+                            <ol class="breadcrumb">
+                                <li ms-repeat-path="Pathdata" ms-class="active:path.active" ms-click="gopath(path)"><a ms-class="text-primary:!path.active">{{path.Name}}</a></li>
+                                <!--<li ms-repeat-item="Pathdata"><a class="text-primary">{{item.Name}}</a></li>
+                                <li><a class="text-primary">2013</a></li>
+                                <li class="active">十一月</li>-->
+                            </ol>
+                        </div>
+                        <div id="tab">
+
+                            <div style="margin-left:15px;">
+                                <button type="button" class="btn btn-info ml20" ms-click="downloaditem()"><i class="iconfont icon-xiazai ft14 mr5"></i>下载</button>
+                            </div>
+                            <div class="ft14 table-responsive pt20" style="display:block">
+                                <table class="table table-striped  table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="tc" style="width:40px;">
+                                                <div class="icheckbox_square-blue" ms-click="CheckALL()" ms-class-1="checked:isCheck">
+                                                    <span class=" iconfont icon-check ft12">
+                                                    </span>
+                                                </div>
+                                            </th>
+                                            <th>文件名</th>
+                                            <th style="width:20px;"></th>
+                                            <th style="width:80px;"></th>
+                                            <th style="width:80px;">大小</th>
+                                            <th style="width:80px;">格式</th>
+                                            <th style="width:160px;">最后修改时间</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ms-repeat-folder="FolderList">
+                                            <td class="tc">
+                                                <div class="icheckbox_square-blue" ms-click="selItems(folder,$event)" ms-class-1="checked:folder.issel">
+                                                    <span class="iconfont icon-check ft12"></span>
+                                                </div>
+                                            </td>
+                                            <td ms-click="enterFolder(folder,$event)">
+                                                <div>
+                                                    <img ms-attr-src="getsrc(folder)" class="img40 mr5">{{folder.Name}}
+                                                </div>
+                                            </td>
+                                            <td class="tc"></td>
+                                            <td class="tc"></td>
+                                            <td> </td>
+                                            <td>文件夹</td>
+                                            <td> </td>
+                                            <td> </td>
+                                        </tr>
+                                        <tr ms-repeat-file="FileList" data-repeat-rendered="filechange">
+                                            <td class="tc">
+                                                <div class="icheckbox_square-blue" ms-click="selItems(file,$event)" ms-class-1="checked:file.issel">
+                                                    <span class="iconfont icon-check ft12"></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <img ms-attr-src="getsrc(file)" ms-attr-imgsrc="{{ComFunJS.getfile(file.ID)}}" ms-class-1="imageYL:ComFunJS.isPic(file.FileExtendName)" class="img40 mr5" onerror="javascript: this.src = '/ViewV5/images/qywd/file.png'">{{file.Name}}
+                                                </div>
+                                            </td>
+                                            <td >
+                                                <a ms-if="(file.ISYL&&file.YLUrl)||(file.FileExtendName.toLowerCase()=='mp4'&&ComFunJS.isPC())" class="btn btn-link" ms-click="viewitem(file)">{{file.FileExtendName.toLowerCase()=="mp4"&&ComFunJS.isPC()?"播放":"预览"}}</a> 
+                                            </td>
+                                            <td class="tc"></td>
+                                            <td>{{ComFunJS.converfilesize(file.FileSize)}}</td>
+                                            <td>{{file.FileExtendName}}</td>
+                                            <td>{{file.UPDDate}}</td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                                <p class="tr c999 ft14" style="padding-right:30px;">包含{{FileList.size()+FolderList.size()}}条</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ms-if="ErrMsg">
+            <div class="col-sm-12">
+                <div class="panel panel-default" style="padding:50px;font-size:20px;text-align:center;margin-top:20px; color:#ff0000">
+                    {{ErrMsg}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="zhezhao" ms-visible="!isShowFile">
+        <div class="insert-input">
+            <ul class="box">
+                <li>
+                    <dl class="pickpw clearfix">
+                        <dt style="text-align:left;height:30px;font-weight:normal">
+                            请输入提取密码：
+                        </dt>
+                        <dd class="clearfix">
+                            <div class="input-group">
+                                <input type="text" class="form-control" ms-duplex="PassWord">
+                                <span class="input-group-addon" ms-click="InitWigetData()">确定</span>
+                            </div>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script src="/ViewV5/JS/layer/layer.js"></script>
+    <script src="/ViewV5/JS/laypage/laypage.js"></script>
+    <script src="/ViewV5/JS/toastr.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>
+    <script type="text/javascript" src="/ViewV5/JS/zoomify.js"></script>
+    <script>
+        var tempindex = avalon.define({
+            $id: "QYWD_SHARE",
+            ShareInfo: {},
+            FileList: [],
+            FolderList: [],
+            ErrMsg: "",
+            PassWord: "",
+            isPublish: "",
+            DataID: ComFunJS.getQueryString("ID", ""),
+            isShowFile: true,
+            InitWigetData: function () {
+                if (!ComFunJS.getQueryString("ID", "")) {
+                    ComFunJS.winwarning("请检查分享链接是否完整！");
+                    return;
+                }
+
+                if (!tempindex.PassWord && tempindex.isPublish == "1") {
+                    ComFunJS.winwarning("请输入提取密码");
+                    return;
+                }
+                $.getJSON('/API/VIEWAPI.ashx?Action=Commanage_GETSHAREINFO', {
+                    P1: ComFunJS.getQueryString("ID", "0"), P2: tempindex.PassWord
+                }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        if (resultData.Result) {
+                            ComFunJS.setCookie(ComFunJS.getQueryString("ID", "0"), tempindex.PassWord);
+                            tempindex.isShowFile = true;
+                            tempindex.ShareInfo = resultData.Result[0];
+                            ComFunJS.setCookie('fileapi', tempindex.ShareInfo.FileServerUrl);
+                            resultData.Result.forEach(function (item) {
+                                item.issel = false;
+                            })
+                            if (tempindex.ShareInfo.RefType == 'wj') {
+                                tempindex.FolderList = resultData.Result;
+                            } else {
+                                tempindex.FileList = resultData.Result;
+                            }
+                        }
+                    } else {
+                        if (resultData.Result == 1) {
+                            ComFunJS.winwarning(resultData.ErrorMsg);
+
+                        } else {
+                            tempindex.isShowFile = true;
+                            tempindex.ErrMsg = resultData.ErrorMsg;
+                        }
+                    }
+                })
+            },
+            Pathdata: [],
+            getsrc: function (item) {//图片真实路径
+                if (item.RefType == 'wj') {
+                    return " /ViewV5/images/qywd/file1.png";
+                } else {
+                    if (ComFunJS.isPic(item.FileExtendName)) {
+                        return ComFunJS.getfile(item.ID) + "&width=40&height=40";
+                    }
+                    else {
+                        return " /ViewV5/images/qywd/" + item.FileExtendName + ".png";
+                    }
+                }
+
+            }, GetShareSrc: function () {//图片真实路径
+
+                if (tempindex.ShareInfo.RefType == 'wj') {
+                    return " /ViewV5/images/qywd/file1.png";
+                } else {
+                    if (ComFunJS.isPic(tempindex.ShareInfo.FileExtendName)) {
+
+                        return ComFunJS.getfile(tempindex.ShareInfo.ID);
+                    }
+                    else {
+                        return " /ViewV5/images/qywd/" + tempindex.ShareInfo.FileExtendName + ".png";
+                    }
+                }
+
+            },
+            gopath: function (path) {
+                tempindex.GetListData(path.ID);
+                for (i = tempindex.Pathdata.size() - 1; i >= 0; i--) {
+                    if (tempindex.Pathdata[i].ID != path.ID) {
+                        tempindex.Pathdata.pop(tempindex.Pathdata[i])
+                    } else {
+                        tempindex.Pathdata[i].active = true;
+                        return;
+                    }
+                }
+
+            },//目录链接
+            FolderList: [],
+            FileList: [],
+            GetListData: function (PID) {
+                $.getJSON('/API/VIEWAPI.ashx?Action=Commanage_GETFILELIST', {
+                    P1: PID, P2: tempindex.ShareInfo.ComId
+                }, function (resultData) {//P1为个人文件夹
+                    if (resultData.ErrorMsg == "") {
+                        resultData.Result.forEach(function (item) {
+                            item.issel = false;
+                            item.RefType = "wj";
+                        })
+                        resultData.Result1.forEach(function (item) {
+                            item.issel = false;
+                            item.RefType = "file";
+
+                        })
+                        tempindex.FolderList = resultData.Result;
+                        tempindex.FileList = resultData.Result1;
+                    }
+                })
+            }, filechange: function (action) {
+                $('.imageYL').zoomify();
+            },
+            selItems: function (item, event) {
+                event.stopPropagation();
+                item.issel = !item.issel;
+                if (item.issel) {
+                    tempindex.SelItemData.push(item.$model)
+                } else {
+                    ComFunJS.DelItem(tempindex.SelItemData, "ID", item.ID)
+                }
+            },//多选
+            selItem: function (item, event) {
+                tempindex.ListData.forEach(function (el) {
+                    el.issel = item.ID == el.ID;
+                })
+                tempindex.SelItemData.clear();
+                tempindex.SelItemData.push(item.$model)
+                event.stopPropagation();
+
+            },//单选
+            SelItemData: [],//已选中列表
+            getselitem: function () {
+                var Ids = "";
+                $("tbody .checked").each(function () {
+                    Ids += $(this).prop("id") + ",";
+                })
+                Ids = Ids.length > 1 ? Ids.substring(0, Ids.length - 1) : Ids;
+                return Ids;
+            },
+            enterFolder: function (folder, event) {
+                if (event) {
+                    event.stopPropagation();
+                }
+                tempindex.GetListData(folder.ID);
+                var newpath = folder.$model;
+                tempindex.Pathdata.forEach(function (path) {
+                    path.active = false;
+                })
+                newpath.active = true;
+                tempindex.Pathdata.push(newpath);
+                tempindex.SelItemData.clear();
+            },
+            jptj: function (event, dom) {
+                if (event.ctrlKey && (event.keyCode == 13 || event.keyCode == 10)) {
+                    tempindex.addfolder($("#conaddForder"));
+                }
+            },//键盘添加目录
+            downloaditem: function () {
+                if (tempindex.SelItemData.size() == 0) {
+                    ComFunJS.winwarning("请选择文件再下载");
+                    return;
+                }
+                if (tempindex.SelItemData.size() == 1 && tempindex.SelItemData[0].RefType == "file") {
+                    ComFunJS.winold(ComFunJS.getfile(tempindex.SelItemData[0].ID))
+
+                } else {
+                    var code = "";
+                    tempindex.SelItemData.forEach(function (item) {
+                        code = code + item.ID + "|" + item.RefType + ",";
+                    })
+                    if (code.length > 1) {
+                        code = code.substring(0, code.length - 1)
+                    }
+                    top.ComFunJS.winviewform("/ViewV5/Base/DownFolderL.html?code=" + code + "&comid=" + tempindex.ShareInfo.ComId, "下载文件", "550", "450")
+                }
+            },
+            download: function () {
+
+                if (tempindex.ShareInfo.RefType == "file") {
+                    ComFunJS.winold(ComFunJS.getfile(tempindex.ShareInfo.ID))
+                } else {
+                    var code = tempindex.ShareInfo.ID + "|wj";
+                    top.ComFunJS.winviewform("/ViewV5/Base/DownFolderL.html?code=" + code + "&comid=" + tempindex.ShareInfo.ComId, "下载文件", "550", "450")
+                }
+            },
+            viewitem: function (item) {
+                //if (ComFunJS.isPic(item.FileExtendName)) { //如果是图片格式，显示图片
+                //    $('.imageYL').zoomify();
+                //}
+                if (ComFunJS.isOffice(item.FileExtendName)) {
+                    window.open(item.YLUrl)
+                }
+                if (item.FileExtendName.toLowerCase() == "mp4" && ComFunJS.isPC()) {
+                    top.layer.open({
+                        type: 2,
+                        fix: true, //不固定
+                        area: ['700px', '500px'],
+                        maxmin: false,
+                        content: "/ViewV5/Base/showvideo.html?md5=" + item.FileMD5,
+                        title: "",
+                        shadeClose: false, //加上边框
+                        scrollbar: false,
+                        shade: 0.4,
+                        shift: 0
+                    });
+                }
+
+            },
+            isCheck: false,
+            CheckALL: function () {
+                tempindex.isCheck = !tempindex.isCheck;
+                tempindex.FolderList.forEach(function (item) {
+                    item.issel = tempindex.isCheck;
+                    if (item.issel) {
+                        tempindex.SelItemData.push(item.$model)
+                    } else {
+                        ComFunJS.DelItem(tempindex.SelItemData, "ID", item.ID)
+                    }
+                })
+                tempindex.FileList.forEach(function (item) {
+                    item.issel = tempindex.isCheck;
+                    if (item.issel) {
+                        tempindex.SelItemData.push(item.$model)
+                    } else {
+                        ComFunJS.DelItem(tempindex.SelItemData, "ID", item.ID)
+                    }
+                })
+            }
+        });//# sourceURL=APP_QYWD.js;
+        avalon.ready(function () {
+            if (!ComFunJS.getQueryString("ID", "")) {
+                ComFunJS.winwarning("请检查分享链接是否完整！");
+                return;
+            }
+            //如果等于0，公开链接
+            $.getJSON('/API/VIEWAPI.ashx?Action=Commanage_ISPUBLIC', { P1: tempindex.DataID }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempindex.isPublish = resultData.Result;
+                    if (resultData.Result == "0" && !resultData.Result1) { //公开未过期
+                        tempindex.isShowFile = true;
+                        tempindex.InitWigetData();
+
+                    } else if (resultData.Result == "0" && resultData.Result1 == "-1") { //公开已过期
+                        tempindex.isShowFile = true;
+                        tempindex.ErrMsg = "分享已取消";
+                    } else if (resultData.Result == "1" && resultData.Result1 == "-1")//密码已过期
+                    {
+
+                        tempindex.isShowFile = false;
+                    }
+                    else {//密码未过期
+                        tempindex.PassWord = ComFunJS.getCookie(ComFunJS.getQueryString("ID", "0"));
+                        if (tempindex.PassWord) {
+                            tempindex.isShowFile = true;
+                            tempindex.InitWigetData();
+                        } else {
+                            tempindex.isShowFile = false; 
+                        }
+                    }
+                }
+            })
+
+        })
+    </script>
+</body>
+
+</html>

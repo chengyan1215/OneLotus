@@ -1,0 +1,78 @@
+﻿<link href="/ViewV5/JS/fullcalendar/fullcalendar.css" rel="stylesheet" />
+<link href="/ViewV5/JS/fullcalendar/fullcalendar.print.css" rel="stylesheet" />
+<div ms-controller="TXSXLIST">
+    <div class="btn-add">
+        <button type="button" class="btn btn-info btn-lg" ms-click="AddViewNOWF('TXSX')"><i class="iconfont icon-jiahao ft12 mr5"></i>添加提醒</button>
+    </div>
+
+    <div class="form-horizontal">
+        <div class="form-group" style="margin: 0px;">
+            <div class="col-xs-12" style="margin-top: 60px;">
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+    var tempindex = avalon.define({
+        $id: "TXSXLIST",
+        nowmodel: top.model.SelModel,
+        CommonData: [],
+        SearchContent: "",
+        InitWigetData: function () {
+            ComFunJS.loadJs("/ViewV5/JS/fullcalendar/fullcalendar.min.js", function () {
+
+                $('#calendar').html("");
+                $('#calendar').fullCalendar({
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,basicWeek'  //basicDay
+                    },
+                    monthNames: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+                    monthNamesShort: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+                    titleFormat: {
+                        month: "yyyy MMMM ",
+                        week: "yyyy MMM d[ yyyy]{ '&#8212;'[ MMM] d '日'}",
+                    },
+                    //defaultView: "basicWeek",
+                    firstDay: "1",
+                    events: function (start, end, callback) {
+                        var st = $.fullCalendar.formatDate(start, "yyyy-MM-dd");
+                        var ed = $.fullCalendar.formatDate(end, "yyyy-MM-dd");
+
+                        $.getJSON("/API/VIEWAPI.ashx?action=TXSX_GETTXSXDATA_MONTH", { "start": st, "end": ed, "QUSER": "'" + model.userName + "'" }, function (r) {
+                            if (r.Result.length > 0) {
+                                callback(r.Result);
+                            }
+                        })
+                    },
+                    eventClick: function (calEvent, jsEvent, view) {
+
+                        var id = calEvent.id;
+                        top.ComFunJS.winviewform("/ViewV5/AppPage/APP_ADD.html?FormCode=TXSX_TXSX&ID=" + id + "&r=" + Math.random(), "查看数据", "1000", "");
+                    },
+                    eventMouseover: function (calEvent, jsEvent, view) {
+                        var id = calEvent.id;
+
+                        $(this).attr("data-toggle", "tooltip");
+                        var html = calEvent.start.toLocaleString();
+                        if (calEvent.end)
+                        { html = html + '~' + calEvent.end.toLocaleString(); }
+                        $(this).attr("title", "提醒时间：" + html + "\r\n提醒内容：" + calEvent.content + "\r\n提醒方式：" + calEvent.txfs + "\r\n提醒模式：" + calEvent.txms);
+
+
+                    }
+                });
+            })
+
+
+
+      
+        }
+    });
+</script>
+

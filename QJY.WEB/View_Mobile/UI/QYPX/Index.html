@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>企业培训</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="//unpkg.com/vue-ydui/dist/ydui.rem.css">
+    <!-- 引入rem自适应类库 -->
+    <script src="//unpkg.com/vue-ydui/dist/ydui.flexible.js"></script>
+</head>
+<body>
+    <div id="app">
+        <yd-button type="primary" @click.native="handleClick">Click Me!</yd-button>
+        <yd-tabbar>
+            <yd-tabbar-item title="首页" link="#">
+                <yd-icon name="home-outline" slot="icon" size="0.54rem"></yd-icon>
+            </yd-tabbar-item>
+            <yd-tabbar-item title="购物车" link="#" dot>
+                <yd-icon name="shopcart-outline" slot="icon" size="0.54rem"></yd-icon>
+            </yd-tabbar-item>
+            <yd-tabbar-item title="个人中心" link="#" active>
+                <yd-icon name="ucenter" slot="icon" size="0.54rem"></yd-icon>
+                <yd-badge slot="badge" type="danger">2</yd-badge>
+            </yd-tabbar-item>
+        </yd-tabbar>
+    </div>
+    <!-- 引入 Vue -->
+    <script src="//unpkg.com/vue"></script>
+    <!-- 引入组件库 -->
+    <script src="//unpkg.com/vue-ydui/dist/ydui.rem.js"></script>
+    <script>
+    new Vue({
+        el: '#app',
+        methods: {
+            handleClick: function () {
+                this.$dialog.alert({mes: 'Hello World!'});
+            }
+        }
+    })
+    </script>
+</body>
+</html>

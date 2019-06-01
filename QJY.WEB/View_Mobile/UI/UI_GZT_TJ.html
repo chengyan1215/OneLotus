@@ -1,0 +1,371 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>工资统计</title>
+    <link rel="stylesheet" href="/View_Mobile/CSS/msui.css">
+    <link rel="stylesheet" type="text/css" href="/View_Mobile/CSS/animate.css">
+    <link href="/View_Mobile/CSS/WFmain.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_1476090774_8365302.css">
+    <link href="/View_Mobile/CSS/add.css?ver=2" rel="stylesheet" />
+    <style>
+        .title {
+            font-size: 1rem;
+        }
+
+        .navconfirm {
+            background-color: #4cd964;
+            text-align: center;
+            font-size: 1.4rem;
+            line-height: 1.4rem;
+            color: aliceblue;
+            padding: 10px;
+        }
+
+        .list-block .item-title.label {
+            width: 30% !important;
+        }
+
+        .btnSucc {
+            width: 100%;
+            height: 2.0rem;
+            top: 0 !important;
+            border-radius: .05rem;
+        }
+
+        .sctp {
+            color: #18b4ed;
+            right: 4px;
+            top: 0px;
+            z-index: 9;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 13px;
+            line-height: 20px;
+            position: absolute;
+            font-size: 25px;
+            padding: 0;
+        }
+
+        .imgxl {
+            position: relative;
+            float: left;
+            padding-top: 0;
+            height: 50px;
+            width: 50px;
+            padding-right: 10px;
+            margin-left: 0px;
+            margin-bottom: 5px;
+        }
+
+        .szhl_getPeoples {
+            display: none !important;
+        }
+
+        .szhl_getKH {
+            display: none !important;
+        }
+
+        .tpxs {
+            height: 50px;
+            width: 50px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            background-repeat: no-repeat;
+            -webkit-background-size: cover;
+        }
+
+        .ms-controller, [ms-controller] {
+            display: none;
+        }
+
+        .list-block {
+            font-size: .75rem !important;
+        }
+
+        .jd-item-block {
+            position: relative;
+            height: 5em;
+        }
+
+            .jd-item-block:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 18px;
+                height: 100%;
+                width: 1px;
+                background: #ccc;
+                left: 50%;
+                margin-left: -0px;
+            }
+
+            .jd-item-block:last-child {
+                height: 2em;
+            }
+
+        .cd-icon {
+            width: 2em;
+            height: 2em;
+            border-radius: 100em;
+            background: #ccc;
+            position: absolute;
+            left: 50%;
+            margin-left: -1em;
+        }
+
+            .cd-icon i {
+                color: #fff;
+                line-height: 1.8em;
+                text-align: center;
+                margin-left: 0.4em;
+            }
+
+            .cd-icon.success {
+                background: #5eaa0a;
+            }
+
+            .cd-icon.blue {
+                background: #00aef5;
+            }
+
+            .cd-icon.red {
+                background: #ed4c51;
+            }
+
+        .state {
+            position: absolute;
+            left: 60%;
+            top: 0.2em;
+            color: #666;
+        }
+
+            .state.red {
+                color: #ed4c51;
+            }
+
+        .sp-box {
+            text-align: right;
+            position: absolute;
+            right: 60%;
+        }
+
+        .sp-time {
+            font-size: 0.8em;
+            color: #999;
+            margin-bottom: 50px;
+        }
+
+        .sp-ry {
+            font-size: 0.8em;
+            color: #777;
+        }
+    </style>
+</head>
+<body ms-controller="APP_TJ">
+    <div class="page page-current" style="background: #fff;" id="pageindex1">
+
+        <div class="content">
+            <div class="weui_cells_title">选择岂止年月统计</div>
+
+            <div class="weui_cells weui_cells_form">
+
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label label">开始年月</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input type="text" id="StartTime" placeholder="请选择开始年月" class="szhl szhl_require weui_input">
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label label">结束年月</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input type="text" id="EndTime" placeholder="请选择结束年月" class="szhl szhl_require weui_input">
+                    </div>
+                </div>
+
+                <div class="row" style="padding:10px">
+                    <div class="col-100"><a href="#" class="button button-big button-fill button-blue" ms-click="tj()">统计工资</a></div>
+                </div>
+            </div>
+
+            <div class="card" ms-if="jldata.length>0">
+                <div class="card-content">
+                    <div class="card-content-inner">应发合计{{yfhj}}元,应扣合计{{ykhj}}元,实发合计{{zhj}}元</div>
+
+                </div>
+            </div>
+            <div class="buttons-tab" ms-if="jldata.length>0">
+                <a href="#tab1" class="tab-link active button">统计-应发</a>
+                <a href="#tab2" class="tab-link button">统计-应扣</a>
+            </div>
+            <div class="content-block" style="margin-top: 0px;padding:0" ms-if="jldata.length>0">
+                <div class="tabs">
+                    <div id="tab1" class="tab active">
+
+                        <div class="weui_cells weui_cells_form">
+
+                            <div class="weui_cell" ms-repeat-item="yf">
+                                <div class="weui_cell_hd"><label class="weui_label label" style="    width: 8em;">{{$key}}</label></div>
+                                <div class="weui_cell_bd weui_cell_primary" style="text-align:right">
+                                    {{$val}}
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                    <div id="tab2" class="tab">
+                        <div class="weui_cells weui_cells_form">
+
+                            <div class="weui_cell" ms-repeat-item="yk">
+                                <div class="weui_cell_hd"><label class="weui_label label">{{$key}}</label></div>
+                                <div class="weui_cell_bd weui_cell_primary">
+                                    {{$val}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+
+
+
+
+
+    </div>
+
+    <script src="/View_Mobile/JS/layer/layer.m.js?ver=1"></script>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.8/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.8/js/sm-extend.min.js' charset='utf-8'></script>
+    <script src="/View_Mobile/JS/avalon1.47.js"></script>
+    <script src="/View_Mobile/JS/ComFunJS.js?jsver=20180520"></script>
+    <script>
+        var tempmodel = avalon.define({
+            $id: "APP_TJ",
+            yf: {},
+            yk: {},
+            jldata: [],
+            yfhj: "0",
+            ykhj: "0",
+            zhj: "0",
+            tj: function () {
+                if (!$("#StartTime").val() || !$("#EndTime").val()) {
+                    ComFunJS.winwarning("请完善起止日期");
+                    return;
+                }
+                tempmodel.yfhj = 0;
+                tempmodel.ykhj = 0;
+                tempmodel.zhj = 0;
+                $.getJSON('/API/VIEWAPI.ashx?Action=XZGL_TJGZD', { P1: $("#StartTime").val(), P2: $("#EndTime").val() }, function (resultData) {
+                    if (resultData.ErrorMsg == "" && resultData.Result.length > 0) {
+                        tempmodel.jldata = resultData.Result;
+                        tempmodel.yf = JSON.parse(resultData.Result[0].salaryData).YF;
+                        tempmodel.yk = JSON.parse(resultData.Result[0].salaryData).YK;
+                        tempmodel.yfhj = JSON.parse(resultData.Result[0].salaryData).应发合计;
+                        tempmodel.ykhj = JSON.parse(resultData.Result[0].salaryData).应扣合计;
+                        tempmodel.zhj = JSON.parse(resultData.Result[0].salaryData).实发合计;
+                        var arryf = [];
+                        var arryk = [];
+                        for (var m = 1; m < resultData.Result.length; m++) {
+                            var YF = JSON.parse(resultData.Result[m].salaryData).YF
+                            var YK = JSON.parse(resultData.Result[m].salaryData).YK
+                            for (var i in YF) {
+                                if (tempmodel.yf.hasOwnProperty(i)) {
+                                    tempmodel.yf[i] = tempmodel.yf[i] * 1 + YF[i] * 1
+                                } else {
+                                    tempmodel.yf[i] = YF[i];
+                                }
+                            }
+                            for (var i in YK) {
+                                if (tempmodel.yk.hasOwnProperty(i)) {
+                                    tempmodel.yk[i] = tempmodel.yk[i] * 1 + YK[i] * 1
+                                } else {
+                                    tempmodel.yk[i] = YK[i];
+                                }
+                            }
+
+                            tempmodel.yfhj = (tempmodel.yfhj * 1 + JSON.parse(resultData.Result[m].salaryData).应发合计 * 1).toFixed(2);
+                            tempmodel.ykhj = (tempmodel.ykhj * 1 + JSON.parse(resultData.Result[m].salaryData).应扣合计 * 1).toFixed(2);
+                            tempmodel.zhj = (tempmodel.zhj * 1 + JSON.parse(resultData.Result[m].salaryData).实发合计 * 1).toFixed(2);
+
+                            //arryf.push(JSON.parse(resultData.Result[i].salaryData).YF);
+                            //arryk.push(JSON.parse(resultData.Result[i].salaryData).YK);
+                        }
+                    }
+                })
+            }
+
+        })
+        avalon.ready(function () {
+            var myDate = new Date();
+          
+
+            $("#StartTime").picker({
+                toolbarTemplate: '<header class="bar bar-nav">\
+  <button class="button button-link pull-right close-picker">确定</button>\
+  <h1 class="title">请选择称呼</h1>\
+  </header>',
+                cols: [
+                  {
+                      textAlign: 'center',
+                      values: ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025']
+                      //如果你希望显示文案和实际值不同，可以在这里加一个displayValues: [.....]
+                  },
+                  {
+                      textAlign: 'center',
+                      values: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                      displayValues: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+
+                  }
+                ],
+                value: [myDate.getFullYear(), myDate.getMonth()]
+            });
+
+            $("#EndTime").picker({
+                toolbarTemplate: '<header class="bar bar-nav">\
+  <button class="button button-link pull-right close-picker">确定</button>\
+  <h1 class="title">请选择称呼</h1>\
+  </header>',
+                cols: [
+                  {
+                      textAlign: 'center',
+                      values: ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025']
+                      //如果你希望显示文案和实际值不同，可以在这里加一个displayValues: [.....]
+                  },
+                  {
+                      textAlign: 'center',
+                      values: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                      displayValues: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+
+                  }
+                ],
+                value: [myDate.getFullYear(), myDate.getMonth()]
+
+            });
+
+
+            $("#StartTime").val(myDate.getFullYear() + " " + myDate.getMonth());
+            $("#EndTime").val(myDate.getFullYear() + " " + myDate.getMonth());
+
+
+        })
+
+    </script>
+</body>
+</html>

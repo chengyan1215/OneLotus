@@ -1,0 +1,524 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>表单处理</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/index.css?v=1">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/default.css">
+    <link href="/ViewV5/CSS/element/index.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/FORMBI.css?v=1">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_533449_zsibbu1n60f.css">
+
+    <!--<script src="https://cdn.polyfill.io/v2/polyfill.min.js  async defer"></script>-->
+    <style>
+        .iconfont {
+            margin-right: 4PX;
+            font-size: 18px;
+        }
+
+        .widthmax {
+            width: 100%
+        }
+
+        .pd40 {
+            padding: 40px;
+        }
+
+        .pd0 {
+            padding: 0;
+        }
+    </style>
+
+</head>
+<body class="BG">
+    <div id="Loading">
+        <div class="loader-inner ball-beat">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div id="DATABI_YBZZ" class="FormV" style="display:none">
+        <el-container>
+            <el-main class="elmain pd40">
+
+                <div class="panel-df " id="princontent">
+                    <div class="container containerb" v-bind:class="{ width840: poption.width=='0'}" style="padding:0">
+                        <div class="panel panel-defaul  panhead">
+                            <div class="success-tip" v-show="pidata.isGD=='Y'" style="width: 100px;right: 25%;left: auto;">
+                                已归档
+                            </div>
+
+                            <div class="pull-left hidden-print" style="z-index:1000;position:absolute" v-if="vtype=='0'">
+                                <el-tooltip class="item" effect="dark" content="复制该表格" placement="bottom">
+                                    <i class="iconfont icon-fuzhi" style=" font-size: 20px;color: #3a8ee6; margin-right:10px" @click="CopyForm"></i>
+                                </el-tooltip>
+
+                                <el-tooltip class="item" effect="dark" content="导出Word" placement="bottom">
+                                    <i class="iconfont icon-dc" style=" font-size: 20px;color: #3a8ee6; margin-right:10px" @click="Export" v-show="pddata.ExportFile"></i>
+                                </el-tooltip>
+
+                                <el-tooltip class="item" effect="dark" content="打印" placement="bottom">
+                                    <i class="iconfont icon-dayin" style=" font-size: 20px;color: #3a8ee6; margin-right:10px" onclick="Preview()"></i>
+                                </el-tooltip>
+                                <el-tooltip class="item" effect="dark" content="全屏" placement="bottom">
+
+                                    <i class="iconfont icon-quanping" @click="qp" style=" font-size: 20px;color: #3a8ee6; margin-right:10px"></i>
+                                </el-tooltip>
+                                <el-tooltip class="item" effect="dark" content="表单显示最大化" placement="bottom">
+
+                                    <i class="iconfont icon-pxgl" @click="zdh" style=" font-size: 20px;color: #3a8ee6; margin-right:10px"></i>
+                                </el-tooltip>
+
+                                <el-popover placement="left" width="480" trigger="hover">
+                                    <table class="table noborder" style="margin-bottom: 0">
+                                        <tr>
+                                            <td style="border: 0">
+                                                <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin1.png" />
+                                            </td>
+                                            <td style="border: 0">
+                                                <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin9.jpg" />
+                                            </td>
+                                            <td style="border: 0">
+                                                <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin3.png" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 0">
+                                                <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin4.png" />
+                                            </td>
+                                            <td style="border: 0">
+                                                <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin5.png" />
+                                            </td>
+                                            <td style="border: 0">
+                                                <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin6.jpg" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 0">
+                                                <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin7.jpg" />
+                                            </td>
+                                            <td style="border: 0">
+                                                <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin8.jpg" />
+                                            </td>
+                                            <td style="border: 0">
+                                                <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin9.jpg" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="block">
+                                        <span class="demonstration">透明度</span>
+                                        <el-slider v-model="bodyopacity" v-on:change="changeop"></el-slider>
+                                    </div>
+                                    <i class="iconfont icon-pifu" slot="reference" style=" font-size: 20px;color: #3a8ee6;"></i>
+                                </el-popover>
+                            </div>
+                            <el-row>
+
+                                <el-col :xs="24" :sm="24">
+                                    <h4 class="text-center" style="font-size:20PX;font-weight:bolder">
+                                        <span v-text="pddata.ProcessName"></span>
+                                        <el-tooltip class="item" effect="dark" content="表单填写说明" placement="top-start">
+                                            <i class="el-icon-question hidden-print" style="color: cornflowerblue;" @click="FormDecVisible = true"></i>
+                                        </el-tooltip>
+
+                                    </h4>
+                                    <p style="text-align:center; margin-top: 10px;color: gray;">发起人：{{pidata.CRUserName}} </p>
+
+                                    <div style="text-align:right;" class="hidden-print" v-if="vtype=='0'">
+                                        <el-button size="small" type="danger" v-on:click="CanCel" v-if="qxdata.ISCANCEL=='Y'&&pidata.isGD=='N'" style="border-radius:0px;"><i class="iconfont icon-chexiao1"></i>撤回</el-button>
+                                        <el-button size="small" type="success" v-on:click="SaveForm" v-if="qxdata.ISCANCEL=='Y'&&pidata.isGD=='N'" style="border-radius:0px;">  <i class=" iconfont icon-gzbg"></i>  更新表单</el-button>
+                                        <el-button size="small" type="success" v-on:click="ManageForm" v-if="qxdata.ISCANSP=='Y'" style="border-radius:0px;"><i class="iconfont icon-shenpi1"></i>审核</el-button>
+                                        <el-button size="small" type="danger" v-on:click="ReBack" v-if="qxdata.ISCANSP=='Y'" style="border-radius:0px;"><i class="iconfont icon-chexiao1"></i>退回</el-button>
+
+                                    </div>
+
+                                </el-col>
+
+                            </el-row>
+
+
+                        </div>
+                        <div class="panel panel-default panbody">
+                            <el-row>
+                                <el-form ref="form" label-position="top" :model="FormData">
+                                    <component class="widget" v-for="(item, index) in FormData.wigetitems" :key="item.wigdetcode" :is="item.component" :index="index" :id="item.wigdetcode" :pzoption="item" style="margin-top:10px"></component>
+                                </el-form>
+                            </el-row>
+
+                        </div>
+                        <div class="panel panel-default panwf" v-if="pddata.ProcessType=='1'" style="margin-bottom: 0px;">
+                            <el-steps finish-status="success" align-center>
+                                <el-step v-for="item in wfdata" :title="item.TaskName+'--'+item.TaskAssInfo" :status="stepstatus(item.state)">
+                                    <span slot="description"> {{item.EndTime}}：{{item.userrealname}}<br /> {{item.TaskUserView}}</span>
+
+                                </el-step>
+                            </el-steps>
+                        </div>
+                        <div class="panel panel-default panwf " style="margin-bottom: 0px;">
+                            <el-row>
+
+                                <el-col :xs="24" :sm="24">
+
+                                    <div style="text-align:right;" class="hidden-print">
+                                        <el-button size="small" type="danger" v-on:click="CanCel" v-if="qxdata.ISCANCEL=='Y'&&pidata.isGD=='N'" style="border-radius:0px;"><i class="iconfont icon-chexiao1"></i>撤回</el-button>
+                                        <el-button size="small" type="success" v-on:click="SaveForm" v-if="qxdata.ISCANCEL=='Y'&&pidata.isGD=='N'" style="border-radius:0px;">  <i class=" iconfont icon-gzbg"></i>  更新表单</el-button>
+                                        <el-button size="small" type="success" v-on:click="ManageForm" v-if="qxdata.ISCANSP=='Y'" style="border-radius:0px;"><i class="iconfont icon-shenpi1"></i>审核</el-button>
+                                        <el-button size="small" type="danger" v-on:click="ReBack" v-if="qxdata.ISCANSP=='Y'" style="border-radius:0px;"><i class="iconfont icon-chexiao1"></i>退回</el-button>
+
+                                    </div>
+
+                                </el-col>
+
+                            </el-row>
+                        </div>
+
+                    </div>
+
+                </div>
+            </el-main>
+        </el-container>
+
+        <el-dialog title="表单填写说明" :visible.sync="FormDecVisible">
+            <div v-html="pddata.Alias">
+
+            </div>
+            <table class="table table-bordered table-hover" v-if="FormFile.length>0">
+                <tr><th>附件</th></tr>
+                <tr v-for="file in FormFile">
+                    <td><a style="color:dodgerblue" v-bind:href="getfileurl(file.ID)" v-text="file.Name"></a></td>
+                </tr>
+            </table>
+
+
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="FormDecVisible = false">关 闭</el-button>
+            </div>
+        </el-dialog>
+
+
+    </div>
+    <script src="/ViewV5/JS/vue.js"></script>
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/lodash.min.js"></script>
+    <script src="/ViewV5/JS/httpVueLoader.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <!-- 引入组件库 -->
+    <script src="/ViewV5/JS/element/element.js"></script>
+    <script src="/ViewV5/JS/bijs.js?v=2"></script>
+    <script src="/ViewV5/JS/Print.js?v=2"></script>
+
+    <script>
+        function Preview() {
+            $("#princontent").printThis({
+                debug: false,
+                importCSS: true,
+                importStyle: true,
+                printContainer: true,
+                loadCSS: "/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css",
+                pageTitle: "通知公告",
+                removeInline: false,
+                printDelay: 333,
+                header: null,
+                formValues: true
+            });
+        };
+        $(document).ready(function () {
+            if (ComFunJS.isPC()) {
+
+                var skinurl = "/ViewV5/images/skin/skin1.png";
+                if (localStorage.getItem("fskin")) {
+                    skinurl = localStorage.getItem("fskin");
+                }
+                $("body").css("background-image", "url('" + skinurl + "')");
+                $(".skintp").bind('click', function (event) {
+                    localStorage.setItem("fskin", $(this).attr("src"));
+                    $("body").css("background-image", "url('" + $(this).attr("src") + "')");
+                })
+
+                var opacity = "97";
+                if (localStorage.getItem("fopacity")) {
+                    opacity = localStorage.getItem("fopacity");
+                }
+                $("body").css("opacity", "." + opacity);
+            }
+        });
+    </script>
+    <script>
+
+        var app = new Vue({
+            el: '#DATABI_YBZZ',
+            components: {
+                'qjDate': httpVueLoader('../../AppPage/FORMBI/vue/qjDate.vue'),
+                'qjInput': httpVueLoader('../../AppPage/FORMBI/vue/qjInput.vue'),
+                'qjSN': httpVueLoader('../../AppPage/FORMBI/vue/qjSN.vue'),
+                'qjInputNum': httpVueLoader('../../AppPage/FORMBI/vue/qjInputNum.vue'),
+                'qjSelect': httpVueLoader('../../AppPage/FORMBI/vue/qjSelect.vue?v=2'),
+                'qjMSelect': httpVueLoader('../../AppPage/FORMBI/vue/qjMSelect.vue'),
+                'qjSelbranch': httpVueLoader('../../AppPage/FORMBI/vue/qjSelbranch.vue'),
+                'qjSeluser': httpVueLoader('../../AppPage/FORMBI/vue/qjSeluser.vue'),
+                'qjLine': httpVueLoader('../../AppPage/FORMBI/vue/qjLine.vue'),
+                'qjTable': httpVueLoader('../../AppPage/FORMBI/vue/qjTable.vue'),
+                'qjFile': httpVueLoader('../../AppPage/FORMBI/vue/qjFile.vue')
+
+            },
+            data: {
+                vtype: ComFunJS.getQueryString('vtype', '0'),
+                piid: ComFunJS.getQueryString('piid', '0'),
+                pddata: {},
+                pidata: {},
+                poption: { width: '0' },
+                FormCode: "BDGL",
+                FormFile: [],
+                FormDecVisible: false,
+                bodyopacity: 95,
+                tabtype: "0",
+                isview: false,//是否浏览模式,判断需不需要加载默认值
+                nowwidget: {},
+                wfdata: [],
+                NoValData: [],//不需要验证字段
+                FormData: {
+                    wigetitems: []
+                },
+                qxdata: { ISCANSP: "N", ISCANCEL: "N" },
+                nowwidget: {
+                },
+
+            },
+            methods: {
+                zdh: function () {
+                    $(".containerb").toggleClass("widthmax");
+                    $(".elmain").toggleClass("pd40");
+                    $(".elmain").toggleClass("pd0");
+                },
+                CopyForm: function () {
+                    this.$confirm('此操作将会把此表单作为模板,新建一个表单,是否转到新建页面?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        localStorage.setItem("copydata", JSON.stringify(app.FormData));
+                        location.href = "/ViewV5/AppPage/FORMBI/FormAdd.html?iscopy=y&pdid=" + app.pddata.ID + "&r=" + Math.random();
+                    }).catch(() => {
+
+                    });
+                },
+                changeop: function (val) {
+                    $("body").css("opacity", "." + val);
+                    localStorage.setItem("fopacity", val);
+                },
+                qp: function () {
+                    if (document.isFullScreen || document.mozIsFullScreen || document.webkitIsFullScreen) {
+                        ComFunJS.exitFullscreen()
+                    } else {
+                        ComFunJS.requestFullScreen();
+                    }
+                },
+                getfileurl: function (fileid) {
+                    return ComFunJS.getfile(fileid);
+                },
+                stepstatus: function (taskstatus) {
+                    switch (taskstatus) {
+                        case "1":
+                            return "success";
+                            break;
+                        case "-1":
+                            return "error";
+                            break;
+                        default:
+                            return "wait"
+                    }
+                },
+                SaveExData: function () {
+                    $.getJSON("/API/VIEWAPI.ashx?ACTION=FORMBI_SAVEEXDATA", { P1: app.piid, P2: app.pddata.ID }, function (result) {
+
+                    });
+                },
+
+                SaveDraft: function () {
+                    var draftdata = { "ID": "0", "FormCode": app.FormCode, "FormID": app.pddata.ID, "JsonData": "" };
+                    draftdata.JsonData = JSON.stringify(app.FormData.wigetitems);
+                    $.getJSON("/API/VIEWAPI.ashx?ACTION=XTGL_SAVEDRAFT", { P1: JSON.stringify(draftdata) }, function (result) {
+                        if (!result.ErrorMsg) {
+
+                        }
+                    })
+                },
+                SaveForm: function () {
+                    $.getJSON("/API/VIEWAPI.ashx?ACTION=FORMBI_SAVEPIDATA", { P1: app.piid, P2: JSON.stringify(app.FormData.wigetitems) }, function (result) {
+                        if (!result.ErrorMsg) {
+                            app.$notify({
+                                title: '成功',
+                                message: '更新表单成功',
+                                type: 'success'
+                            });
+                            if (app.pidata.PITYPE == "-1") {
+                                app.SaveExData(app.dataid);//没有流程时更新数据利于统计
+                            }
+                        }
+                    });
+                },
+                ManageForm: function () {
+                    this.$refs.form.validate(function (boolean, object) {
+                        if (app.NoValData.length > 0) {
+                            app.$refs.form.clearValidate(app.NoValData);
+                        }//遇到不需要验证得,先去除验证
+                        if (_.difference(_.keys(object), app.NoValData).length == 0) {
+                            app.$prompt('请输入审核意见', '提示', {
+                                confirmButtonText: '确定',
+                                cancelButtonText: '取消',
+                                inputValue: "同意"
+                            }).then(({ value }) => {
+                                $.getJSON("/API/VIEWAPI.ashx?ACTION=FORMBI_MANAGEWF", { P1: app.piid, P2: value, formcode: app.FormCode, csr: "", Content: JSON.stringify(app.FormData.wigetitems) }, function (result) {
+                                    if (!result.ErrorMsg) {
+                                        app.$notify({
+                                            title: '成功',
+                                            message: '审核完毕',
+                                            type: 'success'
+                                        });
+                                        var writefiled = _.find(app.wfdata, function (item) {
+                                            return !item.EndTime;
+                                        })
+                                        if (writefiled.WritableFields) {
+                                            app.SaveForm();
+                                            //如果有可编辑字段,保存表单数据
+                                        }
+                                        if (result.Result == "Y") {
+                                            app.SaveExData();//流程审批完成时保存数据利于统计
+                                        }
+                                        app.qxdata = { ISCANSP: "N", ISCANCEL: "N" };
+                                        setTimeout("location.reload()", 2000);
+                                    }
+                                });
+                            }).catch(() => {
+
+                            });
+                        }
+                    })
+                },
+                CanCel: function () {
+                    this.$confirm('此操作将撤回您发起的表单,撤回后您可以到该表单的草稿箱中找到撤回的数据,是否继续?', '提示', {
+                        confirmButtonText: '确定撤回',
+                        cancelButtonText: '取消',
+                        type: 'warning',
+                        center: true
+                    }).then(() => {
+                        $.getJSON("/API/VIEWAPI.ashx?ACTION=FORMBI_CANCELWF", { P1: app.piid, ModelCode: app.FormCode }, function (result) {
+                            if (!result.ErrorMsg) {//流程数据
+                                app.qxdata.ISCANCEL = "N";
+                                app.SaveDraft();
+                            }
+                        })
+
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消撤回操作'
+                        });
+                    });
+                },
+                ReBack: function () {
+                    app.$prompt('请输入拒绝意见', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        inputValue: "拒绝",
+                    }).then(({ value }) => {
+                        $.getJSON("/API/VIEWAPI.ashx?ACTION=FORMBI_REBACKWF", { P1: app.piid, P2: value, formcode: app.FormCode }, function (result) {
+                            if (!result.ErrorMsg) {
+                                app.$notify({
+                                    title: '成功',
+                                    message: '操作成功',
+                                    type: 'success'
+                                });
+                                location.reload()
+
+                            }
+                        });
+                    }).catch(() => {
+
+                    });
+                },
+                RemindForm: function () {
+
+                },
+                Export: function () {
+                    location.href = "/API/VIEWAPI.ashx?Action=FORMBI_EXPORTWORD&P1=" + app.pddata.ID + "&P2=" + app.piid;
+                },
+                initwf: function () {
+                    $.getJSON("/API/VIEWAPI.ashx", { Action: "FORMBI_GETMANGWFDATA", P1: app.piid }, function (result) {
+                        if (result.ErrorMsg == "") {
+                            app.wfdata = result.Result;
+                            app.pddata = result.Result1;
+                            app.qxdata = JSON.parse(result.Result2);
+                            app.pidata = result.Result3;
+                            app.FormFile = result.Result4;
+                            if (app.pddata.Poption) {
+                                app.poption = JSON.parse(app.pddata.Poption);
+                            }
+
+                            var wigetitems = JSON.parse(app.pidata.Content);
+                            app.FormData.wigetitems = wigetitems;
+                            if (app.pddata.ProcessType != "-1") {
+                                var writefiled = [];
+                                if (app.qxdata.ISCANCEL == "Y") {
+                                    writefiled = app.wfdata[0];
+                                } else {
+                                    writefiled = _.find(app.wfdata, function (item) {
+                                        return !item.EndTime;
+                                    })
+                                }
+                                if (writefiled) {
+                                    var intindex = 0;
+                                    _.forEach(app.FormData.wigetitems, function (wiget) {
+                                        if (wiget.childpro.hasOwnProperty('disabled')) {
+                                            wiget.childpro.disabled = _.indexOf(writefiled.WritableFields.split(','), wiget.wigdetcode) == -1;
+                                        }
+                                        if (wiget.childpro.disabled) {
+                                            app.NoValData.push("wigetitems." + intindex + ".value")
+                                        }//具有权限才能编辑,否则加到不需验证数据中去
+                                        intindex++;
+                                    })
+                                }
+                                if (app.pidata.isComplete == 'Y') {
+                                    _.forEach(app.FormData.wigetitems, function (wiget) {
+                                        wiget.childpro.disabled = true;
+
+                                    })
+                                }
+                            }
+                        }
+                    })
+
+                },
+            },
+            created() {
+                document.body.removeChild(document.getElementById('Loading'))
+                var divBJ = document.getElementById('DATABI_YBZZ');
+                divBJ.style.display = "block";
+            },
+            mounted: function () {
+                var pro = this;
+                pro.$nextTick(function () {
+                    if (!ComFunJS.isPC()) {
+                        pro.vtype = "1";
+                        $("body").addClass("mob")
+                    }
+                    pro.initwf();
+                 
+                    if (pro.vtype == "1") {
+                        pro.zdh();
+                    }
+
+                })
+            }
+
+        })
+
+
+    </script>
+</body>
+
+</html>

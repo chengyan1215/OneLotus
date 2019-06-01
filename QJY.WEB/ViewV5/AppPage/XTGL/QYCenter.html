@@ -1,0 +1,84 @@
+﻿<link href="/ViewV5/CSS/BootOver.css" rel="stylesheet" />
+<style>
+    .szhl_Upload {
+        display: none;
+    }
+</style>
+<div class="detail-con user-list ft14" ms-controller="APP_XTGL_Company">
+    <div class="detail-item">
+        <span class="item-tit">企业名称</span>
+        <input type="text" class="settings-input form-control" ms-duplex="CompanyData.QYName" placeholder="请输入企业名称">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">企业联系人</span>
+        <input type="text" class="settings-input form-control" ms-duplex="CompanyData.ContactUser" placeholder="请输入企业联系人">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">职务</span>
+        <input type="text" class="settings-input form-control" ms-duplex="CompanyData.Position" placeholder="请输入职务">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">财务联系人</span>
+        <input type="text" class="settings-input form-control" ms-duplex="CompanyData.FinanceLXR" placeholder="请输入财务联系人">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">财务联系电话</span>
+        <input type="text" class="settings-input form-control" ms-duplex="CompanyData.FLXRDH" placeholder="请输入财务联系电话">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">负责人</span>
+        <input type="text" class="settings-input form-control" ms-duplex="CompanyData.FZR" placeholder="请输入负责人联系人">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">负责人电话</span>
+        <input type="text" class="settings-input form-control" ms-duplex="CompanyData.FZRDH" placeholder="请输入负责人电话">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">公司电话</span>
+        <input type="text" class="settings-input form-control" placeholder="请输入公司电话" ms-duplex="CompanyData.TelPhone">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">移动电话</span>
+        <input type="text" class="settings-input form-control" placeholder="请输入移动电话" ms-duplex="CompanyData.Mobile">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">电子邮件</span>
+        <input type="text" class="settings-input form-control" placeholder="请输入电子邮件" ms-duplex="CompanyData.Email">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">地址</span>
+        <input type="text" class="settings-input form-control" placeholder="请输入通讯地址" ms-duplex="CompanyData.Address">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">企业Logo</span>
+        <input type="text" class="szhl_Upload form-control" ms-duplex="CompanyData.LogoID">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit"></span>
+        <button class="btn btn-info pl20 pr20" ms-click="SaveData(this)"><i class="fa fa-spinner fa-spin" style="display: none"></i>保存</button>
+    </div>
+</div>
+<script type="text/javascript">
+
+    var tempindex = avalon.define({
+        $id: "APP_XTGL_Company",
+        CompanyData: {},
+        InitWigetData: function (strId) {
+            tempindex.CompanyData = model.CompanyData;
+            ComFunJS.initForm();
+        },
+        SaveData: function (dom) {
+            var modelValue = JSON.stringify(tempindex.CompanyData.$model);
+            $.post("/API/VIEWAPI.ashx", { Action: "XTGL_EDITCOMPANY", P1: modelValue },
+            function (result) {
+                model.CompanyData = tempindex.CompanyData;
+                $(dom).attr("disabled", false).find(".fa").hide();//加上转圈样式
+                if (result.ErrorMsg == "") {
+                    ComFunJS.winsuccess("修改企业信息成功");
+                }
+            });
+        },
+
+    });
+
+</script>

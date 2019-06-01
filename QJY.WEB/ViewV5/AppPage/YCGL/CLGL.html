@@ -1,0 +1,113 @@
+﻿<div class="form-horizontal" ms-controller="CLGL">
+    <div style="margin: 0 80px;">
+        <div>
+            <!--<div class="fg-item"><span>基本信息</span></div>-->
+            <ul class="clearfix" style="display: block;padding:0">
+                <li class="add-item add-width fl-left">
+                    <label class="add-item-label"><i>*</i>车牌号</label>
+                    <div class="add-ic">
+                        <input id="conNR" ms-duplex="modelData.CarNum" class="form-control szhl_require" maxlength="400" />
+                    </div>
+                </li>
+                <li class="add-item add-width fl-right">
+                    <label class="add-item-label"><i>*</i>车类型</label>
+                    <div class="add-ic">
+                        <select name="conType" id="conType" ms-duplex="modelData.CarType" class="form-control">
+                            <option ms-repeat-item="ColumnData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.LeiBie?'selected':''">{{item.TypeName}}</option>
+                        </select>
+                    </div>
+                </li>
+                <li class="add-item add-width fl-left">
+                    <label class="add-item-label"><i>*</i>品牌</label>
+                    <div class="add-ic">
+                        <input id="conNR" ms-duplex="modelData.CarBrand" class="form-control szhl_require" maxlength="400" />
+                    </div>
+                </li>
+                <li class="add-item add-width fl-right">
+                    <label class="add-item-label">购买日期</label>
+                    <div class="add-ic">
+                        <input type="text" ms-duplex="modelData.BuyDate" class="form-control" maxlength="50" />
+                    </div>
+                </li>
+                <li class="add-item add-width fl-left">
+                    <label class="add-item-label"><i>*</i>座位数</label>
+                    <div class="add-ic">
+                        <input type="text" ms-duplex="modelData.SeatNum" class="form-control szhl_require" />
+                    </div>
+                </li>
+                <li class="add-item add-width fl-right">
+                    <label class="add-item-label"><i>*</i>状态</label>
+                    <div class="add-ic">
+                        <select ms-duplex-selected="modelData.Status" class="form-control">
+                            <option value="0">可用</option>
+                            <option value="1">报废</option>
+                            <option value="2">维修</option>
+                        </select>
+                    </div>
+                </li>
+                <li class="add-item add-width fl-left">
+                    <label class="add-item-label">购买价格(单位:元)</label>
+                    <div class="add-ic">
+                        <input type="text" ms-duplex="modelData.Price" class="form-control" maxlength="50" />
+                    </div>
+                </li>
+                <li class="add-item add-width fl-right">
+                    <label class="add-item-label">发动机号码</label>
+                    <div class="add-ic">
+                        <input type="text" ms-duplex="modelData.FDJNum" class="form-control" maxlength="50" />
+                    </div>
+                </li>
+                <li class="add-item add-widthall">
+                    <label class="add-item-label">附件</label>
+                    <div class="add-ic">
+                        <input type="text" ms-duplex="modelData.Files" class="span2  szhl_Upload form-control" />
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+<script>
+    var tempmodel = avalon.define({
+        $id: "CLGL",
+        name: "车辆管理",
+        ColumnData: [],
+        iswf: false,//是否属于流程表单
+        inittemp: function (strId) {
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETZIDIANLIST', { P1: 5 }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.ColumnData = resultData.Result;
+                    if (!tempmodel.modelData.CarType && resultData.Result.length > 0) {
+                        tempmodel.modelData.CarType = resultData.Result[0].ID
+                    };
+                }
+            })
+            if (strId) {
+                //编辑加载数据
+                $.getJSON('/API/VIEWAPI.ashx?Action=YCGL_GETCLINFO', { P1: strId }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result;
+                        setTimeout(" ComFunJS.initForm()", 500)
+                    }
+                })
+            } else {
+                ComFunJS.initForm();
+            }
+        },//初始化
+        modelData: { "CarNum": "", "CarType": "", "CarBrand": "", "BuyDate": "", "Price": "", "FDJNum": "", "SeatNum": "", "Status": 0, "Files": "" },
+        SaveData: function (callback) {
+            $.post("/API/VIEWAPI.ashx?ACTION=YCGL_ADDCLINFO", { P1: JSON.stringify(tempmodel.modelData.$model) }, function (result) {
+                return callback.call(this,result);
+            });
+        }
+
+    });
+
+    //tempmodel.$watch("modelData.*", function (a, b) {
+    //    if (!tempmodel.modelData.ID) {
+    //        localStorage.setItem(pmodel.FormCode, JSON.stringify(tempmodel.modelData.$model));
+    //    }
+    //})
+
+</script>

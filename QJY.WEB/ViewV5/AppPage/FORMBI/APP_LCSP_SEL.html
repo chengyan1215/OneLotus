@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css">
+    <link href="/ViewV5/CSS/BootOver.css" rel="stylesheet" />
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script type="text/javascript">
+
+        var model = avalon.define({
+            $id: "APP_LCSP_SEL",
+            LCTypeData: [],
+            LCLBData: [],
+            GetLCTypeData: function () {
+                //获取主要菜单
+                $.getJSON('/API/VIEWAPI.ashx?Action=FORMBI_GETWFPDLIST', { P1: 1 }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        model.LCTypeData = resultData.Result;
+                        var tempdata = [];
+                        for (var i = 0; i < resultData.Result.length; i++) {
+                            if ($.inArray(resultData.Result[i].ProcessClass, tempdata) == -1) {
+                                tempdata.push(resultData.Result[i].ProcessClass)
+                            }
+                        }
+                        model.LCLBData = tempdata;
+                    }
+                })
+            },
+        
+        });
+        avalon.ready(function () {
+            model.GetLCTypeData();
+        })
+    </script>
+</head>
+<body>
+    <div class="container-fluid maindiv" style="margin: 20px" id="dvContent" ms-controller="APP_LCSP_SEL">
+        <div ms-repeat-lb="LCLBData" >
+            <div class="formtitle"><span>{{lb}}</span></div>
+           
+            <div class="pCard" ms-repeat-el="LCTypeData" ms-visible="el.ProcessClass==lb" style="width: 120px; text-align: center; min-width: 110px; background-color: transparent;   border:0; box-shadow:0" ms-attr-title="el.ProcessName">
+                <a ms-attr-href="FormAdd.html?pdid={{el.ID}}" target="_blank">
+                    <div style="height: 90px;margin-top:20px">
+                        <img ms-attr-src="el.fmdata" style="width:90px;height:90px"  onerror="javascript: this.src = '/ViewV5/images/qywd/tz1.png'" />
+                    </div>
+                    <div class="pName" style="max-width: 110px; white-space:normal;">{{el.ProcessName}}</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

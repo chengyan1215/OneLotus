@@ -1,0 +1,248 @@
+﻿<style>
+    .table > tbody > tr > td, th {
+        text-align: center;
+    }
+    #calendar .fc-content {
+        clear: none;
+        zoom: 1;
+    }
+    .pt20 {
+        padding-top: 0px;
+    }
+</style>
+
+<div   ms-controller="GRKQ">
+    <div class="page-title ft16 pl20">
+        <h4 class="title">本月个人考勤统计</h4>
+        <div style="margin-right:40px;" class="pull-right">
+            <a class="btn" ms-class-1="btn-primary:tempindex.isShow" ms-class-2="btn-info:!tempindex.isShow" ms-click="ChangeIsShow(true)">列表</a>
+            <a ms-click="ChangeIsShow(false)" class="btn" ms-class-1="btn-primary:!tempindex.isShow" ms-class-2="btn-info:tempindex.isShow">日历</a>
+        </div>
+    </div>
+    <div class="oh">
+
+        <div class="col-xs-4 tc">
+            <div class="yg-round red" ms-click="ViewQDForm()" title="迟到天数，点击查看详情" style="cursor:pointer">
+                <div class="yg-round yg-round-white">
+                    <p class="ft14 mt20 c999">迟到</p>
+                    <p class="sl">{{TJData.CDCount}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4 tc">
+            <div class="yg-round" ms-click="ViewQTForm()" title="早退天数，点击查看详情" style="cursor:pointer">
+                <div class="yg-round yg-round-white">
+                    <p class="ft14 mt20 c999">早退</p>
+                    <p class="sl">{{TJData.ZTCount}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4 tc">
+            <div class="yg-round blue" ms-click="ViewForm()" title="请假天数，点击查看详情" style="cursor:pointer">
+                <div class="yg-round yg-round-white">
+                    <p class="ft14 mt20 c999">请假</p>
+                    <p class="sl">{{TJData.QJCount==0?"0":TJData.QJCount}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+    <div class="tab-filter-type" style="margin-top:20px;" ms-visible="!tempindex.isShow">
+        <div id="calendar" style="padding: 0 40px 20px 40px;"></div>
+    </div>
+    <div ms-visible="tempindex.isShow">
+        <div class="tab-filter-type" style="margin-top:20px;">
+
+            <div class="oh">
+                <h5 class="pull-left tr">考勤时间：</h5>
+                <ul class="tab-type ft14">
+                    <li><span class="active" ms-click="tempindex.SelectTime('')">全部</span></li>
+                    <li ms-click="SelectTime('1')"><span>近一周</span></li>
+                    <li ms-click="SelectTime('2')"><span>近一月</span></li>
+                    <li>
+                        <span ms-click="SelectTime('3','1')">自定义</span>
+                        <div class="pull-right ml10 zdy-text c999" ms-visible="curXJTime=='3'">
+                            <input type="text" class="szhl_form_date_mon szhl_require null" ms-duplex="starTime">
+                            -
+                            <input type="text" class="szhl_form_date_mon szhl_require null" ms-duplex="endTime">
+                            <input type="button" ms-click="SelectTime('3')" value="确定" style="width: 50px; background-color: #12B8F6; color: #ffffff" />
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="default-tab ft14 pt20">
+            <table class="table table-striped table-responsive">
+                <thead>
+                    <tr>
+                        <th style="width:200px">日期</th>
+                        <th style="width:400px">签到时间</th>
+                        <th style="width: 400px">签退时间</th> 
+                        <th>状态</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ms-repeat-el="ListData" ms-on-mouseover="mouseover" ms-on-mouseout="mouseout">
+                        <td >
+                            <span ms-if="el.KQDate">{{el.KQDate|date('yyyy-MM-dd')}},{{WeekData[el.WeekDay]}}</span>
+                            <span ms-if="el.QTDate&&!el.KQDate">{{el.QTDate|date('yyyy-MM-dd')}},{{WeekData[el.WeekDay]}}</span>
+                        </td>
+                        <td ><span ms-visible="el.KQDate" ms-class-1="text-danger:el.Status==1">{{el.KQDate|date('HH:mm')}}<label ms-if="el.Position">【{{el.Position}}】</label></span><span ms-visible="!el.KQDate">未签退</span></td>
+                        <td ><span ms-visible="el.QTDate" ms-class-1="text-danger:el.QTStatus==2">{{el.QTDate|date('HH:mm')}}<label ms-if="el.QTPosition">【{{el.QTPosition}}】</label></span><span ms-visible="!el.QTDate">未签退</span></td>
+                       
+                        <td>{{el.Status==0&&el.QTStatus==0?"正常":"异常"}}</td> 
+                    </tr>
+
+                </tbody>
+                <tfoot>
+                    <tr ms-if="isnull">
+                        <td class="tc"></td>
+                        <td>暂无数据</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="ui-datatable-page ft14 pl20">
+                <div id="pageDiv" ms-visible="model.page.total>model.pageNum[0].num" class="pull-right"></div>
+                <div class="pull-right" ms-visible="ListData.size()!=0">
+                    <span>共{{model.page.total}}条记录</span>
+                    <span ms-visible="model.page.total>model.pageNum[0].num">
+                        选择每页条数
+                        <select style="height: 25px; width: 50px;" ms-change="selNum(this.value)" ms-duplex="model.page.pagecount">
+                            <option ms-repeat-pg="pageNum" ms-attr-value="pg.num" ms-attr-selected="pg.num==model.page.pagecount?'selected':''">{{pg.num}}</option>
+                        </select>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    var tempindex = avalon.define({
+        $id: "GRKQ",
+        curXJTime: "",
+        starTime: "",
+        endTime: "",
+        isShow: true,
+        TJData: {CDCount:0,ZTCount:0,QJCount:0},
+        ChangeIsShow: function (type) {
+            tempindex.isShow = type;
+            if (!tempindex.isShow)
+            {
+            
+            tempindex.GETRLLIST();
+            }
+        },
+        WeekData: ["星期日","星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
+        selNum: function (item) {    //选择显示的条数
+            model.page.pagecount = item;
+            tempindex.GetLIST();
+        },
+        SelectTime: function (type, item) {
+            tempindex.curXJTime = type;
+            if (!item) {
+                if (type == '3') {
+                    var a = (Date.parse(tempindex.starTime) - Date.parse(tempindex.endTime)) / 3600 / 1000;
+                    if (a > 0) {
+                        ComFunJS.winwarning("开始时间不能大于结束时间");
+                    } else {
+                        tempindex.GetLIST();
+                    }
+                } else {
+                    tempindex.starTime = "";
+                    tempindex.endTime = "";
+                    tempindex.GetLIST();
+                }
+            }
+        },
+        InitWigetData: function () {
+            tempindex.GetLIST();
+            ComFunJS.initForm();
+        },
+        GetLIST: function () {
+            model.page.pageindex = 1;
+            $.getJSON('/API/VIEWAPI.ashx?Action=KQGL_GETKQJLLIST',
+                {
+                    p: 1, P1: 1,
+                    P2: model.search.searchcontent,
+                    pagecount: model.page.pagecount,
+                    time: tempindex.curXJTime,
+                    starTime: tempindex.starTime,
+                    endTime: tempindex.endTime
+                }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        model.ListData.clear();
+                        model.ListData.pushArray( resultData.Result);
+                        tempindex.TJData = resultData.Result2[0];
+                        if (model.ListData.size() == 0) { model.isnull = true; } else { model.isnull = false; }
+                        model.page.total = resultData.Result1;
+                        laypage({
+                            cont: 'pageDiv', //容器。值支持id名、原生dom对象，jquery对象。
+                            pages: Math.ceil(parseInt(resultData.Result1) * 1.0 / model.page.pagecount), //
+                            curr: 1, //初始化当前页
+                            skin: 'molv',
+                            jump: function (e) { //触发分页后的回调
+                                if (e.curr != model.page.pageindex) {
+                                    $.getJSON('/API/VIEWAPI.ashx?Action=KQGL_GETKQJLLIST', { p: e.curr, P2: model.search.searchcontent, P1: 1, pagecount: model.page.pagecount, time: tempindex.curXJTime, starTime: tempindex.starTime, endTime: tempindex.endTime }, function (resultData) {
+                                        if (resultData.ErrorMsg == "") {
+                                            model.ListData.clear();
+                                            model.ListData.pushArray(resultData.Result);
+                                        }
+                                    })
+                                    model.page.pageindex = e.curr;
+                                }
+                            }
+                        });
+                    }
+                })
+        }, GETRLLIST: function () {
+            $('#calendar').html("");
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,basicWeek'  //basicDay
+                },
+                monthNames: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+                monthNamesShort: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+                titleFormat: {
+                    month: "yyyy MMMM ",
+                    week: "yyyy MMM d[ yyyy]{ '&#8212;'[ MMM] d '日'}",
+                },
+                //defaultView: "basicWeek",
+                firstDay: "1",
+                events: function (start, end, callback) {
+                    var st = $.fullCalendar.formatDate(start, "yyyy-MM-dd");
+                    var ed = $.fullCalendar.formatDate(end, "yyyy-MM-dd");
+
+                    $.getJSON("/API/VIEWAPI.ashx?action=KQGL_GETKQRLLIST", { "start": st, "end": ed }, function (r) {
+                        if (r.Result.length > 0) {
+                            callback(r.Result);
+                        }
+                    })
+                },
+
+
+            })
+        }, ViewForm: function () {
+            if (tempindex.TJData.QJCount == 0) {
+                return;
+            }
+            ComFunJS.winviewform("/ViewV5/AppPage/CCXJ/CCXJUserLIST.html", "出差请假详情", "1000");
+        }, ViewQDForm: function () {
+            if (tempindex.TJData.CDCount == "0") {
+                return;
+            }
+            ComFunJS.winviewform("/ViewV5/AppPage/KQGL/GRJL.html?type=0", "签到详情", "1000");
+        }, ViewQTForm: function () {
+            if (tempindex.TJData.ZTCount == "0") {
+                return;
+            }
+            ComFunJS.winviewform("/ViewV5/AppPage/KQGL/GRJL.html?type=1", "签退详情", "1000");
+        }
+
+    })
+</script>

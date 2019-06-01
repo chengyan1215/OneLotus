@@ -1,0 +1,164 @@
+﻿
+<style>
+    .tc1 {
+        width: 23%;
+        float: left;
+        margin: 0 1%;
+    }
+
+    .yg-round .yg-round-white {
+        background: #fff;
+        width: 100px;
+        height: 100px;
+        position: absolute;
+        left: 15px;
+        top: 15px;
+        font-size: 20px;
+    }
+
+    .yg-round {
+        width: 130px;
+        height: 130px;
+        background: #95cac6;
+        text-align: center;
+        margin: 0 auto;
+        border-radius: 50%;
+        position: relative;
+        color: #95cac6;
+        margin-bottom: 10px;
+    }
+
+    .tc1 .yg-round .yg-round-white {
+        line-height: 100px;
+    }
+</style>
+<div ms-controller="INDEX" style="width:100%">
+    <div class="clearfix oh padding20" style="margin-top: -30px;">
+        <img ms-attr-src="{{ComFunJS.getfile(CompanyData.LogoID)}}" onerror="javascript: this.src = 'images/logo.png'" style="height: 40px; margin-top: 10px; margin-right: 10px" class="pull-left pic60">
+        <div class="xt-company" style="padding-top: -10px;">
+            <h4 class="ft16 mt10">
+                {{model.CompanyData.QYName}}
+                <a data-toggle="tooltip" title="修改企业名称" data-placement="right" ms-click="XGQY()"><i class="iconfont icon-bianji ft14 c-default"></i></a>
+            </h4>
+            <p class=" ft14 c999 mt5">
+                <span class="mr10">注册时间：{{model.CompanyData.CRDate|date('yyyy年MM月dd日')}}</span>
+            </p>
+        </div>
+    </div>
+  
+
+    <div class="pt20 oh">
+
+        
+
+
+        <div class="page-title ft16 pl20" style="margin-top: 5px;">
+            <h4 class="title">账户信息</h4>
+        </div>
+        <div class="pl20 pr20 pb20 ft16">
+            <div class="col-xs-4 tc">
+                <div class="yg-round">
+                    <div class="yg-round yg-round-white">
+                        <p class="ft14 mt20 c999">员工数量</p>
+                        <p class="sl">{{UserCountInfo.TotalUser}}</p>
+                    </div>
+                </div>
+           
+            </div>
+            <div class="col-xs-4 tc">
+                <div class="yg-round red">
+                    <div class="yg-round yg-round-white">
+                        <p class="ft14 mt20 c999">已发短信</p>
+                        <p class="sl">{{SendDXCount}}</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xs-4 tc">
+                <div class="yg-round blue">
+                    <div class="yg-round yg-round-white">
+                        <p class="ft14 mt20 c999">已用容量</p>
+                        <p class="sl">{{FileSize+fileUnit}}</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+  
+
+
+
+
+    </div>
+  
+</div>
+<script>
+    var tempindex = avalon.define({
+        $id: "INDEX",
+        TotalSpace: 0,
+        FileSize: 0,
+        TotalXF: 0, //已用金额
+        TotalDX: 0,
+        SendDXCount: 0,
+        fileUnit: "",
+        ListData: [],
+        UserCountInfo: {},
+        GQDate: "",
+        IsUserWx: "N",
+        isshow: localStorage.getItem("isshow") == "Y" ? true : false,//是否折叠显示,
+        nowshow: function () {
+            tempindex.isshow = !tempindex.isshow;
+            localStorage.setItem("isshow", tempindex.isshow ? "Y" : "N");
+        },
+        GOQYHPZ: function () {
+            model.selmenulev2(model.FunData[5]);
+        },
+        GOZWQX: function () {
+            model.selmenulev2(model.FunData[2]);
+        },
+        XGQY: function () {    //修改企业名称
+            top.ComFunJS.winviewform("/ViewV5/AppPage/XTGL/XTGL_INIT.html", "完善企业信息", "1000", "700");
+        }, TBGZSTATUS: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=INIT_TBGZSTATUS',{}, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    top.ComFunJS.winsuccess("同步成功");
+                    top.model.CompanyData.wxqrcode = resultData.Result.wxqrcode;
+                    tempindex.GetUserCount();
+                } else {
+                    top.ComFunJS.winwarning("失败，请重试");
+                }
+            })
+
+        }, GetUserCount: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=INIT_GETUSERCOUNT',{}, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempindex.UserCountInfo = resultData.Result[0];
+                    tempindex.IsUserWx = resultData.Result1;
+                }
+            })
+        }, ChangeManager: function () {
+            top.ComFunJS.winviewform("/ViewV5/AppPage/XTGL/GLYGH.html", "更换管理员", "900", "400");
+        },
+        UserImport: function () {
+            top.ComFunJS.winviewform("/ViewV5/AppPage/XTGL/IMPORTUSER.html", "导入用户", 1000, 600);
+        },
+      
+        InitWigetData: function () {
+
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETDXANDSPACE', {}, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempindex.TotalSpace = resultData.Result2;
+                    tempindex.FileSize = resultData.Result3;
+                    tempindex.TotalDX = resultData.Result1;
+                    tempindex.SendDXCount = resultData.Result;
+                    tempindex.fileUnit = resultData.Result4;
+                }
+            })
+            tempindex.GetUserCount();
+
+
+
+        }
+    }) //# sourceURL=XTINDEX.js;
+</script>

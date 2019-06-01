@@ -1,0 +1,145 @@
+﻿
+<style>
+    .add-ic.zq label {
+        margin-right: 15px;
+        font-weight: normal;
+    }
+
+    .add-ic.zq input {
+        margin-right: 3px;
+        font-weight: normal;
+    }
+
+    .add-item {
+        margin-bottom: 20px;
+    }
+</style>
+<div class="form-horizontal" ms-controller="XXTYPE">
+    <div style="margin: 0 80px;">
+        <div>
+            <ul class="clearfix" style="display: block;padding:0">
+                <li class="add-item add-width2">
+                    <label class="add-item-label"><i>*</i>类型名称</label>
+                    <div class="add-ic">
+                        <input type="text" maxlength="50" class="form-control  szhl_require" ms-duplex="modelData.TypeName">
+                    </div>
+                </li>
+                <li class="add-item add-width2">
+                    <label class="add-item-label"><i>*</i>描述</label>
+                    <div class="add-ic">
+                        <input type="text" maxlength="50" class="form-control  szhl_require" ms-duplex="modelData.TypeDec">
+                    </div>
+                </li>
+
+                <li class="add-item add-widthall" ms-visible="curAddType!='parent'">
+                    <label class="add-item-label">管理员</label>
+                    <div class="add-ic">
+                        <input type="text" ms-duplex="modelData.TypeManager" class="form-control szhl_getPeoples" />
+                    </div>
+                </li>
+                <li class="add-item add-widthall" ms-visible="curAddType!='parent'">
+                    <div class="add-ic zq">
+                        <label ms-click="SetIsCheck()">
+                            <div class="icheckbox_square-blue mr5" ms-class-1="checked:modelData.IsCheck">
+                                <span class="iconfont icon-check ft12"></span>
+                            </div>是否需要审核
+                        </label>
+                    </div>
+                </li>
+                <li class="add-item add-widthall" ms-visible="modelData.IsCheck==true&&curAddType!='parent'">
+                    <div class="add-ic zq">
+                        <label ms-click="SetIszjfb()">
+                            <div class="icheckbox_square-blue mr5" ms-class-1="checked:modelData.ISzjfb">
+                                <span class="iconfont icon-check ft12"></span>
+                            </div>审核通过直接发布
+                        </label>
+                    </div>
+                </li>
+                <li class="add-item add-widthall" ms-visible="modelData.IsCheck==true&&curAddType!='parent'">
+                    <label class="add-item-label">审核人</label>
+                    <div class="add-ic">
+                        <input type="text" ms-duplex="modelData.CheckUser" class="form-control szhl_getPeoples" />
+                    </div>
+                </li>
+                <li class="add-item add-widthall" ms-visible="curAddType!='parent'">
+                    <div class="add-ic zq">
+                        <label ms-click="SetIsSee()">
+                            <div class="icheckbox_square-blue mr5" ms-class-1="checked:modelData.IsSee">
+                                <span class="iconfont icon-check ft12"></span>
+                            </div>指定接收人范围
+                        </label>
+                    </div>
+                </li>
+                <li class="add-item add-widthall" ms-visible="modelData.IsSee==true&&curAddType!='parent'">
+                    <label class="add-item-label">接收人</label>
+                    <div class="add-ic">
+                        <input type="text" ms-duplex="modelData.SeeUser" class="form-control szhl_getPeoples" />
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+
+    var tempmodel = avalon.define({
+        $id: "XXTYPE",
+        name: "新闻公告类型",
+        iswf: false,//是否属于流程表单
+        ColumnData: [],
+        curAddType: "",
+        modelData: { ID: 0, TypeName: "", PTypeID: "", TypeDec: "", TypeManager: "", CheckUser: "", IsCheck: false, SeeUser: "", IsSee: false, TypePath: "", ISzjfb: false },
+        inittemp: function (strId) {
+            if (strId) {
+                //编辑加载数据
+                $.getJSON('/API/VIEWAPI.ashx?Action=XXFB_GETXXFBTYPE', { P1: strId }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result;
+                        tempmodel.modelData.IsCheck = tempmodel.modelData.IsCheck.toLocaleLowerCase() == "true" ? true : false;
+                        tempmodel.modelData.IsSee = tempmodel.modelData.IsSee.toLocaleLowerCase() == "true" ? true : false;
+                        tempmodel.modelData.ISzjfb = tempmodel.modelData.ISzjfb.toLocaleLowerCase() == "true" ? true : false;
+                        if (tempmodel.modelData.PTypeID <= 0) {
+                            tempmodel.curAddType = "parent";
+                        }
+                        setTimeout("ComFunJS.initForm()", 500)
+                    }
+                })
+            } else {
+                ComFunJS.initForm();
+            }
+
+        },//初始化
+        SaveData: function (callback, btdom) {
+            if ($.trim(tempmodel.modelData.TypeName) == "") {
+                ComFunJS.winwarning("请填写分类名称");
+                $(btdom).attr("disabled", false).find(".fa").hide();//转圈样式去掉
+                return;
+            }
+            if (tempmodel.modelData.TypeManager == "") {
+                ComFunJS.winwarning("请选择管理员");
+                $(btdom).attr("disabled", false).find(".fa").hide();//转圈样式去掉
+                return;
+            }
+            if (tempmodel.modelData.IsCheck && !tempmodel.modelData.CheckUser) {
+                ComFunJS.winwarning("请选择审核人");
+                $(btdom).attr("disabled", false).find(".fa").hide();//转圈样式去掉
+                return;
+            }
+            if (tempmodel.modelData.PTypeID != 0 && tempmodel.modelData.IsSee && !tempmodel.modelData.SeeUser) {
+                ComFunJS.winwarning("请选择接收人范围");
+                $(btdom).attr("disabled", false).find(".fa").hide();//转圈样式去掉
+                return;
+            }
+            $.post("/API/VIEWAPI.ashx", { Action: "XXFB_ADDXXFBTYPE", P1: JSON.stringify(tempmodel.modelData.$model) }, function (result) {
+                return callback.call(this, result);
+            });
+        }, SetIsCheck: function () {
+            tempmodel.modelData.IsCheck = !tempmodel.modelData.IsCheck;
+        }, SetIsSee: function () {
+            tempmodel.modelData.IsSee = !tempmodel.modelData.IsSee;
+        }, SetIszjfb: function () {
+            tempmodel.modelData.ISzjfb = !tempmodel.modelData.ISzjfb;
+        }
+    });
+    //# sourceURL=XXTYPETEMP.js;
+</script>

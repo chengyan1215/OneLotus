@@ -1,0 +1,105 @@
+﻿
+
+<script type="text/javascript">
+
+    var tempmodel = avalon.define({
+        $id: "APP_XTGL_Company",
+        CompanyData: {},
+        inittemp: function () {
+            tempmodel.CompanyData = top.model.CompanyData;
+            ComFunJS.initForm();
+        },
+        SaveData: function (callback, btdom) {
+            var modelValue = JSON.stringify(tempmodel.CompanyData.$model);
+            $.post("/API/VIEWAPI.ashx", { Action: "XTGL_EDITCOMPANY", P1: modelValue },
+            function (result) {
+                top.model.CompanyData = tempmodel.CompanyData;
+                return callback.call(this, $.parseJSON(result));
+            });
+        },
+
+    });
+
+</script>
+<div class="form-horizontal" style="margin:20px  auto auto 50px; " ms-controller="APP_XTGL_Company">
+    <div class="form-group">
+        <label for="companyName" class=" col-xs-2 control-label text-right">企业名称</label>
+        <div class="col-xs-6">
+            <input type="text" class="form-control" id="companyName" ms-duplex="CompanyData.QYName" placeholder="请输入企业名称" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="ContactUser" class="col-xs-2 control-label text-right">企业联系人</label>
+        <div class="col-xs-6">
+            <input type="text" class="form-control" id="ContactUser" ms-duplex="CompanyData.ContactUser" placeholder="请输入企业联系人" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="Position" class="col-xs-2 control-label text-right">职务</label>
+        <div class="col-xs-6">
+            <input type="text" class="form-control" id="Position" ms-duplex="CompanyData.Position" placeholder="请输入职务" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="ContactUser" class="col-xs-2 control-label text-right">财务联系人</label>
+        <div class="col-xs-6">
+            <input type="text" class="form-control" id="FinanceLXR" ms-duplex="CompanyData.FinanceLXR" placeholder="请输入财务联系人" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="ContactUser" class="col-xs-2 control-label text-right">财务联系电话</label>
+        <div class="col-xs-6">
+            <input type="text" class="form-control" id="FinanceLXR" ms-duplex="CompanyData.FLXRDH" placeholder="请输入财务联系电话" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="ContactUser" class="col-xs-2 control-label text-right">负责人</label>
+        <div class="col-xs-6">
+            <input type="text" class="form-control" id="FZR" ms-duplex="CompanyData.FZR" placeholder="请输入负责人联系人" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="ContactUser" class="col-xs-2 control-label text-right">负责人电话</label>
+        <div class="col-xs-6">
+            <input type="text" class="form-control" id="FZR" ms-duplex="CompanyData.FZRDH" placeholder="请输入负责人电话" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="TelPhone" class="col-xs-2 control-label text-right">公司电话</label>
+        <div class="col-xs-6">
+            <input type="text" class="form-control" id="TelPhone" ms-duplex="CompanyData.TelPhone" placeholder="请输入公司电话" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="Mobile" class="col-xs-2 control-label text-right">移动电话</label>
+        <div class="col-xs-6">
+            <input type="text" class="form-control " id="Mobile" ms-duplex="CompanyData.Mobile" placeholder="请输入移动电话" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="Email" class="col-xs-2 control-label text-right">电子邮件</label>
+        <div class="col-xs-6">
+            <input type="text" class="form-control" id="Email" ms-duplex="CompanyData.Email" placeholder="请输入电子邮件" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="Address" class="col-xs-2 control-label text-right">地址</label>
+        <div class="col-xs-6">
+            <input type="text" class="form-control" ms-duplex="CompanyData.Address" id="Address" placeholder="请输入通讯地址" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="WebSite" class="col-xs-2 control-label text-right">企业Logo</label>
+        <div class="col-xs-6 text-left">
+            <input type="text" class=" szhl_Upload" ms-duplex="CompanyData.LogoID" placeholder="请输入通讯地址" />
+        </div>
+    </div>
+
+    <!--<div class="form-group">
+        <div class=" col-xs-8   text-center">
+            <input type="button" value="保 存" ms-click="CompanyEdit()" class="btn btn-success btn-lg" width="180px" />
+        </div>
+    </div>-->
+</div>
+
+

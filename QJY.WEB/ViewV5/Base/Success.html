@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>操作成功</title>
+    <!-- Bootstrap -->
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script>
+        var filedata;
+        var verfiledata;
+        function suc() {
+            var folderid = ComFunJS.getQueryString("ID");
+            var filetype = ComFunJS.getQueryString("filetype");
+            var covtype = ComFunJS.getQueryString("covtype");
+            var iframeindex = ComFunJS.getQueryString("fmindex");
+            if (window.name) { //window.name有数据后才将数据存入数据库
+                $.post('/API/VIEWAPI.ashx?Action=QYWD_ADDFILE', { "P1": window.name, "P2": folderid }, function (result) {
+                    if (result.ErrorMsg == "") {
+                      
+                        if (covtype) { //如果有转化参数,则循环判断是否转化文档成功,成功后再返回
+                            var time = 1000;
+                            var timer = setInterval(function () {
+                                $.getJSON("/API/VIEWAPI.ashx?Action=QYWD_ISCOV&r=" + Math.random(), { "P1":JSON.stringify(result.Result) }, function (resultdada) {
+                                    if (resultdada.ErrorMsg == "") {
+                                        window.name = "";//返回存入数据库的文件数据,清除window.name属性
+                                        window.document.getElementById("tb").className = "fa fa-flag";
+                                        window.document.getElementById("pinfo").innerHTML = "更新完毕,请再次点击<strong>确认</strong>按钮";
+                                        filedata = resultdada.Result;
+                                        verfiledata = result.Result1;
+                                        top.window.clearInterval(timer)
+                                    }
+                                })
+                               
+                            }, time);
+                        } else {
+                            window.name = "";//返回存入数据库的文件数据,清除window.name属性
+                            window.document.getElementById("tb").className = "fa fa-flag";
+                            window.document.getElementById("pinfo").innerHTML = "更新完毕,请再次点击<strong>确认</strong>按钮";
+                            filedata = result.Result;//给filedata赋值,供页面使用
+                            verfiledata = result.Result1;
+                        }
+                    }
+                })
+            } else {
+                top.layer.close(iframeindex);
+            }
+          
+        }
+    </script>
+</head>
+<body onload="suc()">
+    <div class="container-fluid text-center">
+        <p><i class="fa fa-spinner fa-spin" id="tb" style="font-size:80px; color: crimson; margin-top:40PX"></i></p>
+        <p class="text-info" id="pinfo">正在更新文档目录...请稍后</p>
+
+    </div>
+</body>
+
+</html>

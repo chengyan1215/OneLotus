@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>出错了</title>
+    <script src="/View_Mobile/JS/zepto.min.js"></script>
+    <link href="/View_Mobile/Frozenui1.3/css/frozen.css" rel="stylesheet" />
+    <script src="/View_Mobile/JS/ComFunJS.js?jsver=20160425"></script>
+    <script>
+        var strMsg = ComFunJS.getQueryString("msg");
+        $().ready(function () {
+            $("p").text(strMsg);
+        })
+    </script>
+</head>
+<body>
+    <section class="ui-notice">
+        <i></i>
+        <p></p>
+        <div class="ui-notice-btn" style="display:none;">
+            <button class="ui-btn-primary ui-btn-lg">按钮</button>
+        </div>
+    </section>
+</body>
+</html>

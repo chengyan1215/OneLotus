@@ -1,0 +1,128 @@
+﻿<div ms-controller="YBPINDEX">
+    <!-- 添加按钮 -->
+    <div class="btn-add">
+        <a href="###" class="btn btn-info btn-lg" ms-click="showadd()"><i class="iconfont icon-jiahao ft12 mr5"></i>新建报表</a>
+    </div>
+    <!-- 按条件选择 -->
+    <div class="tab-filter-type">
+        <div class="oh">
+            <h5 class="pull-left tr">全部类型：</h5>
+            <ul class="tab-type ft14">
+                <li><span class="active">我的统计报告</span></li>
+            </ul>
+        </div>
+    </div>
+    <!-- 表格 -->
+    <div class="default-tab ft14 pt20 hover-btn">
+        <table class="table table-striped table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th class="tc width-70">
+                        序号
+                    </th>
+                    <th>名称</th>
+                    <th>创建人</th>
+                    <th>创建时间</th>
+                    <th width="10%">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ms-repeat-item="YBPList">
+                    <td class="tc">
+                        {{$index+1}}
+                    </td>
+                    <td class="lk"><a ms-attr-href="/ViewV5/AppPage/DATABI/YBPBuild.html?id={{item.ID}}" target="_blank">{{item.Name}}</a></td>
+                    <td>{{item.CRUser}}</td>
+                    <td>{{item.CRDate|date("yyyy-MM-dd HH:mm")}}</td>
+                    <td>
+                        <span class="btn-click">
+                            <a class="cz-btn ft18 bj-color tip" data-toggle="tooltip" title="编辑" target="_blank" ms-attr-href="/ViewV5/AppPage/DATABI/YBPBuild.html?id={{item.ID}}">
+                                <i class="iconfont icon-bianji"></i>
+                            </a>
+                            <a class="cz-btn ft18 sc-color tip" data-toggle="tooltip" title="预览" ms-attr-href="/ViewV5/AppPage/DATABI/YBPVIEW.html?ID={{item.ID}}" target="_blank">
+                                <i class="iconfont icon-check"></i>
+                            </a>
+                            <a class="cz-btn ft18 sc-color tip" data-toggle="tooltip" title="删除" ms-click="Del(item)">
+                                <i class="iconfont icon-shanchu"></i>
+                            </a>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+    <div class="modal fade" id="YBPModal" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 700px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">添加报告</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="branchName" class="col-xs-3 control-label text-right">报表名称</label>
+                            <div class="col-xs-7">
+                                <input type="text" class="form-control" id="YBName" placeholder="报表名称" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-info" ms-click="SaveYB()">确认</button>
+                    <button type="button" class="btn btn-success" id="conaddForder" ms-click="SaveAndUp()">确认并编辑</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    var tempindex = avalon.define({
+        $id: "YBPINDEX",
+        YBPList: [],//笔记类别
+        InitWigetData: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=BIYBP_GETYBLISTDATA', {}, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempindex.YBPList = resultData.Result;
+                }
+            })
+        },
+        showadd: function () {
+            $('#YBPModal').modal('show');
+        },
+        SaveYB: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=BIYBP_SAVEDATA', { P1: $("#YBName").val(), P2: "" }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempindex.YBPList.push(resultData.Result);
+                    $('#YBPModal').modal('hide');
+                }
+            })
+        },
+        SaveAndUp: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=BIYBP_SAVEDATA', { P1: $("#YBName").val(), P2: "" }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempindex.YBPList.push(resultData.Result);
+                    window.open("/ViewV5/AppPage/DATABI/YBPBuild.html?id=" + resultData.Result.ID);    
+                }
+            })
+        },
+        Del: function (item) {
+            top.ComFunJS.winconfirm("确认要删除吗", function () {
+                $.getJSON('/API/VIEWAPI.ashx?Action=BIYBP_DELYBDATA', { "P1": item.ID }, function (result) {
+                    if (result.ErrorMsg == "") {
+                        top.ComFunJS.winsuccess("删除成功");
+                        tempindex.YBPList.remove(item);
+                    }
+                })
+            }, function () { })
+        }
+
+    })
+    //# sourceURL=YBPINDEX.js;
+</script>

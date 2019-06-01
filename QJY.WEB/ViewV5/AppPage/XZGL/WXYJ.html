@@ -1,0 +1,90 @@
+﻿
+<div ms-controller="WXYJ">
+
+    <div class="default-tab ft14 ">
+        <table class="table table-striped table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>基数(元)</th>
+                    <th>企业缴纳比例(%)</th>
+                    <th>个人缴纳比例(%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ms-repeat-item="tmpListData">
+                    <td>{{item.Name}}</td>
+                    <td><input type="text" class="form-control" ms-duplex="item.Base" placeholder="基数(元)"></td>
+                    <td><input type="text" class="form-control" ms-duplex="item.ComBL" placeholder="企业缴纳比例(%)"></td>
+                    <td><input type="text" class="form-control" ms-duplex="item.PerBL" placeholder="个人缴纳比例(%)"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="text-align:center">
+        <button type="button" class="btn btn-info btn-lg" ms-click="AddWXYJ()"><i class="iconfont icon-jiahao ft12 mr5"></i>保存数据</button>
+    </div>
+
+</div>
+
+
+<script>
+    var processId = model.SelModel.PDID;
+    var tempindex = avalon.define({
+        $id: "WXYJ",
+        tmpListData: [],
+        nowmodel: model.SelModel,
+        AddWXYJ: function () {
+            var modelValue;
+            modelValue = tempindex.tmpListData.size() > 0 ? JSON.stringify(tempindex.tmpListData.$model) : "";
+
+            var reg = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$/;
+
+            var bool = true;
+            $(tempindex.tmpListData).each(function (inx,item) {
+                if (item.Base) {
+                    if (!reg.test(item.Base)) {
+                        ComFunJS.winwarning(item.Name + "基数格式错误,保留2位小数");
+                        bool = false;
+                        return false;
+                    }
+                }
+                if (item.ComBL) {
+                    if (!reg.test(item.ComBL)) {
+                        ComFunJS.winwarning(item.Name + "企业缴纳比例格式错误,保留2位小数");
+                        bool = false;
+                        return false;
+                    }
+                }
+                if (item.PerBL) {
+                    if (!reg.test(item.PerBL)) {
+                        ComFunJS.winwarning(item.Name + "个人缴纳比例格式错误,保留2位小数");
+                        bool = false;
+                        return false;
+                    }
+                }
+            })
+            if (bool) {
+                $.post("/API/VIEWAPI.ashx", { Action: "XZGL_ADDWXYJ", P1: modelValue }, function (result) {
+                    if (result.ErrorMsg == "") {
+                        ComFunJS.winsuccess("操作成功");
+                    }
+                });
+            }
+        },
+        InitWigetData: function () {
+
+            //编辑加载数据
+            $.getJSON('/API/VIEWAPI.ashx?Action=XZGL_GETWXYJLIST', {}, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    if (resultData.Result.length > 0) {
+                        tempindex.tmpListData = resultData.Result;
+                    }
+                }
+            })
+
+        }
+    })
+    //# sourceURLFL.js;
+</script>

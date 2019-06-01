@@ -1,0 +1,33 @@
+﻿body {background: #f8f8f8;}
+#sidebar {position: absolute;background: #f8f8f8;top: 40px;bottom: 0;left: -16%;width: 16%;overflow: auto;transition: left .45s cubic-bezier(.23, 1, .32, 1);}
+#mainbody {position: absolute;left: 0px;right: 0px;bottom: 0px;top: 40px;background-position: center;background-repeat: no-repeat;background-size: contain;border: solid 10px transparent;transition: left .45s cubic-bezier(.23, 1, .32, 1);}
+.thumbnail {margin: 10px 10px 0;text-align: center;}
+.thumbnail img {display: block; margin: auto; max-width: 100%;padding: 2px;border: solid 1px #eee;display: block; border-radius: 5px;cursor: pointer;box-sizing: border-box;}
+.thumbnail.active img {border-color: darkorange;box-shadow: 0 0 0 2px darkorange;cursor: default;}
+.thumbnail.active .side-pager {color: darkorange}
+#header {position: absolute;top: 0;left: 0;right: 0;background: #333;height: 40px;color: #fff;}
+#title {margin: 0 0 0 10px;line-height: 38px;font: 400 20px/38px 'Microsoft Yahei';width: 60%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+#loading {bottom: 0;left: 0;right: 0;}
+.loader {position: absolute;overflow: hidden;height: 3px;z-index: 100;}
+.loader div {height: 100%;width: 1%;transition: width .45s cubic-bezier(.23, 1, .32, 1);background: #39f;}
+.side-pager {text-align: center;height: 25px;line-height: 25px;font-size: 16px;font-weight: bold;}
+#next,#prev {position: absolute;top: 50%;width: 60px;font: 60px/160px '宋体';margin-top: -80px;cursor: pointer;text-align: center;opacity: .1;-webkit-user-select: none;-khtml-user-select: none; -moz-user-select: none;-ms-user-select: none;user-select: none;}
+#next:hover,#prev:hover {background: rgba(0, 0, 0, .1);opacity: .5}
+#prev {left: 0;}
+#next {right: 0;}
+.hbtn{width:40px;height: 40px;display: inline-block;cursor: pointer;}
+.hbtn:hover{background: #444;}
+#fullScreen {background:url(full.png) no-repeat center;}
+@media (min-width: 960px) {#sidebar {display: block;left: 0;}#mainbody {left: 16%;}#sideBtn{display: none;}.openSide .thumbnail img{display: none;}}
+.pull-right {float: right;}
+.fullScreen #sidebar {left:-16%;}
+.openSide #sidebar{left:0 !important;}
+.openSide #sideBtn{background: #444;}
+.openSide #mainbody{left:16% !important;}
+.openSide .side-pager{cursor: pointer;}
+.fullScreen #mainbody {left:0;background-color: #000;}
+.fullScreen #sideBtn {display: inline-block;}
+.fullScreen .thumbnail img{display: block;}
+.fullScreen #next,.fullScreen #prev {color: #fff;}
+#sideBtn{float: left;padding-top: 8px;height: 32px;margin-right: 10px;}
+#sideBtn em{height: 2px;background: #fff;margin:5px 9px;display: block;}

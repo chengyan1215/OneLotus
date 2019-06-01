@@ -1,0 +1,165 @@
+﻿<div ms-controller="YCGLLIST">
+    <!-- 添加按钮 -->
+    <div class="btn-add">
+        <button type="button" class="btn btn-info btn-lg" ms-click="AddView('YCGL')"><i class="iconfont icon-jiahao ft12 mr5"></i>添加用车</button>
+
+    </div>
+    <!-- 按条件选择 -->
+    <div class="tab-filter-type">
+        <div class="oh">
+            <h5 class="pull-left tr">事项类型：</h5>
+            <ul class="tab-type ft14">
+                <!--<li><span class="active" ms-click="SelectType('0')">全部</span></li>-->
+                <li ms-click="SelectType('1')"><span class="active">我创建的</span></li>
+                <li ms-click="SelectType('2')"><span>待我审核的</span></li>
+                <li ms-click="SelectType('3')"><span>我已审核的</span></li>
+            </ul>
+        </div>
+        <div class="oh">
+            <h5 class="pull-left tr">车辆：</h5>
+            <ul class="tab-type ft14">
+                <li ms-click="SelectCL('')"><span class="active">全部</span></li>
+                <li ms-repeat-el="TypeData" ms-click="SelectCL(el.ID)"><span>{{el.CarNum}}</span></li>
+            </ul>
+        </div>
+
+        <!-- 搜索 -->
+        <div class="oh">
+            <div class="input-group ml15" style="width:295px;">
+                <input type="search" class="form-control" ms-duplex="search.searchcontent" placeholder="搜索使用说明、出发或到达地点等">
+                <span class="input-group-addon" ms-click="GetLIST()">搜索</span>
+            </div>
+        </div>
+    </div>
+    <!-- 展开更多选项 -->
+    <div class="add-tab ft14 tc mt20" style="display:none;">
+        <span>更多筛选<i class="caret"></i></span>
+    </div>
+    <!-- 表格 -->
+    <div class="default-tab ft14 pt20">
+        <table class="table table-striped table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th class="tc">
+                        <!--<div class="icheckbox_square-blue">
+                            <input type="checkbox">
+                            <span class="iconfont icon-check ft12"></span>
+                        </div>-->
+                        序号
+                    </th>
+                    <th ms-repeat-im="ShowColumns" ms-visible="im.IsSel">{{im.ColText}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ms-repeat-el="tmpListData" ms-click="ViewForm('YCGL_YCGL',el.ID,el.intProcessStanceid,$event)">
+                    <td class=" tc">
+                        <!--<div class="icheckbox_square-blue">
+                <input type="checkbox">
+                <span class="iconfont icon-check ft12"></span>
+            </div>-->
+                        {{$index+1+page.pagecount*(page.pageindex-1)}}
+                    </td>
+                    <td ms-repeat-im="ShowColumns" ms-visible="im.IsSel">{{ComFunJS.FnFormat(el[im.ColName],im)|html}}</td>
+                    <td>
+                        <a class="cz-btn ft18 js-color tip" data-toggle="tooltip" title="审批" ms-click="EditForm('YCGL_YCGL',el.ID,el.intProcessStanceid,$event)" ms-if="el.StateName!='-1'&&search.seartype==2">
+                            <i class="iconfont icon-shenhe"></i>
+                        </a>
+                    </td>
+                </tr>
+
+            </tbody>
+            <tfoot>
+                <tr ms-if="isnull"><td class="tc"></td><td>暂无数据</td></tr>
+            </tfoot>
+        </table>
+        <div class="ui-datatable-page ft14 pl20">
+
+            <div id="pageDiv" ms-visible="model.page.total>model.pageNum[0].num" class="pull-right"></div>
+            <div class="pull-right" ms-visible="tmpListData.size()!=0">
+                <span>共{{model.page.total}}条记录</span>
+                <span ms-visible="model.page.total>model.pageNum[0].num">
+                    选择每页条数
+                    <select style="height: 25px; width: 50px;" ms-change="selNum(this.value)" ms-duplex="model.page.pagecount">
+                        <option ms-repeat-pg="pageNum" ms-attr-value="pg.num" ms-attr-selected="pg.num==model.page.pagecount?'selected':''">{{pg.num}}</option>
+                    </select>
+                </span>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var tempindex = avalon.define({
+        $id: "YCGLLIST",
+        curCL: "",
+        tmpListData:[],
+        SelectType: function (type) {
+            model.search.seartype = type;
+            tempindex.GetLIST();
+        },
+        SelectCL: function (type) {
+            tempindex.curCL = type;
+            tempindex.GetLIST();
+        },
+        selNum: function (item) {    //选择显示的条数
+            model.page.pagecount = item;
+            tempindex.GetLIST();
+        },
+        InitWigetData: function () {
+
+            //显示的列名
+            model.ShowColumns.clear();
+            model.ShowColumns.pushArray([
+                { "ColName": "SYUser", "ColText": "申请人", "IsSel": true, "format": "username" },
+                { "ColName": "StartTime", "ColText": "开始时间", "IsSel": true, "format": "timeformat" },
+                { "ColName": "EndTime", "ColText": "结束时间", "IsSel": true, "format": "timeformat" },
+                { "ColName": "StartAddress", "ColText": "出发地点", "IsSel": true, "format": "text" },
+                { "ColName": "EndAddress", "ColText": "到达地点", "IsSel": true, "format": "text" },
+                { "ColName": "XCType", "ColText": "行程类别", "IsSel": false, "format": "text" },
+                { "ColName": "CarNum", "ColText": "使用车辆", "IsSel": true, "format": "text" },
+                { "ColName": "SYRS", "ColText": "用车人数", "IsSel": true, "format": "text" },
+                { "ColName": "StateName", "ColText": "审核状态", "IsSel": true, "format": "statename" },
+                { "ColName": "JSR", "ColText": "驾驶员", "IsSel": false, "format": "text" },
+                { "ColName": "Remark", "ColText": "使用说明", "IsSel": false, "format": "text" }
+            ]);
+            //类型数据
+            $.getJSON("/API/VIEWAPI.ashx?action=YCGL_GETCLIST",{}, function (result) {
+                if (result.ErrorMsg == "") {
+                    model.TypeData = result.Result;
+                }
+            })
+            tempindex.GetLIST();
+        },
+
+        GetLIST: function () {
+            model.page.pageindex = 1;
+            tempindex.tmpListData.clear();
+            $.getJSON('/API/VIEWAPI.ashx?Action=YCGL_GETYCGLLIST', { p: 1, P1: model.search.seartype, pagecount: model.page.pagecount, Content: model.search.searchcontent, lb: tempindex.curCL }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempindex.tmpListData = resultData.Result;
+                    if (tempindex.tmpListData.size() == 0) { model.isnull = true; } else { model.isnull = false; }
+                    model.page.total = resultData.Result1;
+                    laypage({
+                        cont: 'pageDiv', //容器。值支持id名、原生dom对象，jquery对象。
+                        pages: Math.ceil(parseInt(resultData.Result1) * 1.0 / model.page.pagecount), //通过后台拿到的总页数
+                        curr: 1, //初始化当前页
+                        skin: 'molv',
+                        jump: function (e) { //触发分页后的回调
+                            if (e.curr != model.page.pageindex) {
+                                $.getJSON('/API/VIEWAPI.ashx?Action=YCGL_GETYCGLLIST', { p: e.curr, P1: model.search.seartype, pagecount: model.page.pagecount, Content: model.search.searchcontent, lb: tempindex.curCL }, function (resultData) {
+                                    if (resultData.ErrorMsg == "") {
+                                        tempindex.tmpListData = resultData.Result;
+                                    }
+                                })
+                                model.page.pageindex = e.curr;
+                            }
+                        }
+                    });
+                }
+            })
+        }
+    })
+    //@ sourceURL=YCGLLIST.js;
+</script>

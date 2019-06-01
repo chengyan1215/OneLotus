@@ -1,0 +1,461 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>题库练习</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="https://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="https://g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <style type="text/css">
+        .layui-layer-title {
+            border-bottom: 0PX !important;
+        }
+
+        .ft16 {
+            font-size: 16px;
+        }
+
+        .list-block ul:before {
+            background-color: #FFF;
+        }
+
+        .list-block ul:after {
+            background-color: #FFF;
+        }
+        .sel {
+            background-color: deepskyblue;
+        }
+        .error {
+            background-color: red !important;
+        }
+
+        .suc {
+            background-color: #3ac343 !important;
+        }
+
+       
+
+        .jcshow {
+            z-index: 11000
+        }
+    </style>
+</head>
+<body ms-controller="tklx">
+
+    <div class="page-group">
+
+        <div class="page" style="background: transparent;">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav" id="bar" style="background-color: #12b8f6">
+                <a class="icon icon-left pull-left" href="javascript:history.back(-1)"></a>
+                <h1 class="title">客观题练习</h1>
+            </header>
+            <!-- 工具栏 -->
+            <nav class="bar bar-tab">
+                <a class="tab-item external active ft16" ms-click="prest()">
+                    <i class="iconfont icon-jtleft mr5 ft16"></i>上一题
+                </a>
+                <a class="tab-item external  active ft16">
+                    <span class="icon icon-star" ms-if="issc=='Y'" ms-click="scst('N')"></span>
+                    <span class="icon icon-star" style="color: darkgray;" ms-if="issc=='N'" ms-click="scst('Y')"></span>
+
+                </a>
+                <a class="tab-item external active ft16" ms-click="nextst()">
+                    下一题<i class="iconfont icon-jtright ml5 ft16"></i>
+                </a>
+            </nav>
+            <!-- 这里是页面内容区 -->
+            <div class="content" style="background: #fff;">
+                <header class="bar bar-nav bar-ks">
+                    <h1 class="title" style="padding: 0 1rem;">
+                        <span class="pull-left ft16">{{st.Type}} <a id="jiucuo" href="###" style="color:blue" ms-click="jiucuo()">纠错</a></span>
+
+                        <span class="pull-right ft16" id="dtk">题量:{{dqts}}/{{zts}}</span>
+                    </h1>
+                </header>
+                <div class="exambox">
+                    <div class="ft16" style="padding-top: 10px;">{{st.QContent|html}}</div>
+                    <div class="list-block media-list">
+                        <ul style="background: TRANSPARENT;">
+                            <li ms-repeat-item="st.QItem" class="ft16">
+                                <label class="label-checkbox item-content" style="padding-left: 0PX;" ms-click="selST(item,this)" ms-attr-value="item.ItemName">
+                                    <!--<input type="radio" name="my-radio" ms-attr-value="item.ItemName" class="radio selda" ms-if="st.Type != '多选题'">
+                                    <input type="checkbox" name="checkbox" ms-attr-value="item.ItemName" class="checkbox selda" ms-if="st.Type == '多选题'" ms-click="selDX(item,this)">-->
+                                    <!-- 如果是多选  请将  input 换成  <input type="checkbox" name="checkbox">   -->
+                                    <div class="item-media selda"><i class="icon icon-form-checkbox"></i></div>
+                                    <div class="item-inner">
+                                        <div>{{item.ItemName}}：{{item.ItemDesc|html}}</div>
+                                    </div>
+                                </label>
+                            </li>
+                        </ul>
+                        <div ms-if="st.Type == '多选题'">
+                            <a class="button" ms-click="qrdx()">确认</a>
+                        </div>
+                        <!-- 填空题输入框 -->
+                        <!--    <div style="background: #fff;">
+                            <textarea placeholder="请输入您的答案"></textarea>
+                        </div>-->
+                        <p class="ft16 daq" style="display: none">参考答案：  {{st.QAnswer}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="answer-sheet" class="answer-sheet">
+        <div class="answer-panel" style="    min-height: 20%;">
+
+
+            <p class="title-list ft16 ">转到</p>
+            <input type="number" id="zdtm" ms-attr-value="dqts" ms-attr-max="zts" />
+            <button class="button" style="float: right;width: 80px;" ms-click="qdzd()">确定</button>
+            <ul class="overflow" style="display: none">
+                <li>
+                    <div class="answer-title">
+                        1
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title">
+                        2
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title active">
+                        3
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title active">
+                        4
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title">
+                        5
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title">
+                        6
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title active">
+                        7
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title">
+                        8
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title active">
+                        9
+                    </div>
+                </li>
+            </ul>
+            <p class="title-list ft16" style="display:none">多选题</p>
+            <ul class="overflow" style="display: none">
+                <li>
+                    <div class="answer-title">
+                        1
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title">
+                        2
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title active">
+                        3
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title active">
+                        4
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title">
+                        5
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title">
+                        6
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title active">
+                        7
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title">
+                        8
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title active">
+                        9
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="card" style="top: 30%;display:none">
+        <div class="card-header">错题纠错</div>
+        <div class="card-content">
+            <div class="card-content-inner">
+                <textarea style="width: 100%;" id="jctext"></textarea>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="#" class="link" ms-click="qxjc()">取消</a>
+            <a href="#" class="link" ms-click="qdjc()">确定</a>
+        </div>
+    </div>
+    <script src="/View_Mobile/JS/zepto.min.js?v=2"></script>
+    <script src="/View_Mobile/JS/zepttouch.js?v=2"></script>
+
+    <script src="/View_Mobile/JS/layer/layer.m.js"></script>
+    <script type='text/javascript' src='https://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='https://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script src="/View_Mobile/JS/avalon1.47.js"></script>
+    <script src="/View_Mobile/JS/ComFunJS.js?jsver=20180521"></script>
+    <script>
+        var model = avalon.define({
+            $id: "tklx",
+            st: {},
+            zts: 0,
+            dqts: 0,
+            lxitem: {},
+            dxsel: [],
+            issc: "N",
+            wxopenid: "",
+            jiucuo: function () {
+                $(".card").addClass('jcshow').show()
+            },
+            qdzd: function () {
+                model.getdata($("#zdtm").val());
+                $("#answer-sheet").toggle();
+
+            },
+            qdjc: function () {
+                if ($("#jctext").val()) {
+                    $.getJSON('/API/VIEWAPI.ashx?Action=TKGL_JCST&r=' + Math.random(), { "P1": model.st.ID, wxopenid: model.wxopenid, P2: $("#jctext").val() }, function (resultData) {
+                        if (resultData.ErrorMsg == "") {
+                            $(".card").removeClass('jcshow')
+                            ComFunJS.winsuccess("纠错成功,请等待管理员处理")
+                        }
+                    })
+                }
+            },
+            qxjc: function () {
+                $(".card").removeClass('jcshow').hide()
+            },
+            qrdx: function () {
+                var da = "";
+                var isright = true;
+                var dacount = 0;
+                var selvle = "";
+                $(".item-content").each(function () {
+                    if ($(this).find(".icon-form-checkbox").hasClass('sel')) {
+                        selvle = selvle + $(this).attr("value");
+                        if (model.st.QAnswer.indexOf($.trim($(this).attr("value"))) == -1) {
+                            isright = false;
+                        }
+                        dacount++;
+                    }
+                })
+
+                if (dacount == $.trim(model.st.QAnswer).length && isright) {
+                    $(".icon-form-checkbox").each(function () {
+                        var domcheck = $(this);
+                        if (domcheck.hasClass("sel")) {
+                            domcheck.addClass("suc")
+                        }
+                    })
+                    $.getJSON('/API/VIEWAPI.ashx?Action=TKGL_ADDSTLX&r=' + Math.random(), { "P1": model.st.TKID, wxopenid: model.wxopenid, "P2": model.st.ID, "selvle": selvle, "isright": "Y", "lxorder": model.dqts }, function (resultData) {
+                        if (resultData.ErrorMsg == "") {
+                            model.nextst();
+                        }
+                    })
+
+                } else {
+                    $(".daq").show();
+                    $(".icon-form-checkbox").each(function () {
+                        var domcheck = $(this);
+                        if (domcheck.hasClass("sel")) {
+                            domcheck.addClass("error");
+                        }
+                    })
+                    $.getJSON('/API/VIEWAPI.ashx?Action=TKGL_ADDSTLX&r=' + Math.random(), { "P1": model.st.TKID, wxopenid: model.wxopenid, "P2": model.st.ID, "selvle": selvle, "isright": "N", "lxorder": model.dqts }, function (resultData) {
+                        if (resultData.ErrorMsg == "") {
+                        }
+                    })
+                }
+            },
+            nextst: function () {
+                if (model.dqts == model.zts) {
+                    ComFunJS.winwarning("没有了")
+                } else {
+                    model.dqts = model.dqts * 1 + 1;
+                    model.getdata(model.dqts);
+                }
+            },
+            prest: function () {
+                if (model.dqts == 1) {
+                    ComFunJS.winwarning("没有了")
+                } else {
+                    model.dqts = model.dqts * 1 - 1;
+                    model.getdata(model.dqts);
+                }
+            },
+            scst: function (issc) {
+                $.getJSON('/API/VIEWAPI.ashx?Action=TKGL_SCST&r=' + Math.random(), { "P1": model.st.ID, wxopenid: model.wxopenid, "P2": issc }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        model.issc = (model.issc == "Y" ? "N" : "Y");
+                        ComFunJS.winsuccess(model.issc == "Y" ? "收藏" : "取消收藏" + "成功");
+                    }
+                })
+            },
+            selDX: function (stitem, dom) {
+
+                // $(dom).prop("checked", !$(dom).prop("checked"));
+            },
+            selST: function (stitem, dom) {
+                if (model.st.Type != '多选题') {
+                    $(".icon-form-checkbox").removeClass("suc").removeClass("error");
+                    var selvle = $(dom).attr("value");
+                    if ($.trim(selvle) == $.trim(model.st.QAnswer)) {
+                        //ComFunJS.winsuccess("对了")
+                        $(dom).parent().find(".icon-form-checkbox").addClass("suc")
+                        $.getJSON('/API/VIEWAPI.ashx?Action=TKGL_ADDSTLX&r=' + Math.random(), { "P1": model.st.TKID, wxopenid: model.wxopenid, "P2": stitem.STID, "selvle": selvle, "isright": "Y", "lxorder": model.dqts }, function (resultData) {
+                            if (resultData.ErrorMsg == "") {
+                                model.nextst();
+                            }
+                        })
+                    } else {
+                        $(".daq").show();
+                        $(dom).parent().find(".icon-form-checkbox").addClass("error")
+                        $.getJSON('/API/VIEWAPI.ashx?Action=TKGL_ADDSTLX&r=' + Math.random(), { "P1": model.st.TKID, wxopenid: model.wxopenid, "P2": stitem.STID, "selvle": selvle, "isright": "N", "lxorder": model.dqts }, function (resultData) {
+                            if (resultData.ErrorMsg == "") {
+                            }
+                        })
+                    }
+                } else {
+                    $(".icon-form-checkbox").removeClass("suc").removeClass("error");
+                    $(dom).find(".icon-form-checkbox").toggleClass("sel")
+
+                }
+            },
+            getdata: function (stindex) {
+                $(".daq").hide();
+                var strtkId = ComFunJS.getQueryString("ID");
+                $.getJSON('/API/VIEWAPI.ashx?Action=TKGL_GETLXTM&r=' + Math.random(), { "P1": strtkId, wxopenid: model.wxopenid, "P2": stindex }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        model.st = resultData.Result[0];
+                        model.zts = resultData.Result1;
+                        model.dqts = resultData.Result2 * 1 + 1;
+                        if (resultData.Result3) {
+                            model.lxitem = resultData.Result3;
+                            if (model.st.Type == '多选题') {
+                                $(".item-content").each(function (dom) {
+                                    if (model.lxitem.LxAnswer.indexOf($(this).attr("value")) != -1) {
+                                        if (model.lxitem.isright == "Y") {
+                                            $(this).parent().find(".icon-form-checkbox").addClass("suc")
+                                        } else {
+                                            $(this).parent().find(".icon-form-checkbox").addClass("error")
+                                        }
+                                        $(".daq").show();
+                                    }
+                                })
+                            } else {
+                                $(".item-content").each(function (dom) {
+                                    if ($(this).attr("value") == model.lxitem.LxAnswer) {
+                                        if (model.lxitem.isright == "Y") {
+                                            $(this).find(".icon-form-checkbox").addClass("suc")
+                                        } else {
+                                            $(this).find(".icon-form-checkbox").addClass("error")
+                                        }
+                                        $(".daq").show();
+                                    }
+                                })
+
+                            }
+
+                        }
+                        model.issc = resultData.Result4;
+
+
+                    }
+                    else {
+                        alert('失败')
+                    }
+                })
+            }
+
+        })
+        avalon.ready(function () {
+            model.wxopenid = "ooohK5NHB4j2zX_7lq9Yn9smBmCw";
+            model.getdata("");
+
+        })
+
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $(document).on("pageInit", function () {
+                $('.buttons-tab').fixedTab({ offset: 44 });
+            });
+            $.init();
+            // 计算弹窗位置
+            var h1 = document.getElementById("bar").offsetHeight;
+            var h2 = window.innerHeight - h1 * 2;
+            document.getElementById("answer-sheet").style.height = h2 + "px";
+            document.getElementById("answer-sheet").style.top = h1 * 2 + "px";
+            $("#dtk").click(function () {
+                $("#answer-sheet").toggle();
+            })
+
+
+            var startPosition, endPosition, moveLength;
+            $(document).bind('touchstart', function (e) {
+                var touch = e.touches[0];
+                startPosition = {
+                    x: touch.pageX
+                }
+            }).bind('touchmove', function (e) {
+                var touch = e.touches[0];
+                endPosition = {
+                    x: touch.pageX
+                };
+                moveLength = endPosition.x - startPosition.x;
+            });
+            // 切换
+            $(document).swipeLeft(function () {
+                if (Math.abs(moveLength) > 80) {
+                    model.nextst()
+                }
+            })
+            $(document).swipeRight(function () {
+                if (Math.abs(moveLength) > 80) {
+                    model.prest()
+
+                }
+            })
+        });
+
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>操作提示</title>
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css">
+    <script src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        i, b, small, big {
+            font-style: normal;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+            font-family: inherit;
+            font-weight: normal;
+            color: inherit;
+        }
+
+        h4, .h4, h5, .h5, h6, .h6 {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        p {
+            margin: 0px;
+        }
+
+        .success {
+            background: #fff;
+            width: 900px;
+            min-height: 600px;
+            border-top: 4px solid #2ecc71;
+            margin: 40px auto;
+            position: relative;
+        }
+
+        .success-tip {
+            position: absolute;
+            left: -14px;
+            top: 30px;
+            padding: 6px 20px;
+            background: #2ecc71;
+            color: #fff;
+            font-size: 14px;
+            text-indent: 0.5em;
+        }
+
+            .success-tip i {
+                position: absolute;
+                width: 0;
+                height: 0;
+                border-bottom: 10px solid #27b362;
+                border-left: 14px solid transparent;
+                display: inline-block;
+                position: absolute;
+                left: 0;
+                top: -10px;
+            }
+
+        .icon-tip {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            margin: 100px auto 10px auto;
+        }
+
+            .success-icon img {
+                width: 100%;
+                height: 100%;
+            }
+
+        .success-fun {
+            width: 640px;
+            height: 130px;
+            margin: 0 auto;
+            text-align: center;
+            margin-top: 40px;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+        }
+
+            .success-fun > div {
+                -webkit-box-flex: 1;
+                -moz-box-flex: 1;
+                width: 20%;
+                -webkit-flex: 1;
+                -ms-flex: 1;
+                flex: 1;
+            }
+
+        .success-fun-icon img {
+            width: 90px;
+            height: 90px;
+        }
+
+        .success-fun-icon p {
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .tip-mesg {
+            text-align: center;
+            color: #838383;
+            font-size: 14px;
+            margin-top: 90px;
+        }
+
+            .tip-mesg a {
+                text-decoration: none;
+                color: #838383;
+            }
+    </style>
+
+    <script>
+        $().ready(function () {
+            var msg = getQueryString("msg");
+            var type = getQueryString("type");
+            switch (type) {
+                case "1": $("img").attr("src", "/ViewV5/images/xt-right.png"); break;
+                case "2": $("img").attr("src", "/ViewV5/images/xt-warning.png"); break;
+                case "3": $("img").attr("src", "/ViewV5/images/xt-error.png"); break;
+            }
+            $("p").text(decodeURI(msg));
+            switch (type) {
+                case "1": $("p").css({ color: "#2ecc71" }); break;
+                case "3": $("p").css({ color: "#EB4F38" }); break;
+            }
+        })
+
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(decodeURI(r[2])); return null;
+        }
+    </script>
+</head>
+<body style="background:#f4f4f4">
+
+    <div class="success">
+        <div class="success-tip">
+            操作信息提示
+            <i></i>
+        </div>
+        <div class="icon-tip">
+            <div class="success-icon">
+                <img src="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">
+            </div>
+            <p></p>
+        </div>
+        <div class="tip-mesg"><a style="color:blue" href="/ViewV5/index.html">返回系统首页</a></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+/*html{ overflow-x:hidden; background:#fff;}*/
+/*html{min-width: 1230px;}*/
+/*@import url(http://at.alicdn.com/t/font_1474618603_1356041.css);*/
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin:0; padding:0;}
+*{margin:0;padding: 0}
+/*body, button, input, select, textarea { font:14px/1.5 "\5FAE\8F6F\96C5\9ED1","Microsoft Yahei","Hiragino Sans GB",tahoma,arial,"\5B8B\4F53";font-family: "黑体","微软雅黑", 'Microsoft Yahei', 'Hiragino Sans GB', tahoma, arial, "宋体"; }*/
+body {font-family: "微软雅黑","黑体",;font-size: 14px;line-height: 1.42857143;color: #333;background-color: #fff;}
+h1, h2, h3, h4, h5, h6{ font-size:100%; }
+address, cite, dfn, em, var { font-style:normal; }
+code, kbd, pre, samp { font-family:couriernew, courier, monospace; }
+small,b{ font-style:normal; font-weight:normal}
+ul,ol,li{ list-style:none; }
+a {outline: none !important;color: #666;cursor: pointer;}
+a:hover,a:active,a:focus {text-decoration: none;}
+fieldset, img { border:0; }
+i{font-style:normal}
+button, input, select, textarea { font-size:100%; outline:medium none;}
+table { border-collapse:collapse; border-spacing:0; }
+.mt0 { margin-top: 0 !important; }
+.mt5 { margin-top: 5px !important; }
+.mt10 { margin-top: 10px !important; }
+.mt15 { margin-top: 15px !important; }
+.mt20 { margin-top: 20px !important; }
+
+.mr5 { margin-right: 5px !important; }
+.mr10 { margin-right: 10px !important; }
+.mr15 { margin-right: 15px !important; }
+.mr20 { margin-right: 20px !important; }
+.mr30 { margin-right: 30px !important; }
+
+.ml5 { margin-left: 5px !important; }
+.ml10 { margin-left: 10px !important; }
+.ml15 { margin-left: 15px !important; }
+
+.mr10 { margin-right: 10px !important; }
+
+.mb5 { margin-bottom: 5px; }
+.mb8 { margin-bottom: 8px; }
+.mb9 { margin-bottom: 9px; }
+.mb10 { margin-bottom: 10px; }
+.mb15 { margin-bottom: 15px; }
+.mb20 { margin-bottom: 20px; }
+.mb30 { margin-bottom: 30px; }
+
+.nomargin { margin: 0; }
+.nopadding { padding: 0; }
+.padding10 { padding: 10px; }
+.padding15 { padding: 15px; }
+.padding20 { padding:20px; }
+.pt20{padding-top: 20px;}
+.pb20{padding-bottom: 20px;}
+.pl20{padding-left: 20px;}
+.pr20{padding-right: 20px;}
+
+.inline-block { display: inline-block;}
+.c000{color: #000;}
+.c333{color: #333;}
+.c666{color: #666;}
+.c999{color: #999;}
+
+.ft16{font-size: 16px;}
+.ft14{font-size: 14px;}
+.ft12{font-size: 12px;}
+.ft18{font-size: 18px;}
+
+.tc{text-align: center;}
+.tl{text-align: left;}
+.tr{text-align: right;}
+
+.oh{overflow: hidden;}
+.bgfff{background-color: #fff;}
+.iconfont.tblue{color:#12B8F6;}
+.red{color:red;}
+.cursor{cursor: pointer;}
+
+
+/*html显示不完样式*/
+.word-break{white-space: nowrap;word-break: keep-all;overflow: hidden;text-overflow: ellipsis;}
+/*阴影样式*/
+.box-shadow{-webkit-box-shadow: 0 1px 3px #ccc;-moz-box-shadow: 0 1px 3px #ccc;-o-box-shadow: 0 1px 3px #ccc;-ms-box-shadow: 0 1px 3px #ccc;box-shadow: 0 1px 3px #ccc;}
+/*checkbox样式*/
+.icheckbox_square-blue{width: 16px;height: 16px;background-color: #fff;border:1px solid #e5e5e5;position: relative;box-sizing: border-box;line-height: 16px;text-align: center;margin: 0 auto;cursor: pointer;display: inline-block;}
+.icheckbox_square-blue input{width: 100%;height: 100%;position: absolute;top:0;left: 0;margin: 0;opacity: 0;}
+.icheckbox_square-blue:hover{border-color: #12b8f6;border-width: 2px;}
+.icheckbox_square-blue span{margin: 0;margin-top:-2px;opacity: 0;color: #fff;font-size: 12px;}
+.icheckbox_square-blue.checked{background-color: #12B8F6;border:none;}
+.icheckbox_square-blue.checked span{opacity: 1;}
+
+.icheckbox_square-blue.uncheck{background:#ccc;border:none}
+.icheckbox_square-blue.uncheck:hover{border:none;}
+.icheckbox_square-blue.uncheck span{opacity: 0;}
+.icheckbox_square-blue.uncheck.checked span{opacity: 1;}
+
+.panel-default{border-radius: 1px;}
+.width-70{width:70px;}
+.img40{width: 40px;}
+.img70{width: 60px;}
+
+
+

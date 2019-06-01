@@ -1,0 +1,151 @@
+﻿<div class="form-horizontal" ms-controller="YCGL">
+    <div style="margin: 0 80px;">
+        <div>
+            <ul class="clearfix" style="display: block; padding: 0">
+                <li class="add-item add-width">
+                    <label>申请人:</label><label>{{ComFunJS.convertuser(modelData.SYUser)}}</label>
+                </li>
+                <li class="add-item add-width">
+                    <label class="add-item-label"><i>*</i>起止时间</label>
+                    <div class="add-ic">
+                        <div style="display: block;">
+                            <div class="add-ic fl-left" style="width: 45%;">
+                                <input type="text" class="form-control szhl_form_date_time szhl_require" ms-class-1="null:modelData.ID" ms-duplex="modelData.StartTime">
+                            </div>
+                            <div class="add-ic" style="float: left; line-height: 30px; width: 10%; text-align: center;">：</div>
+                            <div class="add-ic fl-right" style="width: 45%;">
+                                <input type="text" class="form-control szhl_form_date_time szhl_require" ms-class-1="null:modelData.ID" ms-duplex="modelData.EndTime">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="add-item add-width fl-left">
+                    <label class="add-item-label"><i>*</i>使用人数</label>
+                    <div class="add-ic">
+                        <input type="number" ms-duplex="modelData.SYRS" class="form-control szhl_require szhl_Int" min="1" />
+                    </div>
+                </li>
+                <li class="add-item add-width fl-right">
+                    <label class="add-item-label">行程类别</label>
+                    <div class="add-ic">
+                        <select ms-duplex="modelData.XCType" class="form-control">
+                            <option value="">请选择</option>
+                            <option ms-attr-selected="modelData.XCType=='省内'">省内</option>
+                            <option ms-attr-selected="modelData.XCType=='短途'">短途</option>
+                            <option ms-attr-selected="modelData.XCType=='长途'">长途</option>
+                        </select>
+                    </div>
+                </li>
+
+                <li class="add-item add-width fl-left">
+                    <label class="add-item-label"><i>*</i>出发地点</label>
+                    <div class="add-ic">
+                        <input type="text" ms-duplex="modelData.StartAddress" maxlength="400" class="form-control szhl_require" />
+                    </div>
+                </li>
+                <li class="add-item add-width fl-right">
+                    <label class="add-item-label"><i>*</i>目的地点</label>
+                    <div class="add-ic">
+                        <input type="text" ms-duplex="modelData.EndAddress" maxlength="400" class="form-control szhl_require" />
+                    </div>
+                </li>
+                <li class="add-item add-widthall">
+                    <label class="add-item-label">使用说明</label>
+                    <div class="add-ic">
+                        <textarea type="text" autofocus="autofocus" ms-duplex="modelData.Remark" rows="4" class="span2   form-control"></textarea>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <div class="fg-item"><span>用车信息</span><i id="btnOtherInfo"></i></div>
+            <ul class="clearfix" style="padding: 0px;" id="OtherInfo">
+                <li class="add-item add-width fl-left">
+                    <label class="add-item-label">选择车辆</label>
+                    <div class="add-ic">
+                        <select name="conType" id="conType" ms-duplex="modelData.CarID" class="form-control">
+                            <option value="">请选择</option>
+                            <option ms-repeat-item="CLData" ms-attr-value="item.ID">{{item.CarBrand}}-{{item.CarNum}}</option>
+                        </select>
+                    </div>
+                </li>
+                <li class="add-item add-width fl-right ">
+                    <label class="add-item-label">驾驶人</label>
+                    <div class="add-ic">
+                        <input ms-duplex="modelData.JSR" maxlength="50" class=" form-control szhl_getPeoples"  signle="Y" />
+                    </div>
+                </li>
+                <li class="add-item add-widthall">
+                    <label class="add-item-label">附件</label>
+                    <div class="add-ic">
+                        <input type="text" ms-duplex="modelData.Files" class="span2  szhl_Upload form-control" />
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    var tempmodel = avalon.define({
+        $id: "YCGL",
+        ColumnData: [],
+        name: "用车管理",
+        CLData: [],
+        clTypeId: ComFunJS.getQueryString("clId"),
+        iswf: true,//是否属于流程表单
+        CancelWF: function (strId) {
+            $.getJSON('/API/VIEWAPI.ashx?Action=YCGL_DELYC', { P1: strId }, function (resultData) {
+            })
+        },
+        inittemp: function (strId) {
+            tempmodel.GetCLLIST();
+            if (strId && strId != "0") {
+                //编辑加载数据
+                $.getJSON('/API/VIEWAPI.ashx?Action=YCGL_GETYCGLMODEL', { P1: strId }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result;
+                        if (tempmodel.modelData.StartTime && tempmodel.modelData.StartTime.length > 16) {
+                            tempmodel.modelData.StartTime = tempmodel.modelData.StartTime.substring(0, 16);
+                        }
+                        if (tempmodel.modelData.EndTime && tempmodel.modelData.EndTime.length > 16) {
+                            tempmodel.modelData.EndTime = tempmodel.modelData.EndTime.substring(0, 16);
+                        }
+
+                        setTimeout(" ComFunJS.initForm()", 500)
+                    }
+                })
+            } else {
+                pmodel.isDraft = true;
+                ComFunJS.initForm();
+                //$(".btnSucc").text("送审");
+            }
+        },//初始化
+        modelData: { "CarID": "", "SYRS": "1", "XCType": "", "StartTime": "", "EndTime": "", "StartAddress": "", "EndAddress": "", "SPUser": "", "Remark": "", "JSR": "", "SYUser": ComFunJS.getnowuser(), "Files": "" },
+        SaveData: function (callback) {
+            $.post("/API/VIEWAPI.ashx?ACTION=YCGL_ADDYCGL", { P1: JSON.stringify(tempmodel.modelData.$model) }, function (result) {
+                return callback.call(this, result);
+            });
+        },
+        WFComplate: function () {
+            $.post("/API/VIEWAPI.ashx?ACTION=YCGL_SENDMSG", { P1: JSON.stringify(tempmodel.modelData.ID) }, function (result) {
+            });
+        },
+        GetCLLIST: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=YCGL_GETCLIST', {}, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.CLData = resultData.Result;
+                    if (tempmodel.clTypeId) {
+                        tempmodel.modelData.CarID = tempmodel.clTypeId;
+                    }
+                }
+            })
+        }
+    });//@ sourceURL=YCGL.js;
+
+    //tempmodel.$watch("modelData.*", function (a, b) {
+    //    if (!tempmodel.modelData.ID) {
+    //        localStorage.setItem(pmodel.FormCode, JSON.stringify(tempmodel.modelData.$model));
+    //    }
+    //})//@ sourceURL=YCGL.js;
+
+</script>

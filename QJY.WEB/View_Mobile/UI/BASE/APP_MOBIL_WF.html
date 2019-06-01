@@ -1,0 +1,453 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title></title>
+    <link rel="stylesheet" href="/View_Mobile/CSS/msui.css">
+    <link rel="stylesheet" type="text/css" href="/View_Mobile/CSS/animate.css">
+    <link href="/View_Mobile/CSS/WFmain.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_1476090774_8365302.css">
+    <link href="/View_Mobile/CSS/add.css?ver=2" rel="stylesheet" />
+    <style>
+        .title {
+            font-size: 1rem;
+        }
+
+        .navconfirm {
+            background-color: #4cd964;
+            text-align: center;
+            font-size: 1.4rem;
+            line-height: 1.4rem;
+            color: aliceblue;
+            padding: 10px;
+        }
+
+        .list-block .item-title.label {
+            width: 30% !important;
+        }
+
+        .btnSucc {
+            width: 100%;
+            height: 2.0rem;
+            top: 0 !important;
+            border-radius: .05rem;
+        }
+
+        .sctp {
+            color: #18b4ed;
+            right: 4px;
+            top: 0px;
+            z-index: 9;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 13px;
+            line-height: 20px;
+            position: absolute;
+            font-size: 25px;
+            padding: 0;
+        }
+
+        .imgxl {
+            position: relative;
+            float: left;
+            padding-top: 0;
+            height: 50px;
+            width: 50px;
+            padding-right: 10px;
+            margin-left: 0px;
+            margin-bottom: 5px;
+        }
+
+        .szhl_getPeoples {
+            display: none !important;
+        }
+
+        .szhl_getKH {
+            display: none !important;
+        }
+
+        .tpxs {
+            height: 50px;
+            width: 50px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            background-repeat: no-repeat;
+            -webkit-background-size: cover;
+        }
+
+        .ms-controller, [ms-controller] {
+            display: none;
+        }
+
+        .list-block {
+            font-size: .75rem !important;
+        }
+
+        .jd-item-block {
+            position: relative;
+            height: 5em;
+        }
+
+            .jd-item-block:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 18px;
+                height: 100%;
+                width: 1px;
+                background: #ccc;
+                left: 50%;
+                margin-left: -0px;
+            }
+
+            .jd-item-block:last-child {
+                height: 2em;
+            }
+
+        .cd-icon {
+            width: 2em;
+            height: 2em;
+            border-radius: 100em;
+            background: #ccc;
+            position: absolute;
+            left: 50%;
+            margin-left: -1em;
+        }
+
+            .cd-icon i {
+                color: #fff;
+                line-height: 1.8em;
+                text-align: center;
+                margin-left: 0.4em;
+            }
+
+            .cd-icon.success {
+                background: #5eaa0a;
+            }
+
+            .cd-icon.blue {
+                background: #00aef5;
+            }
+
+            .cd-icon.red {
+                background: #ed4c51;
+            }
+
+        .state {
+            position: absolute;
+            left: 60%;
+            top: 0.2em;
+            color: #666;
+        }
+
+            .state.red {
+                color: #ed4c51;
+            }
+
+        .sp-box {
+            text-align: right;
+            position: absolute;
+            right: 60%;
+        }
+
+        .sp-time {
+            font-size: 0.8em;
+            color: #999;
+            margin-bottom: 50px;
+        }
+
+        .sp-ry {
+            font-size: 0.8em;
+            color: #777;
+        }
+
+        .card {
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body ms-controller="APP_ADD">
+    <div class="page page-current" style="background: #fff;" id="pageindex1">
+        <!--<header class="bar bar-nav header">
+         
+            <h1 class='title'>{{pmtitle}}{{pmodel.ISCANCEL}}</h1>
+        </header>-->
+        <div class="content">
+            <div ms-include-src="/View_Mobile/UI/TEMP/MODEL/M{{FormCode}}.html?ver={{rdm}}" data-include-rendered='render'></div>
+
+            <div id="extdiv" class="weui_cells">
+                <div ms-if="ExtData.size()>0&&isHasDataQX=='Y'">
+                    <!--<div class="weui_cells_title">{{FormCode=='LCSP'?'表单信息':'扩展信息'}}</div>-->
+                    <!--<div class="weui_cells weui_cells_form" >-->
+                    <div class="weui_cell" ms-repeat-item="ExtData">
+                        <!--<div class="weui_cell_hd" ms-if="item.TableFileType!='2'"><label class="weui_label">{{item.TableFiledName}}</label></div>-->
+                        <div class="weui_cell_hd">
+                            <label class="weui_label">{{item.TableFiledName}}</label>
+                        </div>
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <input ms-if="item.TableFileType=='1'||item.TableFileType=='3'" type="text" ms-attr-placeholder="{{(item.TableFileType=='1'?'请输入':'请选择')+item.TableFiledName}}" class="szhl weui_input" ms-class-1="szhl_ui_date:item.TableFileType=='3'" ms-duplex="item.ExtendDataValue" />
+                            <textarea ms-if="item.TableFileType=='2'" rows="2" class="weui_textarea  szhl" ms-attr-placeholder="请输入{{item.TableFiledName}}" ms-duplex="item.ExtendDataValue"></textarea>
+                            <select ms-if="item.TableFileType=='4'" class="weui-select" name="conType" ms-duplex="item.ExtendDataValue">
+                                <option ms-repeat-option="item.DefaultOption.split(',')" ms-attr-value="option" ms-attr-selected="option==item.ExtendDataValue?'selected':''">{{option}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!--</div>-->
+                </div>
+                <div ms-if="ExtData.size()>0&&isHasDataQX=='N'">
+                    <!--<div class="weui_cells_title">{{FormCode=='LCSP'?'表单信息':'扩展信息'}}</div>-->
+                    <!--<div class="weui_cells weui_cells_form">-->
+                    <div class="weui_cell" ms-repeat-item="ExtData">
+                        <div class="weui_cell_hd">
+                            <label class="weui_label">{{item.TableFiledName}}</label>
+                        </div>
+                        <div class="weui_cell_bd weui_cell_primary">
+                            {{item.ExtendDataValue}}
+                        </div>
+                    </div>
+                    <!--</div>-->
+                </div>
+                <div class="weui_cell" ms-if="TASKDATA.size()>0">
+                    <div class="weui_cell_hd">
+                        <label class="weui_label label">
+                            抄送人
+                        </label>
+                    </div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input type="text" id="conCSRNEW" placeholder="请选择抄送人" ms-duplex="CSUser" class="weui_input szhl szhl_getPeoples" />
+                    </div>
+                    <span class="icon icon-caret" ms-if="CSQKData.size()>0" ms-click="showcsdata()"></span>
+
+                </div>
+                <div style="display: none" id="csdata">
+
+
+                    <div class="list-block" style="max-height:600px">
+                        <ul>
+                            <li class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">抄送人</div>
+                                    <div class="item-after">接收时间</div>
+                                </div>
+                            </li>
+                            <li class="item-content" ms-repeat-el="CSQKData">
+                                <div class="item-inner">
+                                    <div class="item-title">{{ComFunJS.convertuser(el.UserTO)}}</div>
+                                    <div class="item-after">{{el.ReadDate?el.ReadDate:"暂未接收"}}</div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: #fbf9fe;" ms-if="DataID&&MobileWFData.size()>0">
+
+                <div class="weui_cells weui_cells_form">
+                    <div class="weui_cell">
+                        <div class="weui_cell_hd">
+                            <label class="weui_label label">审核状态</label>
+                        </div>
+                        <div class="weui_cell_bd weui_cell_primary">
+                            {{shzt()}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ms-if="TASKDATA.size()>0" ms-css-margin-bottom="iscansp?'5rem':'2rem'">
+                <!--<div class="content-block-title">审批进度</div>-->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-content-inner">
+
+                            <div class="jd-item-block" ms-repeat-item="TASKDATA" ms-visible="$first">
+                                <div class="cd-icon success">
+                                    <i class="iconfont icon-duihao"></i>
+                                </div>
+                                <div class="state success">
+                                    {{item.TaskUserView}}
+                                </div>
+                                <div class="sp-box">
+                                    <div>{{item.userrealname}}</div>
+                                    <div class="sp-time">{{item.EndTime}}</div>
+                                </div>
+                                <div class="sp-box" ms-if="lctype!='1'">
+                                    <div>{{item.TaskName}}</div>
+                                    <div class="sp-time">{{item.EndTime}}</div>
+                                </div>
+                            </div>
+                            <div class="jd-item-block" ms-repeat-item="TASKDATA" ms-visible="!$first&&!$last&&(item.EndTime||PIMODEL.IsCanceled!='Y')" ms-css-height="item.state=='-1'?'2em':'5em'">
+                                <div class="cd-icon" ms-class-1="blue:PIMODEL.isComplete=='Y' || (PIMODEL.IsCanceled!='Y'&&item.EndTime || item.state=='1')" ms-class-2="red:item.EndTime&&PIMODEL.IsCanceled=='Y'&&item.state=='-1'">
+                                    <i class="iconfont icon-duihao" ms-if="lctype=='1' && item.EndTime&&item.state=='1'"></i>
+                                    <i class="iconfont icon-chexiao" ms-if="lctype=='0'&& item.EndTime"></i>
+                                    <i class="iconfont icon-cuo" ms-if="lctype=='1' && PIMODEL.IsCanceled=='Y'&&item.state=='-1'"></i>
+                                </div>
+                                <div class="state" ms-class-1="success:PIMODEL.isComplete=='Y' || (PIMODEL.IsCanceled!='Y'&&item.EndTime)" ms-class-2="red:item.EndTime&&PIMODEL.IsCanceled=='Y'&&item.state=='-1'">
+                                    <span ms-if="lctype=='1' && item.EndTime&&item.state=='1'">同意<br />
+                                        <span class="sp-time">{{item.TaskUserView}}</span></span>
+                                    <span ms-if="lctype=='1' && item.EndTime&& PIMODEL.IsCanceled=='Y'&&item.state=='-1'">退回<br />
+                                        <span class="sp-time">{{item.TaskUserView}}</span></span>
+                                    <span ms-if="lctype=='0' && item.EndTime">同意并转审<br />
+                                        <span class="sp-time">{{item.TaskUserView}}</span></span>
+                                    <span ms-if="!item.EndTime && PIMODEL.IsCanceled!='Y'">待处理</span>
+                                </div>
+                                <div class="sp-box" ms-if="lctype=='0'">
+                                    <div>{{item.userrealname}}</div>
+                                    <div class="sp-time">{{item.EndTime}}</div>
+                                </div>
+                                <div class="sp-box" ms-if="lctype=='1'">
+                                    <div>{{item.TaskName}}</div>
+                                    <div class="sp-ry" ms-if="!item.EndTime">{{item.TaskAssInfo}}</div>
+                                    <div class="sp-ry" ms-if="item.EndTime">{{item.userrealname}}</div>
+                                    <div class="sp-time">{{item.EndTime}}</div>
+                                </div>
+                            </div>
+                            <div class="jd-item-block" ms-repeat-item="TASKDATA" ms-visible="$last&&(item.EndTime||PIMODEL.IsCanceled!='Y')">
+                                <div class="cd-icon " ms-class-1="blue:PIMODEL.isComplete=='Y'" ms-class-2="red:item.EndTime&&PIMODEL.IsCanceled=='Y'">
+                                    <i class="iconfont icon-duihao" ms-if="PIMODEL.isComplete=='Y'"></i>
+                                    <i class="iconfont icon-cuo" ms-if="item.EndTime&&PIMODEL.IsCanceled=='Y'"></i>
+                                </div>
+                                <div class="state" ms-class-1="blue:PIMODEL.isComplete=='Y'" ms-class-2="red:item.EndTime&&PIMODEL.IsCanceled=='Y'">
+                                    <span ms-if="item.EndTime">{{item.TaskUserView}}</span>
+                                    <span ms-if="!item.EndTime && PIMODEL.IsCanceled!='Y'">待处理</span>
+                                </div>
+                                <div class="sp-box" ms-if="lctype=='0'">
+                                    <div>{{item.userrealname}}</div>
+                                    <div class="sp-time">{{item.EndTime}}</div>
+                                </div>
+                                <div class="sp-box" ms-if="lctype=='1'">
+                                    <div>{{item.TaskName}}</div>
+                                    <div class="sp-ry" ms-if="!item.EndTime">{{item.TaskAssInfo}}</div>
+                                    <div class="sp-ry" ms-if="item.EndTime">{{item.userrealname}}</div>
+                                    <div class="sp-time">{{item.EndTime}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table bar bar-tab" style="z-index: 20;">
+            <tbody>
+                <tr class="trss" ms-if="DataID&&pmodel.ISCANCEL=='Y'">
+                    <td>
+                        <button class="button button-fill " style="font-size: .9rem; background-color: #ed4c51;width: 100%;height: 2.0rem; top: 0 !important; border-radius: .05rem;" ms-click="CancelWF()">
+                            撤回流程
+                        </button>
+                    </td>
+                </tr>
+                <tr class="trss" ms-if="(!DataID||isHasDataQX=='Y')&&!iscansp">
+                    <td ms-if="lctype=='0'">
+                        <span>审核人</span>
+                        <select class="form-control" id="conshr">
+                            <!--不是编辑页面并且是自由流程时才显示审核人选项-->
+                            <option value="">选择审核人</option>
+                            <option ms-repeat-item="USERDATA" ms-attr-value="item.UserName">{{item.UserRealName}}</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="button button-fill btnSucc" style="font-size: .9rem; background-color: #49d2ad" ms-click="SaveData(this,false)">
+                            <!--<i class="fa fa-plus"></i>-->
+                            保存</button>
+                    </td>
+                </tr>
+
+                <tr class="trsp" ms-if="iscansp">
+                    <td>
+                        <div class="input-group" style="height: 2rem; line-height: 2rem; padding-left: 5px;">
+                            <span class="input-group-addon">处理意见</span>
+                            <select style="width: 30%; height: 26px; line-height: 26px;" id="conshr1" ms-if="lctype=='0'">
+                                <!--是自由流程时才显示审核人选项-->
+                                <option value="">选择转审人</option>
+                                <option ms-repeat-item="USERDATA" ms-attr-value="item.UserName">{{item.UserRealName}}</option>
+                            </select>
+                            <input type="text" placeholder="此处填写处理意见" ms-duplex="spReason" style="width: 40%" class="form-control szhl_require">
+                        </div>
+                    </td>
+                </tr>
+                <tr class="trsp" ms-if="iscansp">
+                    <td class="text-center ">
+                        <div class="content-block" style="margin: 0; height: 2rem;">
+                            <div class="row" style="padding-top: 6px;">
+                                <div ms-class-1="col-33:lctype=='0'" ms-class-2="col-50:lctype!='0'">
+                                    <button style="top: 0; width: 100%" ms-click="rebackform()" class="button button-fill button-danger">退回</button>
+                                </div>
+                                <div ms-class-1="col-33:lctype=='0'" ms-class-2="col-50:lctype!='0'" ms-if="lctype=='0'">
+                                    <button style="top: 0; width: 100%" ms-click="transferform()" class="button button-fill button-info">转审</button>
+                                </div>
+                                <div ms-class-1="col-33:lctype=='0'" ms-class-2="col-50:lctype!='0'">
+                                    <button style="top: 0; width: 100%;" ms-click="managetask()" class="button button-fill button-success">审核通过</button>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <div class="searchbar row" style="bottom: 0; position: absolute; right: 0; left: 0; background: #eeeeee; display: none;">
+            <div class="search-input col-80">
+                <input type="search" id='search' placeholder='说点什么...' />
+            </div>
+            <a class="button button-fill button-primary col-20">评论</a>
+        </div>
+    </div>
+    <div class="page" id='selpeople' style="overflow: auto; display: none" ms-controller="peomodel">
+        <div ms-include-src="/View_Mobile/UI/TEMP/{{peopcode}}.html?ver={{rdm}}" data-include-rendered='render1'></div>
+    </div>
+     <div class="page" id='selkh' style="overflow: auto;display:none" ms-controller="khmodel">
+        <div ms-include-src="/View_Mobile/UI/TEMP/{{khcode}}.html?ver={{rdm}}" data-include-rendered='render1'></div>
+    </div>
+    <script src="/View_Mobile/JS/layer/layer.m.js?ver=1"></script>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.8/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.8/js/sm-extend.min.js' charset='utf-8'></script>
+    <script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script src="/View_Mobile/JS/avalon1.47.js"></script>
+    <script src="/View_Mobile/JS/ComFunJS.js?jsver=20180520"></script>
+    <script src="/View_Mobile/JS/raty/jquery.raty.js?v=1.3"></script>
+    <script src="/ViewV5/JS/WFJS.js?ver=20180721"></script>
+    <script>
+        var peomodel = avalon.define({
+            $id: "peomodel",
+            peopcode: "Loading",
+            nowpeodomid: "",//当前需要赋值的控件ID（选人）
+            singleSelect: false,  //true:单选，false:多选
+            render1: function () {
+                if (typeof (tempmodeltxl) != "undefined" && tempmodeltxl) {
+                    tempmodeltxl.inittemp();
+                }
+                avalon.templateCache = null;
+            }
+        })
+        var khmodel = avalon.define({
+            $id: "khmodel",
+            khcode: "Loading",
+            nowpeodomid: "",//当前需要赋值的控件ID（选人）
+            singleSelect: false,  //true:单选，false:多选
+            render1: function () {
+                if (typeof (tempmodelkh) != "undefined" && tempmodelkh) {
+                    tempmodelkh.inittemp();
+                }
+                avalon.templateCache = null;
+            }
+        })
+        avalon.ready(function () {
+            pmodel.isPC = false;
+            ComFunJS.initwxConfig();
+        })
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+﻿﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="/View_Mobile/CSS/msui.css">
+    
+    <link href="/View_Mobile/CSS/szhlextend.css?ver=20160904" rel="stylesheet" />
+    <style type="text/css">
+        .ms-controller, [ms-controller] {
+            display: none;
+        }
+
+        .selbgclolr {
+            border: solid 1px #808080;
+        }
+    </style>
+
+</head>
+<body>
+    <body ms-controller="XJList">
+        <div class="page-group">
+            <div class="page page-current" id="pageindex1" style="overflow:auto;">
+         <div ms-include-src="/View_Mobile/UI/TEMP/MODEL/M{{FormCode}}.html?ver={{rdm}}" data-include-rendered='render'></div>
+          <!--评论-->
+         <div ms-include-src="{{PINGLUNURL}}" data-include-rendered='render2'></div>
+
+        </div>
+      </div>
+
+        <script src="/View_Mobile/JS/layer/layer.m.js"></script>
+        <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+        <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.8/js/sm.min.js' charset='utf-8'></script>
+        <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.8/js/sm-extend.min.js' charset='utf-8'></script>
+         <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+        <script src="/View_Mobile/JS/avalon1.47.js"></script>
+        <script src="/View_Mobile/JS/ComFunJS.js?jsver=20160425"></script>
+        <script src="/View_Mobile/JS/raty/jquery.raty.js?v=1.3"></script>
+        <script>
+
+            var pmodel = avalon.define({
+                $id: "XJList",
+                FormCode: ComFunJS.getQueryString("FormCode"),//模块代码
+                DataID: ComFunJS.getQueryString("ID"),//数据ID
+                rdm: Math.random(),
+                PINGLUNURL:"",
+                render: function () {
+                    if (tempmodel) {
+                        tempmodel.inittemp(pmodel.DataID, 'view');
+                        pmodel.PINGLUNURL = "/View_Mobile/UI/TEMP/TEMP_PINGLUN.html";
+                        pmodel.pmtitle = tempmodel.name;
+                        document.title = tempmodel.name;
+                    }
+                    avalon.templateCache = null;
+                },
+                render2: function () {
+                    if (tempmodelPL) {
+                        tempmodelPL.inittemp(pmodel.DataID, pmodel.FormCode);
+                    }
+
+                }
+            });
+            avalon.ready(function () {
+
+                
+
+            })
+
+
+        </script>
+
+    </body>
+
+</body>
+</html>

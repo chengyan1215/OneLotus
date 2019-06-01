@@ -1,0 +1,38 @@
+﻿
+<div style="background-color:#F8F8F8" ms-controller="CLGLVIEW">
+
+    <script type="text/javascript">
+
+        var tempindex = avalon.define({
+            $id: "CLGLVIEW",
+            PCode: "YCGL",
+            InitWigetData: function (strId) {
+                model.title = "车辆";
+                model.ShowColumns.pushArray(
+                [{ ColName: "CarNum", ColText: "车牌号", IsSel: true },
+                      { ColName: "TypeName", ColText: "车类型", IsSel: true, },
+                      { ColName: "CarBrand", ColText: "品牌", IsSel: true, },
+                      { ColName: "BuyDate", ColText: "购买时间", IsSel: true,},
+                      { ColName: "Price", ColText: "购买价格(元)", IsSel: true },
+                      { ColName: "FDJNum", ColText: "发动机号码", IsSel: true,},
+                      { ColName: "SeatNum", ColText: "座位数", IsSel: true},
+                      { ColName: "Status", ColText: "状态", IsSel: true, format: "clzt" }
+                ]);
+                if (strId) {
+                    //编辑加载数据
+                    $.getJSON('/API/VIEWAPI.ashx?Action=YCGL_GETCLINFO', { P1: model.strId }, function (resultData) {
+                        if (resultData.ErrorMsg == "") {
+                            resultData.Result.TypeName = resultData.Result3.TypeName;
+                            //resultData.Result.StateName = resultData.Result3[0].StateName;
+                            model.modelData = resultData.Result;
+                            setTimeout(" ComFunJS.initForm()", 500);
+                            model.tpData = resultData.Result4;
+                        }
+                    })
+                }
+            }
+        });
+        avalon.ready(function () {
+        })
+    </script>
+</div>

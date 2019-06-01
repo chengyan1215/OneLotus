@@ -1,0 +1,1129 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>仪表盘制作</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_533449_a7yfipp8wb.css">
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/index.css?v=1">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/default.css">
+
+    <link href="/ViewV5/CSS/element/index.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/FORMBI.css?v=8">
+    <style>
+        .tools .el-card {
+            margin: 5px 5px;
+            border-radius: 0px;
+        }
+
+        .tools .el-card__body {
+            padding: 10px 0;
+            text-align: left;
+            padding-left: 5px;
+        }
+
+        .bbsx .el-form-item {
+            max-height: 75PX;
+        }
+
+        .jg-item {
+            padding: 0 5px 0 5px;
+            height: 26px;
+        }
+
+            .jg-item .jg-name {
+                margin-left: 0;
+            }
+
+        .el-dialog__header {
+            background-color: #12b8f6 !important;
+            color: #fff !important;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        .el-dialog__title, .el-dialog__close {
+            color: #fff !important;
+        }
+
+        .el-dialog__headerbtn {
+            top: 15px;
+        }
+
+        .el-dialog__body {
+            padding: 20px 20px;
+        }
+
+        .widgetdel {
+            margin-right: 10px;
+        }
+
+        .children-list > li {
+            padding-left: 10px;
+            padding-right: 5px;
+            height: 26px;
+        }
+
+        .jg-list-box li {
+            position: relative;
+            line-height: 26px;
+        }
+    </style>
+</head>
+<body style="background-color: #e7ecf1">
+    <!--<script>
+        if (!window.Promise) {
+            document.write('<script src="//cdn.jsdelivr.net/npm/es6-promise@4.1.1/dist/es6-promise.min.js"><\/script><script>ES6Promise.polyfill()<\/script>')
+        }
+    </script>-->
+    <div id="Loading">
+        <div class="loader-inner ball-beat">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div id="DATABI_YBZZ" class="FormB" style="display:none">
+
+        <nav class="navbar navbar-inverse box-shadow" style="border-radius: 0; background-color: #fff; border-color: #fff; ">
+            <div class="head-center clearfix c2">
+                <div class="logo c666 pull-left">
+                    {{FormName}}    <i class="el-icon-edit" style="color:#3a8ee6;cursor:pointer" @click="dialogFormVisible = true"></i>
+                </div>
+                <div class="pull-right top-fun">
+                    <ul class="clearfix">
+                        <li v-on:click="saveybdata">
+                            <a class="shuaxin">
+                                <i class="iconfont icon-shangchuan tip" data-toggle="tooltip" title="保存" data-placement="bottom"></i> 保存
+                            </a>
+                        </li>
+                        <li>
+                            <a :href="'YBPVIEW.html?yl=Y&ID='+dataid" target="_blank">
+                                <i class="iconfont icon-look tip" data-toggle="tooltip" title="预览" data-placement="bottom"></i> 预览
+                            </a>
+                        </li>
+                        <li v-on:click="fbybdata">
+                            <a class="shuaxin">
+                                <i class="iconfont icon-fabu tip" data-toggle="tooltip" title="发布后正式生效" data-placement="bottom"></i> 发布
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <el-dialog title="修改仪表名称" :visible.sync="dialogFormVisible">
+                    <el-form>
+                        <el-form-item label="仪表名称">
+                            <el-input v-model="FormName" autocomplete="off"></el-input>
+                        </el-form-item>
+
+                    </el-form>
+                </el-dialog>
+            </div>
+        </nav>
+
+        <div class="work">
+            <div class="fwlayout" style="padding-top: 0px; width: 96%;">
+                <!-- 左边导航 -->
+                <div class="leftlayout box-shadow" id="leftlayout" style="min-height:670PX; display: block;width: 230px">
+                    <div class="left-head" style="padding:15px 20px;    background-color: #f5f5f5;">
+                        字段选择
+                    </div>
+                    <div class="nav-list tools" style="padding:10px 0;">
+                        <p style="padding-left: 10px;" class="text-info">查询组件</p>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjBtn', '标题')" style="margin-left: 10px;">
+                                    <i class="iconfont icon-biaodanzujian-shurukuang"></i>    查询按钮
+                                </el-card>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjInput','输入框')" style="margin-right: 10px;">
+                                    <i class="iconfont icon-biaodanzujian-shurukuang"></i>    输入框
+                                </el-card>
+                            </el-col>
+                        </el-row>
+
+                        <el-row>
+
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjSelect','单选')" style="margin-left: 10px;">
+                                    <i class="iconfont icon-biaodanzujian-xialakuanglv"></i>     单选组件
+                                </el-card>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjMSelect','多选组件')" style="margin-right: 10px;">
+                                    <i class="iconfont icon-biaodanzujian-xialakuanglv"></i>
+                                    多选组件
+                                </el-card>
+                            </el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjDate','起始日期')" style="margin-left: 10px;">
+                                    <i class="iconfont icon-riqi"></i>    起始日期
+                                </el-card>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjMonth','起始月份')" style="margin-right: 10px;">
+                                    <i class="iconfont icon-riqi"></i>     起始月份
+                                </el-card>
+                            </el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjSeluser','人员选择')" style="margin-left : 10px;">
+                                    <i class="iconfont icon-group"></i>      人员选择
+                                </el-card>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjSelbranch','部门选择')" style="margin-right: 10px;">
+                                    <i class="iconfont icon-zuzhi"></i>     部门选择
+                                </el-card>
+                            </el-col>
+                        </el-row>
+                        <p style="padding-left: 10px;" class="text-info">数据展示组件</p>
+                        <!--<el-row>
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="qjCommand('qjLine')" style="margin-left: 10px;">
+                                    <i class="iconfont icon-jiahao2"></i>  分割线
+                                </el-card>
+                            </el-col>
+
+                        </el-row>-->
+
+
+                        <el-row>
+                            <el-col :span="24">
+                                <el-card shadow="hover" @click.native="addwigdet('qjTable',' 表格')" style="margin-left: 10px;">
+                                    <i class="iconfont icon-biaodanzujian-biaoge"></i>   表格
+                                </el-card>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="24">
+                                <el-card shadow="hover" @click.native="addwigdet('qjKBan','数据看板')" style="margin-left: 10px;">
+                                    <i class="iconfont icon-biaodanzujian-biaoge"></i>   数据看板
+                                </el-card>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="24">
+                                <el-card shadow="hover" @click.native="addwigdet('qjChartPie','饼图')" style="margin-left: 10px;">
+                                    <i class="iconfont icon-biaodanzujian-biaoge"></i>   饼图
+                                </el-card>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="24">
+                                <el-card shadow="hover" @click.native="addwigdet('qjChartBar','柱图')" style="margin-left: 10px;">
+                                    <i class="iconfont icon-biaodanzujian-biaoge"></i>   柱图
+                                </el-card>
+                            </el-col>
+                        </el-row>
+                    </div>
+
+                </div>
+                <div class="rightlayout" style="margin-left: 230px;">
+                    <div class="index-center" style="margin-right: 370px;">
+                        <div class="menu-general ft16 box-shadow">
+                            <ul>
+                                <li @click="tab1 = 0" v-bind:class="{ active: tab1 =='0' }"><a> 仪表盘设计</a>
+<!--                                <li @click="tab1 = 1" v-bind:class="{ active: tab1 =='1' }"><a> 仪表盘属性</a>-->
+
+                            </ul>
+                        </div>
+                        <div class="main-content ft16   padding10 c666 box-shadow clearfix">
+                            <div v-show="tab1=='0'">
+                                <el-row id="conwig">
+                                    <el-form ref="form" label-position="top" :model="FormData">
+                                        <draggable v-model="FormData.wigetitems" group="people" @start="dragging=true" @end="dragging=false">
+
+                                            <component class="widget" v-for="(item, index) in FormData.wigetitems" :key="item.wigdetcode" v-on:click.native="selwidget(item)" :index="index" :is="item.component" :id="item.wigdetcode" :pzoption="item" style="margin-top:10px" @data-change="datachange"></component>
+                                        </draggable>
+
+                                    </el-form>
+                                </el-row>
+                            </div>
+                            <div v-show="tab1=='1'" class="bbsx">
+                                <el-form label-position="top" label-width="80px" style="padding: 0 30px;">
+                                    <el-form-item label="报表默认宽度">
+                                        <el-radio-group v-model="formop.width">
+                                            <el-radio label="0">固定宽度(850px)</el-radio>
+                                            <el-radio label="1">自动宽度(发起页面会根据屏幕大小自动调整)</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+
+                                    <el-form-item label="发起页面地址">
+                                        <el-input v-model="formop.addurl" disabled></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="处理页面地址">
+                                        <el-input v-model="formop.mangeurl" disabled></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="列表页面地址">
+                                        <el-input v-model="formop.listurl" disabled></el-input>
+                                    </el-form-item>
+                                </el-form>
+                            </div>
+
+                        </div>
+                        <div class="index-right box-shadow bgfff" style="min-height: 670px;     width: 350px;">
+                            <div class="panel panel-default " style="margin-bottom:0px">
+
+                                <div class="panel-heading padding15">组件属性-<span v-text="widgetname[nowwidget.component]"></span><span v-text="nowwidget.wigdetcode"></span></div>
+
+                                <div class="tab-box" v-show="nowwidget.wigdetcode">
+                                    <ul>
+                                        <li v-on:click="seltab(0)" style="width:50%" v-bind:class="{active:tabtype=='0'}">
+                                            <a>个性配置</a>
+                                        </li>
+                                        <li v-on:click="seltab(1)" style="width:50%" v-bind:class="{active:tabtype=='1'}" v-if="nowwidget.wigdetype=='dwig'">
+                                            <a style="border-right-width: 0px;">数据</a>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                                <div style="min-height:600px" v-show="nowwidget.wigdetcode">
+                                    <div class="detail-con" v-show="tabtype=='0'">
+                                        <el-form label-position="top">
+                                            <el-form-item label="标题">
+                                                <el-input v-model="nowwidget.title"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="组件宽度">
+                                                <el-select v-model="nowwidget.mdwidth" placeholder="请选择">
+                                                    <el-option v-for="item in wigetwidth"
+                                                               :key="item.value"
+                                                               :label="item.label"
+                                                               :value="item.value">
+                                                    </el-option>
+                                                </el-select>
+                                            </el-form-item>
+
+
+                                            <el-form-item label="组件高度(px)" v-show="nowwidget.wigdetype == 'dwig'">
+                                                <el-input v-model="nowwidget.wigheight"></el-input>
+                                            </el-form-item>
+
+
+
+
+
+                                            <el-form-item label="绑定查询数据集" v-if="nowwidget.wigdetype=='qwig'&&nowwidget.component!='qjBtn'">
+                                                <el-select v-model="nowwidget.datasetname" placeholder="请选择" v-on:change="glwigetchange">
+                                                    <el-option v-for="item in dataset"
+                                                               :key="item.Name"
+                                                               :label="item.ColumnName"
+                                                               :value="item.Name">
+                                                    </el-option>
+                                                </el-select>
+                                            </el-form-item>
+
+                                            <el-form-item label="绑定查询字段" v-if="nowwidget.wigdetype=='qwig'&&nowwidget.component!='qjBtn'">
+
+                                                <el-select v-model="nowwidget.glfiled" placeholder="请选择">
+                                                    <el-option v-for="item  in  nowwidget.tabfiledlist"
+                                                               :key="item.ColumnName"
+                                                               :label="item.Name"
+                                                               :value="item.ColumnName">
+                                                    </el-option>
+                                                </el-select>
+                                            </el-form-item>
+
+
+                                         
+
+                                            <div class="mt10" v-if="nowwidget.wigdetype === 'dwig'">
+                                                <el-checkbox v-model="nowwidget.isglquery">关联本页面得查询组件</el-checkbox>
+                                            </div>
+
+                                        </el-form>
+
+
+
+
+
+
+
+                                    </div>
+                                    <div class="detail-con " style="margin:0px;margin-top:10px" v-show="tabtype=='1'">
+                                        <el-radio-group v-model="nowwidget.datatype" style="margin-left:20px">
+                                            <el-radio :label="0">SQL</el-radio>
+                                            <el-radio :label="1">API数据</el-radio>
+                                        </el-radio-group>
+                                        <el-tooltip class="item" effect="dark" content="清理组件数据" placement="top-start">
+                                            <i class="el-icon-delete" style="float: right; margin-right: 10px;  float: right;margin-right: 10px;font-size: 20px;color: #409EFF;cursor: pointer;" @click="ClearYBData(nowwidget)"></i>
+                                        </el-tooltip>
+                                        <el-tooltip class="item" effect="dark" content="获取组件数据" placement="top-start">
+
+                                            <i class="el-icon-check" style="float: right; margin-right: 10px; float: right;margin-right: 10px;font-size: 20px;color: #409EFF;cursor: pointer;" @click="UpdateYBData(nowwidget)"></i>
+                                        </el-tooltip>
+
+
+                                        <div v-show="nowwidget.datatype=='0'">
+                                          
+                                            <div class="row" style="margin: 0px;">
+
+
+                                                <div class="col-md-6" style="border-right: 1px solid #d6d6d6;min-height:400px;padding:0px;   border-top: 1px solid #d6d6d6;">
+
+                                                    <div style="border-right-width: 0px;border-left-width: 0px;">
+                                                        <div class="panel panel-default">
+                                                            <h2 class="panel-heading" style="padding-left: 15px;padding-top: 13px;">
+                                                                维度
+                                                                <span style=" float: right;font-size: 12px;">数据量 <input type="number" style="   width: 40px;" autocomplete="off" v-model="nowwidget.datacount"></span>
+                                                            </h2>
+                                                            <div class="panel-body wdcontent" style="min-height:150px;    padding: 5px;">
+                                                                <ul class="jg-list-box">
+                                                                    <draggable class="dragArea list-group"
+                                                                               :list="nowwidget.wdlist"
+                                                                               group="wdlist">
+                                                                        <li v-for="(item,wdindex) in nowwidget.wdlist">
+                                                                            <div class="jg-item jg-itemwd">
+                                                                                <b>
+                                                                                    <i class="caret"></i>
+                                                                                    <span class="jg-name">{{item.colname}}</span>
+                                                                                    <i class="iconfont icon-shanchu pull-right" title="删除" data-placement="bottom" v-on:click="delwd(item)"></i>
+                                                                                    <i class="iconfont el-icon-setting pull-right" style="margin-right: 5px;    line-height: 26px;" title="设置" data-placement="bottom" @click="setfiled(item)"></i>
+                                                                                    <i v-if="item.coltype=='Num'||item.coltype=='float'" class="iconfont el-icon-download pull-right" style="margin-right: 5px; font-size: 16px;line-height: 26px;" title="切换为度量" @click="changetodl(item,wdindex)"></i>
+
+
+                                                                                </b>
+
+                                                                            </div>
+                                                                            <!--<p v-if="nowwidget.wdlist.length==0" style="text-align: center;color:cadetblue;">拖动维度字段到此处</p>-->
+
+                                                                        </li>
+                                                                    </draggable>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel panel-default">
+                                                            <h2 class="panel-heading" style="padding-left: 15px;padding-top: 13px;">
+                                                                度量
+                                                            </h2>
+                                                            <div class="panel-body dlcontent" style="min-height:150px;padding: 5px;">
+                                                                <ul class="jg-list-box">
+                                                                    <draggable class="dragArea list-group"
+                                                                               :list="nowwidget.dllist"
+                                                                               group="dllist">
+                                                                        <li v-for="(item,dlindex) in nowwidget.dllist">
+                                                                            <div class="jg-item" style="background-color: #7bd9a5;">
+                                                                                <b>
+                                                                                    <i class="caret"></i>
+                                                                                    <span class="jg-name">{{item.colname}}</span>
+                                                                                    <i class="iconfont icon-shanchu pull-right" title="删除" data-placement="bottom" v-on:click="deldl(item)"></i>
+                                                                                    <i class="iconfont el-icon-setting pull-right" style="margin-right: 5px;line-height: 26px;" title="设置" data-placement="bottom" @click="setfiled(item)"></i>
+                                                                                    <i class="iconfont el-icon-upload2 pull-right" style="margin-right: 5px; font-size: 16px;line-height: 26px;" title="切换为纬度" @click="changetowd(item,dlindex)"></i>
+                                                                                </b>
+
+                                                                            </div>
+                                                                            <!--<p v-if="nowwidget.dllist.length==0" style="text-align: center;color:cadetblue;">拖动度量字段到此处</p>-->
+                                                                        </li>
+                                                                    </draggable>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--<div class="row" style="margin:0 0 10px 0;text-align: center; position: absolute; bottom: 10px;width: 100%;">
+                                                        <button class="btn btn-info" v-on:click="UpYBData(nowwidget)" style="width: 90%;">更新数据 </button>
+                                                    </div>-->
+
+
+                                                </div>
+                                                <div class="col-md-6" style="min-height:600px; padding: 0px;    border-top: 1px solid #d6d6d6;">
+
+                                                    <div style="border-right-width: 0px;border-left-width: 0px;">
+                                                        <div class="panel panel-default">
+                                                            <h2 class="panel-heading" style="padding:5px;">
+                                                                <el-select v-model="nowwidget.datasetname" placeholder="请选择" size="mini" v-on:change="datasetchange" style=" display: inherit;">
+                                                                    <el-option v-for="item in dataset"
+                                                                               :key="item.Name"
+                                                                               :label="item.ColumnName"
+                                                                               :value="item.Name">
+                                                                    </el-option>
+                                                                </el-select>
+                                                            </h2>
+                                                            <div class="panel-body " style="min-height:250px;padding-left: 5px;padding-top: 0px;padding-right:0PX">
+                                                                <ul class="jg-list-box" style="margin-bottom: 5px;max-height:350PX;overflow:auto">
+                                                                    <li>
+                                                                        <div class="jg-item ">
+                                                                            <b style="color: #12b8f6;">
+                                                                                <i class="caret active"></i>
+                                                                                <span class="jg-name" style="margin-left:0;">维度</span>
+                                                                            </b>
+
+                                                                        </div>
+                                                                        <ul class="children-list">
+                                                                            <draggable class="dragArea list-group"
+                                                                                       :list="nowwidget.tabfiledlist"
+                                                                                       :group="{ name: 'wdlist', pull: 'clone', put: false }"
+                                                                                       :clone="clonewd">
+                                                                                <li v-for="item in nowwidget.tabfiledlist" class="wd filed" v-if="item.Dimension=='1'" :key="item.ColumnName">
+                                                                                    <div class="jg-item">
+                                                                                        <b>
+                                                                                            <i class="caret"></i>
+                                                                                            <span class="jg-name" style="margin-left:0;">{{item.Name}}</span>
+                                                                                            <span class="filetype">{{item.ColumnType}}</span>
+
+                                                                                        </b>
+
+                                                                                    </div>
+                                                                                    <ul class="children-list"></ul>
+                                                                                </li>
+
+                                                                            </draggable>
+
+                                                                        </ul>
+                                                                    </li>
+                                                                </ul>
+                                                                <hr>
+                                                                <ul class="jg-list-box">
+                                                                    <li>
+                                                                        <div class="jg-item">
+                                                                            <b style="color: #12b8f6;">
+                                                                                <i class="caret active"></i>
+                                                                                <span class="jg-name" style="margin-left:0;">度量</span>
+                                                                            </b>
+
+                                                                        </div>
+                                                                        <ul class="children-list" style="margin-bottom: 0;max-height:350PX;overflow:auto">
+
+                                                                            <draggable class="dragArea list-group"
+                                                                                       :list="nowwidget.tabfiledlist"
+                                                                                       :group="{ name: 'dllist', pull: 'clone', put: false }"
+                                                                                       :clone="clonedl">
+                                                                                <li v-for="item in nowwidget.tabfiledlist" class="dl filed" v-if="item.Dimension=='2'" :key="item.ColumnName">
+                                                                                    <div class="jg-item">
+                                                                                        <b>
+                                                                                            <i class="caret"></i>
+                                                                                            <span class="jg-name" style="margin-left:0;">{{item.Name}}</span>
+                                                                                            <span class="filetype">{{item.ColumnType}}</span>
+
+                                                                                        </b>
+
+                                                                                    </div>
+                                                                                    <ul class="children-list"></ul>
+                                                                                </li>
+                                                                            </draggable>
+
+                                                                        </ul>
+                                                                    </li>
+                                                                </ul>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div v-show="nowwidget.datatype=='1'">
+                                            <div class="panel-body">
+                                                <el-input type="textarea"
+                                                          :rows="4"
+                                                          placeholder="请输入API地址"
+                                                          v-model="nowwidget.apiurl">
+                                                </el-input>
+                                                <el-button plain class="mt10" @click="VailApi">验证</el-button>
+
+
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <el-dialog title="字段设置" :visible.sync="FiledSetVisible">
+            <el-tabs type="border-card">
+                <el-tab-pane label="经纬度配置">
+                    <el-tabs tab-position="left" style="min-height: 300px;" v-model="tabname">
+                        <el-tab-pane v-for="(el,cindex) in nowwidget.wdlist" :label="el.colname" :name="el.colid" v-bind:key="el.colid">
+                            <table class="table table-bordered table-striped table-hover table-condensed">
+                                <tr>
+                                    <td style="text-align:right;">列ID</td>
+                                    <td v-text="el.colid"></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right;">类型</td>
+                                    <td>纬度</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right">列名称</td>
+                                    <td>
+                                        <el-input placeholder="" v-model="el.colname" size="mini" />
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right">内容较多时启用tip</td>
+                                    <td>
+                                        <el-switch v-model="el.istip"></el-switch>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right">数据映射</td>
+                                    <td>
+                                        <el-table :data="el.mapdata">
+                                            <el-table-column label="原始值">
+                                                <template slot-scope="scope">
+                                                    <el-input placeholder="" v-model="scope.row.val" size="mini" style="width: 100px;" />
+                                                </template>
+                                            </el-table-column>
+                                            <el-table-column label="映射值">
+                                                <template slot-scope="scope">
+                                                    <el-input placeholder="" v-model="scope.row.ysval" size="mini" style="width: 100px;" />
+                                                </template>
+                                            </el-table-column>
+                                            <el-table-column label="操作" fixed="right" align="center">
+                                                <template slot-scope="scope">
+                                                    <el-button @click.native.prevent="delYS(scope.$index,el.mapdata)"
+                                                               type="text"
+                                                               size="small">
+                                                        删除
+                                                    </el-button>
+
+                                                </template>
+                                            </el-table-column>
+                                        </el-table>
+                                        <el-button type="primary" size="mini" class="mt10 pull-right" @click="addYS(el)">添加映射<i class="el-icon-plus"></i></el-button>
+
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </el-tab-pane>
+                        <el-tab-pane v-for="(el,cindex) in nowwidget.dllist" :label="el.colname" :name="el.colid" v-bind:key="el.colid">
+                            <table class="table table-bordered table-striped table-hover table-condensed">
+                                <tr>
+                                    <td style="text-align:right;">列ID</td>
+                                    <td v-text="el.colid"></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right;">类型</td>
+                                    <td>度量</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right">列名称</td>
+                                    <td>
+
+                                        <el-input placeholder="" v-model="el.colname" size="mini" />
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right">计算方式</td>
+                                    <td>
+                                        <el-select v-model="el.caltype" placeholder="请选择" size="mini">
+                                            <el-option label="求和" value="SUM"></el-option>
+                                            <el-option label="计数" value="COUNT"></el-option>
+                                            <el-option label="最大值" value="MAX"></el-option>
+                                            <el-option label="最小值" value="MIN"></el-option>
+                                            <el-option label="最小值" value="AVG"></el-option>
+                                        </el-select>
+
+                                    </td>
+                                </tr>
+                                <!--<tr>
+                        <td style="text-align:right">排序</td>
+                        <td>
+                            <el-select v-model="el.order" placeholder="请选择" size="mini">
+                                <el-option label="" value=""></el-option>
+                                <el-option label="ASC" value="ASC"></el-option>
+                                <el-option label="DESC" value="DESC"></el-option>
+
+                            </el-select>
+
+                        </td>
+                    </tr>-->
+                                <tr>
+                                    <td style="text-align:right">内容较多时启用tip</td>
+                                    <td>
+                                        <el-switch v-model="el.istip"></el-switch>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right">数据映射</td>
+                                    <td>
+                                        <el-table :data="el.mapdata">
+                                            <el-table-column label="原始值">
+                                                <template slot-scope="scope">
+                                                    <el-input placeholder="" v-model="scope.row.val" size="mini" style="width: 100px;" />
+                                                </template>
+                                            </el-table-column>
+                                            <el-table-column label="映射值">
+                                                <template slot-scope="scope">
+                                                    <el-input placeholder="" v-model="scope.row.ysval" size="mini" style="width: 100px;" />
+                                                </template>
+                                            </el-table-column>
+                                            <el-table-column label="操作" fixed="right" align="center">
+                                                <template slot-scope="scope">
+                                                    <el-button @click.native.prevent="delYS(scope.$index,el.mapdata)"
+                                                               type="text"
+                                                               size="small">
+                                                        删除
+                                                    </el-button>
+
+                                                </template>
+                                            </el-table-column>
+                                        </el-table>
+                                        <el-button type="primary" size="mini" class="mt10 pull-right" @click="addYS(el)">添加映射<i class="el-icon-plus"></i></el-button>
+
+
+                                    </td>
+                                </tr>
+
+
+
+                            </table>
+                        </el-tab-pane>
+
+                    </el-tabs>
+                </el-tab-pane>
+                <el-tab-pane label="数据过滤">
+                    <div class="row" style="margin: 0px;padding:10px">
+                        <el-form label-position="top">
+                            <el-form-item label="数据过滤">
+                                <el-input v-model="nowwidget.filterval" placeholder="此处输入过滤SQL" type="textarea" :rows="3"></el-input>
+                            </el-form-item>
+                        </el-form>
+                    </div>
+                </el-tab-pane>
+                <el-tab-pane label="数据排序">
+                    <div class="row" style="margin: 0px;padding:10px">
+                        <el-form label-position="top">
+                            <el-form-item label="数据排序">
+                                <el-input v-model="nowwidget.order" placeholder="此处输入排序SQL"></el-input>
+                            </el-form-item>
+                        </el-form>
+                    </div>
+                </el-tab-pane>
+            </el-tabs>
+        </el-dialog>
+
+
+    </div>
+    <script src="/ViewV5/JS/vue.js"></script>
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/lodash.min.js"></script>
+    <script src="/ViewV5/JS/httpVueLoader.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script src="/ViewV5/JS/V1/Sortable.min.js"></script>
+    <script src="/ViewV5/JS/V1/vuedraggable.umd.min.js"></script>
+    <script src="/ViewV5/JS/layer/layer.js"></script>
+    <script src="/ViewV5/JS/Echart/echarts.min.js"></script>
+    <!-- 引入组件库 -->
+    <script src="/ViewV5/JS/element/element.js"></script>
+    <script src="/ViewV5/JS/bijs.js?v=5"></script>
+
+
+
+    <script>
+        //Vue.use(VueDragging)
+        var app = new Vue({
+            el: '#DATABI_YBZZ',
+            components: {
+                'qjDate': httpVueLoader('../../AppPage/DATABI/vue/Yb_Date.vue'),
+                'qjMonth': httpVueLoader('../../AppPage/DATABI/vue/Yb_Month.vue'),
+                'qjInput': httpVueLoader('../../AppPage/DATABI/vue/Yb_Input.vue'),
+                'qjBtn': httpVueLoader('../../AppPage/DATABI/vue/Yb_Btn.vue'),
+                'qjSelect': httpVueLoader('../../AppPage/DATABI/vue/Yb_Select.vue'),
+                'qjMSelect': httpVueLoader('../../AppPage/DATABI/vue/Yb_MSelect.vue'),
+                'qjSelbranch': httpVueLoader('../../AppPage/DATABI/vue/Yb_Selbranch.vue'),
+                'qjSeluser': httpVueLoader('../../AppPage/DATABI/vue/Yb_SelUser.vue'),
+                'qjTable': httpVueLoader('../../AppPage/DATABI/vue/Yb_Table.vue'),
+                'qjKBan': httpVueLoader('../../AppPage/DATABI/vue/Yb_KB.vue'),
+                'qjChartPie': httpVueLoader('../../AppPage/DATABI/vue/Yb_ChartPie.vue'),
+                'qjChartBar': httpVueLoader('../../AppPage/DATABI/vue/Yb_ChartBar.vue'),
+
+
+
+            },
+            data: {
+                dialogFormVisible: false,
+                loading: true,
+                fmdata: "",
+                tab1: "0",
+                isview: false,//是否浏览模式
+                dataid: "0",
+                vtype: "0",
+                dragging: false,
+                dataset: [],//数据集
+                widgetname: { "qjInput": "输入框", "qjSelect": "单选", "qjMSelect": "多选", "qjDate": "日期时间组件", "qjSelbranch": "部门选择" },
+                FormName: "",
+                tabtype: "0",
+                formop: { width: "0", addurl: "/ViewV5/AppPage/FORMBI/FormAdd.html?pdid=" + ComFunJS.getQueryString('ID'), mangeurl: "/ViewV5/AppPage/FORMBI/FormManage.html?piid=?", listurl: "/ViewV5/AppPage/FORMBI/FormTJ.html?pdid=" + ComFunJS.getQueryString('ID') },
+                FiledSetVisible: false,
+                tabname: "",
+                wigetwidth: [{ label: "1/4", value: 6 }, { label: "2/4", value: 12 }, { label: "3/4", value: 18 }, { label: "1/3", value: 8 }, { label: "2/3", value: 16 }, { label: "整行", value: 24 }],
+                FormData: {
+                    wigetitems: []
+                },
+                nowwidget: {
+
+                }
+
+            },
+            created() {
+                document.body.removeChild(document.getElementById('Loading'))
+                var divBJ = document.getElementById('DATABI_YBZZ');
+                divBJ.style.display = "block";
+                this.dataid = ComFunJS.getQueryString("id", "0");
+
+            },
+            methods: {
+                deldl: function (dlitem) {
+                    var index = _.findIndex(this.nowwidget.dllist, function (obj) {
+                        return obj.colname == dlitem.colname;
+                    });
+                    this.nowwidget.dllist.splice(index, 1);
+                },
+                delwd: function (wditem) {
+                    var index = _.findIndex(this.nowwidget.wdlist, function (obj) {
+                        return obj.colname == wditem.colname;
+                    });
+                    this.nowwidget.wdlist.splice(index, 1)
+
+                },
+                changetodl: function (item, index) {
+                    var tempitem = _.cloneDeep(item);
+                    this.nowwidget.dllist.push(tempitem)
+                    this.nowwidget.wdlist.splice(index, 1);
+                },
+                changetowd: function (item, index) {
+                    var tempitem = _.cloneDeep(item);
+                    this.nowwidget.wdlist.push(tempitem)
+                    this.nowwidget.dllist.splice(index, 1);
+                },
+                clonewd({ ColumnName }) {
+                    if (_.findIndex(app.nowwidget.wdlist, function (o) { return o.colid == ColumnName }) == -1) {
+                        var temp = _.find(app.nowwidget.tabfiledlist, { 'ColumnName': ColumnName });
+                        var wd = { "colid": temp.ColumnName, "colname": temp.Name, "coltype": temp.ColumnType, "width": "", "ishj": false, "caltype": "", "istip": true, "order": "", options: [], mapdata: [] };
+                        return wd;
+
+                    } else {
+                        app.$notify({
+                            title: '警告',
+                            message: '已存在该字段',
+                            type: 'warning'
+                        });
+                    }
+                },
+                clonedl({ ColumnName }) {
+                    if (_.findIndex(app.nowwidget.dllist, function (o) { return o.colid == ColumnName }) == -1) {
+                        var temp = _.find(app.nowwidget.tabfiledlist, { 'ColumnName': ColumnName });
+                        var wd = { "colid": temp.ColumnName, "colname": temp.Name, "coltype": temp.ColumnType, "width": "", "ishj": false, "caltype": "", "istip": true, "order": "", options: [], mapdata: [] };
+                        return wd;
+
+                    } else {
+                        app.$notify({
+                            title: '警告',
+                            message: '已存在该字段',
+                            type: 'warning'
+                        });
+                    }
+                },
+                jxsql: function (val, isapi) {
+                    var valsql = "";
+                    if (val) {
+                        valsql = val;
+                        var regex2 = /\[(.+?)\]/g;
+                        var temp = val.match(regex2);
+                        _.forEach(temp, function (obj) {
+                            obj = _.trim(obj, '[');
+                            obj = _.trim(obj, ']');
+                            if (_.startsWith(obj, 'Q.')) {
+                                var tempqval = ComFunJS.getQueryString(obj.split('.')[1]);
+                                if (!isapi) {
+                                    tempqval = "'" + tempqval + "'";
+                                }
+                                valsql = _.replace(valsql, '[' + obj + ']', tempqval);
+                            }
+                        })
+                    }
+                    return valsql;
+                },
+                seltab: function (tabtype) {
+                    this.tabtype = tabtype;
+                },
+                genID: function () {
+                    var random = Math.floor(Math.random() * (90000 - 10000 + 1) + 10000);
+                    return random;
+                },
+                addYS: function (wigget) {
+                    wigget.mapdata.push({ val: "原始值", ysval: "映射值" });
+                },
+                delYS: function (index, rows) {
+                    rows.splice(index, 1);
+                },
+                setfiled: function (item) {
+                    this.tabname = item.colid;
+                    this.FiledSetVisible = true
+                },
+                selwidget: function (item) {
+                    app.tabtype = "0";
+                    app.nowwidget = item;
+                    var pro = this;
+                    $(".widget").removeClass("widgetsel")
+                    $("#" + item.wigdetcode).addClass("widgetsel");
+                },
+
+                addwigdet: function (name, title) {
+                    var wigdetype = "qwig";
+                    if (name == "qjTable" || name == "qjChartPie" || name == "qjChartBar" || name == "qjKBan") {
+                        wigdetype = "dwig";//数据展示组件
+                    }
+                    var wigdetcode = name + this.genID();
+                    var wigget = {
+                        datasetname: "",
+                        wigdetcode: wigdetcode,
+                        wigdetype: wigdetype,
+                        component: name,
+                        title: title,
+                        mdwidth: 12,
+                        value: "",
+                        dynamicTags: [],
+                        dataset: [],
+                        wdlist: [],//维度
+                        dllist: [],//度量
+                        tllist: [],//图例
+                        tabfiledlist: [],//所选数据集字段
+                        glfiled: "",
+                        isglquery: true,
+                        childpro: {}
+                    }
+                    this.mangewigdet(wigget);
+                    this.FormData.wigetitems.push(wigget)
+
+                },//新增组件
+                mangewigdet: function (wigget) {
+                    if (wigget.wigdetype == 'dwig') {
+                        wigget.datatype = 0;//数据源类型
+                        wigget.wigheight = "350";
+                        wigget.apiurl = "";
+                        wigget.apicols = [];
+                        wigget.filterval = "";
+                        wigget.filtervalsql = "";
+                        wigget.datacount = "10";
+                    }
+                },
+                datachange: function (chidata) {
+                    app.nowwidget.childpro = JSON.parse(chidata);
+                },
+                saveybdata: function () {
+                    $.post('/API/VIEWAPI.ashx?Action=BIYBP_UPYBDATA', { P1: this.dataid, P2: JSON.stringify(this.FormData.wigetitems), FormName: this.FormName }, function (resultData) {
+                        if (JSON.parse(resultData).ErrorMsg == "") {
+                            app.$notify({
+                                title: '成功',
+                                message: '操作成功',
+                                type: 'success'
+                            });
+                        }
+                    })
+
+                },
+                fbybdata: function () {
+                    //发布仪表
+                    app.$confirm('此操作将保存并直接发布该仪表数据, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        $.post('/API/VIEWAPI.ashx?Action=BIYBP_UPYBDATA', { P1: app.dataid, P2: JSON.stringify(app.FormData.wigetitems), FormName: app.FormName, ISFB: "Y" }, function (resultData) {
+                            if (JSON.parse(resultData).ErrorMsg == "") {
+                                app.$notify({
+                                    title: '成功',
+                                    message: '发布成功',
+                                    type: 'success'
+                                });
+                            }
+                        })
+                    }).catch(() => {
+
+                    });
+
+                },
+                inityb: function () {
+                    var pro = this;
+                    $.getJSON('/API/VIEWAPI.ashx?Action=BIDSET_GETYBDATASET', {}, function (resultData) {
+                        if (resultData.Result.length > 0) {
+                            pro.dataset = resultData.Result;
+
+                        }
+                    })
+                    $.getJSON('/API/VIEWAPI.ashx?Action=BIYBP_GETYBBYID', { P1: pro.dataid }, function (resultData) {
+                        if (resultData.ErrorMsg == "") {
+                            app.FormName = resultData.Result.Name;
+                            if (resultData.Result.YBContent) {
+                                app.FormData.wigetitems = JSON.parse(resultData.Result.YBContent);
+                            }
+                            app.$notify({
+                                title: '成功',
+                                message: '初始化成功',
+                                type: 'success'
+                            });
+                            app.loading = false;
+
+                        }
+                    })
+
+                    //$.getJSON("/API/VIEWAPI.ashx", { Action: "FORMBI_GETPROCESSBYID", P1: app.pdid }, function (result) {
+                    //    if (!result.ErrorMsg) {
+                    //        if (result.Result.Tempcontent) {
+                    //            var FormTemp = JSON.parse(result.Result.Tempcontent);
+                    //            app.FormData.wigetitems = FormTemp.formdata;
+                    //        }
+                    //        app.FormName = result.Result.ProcessName;
+                    //        app.formop = JSON.parse(result.Result.Poption);
+                    //        app.fmdata = result.Result.fmdata;
+
+                    //        app.$notify({
+                    //            title: '成功',
+                    //            message: '初始化成功',
+                    //            type: 'success'
+                    //        });
+                    //        app.loading = false;
+                    //    }
+
+                    //})
+                },
+                cleardata: function () {
+                    localStorage.removeItem("formdata")
+
+                    this.$notify({
+                        title: '成功',
+                        message: '清楚成功',
+                        type: 'success'
+                    });
+                },
+                VailApi: function () {
+                    $.getJSON("/API/VIEWAPI.ashx", { Action: "BIYBP_YZAPIDATA", P1: _.trim(app.jxsql(app.nowwidget.apiurl, true), "'") }, function (result) {
+                        if (!result.ErrorMsg) {
+
+                            app.$alert('<div style="height:200px;overflow: auto;">' + result.Result + '</div>', '接口响应', {
+                                dangerouslyUseHTMLString: true
+                            });
+
+                        }
+
+                    })
+                },
+                datasetchange: function (val) {
+                    var app = this;
+                    if (val) {
+                        app.nowwidget.wdlist = [];
+                        app.nowwidget.dllist = [];
+                        app.nowwidget.tabfiledlist = [];
+                        var temps = _.find(app.dataset, function (o) { return o.Name == val; });
+                        app.nowwidget.tabfiledlist = _.concat(app.nowwidget.tabfiledlist, temps.dl, temps.wd);
+                        //setTimeout("app.initdrag()", 1000)
+                    }
+
+                },//更改数据集事件
+                glwigetchange: function (val) {
+                    var app = this;
+                    if (val) {
+                        app.nowwidget.tabfiledlist = [];
+                        var temps = _.find(app.dataset, function (o) { return o.Name == val; });
+                        app.nowwidget.tabfiledlist = _.concat(app.nowwidget.tabfiledlist, temps.dl, temps.wd);
+                    }
+                },
+                ClearYBData: function (nowwidget) {
+                    app.nowwidget.dataset = [];
+                },
+                GetYBData: function () {
+                    for (var i = 0; i < app.FormData.wigetitems.length; i++) {
+                        var nowwidget = app.FormData.wigetitems[i];
+                        if (nowwidget.wigdetype == "dwig") {
+                            app.UpdateYBData(nowwidget)
+                        }
+                    }
+
+
+                },
+                UpdateYBData: function (nowwidget) {
+
+                    //找到查询组件
+                    var tempqufied = _.filter(app.FormData.wigetitems, function (o) { return o.wigdetype == 'qwig' && o.component != 'qjBtn'; });
+                    var qfileds = [];
+                    _.forEach(tempqufied, function (obj) {
+                        qfileds.push({ component: obj.component, glfiled: obj.glfiled, datasetname: obj.datasetname, title: obj.title, value: obj.value, wigdetcode: obj.wigdetcode })
+                    })
+
+                    //需要先克隆一个对象
+                    var tempnow = _.clone(nowwidget);
+                    tempnow.filtervalsql = app.jxsql(tempnow.filterval, false);
+                    tempnow.apiurl = app.jxsql(tempnow.apiurl, true);
+                    $.getJSON('/API/VIEWAPI.ashx?Action=BIYBP_GETYBDATA', { P1: JSON.stringify(tempnow), querydata: JSON.stringify(qfileds), pagecount: nowwidget.datacount }, function (resultData) {
+                        if (!resultData.ErrorMsg) {
+                            nowwidget.dataset = [];
+                            if (nowwidget.datatype == "0") {
+                                nowwidget.dataset = resultData.Result;
+                            } else {
+                                if (resultData.Result) {
+                                    nowwidget.apicols = [];
+                                    var js = JSON.parse(resultData.Result);
+                                    _.forEach(_.keys(js.Result[0]), function (value) {
+                                        nowwidget.apicols.push({ "ColumnName": value, "istip": true });
+                                    });
+                                    nowwidget.dataset = js.Result;
+
+                                }
+
+                            }
+                        }
+                    })
+                }
+
+            },
+            mounted: function () {
+                var pro = this;
+                pro.$nextTick(function () {
+                    pro.inityb();
+
+
+                })
+
+            },
+
+            watch: {
+                'nowwidget.datasetname': {
+                    handler(newVal, oldVal) {
+
+                    },
+                    deep: true //对象内部属性的监听，关键。
+                },
+                'nowwidget.filterval': {
+                    handler(newVal, oldVal) {
+                    },
+                    deep: true //对象内部属性的监听，关键。
+                }
+            }
+        })
+
+
+    </script>
+</body>
+
+</html>

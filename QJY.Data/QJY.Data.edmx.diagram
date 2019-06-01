@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1b180fae3589429ab91711e04b3ebb50" Name="Diagram1" ZoomLevel="77">
+        <EntityTypeShape EntityType="QJY_SaaSModel.BI_DB_Dim" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.BI_DB_Source" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.BI_DB_YBP" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.FT_File" Width="1.5" PointX="2.75" PointY="4.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.FT_File_Downhistory" Width="1.5" PointX="4.75" PointY="4.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.FT_File_Share" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.FT_File_UserAuth" Width="1.5" PointX="6.75" PointY="5.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.FT_File_UserTag" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.FT_File_Vesion" Width="1.5" PointX="8.75" PointY="3.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.FT_Folder" Width="1.5" PointX="8.75" PointY="7.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_Branch" Width="1.5" PointX="4.75" PointY="9.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_Collect" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_Common" Width="1.5" PointX="10.75" PointY="4.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_ExtendMode" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_Function" Width="1.5" PointX="0.75" PointY="12.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_GUANZHU" Width="1.5" PointX="12.75" PointY="4.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_QY" Width="1.5" PointX="6.75" PointY="13.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_QY_Model" Width="1.5" PointX="8.75" PointY="13.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_QY_WXSC" Width="1.5" PointX="14.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_Role" Width="1.5" PointX="2.75" PointY="14.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_RoleAuth" Width="1.5" PointX="14.75" PointY="4.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_RoleFun" Width="1.5" PointX="14.75" PointY="7.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_User_Center" Width="1.5" PointX="16.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_UserCustomData" Width="1.5" PointX="16.75" PointY="5.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_UserRole" Width="1.5" PointX="16.75" PointY="9.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_Version" Width="1.5" PointX="16.75" PointY="12.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_WXMSG" Width="1.5" PointX="16.75" PointY="16.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_WXPJ" Width="1.5" PointX="8.75" PointY="17.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_XTDT" Width="1.5" PointX="18.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_YYLog" Width="1.5" PointX="0.75" PointY="18.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_ZiDian" Width="1.5" PointX="2.75" PointY="18.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.SZHL_DBGL" Width="1.5" PointX="18.75" PointY="4.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.SZHL_DRAFT" Width="1.5" PointX="18.75" PointY="8.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.SZHL_DXGL" Width="1.5" PointX="18.75" PointY="12.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.SZHL_NOTE" Width="1.5" PointX="10.75" PointY="19.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.SZHL_TXL" Width="1.5" PointX="20.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.SZHL_TXSX" Width="1.5" PointX="20.75" PointY="4.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.SZHL_XXFB" Width="1.5" PointX="20.75" PointY="12.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.SZHL_XXFB_ITEM" Width="1.5" PointX="20.75" PointY="18.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.SZHL_XXFB_SCK" Width="1.5" PointX="22.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.SZHL_XXFBType" Width="1.5" PointX="2.75" PointY="22.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.Yan_WF_ChiTask" Width="1.5" PointX="22.75" PointY="4.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.Yan_WF_DaiLi" Width="1.5" PointX="22.75" PointY="8.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.Yan_WF_TD" Width="1.5" PointX="22.75" PointY="18.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.Yan_WF_TI" Width="1.5" PointX="4.75" PointY="23.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.BI_DB_Table" Width="1.5" PointX="9.375" PointY="23.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_ExtendData" Width="1.5" PointX="11.375" PointY="23.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.Yan_WF_PI" Width="1.5" PointX="17.375" PointY="22.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.Yan_WF_PD" Width="1.5" PointX="19.375" PointY="24.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_TL" Width="1.5" PointX="23.375" PointY="12.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_User" Width="1.5" PointX="13.375" PointY="19.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.BI_DB_Set" Width="1.5" PointX="21.375" PointY="24.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_Log" Width="1.5" PointX="23.375" PointY="24.75" />
+        <EntityTypeShape EntityType="QJY_SaaSModel.JH_Auth_Model" Width="1.5" PointX="11.375" PointY="9.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

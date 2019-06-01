@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>考试中心</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+		<link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+			<script src="../js/mui.min.js"></script>
+				<script type="text/javascript" src="../js/new_file.js"></script>
+		<style type="text/css">
+
+		</style>
+	</head>
+
+	<body>
+
+		<div class="page-group">
+			<!-- 单个page ,第一个.page默认被展示-->
+			<div class="page">
+				<!-- 标题栏 -->
+
+				<!-- 这里是页面内容区 -->
+				<div class="content">
+					<div class="buttons-tab fixed-tab" data-offset="44" style="background: #51a2fe;">
+						<a href="" class="tab-link button" style="height: 2.2rem;line-height: 2.2rem;">
+							<span id="btnSelect" style="color: white;">全部课程</span>
+							<span class="iconfont icon-xiala" style="color: white;"></span></a>
+						<div id="answer-sheet" class="answer-sheet">
+							<div class="answer-panel ulDiv">
+								<ul>
+									<li>全部课程</li>
+									<li>React N开发App</li>
+									<li>所向披靡的响应式开发</li>
+									<li>Spring MVC拦截器</li>
+									<li>周搞定HTML+PS</li>
+									<li>HTML5之新增标签</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<!-- 课程列表 -->
+					<div class="list-block media-list nomargin ">
+						<ul>
+							<li>
+								<a href="" class="item-link item-content">
+									<div class="item-media">
+										<img src="http://img.mukewang.com/5704aa2f0001248206000338-228-128.jpg" style="width:90px;height:50px;">
+
+									</div>
+									<div class="item-inner">
+
+										<div class="item-title-row">
+											<div class="item-title">变压器油中溶解气体分析和判断导则</div>
+
+										</div>
+										<div class="item-subtitle c999 ft7">
+											<span class="mr5"><i class="iconfont icon-ren"></i>讲师:林珊珊</span>
+											<span><i class="iconfont icon-shijian"></i>时长:20:00</span>
+										</div>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a href="" class="item-link item-content">
+									<div class="item-media">
+										<img src="http://szimg.mukewang.com/580d752500019ca805400300-360-202.jpg" style="width:90px;height:50px;">
+
+									</div>
+									<div class="item-inner">
+										<div class="item-title-row">
+											<div class="item-title">综合检测第一节</div>
+
+										</div>
+										<div class="item-subtitle c999 ft7">
+											<span class="mr5"><i class="iconfont icon-ren"></i>讲师:林珊珊</span>
+											<span><i class="iconfont icon-shijian"></i>时长:20:00</span>
+										</div>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a href="" class="item-link item-content">
+									<div class="item-media">
+										<img src="http://img.mukewang.com/5704aa2f0001248206000338-228-128.jpg" style="width:90px;height:50px;">
+
+									</div>
+									<div class="item-inner">
+
+										<div class="item-title-row">
+											<div class="item-title">变压器油中溶解气体分析和判断导则</div>
+
+										</div>
+										<div class="item-subtitle c999 ft7">
+											<span class="mr5"><i class="iconfont icon-ren"></i>讲师:林珊珊</span>
+											<span><i class="iconfont icon-shijian"></i>时长:20:00</span>
+										</div>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a href="" class="item-link item-content">
+									<div class="item-media">
+										<img src="http://szimg.mukewang.com/580d752500019ca805400300-360-202.jpg" style="width:90px;height:50px;">
+
+									</div>
+									<div class="item-inner">
+										<div class="item-title-row">
+											<div class="item-title">综合检测第一节</div>
+
+										</div>
+										<div class="item-subtitle c999 ft7">
+											<span class="mr5"><i class="iconfont icon-ren"></i>讲师:林珊珊</span>
+											<span><i class="iconfont icon-shijian"></i>时长:20:00</span>
+										</div>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<p class="no-content">没有更多</p>
+				</div>
+			</div>
+		</div>
+
+		<script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+		<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+		<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+		<script type="text/javascript">
+			$(function() {
+				$(document).on("pageInit", function() {
+					$('.buttons-tab').fixedTab({
+						offset: 44
+					});
+				});
+				$.init();
+				// 计算高度
+				var h2 = window.innerHeight;
+				document.getElementById("answer-sheet").style.height = h2 + "px";
+				document.getElementById("answer-sheet").style.top = "0px";
+				// 课程筛选
+				$("#btnSelect").click(function() {
+					$("#answer-sheet").toggle();
+				});
+				$('.ulDiv ul li').on('click', function() {
+					var selTxt = $(this).text();
+					$('#btnSelect').text(selTxt);
+					$(this).addClass("cor").siblings().removeClass("cor");
+					$('.answer-sheet').hide();
+				});
+			});
+			mui.init();
+			mui(".media-list").on('tap', 'li', function() {
+				mui.openWindow({
+					id: "Course-Details",
+					url: 'Course-Details.html'
+				});
+			});
+		</script>
+		</script>
+	</body>
+
+</html>

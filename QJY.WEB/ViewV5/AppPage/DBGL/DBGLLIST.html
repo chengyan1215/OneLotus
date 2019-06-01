@@ -1,0 +1,198 @@
+﻿<div ms-controller="DBGLLIST">
+    <!-- 添加按钮 -->
+    <div class="btn-add">
+        <button type="button" class="btn btn-info btn-lg" ms-click="DBBF()"><i class="iconfont icon-jiahao ft12 mr5"></i>数据库备份</button>
+        <button type="button" class="btn btn-info btn-lg" ms-click="djsc()"><i class="iconfont icon-jiahao ft12 mr5"></i>数据库还原</button>
+        <input type="file" name="upFile" id="upFile" class="form-control" ms-change="DBHY()" accept=".bak" style="display: none;">
+    </div>
+    <!-- 按条件选择 -->
+    <div class="tab-filter-type">
+        <div class="oh">
+            <h5 class="pull-left tr">事项类型：</h5>
+            <ul class="tab-type ft14">
+                <li ms-click="SelectType('1')"><span class="active">备份</span></li>
+                <li ms-click="SelectType('2')"><span>还原</span></li>
+            </ul>
+        </div>
+    </div>
+    <!-- 表格 -->
+    <div class="default-tab ft14 pt20">
+        <table class="table table-striped table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th class="tc">序号
+                    </th>
+                    <th ms-repeat-im="ShowColumns" ms-visible="im.IsSel">{{im.ColText}}</th>
+                    <th style="width:250PX">  </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ms-repeat-el="tmpListData">
+                    <td class=" tc">{{$index+1+page.pagecount*(page.pageindex-1)}}
+                    </td>
+                    <td ms-repeat-im="ShowColumns" ms-class-1="lk:im.type=='link'" ms-visible="im.IsSel">{{ComFunJS.FnFormat(el[im.ColName],im)|html}}</td>
+                    <td>
+                        <a class=" tip" data-toggle="tooltip" title="下载此备份" style="color:darkcyan" ms-if="search.seartype==1" ms-click="XZDB(el.ID)">下载
+                        </a>
+                        <a class=" tip" data-toggle="tooltip" title="还原到此版本" style="color:darkcyan;margin-left:15px" ms-if="search.seartype==1" ms-click="DBHYBYID(el.Path)">还原
+                        </a>
+                        <a class=" tip" data-toggle="tooltip" title="删除记录" style="color:darkcyan;margin-left:15px"  ms-click="DELBYID(el.ID)">
+                            删除记录
+                        </a>
+                    </td>
+                </tr>
+
+            </tbody>
+            <tfoot>
+                <tr ms-if="isnull">
+                    <td class="tc"></td>
+                    <td>暂无数据</td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="ui-datatable-page ft14 pl20">
+            <div id="pageDiv" ms-visible="model.page.total>model.pageNum[0].num" class="pull-right"></div>
+            <div class="pull-right" ms-visible="tmpListData.size()!=0">
+                <span>共{{model.page.total}}条记录</span>
+                <span ms-visible="model.page.total>model.pageNum[0].num">选择每页条数
+                    <select style="height: 25px; width: 50px;" ms-change="selNum(this.value)" ms-duplex="model.page.pagecount">
+                        <option ms-repeat-pg="pageNum" ms-attr-value="pg.num" ms-attr-selected="pg.num==model.page.pagecount?'selected':''">{{pg.num}}</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    var tempindex = avalon.define({
+        $id: "DBGLLIST",
+        curXJType: "",
+        tmpListData: [],
+        SelectType: function (type) {
+            model.search.seartype = type;
+            tempindex.GetLIST();
+        },
+        selNum: function (item) {    //选择显示的条数
+            model.page.pagecount = item;
+            tempindex.GetLIST();
+        },
+        InitWigetData: function () {
+
+            //显示的列名
+            model.ShowColumns.clear();
+            model.ShowColumns.pushArray([
+                { "ColName": "TypeName", "ColText": "类型", "IsSel": true, "format": "text" },
+                { "ColName": "Name", "ColText": "文件名称", "IsSel": true, "format": "text" },
+                { "ColName": "Size", "ColText": "文件大小(kb)", "IsSel": true, "format": "text" },
+                { "ColName": "CRDate", "ColText": "时间", "IsSel": true, "format": "text" }
+            ]);
+            //类型数据
+
+            tempindex.GetLIST();
+        },
+        GetLIST: function () {
+            model.page.pageindex = 1;
+            tempindex.tmpListData.clear();
+            $.getJSON('/API/VIEWAPI.ashx?Action=DBGL_GETDBBRLIST', { p: 1, P1: model.search.seartype, pagecount: model.page.pagecount }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempindex.tmpListData = resultData.Result;
+                    model.page.total = resultData.Result1;
+                    if (tempindex.tmpListData.size() == 0) { model.isnull = true; } else { model.isnull = false; }
+                    laypage({
+                        cont: 'pageDiv', //容器。值支持id名、原生dom对象，jquery对象。
+                        pages: Math.ceil(parseInt(resultData.Result1) * 1.0 / model.page.pagecount), //通过后台拿到的总页数
+                        curr: 1, //初始化当前页
+                        skin: 'molv',
+                        jump: function (e) { //触发分页后的回调
+                            if (e.curr != model.page.pageindex) {
+                                $.getJSON('/API/VIEWAPI.ashx?Action=DBGL_GETDBBRLIST', { p: e.curr, P1: model.search.seartype, pagecount: model.page.pagecount }, function (resultData) {
+                                    if (resultData.ErrorMsg == "") {
+                                        tempindex.tmpListData = resultData.Result;
+                                    }
+                                })
+                                model.page.pageindex = e.curr;
+                            }
+                        }
+                    });
+                }
+            })
+        },
+        DBBF: function () {
+            top.ComFunJS.winconfirm("确认要备份吗", function () {
+                $.post('/API/VIEWAPI.ashx?Action=DBGL_DBBACKUP', {}, function (result) {
+                    if (result.ErrorMsg == "") {
+                        top.ComFunJS.winsuccess("备份成功");
+                        tempindex.GetLIST();
+                    }
+                })
+            }, function () { })
+        },
+        djsc: function () {
+            $("#upFile").trigger("click");
+        },
+        DBHY: function () {
+            if (document.getElementById("upFile").files.length > 0) {
+                $(".tp-man").show();
+                var formData = new FormData();
+                formData.append("upFile", document.getElementById("upFile").files[0]);
+                $.ajax({
+                    url: "/API/VIEWAPI.ashx?ACTION=DBGL_DBUPLOAD&r=" + Math.random(),
+                    type: "POST",
+                    data: formData,
+                    /**
+                    *必须false才会自动加上正确的Content-Type
+                    */
+                    contentType: false,
+                    /**
+                    * 必须false才会避开jQuery对 formdata 的默认处理
+                    * XMLHttpRequest会对 formdata 进行正确的处理
+                    */
+                    processData: false,
+                    success: function (result) {
+
+                        document.getElementById("upFile").outerHTML = document.getElementById("upFile").outerHTML;
+                        $("#upFile").change(function () {
+                            tempindex.DBHY();
+                        });
+                        var r = $.parseJSON(result);
+                        if (r.ErrorMsg == "") {
+                            ComFunJS.winsuccess("还原成功");
+                            tempindex.GetLIST();
+                        }
+                        else {
+                            ComFunJS.winwarning(r.ErrorMsg);
+                        }
+                    }
+                });
+            }
+            else {
+                ComFunJS.winwarning("请上传文件");
+            }
+        },
+        DBHYBYID: function (str) {
+            top.ComFunJS.winconfirm("确认要还原吗", function () {
+                $.post('/API/VIEWAPI.ashx?Action=DBGL_DBRESTORE', { P1: str }, function (result) {
+                    if (result.ErrorMsg == "") {
+                        top.ComFunJS.winsuccess("还原成功");
+                        tempindex.GetLIST();
+                    }
+                })
+            }, function () { })
+        },
+        XZDB: function (id) {
+            $(this).attr("href", '/API/VIEWAPI.ashx?Action=DBGL_DBDOWNLOAD&P1=' + id);
+        },
+        DELBYID: function (ID) {
+            top.ComFunJS.winconfirm("确认要删除记录吗", function () {
+                $.post('/API/VIEWAPI.ashx?Action=DBGL_DELDBBACKUP', { P1: ID }, function (result) {
+                    if (result.ErrorMsg == "") {
+                        top.ComFunJS.winsuccess("删除成功");
+                        tempindex.GetLIST();
+                    }
+                })
+            }, function () { })
+        }
+    })
+    //# sourceURLDBGLLIST
+</script>

@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>选人</title>
+    <!-- Bootstrap -->
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css" rel="stylesheet">
+    <link href="/ViewV5/CSS/BootOver.css" rel="stylesheet" />
+    <link href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none; /*元素不能被选中*/
+            overflow-x: hidden;
+        }
+
+        .lev1 {
+            /*//  margin-left: 10px;*/
+        }
+
+        .lev2 {
+            padding-left: 40px;
+        }
+
+        .list-group .lev2:first-child {
+            padding-left: 40px;
+            border-top: 1px solid #ddd !important;
+        }
+
+        .peples .list-group-item {
+            padding-bottom: 5px;
+            padding-top: 5px;
+        }
+
+        .media-left {
+            padding-right: 5px;
+        }
+
+        .media-body {
+            padding-top: 5px;
+        }
+
+        .media-heading {
+            margin-top: 8px;
+        }
+
+        .list-group-item:hover {
+            background-color: #3085DB;
+        }
+
+
+        .isel {
+            position: absolute;
+            top: 18px;
+            right: 10px;
+            color: darkgoldenrod;
+            font-size: 18px;
+        }
+
+        .pCard {
+            min-width: 80px;
+            text-align: center;
+            margin: 8px 3px;
+        }
+
+            .pCard:hover .badge {
+                visibility: visible;
+            }
+
+        .panel-body .badge {
+            position: relative;
+            /*top: -5px;
+            right: -6px;*/
+            background-color: red;
+            padding-left: 5px;
+            padding-right: 5px;
+            visibility: collapse;
+            margin-top: -5px;
+            margin-right: -5px;
+        }
+
+        .label-info:hover .badge {
+            visibility: visible;
+        }
+    </style>
+</head>
+<body ms-controller="BaseSelect">
+    <div class="container-fluid" style="margin:10px" id="dvContent">
+      
+        <div class="radio radio-success">
+            <input type="radio" id="ckPeople" name="conLCRY" value="0" ms-duplex-string="rytype">
+            <label for="ckPeople"> 指定人员 </label>
+        </div>
+        <div class="form-group" ms-visible="rytype==0" style="width:90%">
+            <input type="text" class="form-control szhl_getPeoples" ms-duplex="ZDUser" />
+        </div>
+        <div class="radio radio-success">
+            <input type="radio" id="ckRole" name="conLCRY" value="1" ms-duplex-string="rytype">
+            <label for="ckRole"> 指定角色 </label>
+        </div>
+        <table class="table table-bordered table-hover table-striped" ms-visible="rytype==1">
+            <thead>
+                <tr>
+                    <th class="text-left">角色名称</th>
+                    <th class="text-center">角色描述</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ms-repeat-role="QueryRoles">
+                    <td class="text-left">
+                        <div class="checkbox checkbox-success checkbox-inline" ms-click="SelRole(role,this)">
+                            <input type="checkbox" ms-attr-id="inlineCheckbox{{$index}}" ms-duplex-checked="role.issel">
+                            <label ms-attr-for="inlineCheckbox{{$index}}">{{role.RoleName}}  </label>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>
+    <script>
+        var tempmodel = avalon.define({
+            $id: "BaseSelect",
+            ZDUser: "",
+            rytype: ComFunJS.getQueryString("rytype", "0"),
+            isSignle: ComFunJS.getQueryString("issignle", "Y"),
+            checkval: "",
+
+            GetRoleList: function (el) {
+                $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETROLE',{}, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        resultData.Result.forEach(function (el) {
+                            if (tempmodel.rytype == 1 && el.RoleCode == tempmodel.checkval) {
+                                el.issel = true;
+                                tempmodel.SelRoles.push({ 'RoleCode': el.RoleCode, 'RoleName': el.RoleName })
+                            } else {
+                                el.issel = false
+                            }
+                        })
+                        tempmodel.QueryRoles = resultData.Result;
+                    }
+                })
+            },
+
+            SelRole: function (item, dom) {
+                if (tempmodel.isSignle == "Y") {
+                    tempmodel.SelRoles.clear();
+                    tempmodel.QueryRoles.forEach(function (role) {
+                        role.issel = false;
+                    })
+
+                }
+                item.issel = !item.issel;
+                if (!item.issel) {
+                    ComFunJS.DelItem(tempmodel.SelRoles, "RoleCode", item.RoleCode)
+                } else {
+                    if (ComFunJS.FindItem(tempmodel.SelRoles, function (e) {
+                      return e.RoleCode == item.RoleCode;
+                    }).length == 0) {
+                        tempmodel.SelRoles.push(item)
+                    }
+                }
+            },
+            QueryRoles: [],//查询用户结果
+            SelRoles: [],//已选择用户
+            render: function () {
+            }
+        })
+        avalon.ready(function () {
+            tempmodel.checkval = ComFunJS.getQueryString("checkvalue", "");
+            if (tempmodel.rytype == "0") {
+                tempmodel.ZDUser = tempmodel.checkval;
+            } 
+            ComFunJS.initForm();
+            tempmodel.GetRoleList();
+        })
+        function getseldata() {//获取xu
+            var RoleCode = "";
+            var data = { 'RoleCode': RoleCode, 'UserNames': "" };
+            tempmodel.SelRoles.forEach(function (item) {
+                    data.RoleCode = data.RoleCode + item.RoleCode + ",";
+                })
+                data.RoleCode = data.RoleCode.substr(0, data.RoleCode.length - 1);
+                data.UserNames = tempmodel.ZDUser;
+            return data;
+
+        }
+    </script>
+</body>
+</html>

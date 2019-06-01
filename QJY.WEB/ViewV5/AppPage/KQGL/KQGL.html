@@ -1,0 +1,153 @@
+﻿<style>
+    .add-ic.zq label {
+        margin-right: 15px;
+        font-weight: normal;
+    }
+
+    .add-ic.zq input {
+        margin-right: 3px;
+        font-weight: normal;
+    }
+
+    .add-item {
+        margin-bottom: 20px;
+    }
+</style>
+<div class="form-horizontal" ms-controller="KQBC">
+    <div style="margin: 0 80px;">
+        <div>
+            <ul class="clearfix" style="display: block;padding:0">
+
+                <li class="add-item add-widthall">
+                    <label class="add-item-label"><i>*</i>规则名称</label>
+                    <div class="add-ic" style="display:block;width:50%">
+                        <input type="text" class="form-control  szhl_require" ms-duplex="modelData.KQTitle" placeholder="请输入规则名称，例如“上班”">
+                    </div>
+                </li>
+                <li class="add-item add-widthall">
+                    <label class="add-item-label"><i>*</i>适用人员</label>
+                    <div class="add-ic" style="display:block;width:50%">
+                        <button class="btn btn-sm dim" ms-class-1="btn-info:modelData.KQRange==0" ms-class-2="btn-default:modelData.KQRange==1" ms-click="SetRange(0)" type="button" style="width:30%;">全公司</button>
+                        <button class="btn btn-sm dim" ms-class-1="btn-info:modelData.KQRange==1" ms-class-2="btn-default:modelData.KQRange==0" ms-click="SetRange(1)" type="button" style="width:30%;">部分人员</button>
+                    </div>
+                </li>
+                <li class="add-item add-widthall" ms-if="modelData.KQRange==1">
+                    <div class="add-ic zq">
+                        <input type="text" class="szhl_getPeoples" ms-duplex="modelData.KQUsers" />
+
+                    </div>
+                </li>
+                <li class="add-item add-widthall">
+                    <label class="add-item-label"><i>*</i>工作周期</label>
+                    <div class="add-ic zq">
+                        <!--<label ms-repeat-item="WeekData"><input type="checkbox" ms-click="GetWeekDay(item)" ms-attr-checked="item.issel" ms-attr-value="item.day" />{{item.name}}</label>-->
+                        <!--修改后  checked选中-->
+                        <label ms-repeat-item="WeekData" ms-click="GetWeekDay(item)">
+                            <div class="icheckbox_square-blue mr5" ms-class-1="checked:item.issel">
+                                <span class="iconfont icon-check ft12"></span>
+                            </div>{{item.name}}
+                        </label>
+
+                        <div style="clear:both;margin-top:5px;display:none"><button class="btn btn-warning btn-sm dim" type="button">设置排除时间</button></div>
+                        <div style="clear:both;margin-top:5px;color:#999;">温馨提醒：</div>
+
+                    </div>
+                </li>
+                <li class="add-item add-item add-width fl-left">
+                    <label class="add-item-label"><i>*</i>上班起止时间</label>
+                    <div style="display:block;">
+                        <div class="add-ic fl-left" style="width: 45%;">
+                            <input type="text" class="form-control  szhl_form_date_hour szhl_require" ms-duplex="modelData.KQStart">
+                        </div>
+                        <div class="add-ic" style="float: left; line-height: 30px; width: 10%; text-align: center;">：</div>
+                        <div class="add-ic fl-right" style="width: 45%;">
+                            <input type="text" class="form-control szhl_form_date_hour szhl_require" ms-duplex="modelData.KQEnd">
+                        </div>
+                    </div>
+                </li>
+
+                <li class="add-item add-widthall">
+                    <label class="add-item-label"><i>*</i>开始执行时间</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control  szhl_form_date szhl_require" ms-duplex="modelData.KQZXDate" placeholder="请选择开始执行时间">
+                    </div>
+                </li>
+                <li class="add-item add-widthall">
+                    <label class="add-item-label">请输入考勤地址：</label>
+                    <div class="add-ic">
+                        <input type="text" class="form-control " ms-duplex="modelData.KQAddress" placeholder="请输入考勤地址">
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    var tempmodel = avalon.define({
+        $id: "KQBC",
+        ColumnData: [],
+        name: "班次设置",
+        iswf: false,//是否属于流程表单
+        WeekData: [{ day: 1, name: "星期一", issel: false }, { day: 2, name: "星期二", issel: false }, { day: 3, name: "星期三", issel: false }, { day: 4, name: "星期四", issel: false }, { day: 5, name: "星期五", issel: false }, { day: 6, name: "星期六", issel: false }, { day: 0, name: "星期日", issel: false }],
+        inittemp: function (strId) {
+
+            if (strId) {
+                //编辑加载数据
+                $.getJSON('/API/VIEWAPI.ashx?Action=KQGL_GETKQBCMODEL', { P1: strId }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result;
+                        if (tempmodel.modelData.KQZXDate && tempmodel.modelData.KQZXDate.length > 10) {
+                            tempmodel.modelData.KQZXDate = tempmodel.modelData.KQZXDate.substring(0, 10);
+                        }
+                        tempmodel.WeekData.forEach(function (item) {
+                            if (tempmodel.modelData.KQWeekDay.indexOf(item.day) > -1) {
+                                item.issel = true;
+                            } else {
+
+                                item.issel = false;
+                            }
+                        })
+                        setTimeout("ComFunJS.initForm()", 500)
+                    }
+                })
+            } else {
+
+                ComFunJS.initForm();
+
+            }
+        },//初始化
+
+        GetWeekDay: function (item) {
+            item.issel = !item.issel;
+        },
+        SetRange: function (type) {
+            tempmodel.modelData.KQRange = type;
+        },
+        modelData: { "KQTitle": "", "KQStart": "", "KQEnd": "", "KQZXDate": "", "KQWeekDay": "", "KQRange": 0, "KQUsers": "" },
+        SaveData: function (callback, dom) {
+            if (tempmodel.modelData.KQRange == 1 && !tempmodel.modelData.KQUsers) {
+                top.ComFunJS.winwarning("请选择适用人员");
+                $(dom).attr("disabled", false).find(".fa").hide();//加上转圈样式
+                return false;
+            }
+            tempmodel.modelData.KQWeekDay = "";
+            tempmodel.WeekData.forEach(function (item) {
+                if (item.issel) {
+                    tempmodel.modelData.KQWeekDay += item.day + ",";
+                }
+            })
+            if (!tempmodel.modelData.KQWeekDay) {
+                top.ComFunJS.winwarning("请选择工作周期");
+                $(dom).attr("disabled", false).find(".fa").hide();//加上转圈样式
+                return false;
+
+            }
+            tempmodel.modelData.KQWeekDay = tempmodel.modelData.KQWeekDay.substring(0, tempmodel.modelData.KQWeekDay.length - 1)
+            $.post("/API/VIEWAPI.ashx?ACTION=KQGL_ADDKQBC", { P1: JSON.stringify(tempmodel.modelData.$model) }, function (result) {
+                return callback.call(this, result);
+            });
+        }
+    });
+</script>

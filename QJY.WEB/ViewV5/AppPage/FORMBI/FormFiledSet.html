@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/ViewV5/CSS/element/index.css">
+    <style>
+        .el-transfer-panel__list.is-filterable {
+            height: 300px;
+            padding-top: 0;
+        }
+
+        .el-transfer-panel__body {
+            height: 352px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <el-container>
+            <el-main>
+                <el-transfer filterable
+                             :titles="title"
+                             :filter-method="filterMethod"
+                             filter-placeholder="请输入字段名称"
+                             v-model="value"
+                             :data="FiledData">
+                </el-transfer>
+                <el-button type="success" style="margin-top:10px" @click="SaveData()">确认保存</el-button>
+
+            </el-main>
+        </el-container>
+
+    </div>
+</body>
+<script src="/ViewV5/JS/vue.js"></script>
+<script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+<script src="/ViewV5/JS/lodash.min.js"></script>
+<script src="/ViewV5/JS/element/element.js"></script>
+<script src="/ViewV5/JS/bijs.js?v=2"></script>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                pdid: ComFunJS.getQueryString('pdid', '0'),
+                tdid: ComFunJS.getQueryString('tdid', '0'),
+                FiledData: [],
+                title: ["全部字段", "可编辑字段"],
+                value: [],
+                filterMethod(query, item) {
+                    return item.label.indexOf(query) > -1;
+                }
+            }
+        },
+        methods: {
+            InitForm: function () {
+                $.getJSON("/API/VIEWAPI.ashx?ACTION=FORMBI_GETFORMFILED", { P1: app.pdid, P2: app.tdid }, function (result) {
+                    if (!result.ErrorMsg) {
+                        _.forEach(result.Result, function (item) {
+                            app.FiledData.push({ label: item.TableFiledName, key: item.TableFiledColumn })
+                        })
+                        if (result.Result1) {
+                            app.value = result.Result1.split(',');
+                        }
+                    }
+                });
+            },
+            SaveData: function () {
+                    $.getJSON("/API/VIEWAPI.ashx?ACTION=FORMBI_SETPDFILED", { P1: app.tdid, P2: app.value.join(',') }, function (result) {
+                        if (!result.ErrorMsg) {
+                            app.$notify({
+                                title: '成功',
+                                message: '操作成功',
+                                type: 'success'
+                            });
+                        }
+                    });
+            }
+        },
+        mounted: function () {
+            var pro = this;
+            pro.$nextTick(function () {
+                pro.InitForm();
+            })
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,358 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>应用编辑</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/index.css?v=1">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/default.css">
+    <link href="/ViewV5/CSS/element/index.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/FORMBI.css?v=2">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_533449_zsibbu1n60f.css" />
+
+    <style>
+        .el-button-group button {
+            border-radius: 0px;
+        }
+
+        .widthmax {
+            width: 100%;
+        }
+
+        .pd40 {
+            padding: 40px;
+        }
+
+        .pd0 {
+            padding: 0;
+        }
+    </style>
+</head>
+<body class="BG">
+
+    <div id="Loading">
+        <div class="loader-inner ball-beat">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div id="DATABI_DSETZZ" class="FormV" style="display: none">
+        <el-container>
+
+            <el-main class="elmain pd40">
+                <div class="panel-df">
+                    <div class="container containerb" style="padding:0">
+                        <div class="panel panel-defaul  panhead">
+
+
+                            <el-row>
+                                <el-col :xs="24" :sm="24">
+                                    <h4 class="text-center" style="font-size:20PX;font-weight:bolder">
+                                        <span v-text="FormData.ModelName"></span> 
+                                    </h4>
+                                    <div style="text-align:right;">
+                                        <el-button type="success" ref="btAdd" @click="StarForm" style="border-radius:0px;"> <i class="iconfont icon-faqi"></i><span>保存数据集信息</span></el-button>
+                                    </div>
+                                  
+                                </el-col>
+                            </el-row>
+
+                        </div>
+
+                        <div class="panel panel-default panbody" style="padding:0" v-loading="loading" element-loading-text="拼命处理中...">
+                            <div class="success" v-show="formtatus =='1'">
+                                <div class="success-tip">
+                                    操作信息提示
+                                    <i></i>
+                                </div>
+                                <div class="icon-tip">
+                                    <div class="success-icon">
+                                        <img src="/ViewV5/images/xt-right.png" />
+                                    </div>
+                                    <p></p>
+                                </div>
+
+                                <div class="tip-mesg">
+                                </div>
+                            </div>
+
+                            <el-row class="padding20" v-show="formtatus =='0'">
+                                <el-form ref="FormData" label-position="top" :model="FormData">
+                                          <el-col  :md="12" style="    margin-bottom: 10px;padding-right:10px" >
+                                    <el-form-item label="父应用代码">
+                                        <el-input type="text" v-model="FormData.PModelCode"></el-input>
+                                    </el-form-item>
+                                    </el-col>
+                                          <el-col  :md="12" style="    margin-bottom: 10px;padding-left:10px" >
+                                    <el-form-item label="父应用类型">
+                                        <el-input type="text" v-model="FormData.ModelType"></el-input>
+                                               
+
+                                    </el-form-item>
+                                    </el-col>
+                                          <el-col  :md="12" style="    margin-bottom: 10px;padding-right:10px" >
+                                    <el-form-item label="应用名称">
+                                        <el-input type="text" v-model="FormData.ModelName"></el-input>
+                                               
+
+                                    </el-form-item>
+                                    </el-col>
+                                          <el-col  :md="12" style="    margin-bottom: 10px;padding-left:10px" >
+                                    <el-form-item label="应用代码">
+                                        <el-input type="text" v-model="FormData.ModelCode"></el-input>
+                                               
+
+                                    </el-form-item>
+                                    </el-col>
+                                         <el-col  :md="12" style="    margin-bottom: 10px;padding-right:10px" >
+                                    <el-form-item label="排序">
+                                        <el-input type="text" v-model="FormData.ORDERID"></el-input>
+                                               
+
+                                    </el-form-item>
+                                    </el-col>
+                                          <el-col  :md="12" style="    margin-bottom: 10px;padding-left:10px" >
+                                    <el-form-item label="移动首页">
+                                        <el-input type="text" v-model="FormData.WXUrl"></el-input>
+                                               
+
+                                    </el-form-item>
+                                    </el-col>
+                                </el-form>
+
+                                <el-table :data="FunData"
+                                          border
+                                          style="width: 100%" class="mt10">
+                                    <el-table-column label="页面列表(PC端)">
+                                            <el-table-column prop="PageName"
+                                                         label="页面名称"
+                                                         width="140">
+                                            <template slot-scope="scope">
+                                                <el-input v-model="scope.row.PageName"></el-input>
+                                            </template>
+                                        </el-table-column>
+                                         <el-table-column prop="PageCode"
+                                                         label="页面路径"
+                                                        >
+                                            <template slot-scope="scope">
+                                                <el-input v-model="scope.row.PageCode"></el-input>
+                                            </template>
+                                        </el-table-column>
+                                          <el-table-column prop="FunOrder"
+                                                         label="排序"
+                                                         width="120">
+                                            <template slot-scope="scope">
+                                                <el-input v-model="scope.row.FunOrder"></el-input>
+                                            </template>
+                                        </el-table-column>
+                                           <el-table-column prop="isiframe"
+                                                         label="是否iframe"
+                                                         width="120">
+                                            <template slot-scope="scope">
+                                                <el-input v-model="scope.row.isiframe"></el-input>
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column label="操作" fixed="right" align="center" width="100">
+                <template slot-scope="scope">
+                    <el-button @click.native.prevent="delRow(scope.$index,FunData,scope.row)"
+                               type="text"
+                               size="small">
+                        删除
+                    </el-button>
+
+                </template>
+            </el-table-column>
+                                    </el-table-column>
+
+                                </el-table>
+                                        <el-button  type="primary" size="mini" class="mt10 pull-right" @click="addRow">添加行<i class="el-icon-plus"></i></el-button>
+                   <el-table :data="MenuData"
+                                          border
+                                          style="width: 100%" class="mt10">
+                                    <el-table-column label="移动端菜单列表">
+                                            <el-table-column prop="MenuName"
+                                                         label="菜单名称"
+                                                         width="140">
+                                            <template slot-scope="scope">
+                                                <el-input v-model="scope.row.MenuName"></el-input>
+                                            </template>
+                                        </el-table-column>
+                                               <el-table-column prop="Type"
+                                                         label="类型"
+                                                         width="140">
+                                            <template slot-scope="scope">
+                                                <el-input v-model="scope.row.Type"></el-input>
+                                            </template>
+                                        </el-table-column>
+                                               <el-table-column prop="MenuCode"
+                                                         label="菜单名称"
+                                                         width="140">
+                                            <template slot-scope="scope">
+                                                <el-input v-model="scope.row.MenuCode"></el-input>
+                                            </template>
+                                        </el-table-column>
+                                      
+                                          <el-table-column prop="Url1"
+                                                         label="菜单路径"
+                                                        >
+                                            <template slot-scope="scope">
+                                                <el-input v-model="scope.row.Url1"></el-input>
+                                            </template>
+                                        </el-table-column>
+                                           <el-table-column prop="Sort"
+                                                         label="排序"
+                                                         width="120">
+                                            <template slot-scope="scope">
+                                                <el-input v-model="scope.row.Sort"></el-input>
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column label="操作" fixed="right" align="center" width="100">
+                <template slot-scope="scope">
+                    <el-button @click.native.prevent="delMenu(scope.$index,MenuData,scope.row)"
+                               type="text"
+                               size="small">
+                        删除
+                    </el-button>
+
+                </template>
+            </el-table-column>
+                                    </el-table-column>
+
+                                </el-table>
+                                        <el-button  type="primary" size="mini" class="mt10 pull-right" @click="addMenu">添加行<i class="el-icon-plus"></i></el-button>
+                            </el-row>
+
+                        </div>
+
+                        <div class="panel panel-default panwf " style="margin-bottom: 0px;">
+                            <el-row>
+                                <el-col :xs="24" :sm="24">
+                                    <div style="text-align:right;">
+
+                                        <el-button type="success" ref="btAdd" @click="StarForm" style="border-radius:0px;"> <i class="iconfont icon-faqi"></i><span>保存数据集信息</span></el-button>
+                                    </div>
+                                </el-col>
+                            </el-row>
+                        </div>
+
+                    </div>
+                </div>
+            </el-main>
+
+
+
+        </el-container>
+
+    </div>
+    <script src="/ViewV5/JS/vue.js"></script>
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/lodash.min.js"></script>
+    <script src="/ViewV5/JS/httpVueLoader.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <!-- 引入组件库 -->
+    <script src="/ViewV5/JS/element/element.js"></script>
+    <script src="/ViewV5/JS/bijs.js?v=4"></script>
+    <script>
+        var app = new Vue({
+            el: '#DATABI_DSETZZ',
+
+            data: {
+                loading: true,
+                formtatus: "0",
+                isshow: "1",
+                dialogFormVisible: false,
+                dataid: ComFunJS.getQueryString('ID', '0'),
+                FunData: [],
+                MenuData: [],
+                delfun: [],
+                FormData: {
+
+                }
+
+            },
+
+            methods: {
+                addRow: function () {
+                    var temp = {};
+                    this.FunData.push(temp);
+
+                },
+                copRow: function (index, rows) {
+                    var temp = JSON.stringify(rows[index]);
+                    rows.splice(index, 0, JSON.parse(temp));
+
+                },
+                delRow: function (index, rows, row) {
+                    if (row.ID) {
+                        this.delfun.push(row.ID);
+                    }
+                    rows.splice(index, 1);
+                },
+                delMenu: function (index, rows, row) {
+                    rows.splice(index, 1);
+                },
+                addMenu: function () {
+                    var temp = {};
+                    this.MenuData.push(temp);
+
+                },
+                StarForm: function () {
+                    app.loading = true;
+                    $.getJSON("/API/VIEWAPI.ashx?ACTION=INIT_SAVEYY", { P1: JSON.stringify(app.FormData), P2: JSON.stringify(app.FunData), DIDS: app.delfun.join(','), MENU: JSON.stringify(app.MenuData) }, function (result) {
+                        if (!result.ErrorMsg) {
+                            app.$notify({
+                                title: '成功',
+                                message: '操作成功',
+                                type: 'success'
+                            });
+                            app.loading = false;
+                            app.formtatus = "1";//成功状态
+                            app.$refs.FormData.resetFields();
+
+
+                        }
+                    });
+                },
+                InitWF: function () {
+                    $.getJSON("/API/VIEWAPI.ashx", { Action: "INIT_GETYY", P1: app.dataid }, function (result) {
+                        if (result.ErrorMsg == "") {
+                            app.loading = false;
+                            app.FormData = result.Result;
+                            app.FunData = result.Result1;
+                            app.MenuData = result.Result2;
+
+
+                        }
+                    })
+                }
+
+            },
+            mounted: function () {
+                var pro = this;
+                pro.$nextTick(function () {
+                    pro.InitWF();
+
+                })
+            },
+            created() {
+                document.body.removeChild(document.getElementById('Loading'))
+                var divBJ = document.getElementById('DATABI_DSETZZ');
+                divBJ.style.display = "block";
+            }
+
+        })
+
+
+    </script>
+
+</body>
+
+</html>

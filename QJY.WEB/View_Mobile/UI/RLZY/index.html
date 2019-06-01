@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <title>人力资源系统</title>
+    <link href="css/reset.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="css/default.css">
+    <link href="//at.alicdn.com/t/font_1476090774_8365302.css" rel="stylesheet" type="text/css">
+    <style>
+        .ms-controller, [ms-controller] {
+            display: none;
+        }
+
+        .head-kh {
+            background: url(images/bg-account.jpg);
+            background-size: 100% 100%;
+        }
+
+        .icon-25 {
+            font-size: 2.5em;
+        }
+
+        .color1 {
+            color: #FFA000;
+        }
+
+        .color2 {
+            color: #0996FB;
+        }
+
+        .color3 {
+            color: #FF8A55;
+        }
+
+        .color4 {
+            color: #43DCBB;
+        }
+    </style>
+    <script>
+        //window.onload=init;
+        //function init() {
+        //    var plus_btn = document.getElementById("plus_btn");
+        //    var module_plus = document.getElementById("module_plus")
+        //    plus_btn.onclick = function () { module_plus.style.display = "block" }
+        //    module_plus.onclick = function () { module_plus.style.display = "none" }
+        //}
+    </script>
+</head>
+<body ms-controller="rlzyview">
+    <section class="user-kh">
+        <div class="head-kh">
+            <div class="kh-tx">
+                <span><img ms-src="{{ComFunJS.getfile()+'&type=TX&user='+userData.User.UserName}}"></span>
+            </div>
+            <h3 class="user-name">{{userData.User.UserRealName}}</h3>
+            <!-- <h4 class="user-zh">18709836782</h4> -->
+            <div class="msg-kh">
+                <ul class="clearfix user-msg">
+                    <li ms-click="openTab('/View_Mobile/UI/RLZY/list.html?type=1')">
+                        <a href="javascript:void(0);">
+                            <i>{{TongJiData.CDQTY}}</i>
+                            <span>本月迟到</span>
+                        </a>
+                    </li>
+                    <li class="bk" ms-click="openTab('/View_Mobile/UI/RLZY/list.html?type=2')">
+                        <a href="javascript:void(0);">
+                            <i>{{TongJiData.ZDQTY}}</i>
+                            <span>本月早退</span>
+                        </a>
+                    </li>
+                    <li ms-click="openTab('/View_Mobile/UI/RLZY/list.html?type=3')">
+                        <a href="javascript:void(0);">
+                            <i>{{TongJiData.QJQTY==0?'0':TongJiData.QJQTY}}</i>
+                            <span>本月请假</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <div class="fun-crm">
+        <ul class="block_nav clearfix">
+            <li ms-click="openTab('/View_Mobile/UI/KQQD.html')">
+                <a>
+                    <i class=""><b class="iconfont icon-kaoqin icon-25 color2"></b></i>
+                    <span>考勤签到</span>
+                </a>
+            </li>
+
+            <li ms-click="openTab('/View_Mobile/UI/BASE/APP_MOBIL_WF.html?FormCode=WQQD')">
+                <a>
+                    <i class=""><b class="iconfont icon-tianjiajishi icon-25 color4"></b></i>
+                    <span>外勤签到</span>
+                </a>
+            </li>
+            <li ms-click="openTab('/View_Mobile/UI/BASE/APP_MOBIL_WF.html?FormCode=CCXJ')">
+                <a>
+                    <i class=""><b class="iconfont icon-qingjiajiaban icon-25 color2"></b></i>
+                    <span>添加休假</span>
+                </a>
+            </li>
+            <li ms-click="openTab('/View_Mobile/UI/UI_KQQD_LIST.html')">
+                <a>
+                    <i class=""><b class="iconfont icon-kqgl icon-25 color1"></b></i>
+                    <span>考勤记录</span>
+                </a>
+            </li>
+            <li ms-click="openTab('/View_Mobile/UI/UI_WQQD_LIST.html')">
+                <a>
+                    <i class=""><b class="iconfont icon-wqqd icon-25 color2"></b></i>
+                    <span>外勤记录</span>
+                </a>
+            </li>
+
+
+            <li ms-click="openTab('/View_Mobile/UI/UI_CCXJ_LIST.html')">
+                <a>
+                    <i class=""><b class="iconfont icon-ccxj icon-25 color3"></b></i>
+                    <span>休假记录</span>
+                </a>
+            </li>
+            <!--工资条-有红点标识-->
+            <li ms-click="openTab('/View_Mobile/UI/UI_GZT_LIST.html')">
+                <a>
+                    <i class="">
+                        <b class="iconfont icon-gzt icon-25 color4"></b>
+                        <span class="tip-red" ms-if="wdsl>0"></span>
+                    </i>
+                    <span>工资条</span>
+                </a>
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+        </ul>
+    </div>
+    <!-- 加号 -->
+    <!--<span id="plus_btn"><img src="images/plus_icon.png" height="188" width="188" alt="" style=""></span>-->
+    <!--<div class="module_plus" id="module_plus">
+        <div class="mod-mask"></div>
+        <div class="mod-body">
+            <ul>
+                <li>
+                    <a ms-click="openTab('/View_Mobile/UI/KQQD.html')" href="javascript:void(0)" class="mod-li-icon"><img src="images/c-kh.png" height="188" width="188" alt=""></a>
+                    <div ms-click="openTab('/View_Mobile/UI/KQQD.html')" class="mod-li-tip">考勤签到</div>
+                </li>
+                <li>
+                    <a ms-click="openTab('/View_Mobile/BASE/APP_MOBIL_WF.html?FormCode=WQQD')" href="javascript:void(0)" class="mod-li-icon"><img src="images/c-lxr.png" height="188" width="188" alt=""></a>
+                    <div ms-click="openTab('/View_Mobile/BASE/APP_MOBIL_WF.html?FormCode=WQQD')" class="mod-li-tip">外勤签到</div>
+                </li>
+                <li>
+                    <a ms-click="openTab('/View_Mobile/BASE/APP_MOBIL_WF.html?FormCode=CCXJ')" href="javascript:void(0)" class="mod-li-icon"><img src="images/c-ht.png" height="188" width="188" alt=""></a>
+                    <div ms-click="openTab('/View_Mobile/BASE/APP_MOBIL_WF.html?FormCode=CCXJ')" class="mod-li-tip">新增出差休假</div>
+                </li>
+
+
+            </ul>
+
+        </div>
+    </div>-->
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script src="/View_Mobile/JS/avalon1.47.js"></script>
+    <script src="/View_Mobile/JS/ComFunJS.js?jsver=20160425"></script>
+    <script type="text/javascript">
+        var model = avalon.define({
+            $id: "rlzyview",
+            userData: {},
+            TongJiData: { CDQTY: 0, ZDQTY: 0, QJQTY: 0 },
+            GetGongJI: function () {
+                $.getJSON("/API/VIEWAPI.ashx?Action=KQGL_GETKQJLLIST", {}, function (r) {
+                    if (r.ErrorMsg == "") {
+                        model.TongJiData.CDQTY = r.Result2[0].CDCount;
+                        model.TongJiData.ZDQTY = r.Result2[0].ZTCount;
+                        model.TongJiData.QJQTY = r.Result2[0].QJCount;
+                    }
+                })
+
+            },
+            openTab: function (url) {
+                if (url) {
+                    if (url.indexOf('?') > 0) {
+                        url += "&r=" + Math.random();
+                    } else {
+                        url += "?r=" + Math.random();
+                    }
+                    window.location = url;
+                }
+
+            },
+            openCard: function () {
+                alert("开发中...");
+            },
+            wdsl:0,
+            GetWDGZT: function () {
+
+                $.getJSON('/API/VIEWAPI.ashx?Action=XZGL_NOREADGZD', {}, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        model.wdsl = resultData.Result;
+                    }
+                })
+            }
+
+        })
+
+        avalon.ready(function () {
+            $.getJSON("/API/VIEWAPI.ashx?Action=XTGL_GETUSERINFO", {}, function (r) {
+                if (r.ErrorMsg == "") {
+                    model.userData = r.Result;
+                }
+            })
+            model.GetGongJI();
+            model.GetWDGZT();
+        })
+
+    </script>
+
+
+</body>
+</html>

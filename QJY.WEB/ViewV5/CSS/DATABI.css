@@ -1,0 +1,240 @@
+﻿bady {
+    overflow-x: hidden;
+}
+
+html {
+    overflow-x: hidden;
+}
+
+.panel-df {
+    padding: 0 20px;
+    height: 100%;
+}
+
+.img120 {
+    width: 140px;
+}
+
+.cont-20 {
+    padding: 30px 0;
+    border-bottom: 1px dotted #ccc;
+}
+
+
+@media screen and (max-width: 768px) {
+    .msg {
+        display: none;
+    }
+
+    .heightauto {
+        height: auto;
+    }
+
+    .head-center.clearfix.c2 {
+        min-width: 100%;
+        padding: 0;
+    }
+}
+
+.zhezhao {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    display: table;
+    display: table;
+    width: 100%;
+}
+
+.insert-input {
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.pickpw {
+    font-size: 14px;
+    padding: 50px 15px;
+}
+
+ul.box {
+    margin: 0 auto;
+    overflow: hidden;
+    display: inline-block;
+}
+
+    ul.box li {
+        list-style-type: none;
+        margin: 20px 10px;
+        padding: 0;
+        width: 300px;
+        height: 220px;
+        border: 2px solid #efefef;
+        position: relative;
+        float: left;
+        background: #ffffff; /* old browsers */
+        line-height: 220px;
+        text-align: center;
+        -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27), 0 0 60px rgba(0, 0, 0, 0.1) inset;
+        -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27), 0 0 60px rgba(0, 0, 0, 0.1) inset;
+        -o-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27), 0 0 60px rgba(0, 0, 0, 0.1) inset;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27), 0 0 60px rgba(0, 0, 0, 0.1) inset;
+        behavior: url(ie-css3.htc);
+    }
+
+        ul.box li:before {
+            z-index: -2;
+            position: absolute;
+            background: transparent;
+            width: 90%;
+            height: 80%;
+            content: '';
+            left: 20px;
+            bottom: 8px;
+            -webkit-transform: skew(-12deg) rotate(-4deg);
+            -moz-transform: skew(-12deg) rotate(-4deg);
+            -o-transform: skew(-12deg) rotate(-4deg);
+            -ms-transform: skew(-12deg) rotate(-4deg);
+            -webkit-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+            -moz-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+            -o-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+            behavior: url(ie-css3.htc);
+        }
+
+
+
+        ul.box li:after {
+            z-index: -1;
+            position: absolute;
+            background: transparent;
+            width: 90%;
+            height: 80%;
+            content: '';
+            right: 20px;
+            bottom: 8px;
+            -webkit-transform: skew(12deg) rotate(4deg);
+            -moz-transform: skew(12deg) rotate(4deg);
+            -o-transform: skew(12deg) rotate(4deg);
+            -ms-transform: skew(12deg) rotate(4deg);
+            -webkit-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+            -moz-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+            -o-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+            behavior: url(ie-css3.htc);
+        }
+
+.box li img {
+    width: 290px;
+    height: 210px;
+    padding: 5px;
+}
+
+.iconfont {
+    cursor: pointer;
+}
+
+.btnmenu {
+    position: absolute;
+    top: 13px;
+    right: 3px;
+    Z-INDEX: 9999;
+}
+
+.btnmenuitem {
+    min-width: 100px;
+    left: auto !important;
+    right: 0px;
+}
+
+.jg-item {
+    background: #fff;
+    line-height: 30px;
+    padding-left: 5px;
+}
+
+.grid-stack-item-content {
+    border: 1px solid #e2dcdc;
+    border-radius: 3px;
+    /*box-shadow: 0 1px 3px #ccc;*/
+    /*padding:10px;*/
+}
+
+.jg-itemwd {
+    background-color: #12b8f6;
+    color: white;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.kbfont {
+    font-size: 32px;
+    color: #12b8f6;
+    line-height: 36px;
+    padding: 5px 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+}
+
+.panel-default {
+    border: 0px
+}
+
+.panel {
+    box-shadow: none;
+}
+
+.detaldec {
+    text-align: center;
+    font-size: 18px;
+    width: 100%;
+    line-height: 20px;
+    position: absolute;
+    top: 45%;
+}
+
+.el-input__inner {
+    border-radius: 1px;
+}
+
+
+
+.input-with-select .el-input-group__prepend {
+    background-color: #FFF;
+}
+
+.form-group {
+    margin:15px 15px 0 0;
+}
+.el-form-item {
+    margin-bottom: 0;
+}
+.el-form-item__content {
+    line-height: 28px;
+}
+.line{
+    text-align:center;
+}
+.el-input__inner {
+    min-width:80px;
+}
+.el-form-item__label {
+    line-height: 20px;
+    padding: 0px !important;
+    margin-top: 10px;
+}
+
+.widgetactive {
+    box-shadow: 0 1px 3px #12b8f6;
+    border: 1px solid #12b8f6;
+}
+.filetype {
+    float: right;
+    font-size: 10px;
+    color: cornflowerblue;
+}

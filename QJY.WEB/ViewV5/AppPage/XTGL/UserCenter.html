@@ -1,0 +1,122 @@
+﻿<div class="detail-con user-list ft14" ms-controller="UserCenter">
+    <div class="detail-item">
+        <span class="item-tit" style="margin-top:22px;">头像</span>
+        <ul class="clearfix list-unstyled pic-list">
+            <li>
+                <img ms-attr-src="{{ComFunJS.getfile()}}&type=TX&user={{UserData.UserName}}" onerror="javascript: this.src = 'images/head.jpg'" style="width:55px;height:55px;border-radius:3px;">
+            </li>
+            <li>
+                <a class=" cor-blue" ms-click="UploadHeadImage()" style="line-height: 55px;">修改</a>
+            </li>
+        </ul>
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">账号</span>
+        <input type="text" class="settings-input form-control" disabled="disabled" ms-duplex="UserData.UserName">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">公司</span>
+        <input type="text" class="settings-input form-control" disabled="disabled" ms-duplex="CompanyData.QYName">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">部门</span>
+        <div class="item-con"> {{tempindex.DeptName}} </div>
+    </div>
+
+    <div class="detail-item">
+        <span class="item-tit">职位</span>
+        <input type="text" class="settings-input form-control" disabled="disabled" ms-duplex="UserData.zhiwu">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">密码</span>
+        <div class="item-con"><a class=" cor-blue" data-toggle="modal" data-target="#UpdatePDModal" data-index="1" data-backdrop="static">修改密码</a></div>
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">性别</span>
+        <div style="height:35px;padding-top:5px;">
+            <label class="mr20" ms-click="ChangeSex('男')">
+                <div class="icheckbox_square-blue mr5" ms-class-1="checked:UserData.Sex=='男'">
+                    <span class="iconfont icon-check ft12"></span>
+                </div>男
+            </label>
+            <label ms-click="ChangeSex('女')">
+                <div class="icheckbox_square-blue mr5" ms-class-1="checked:UserData.Sex=='女'">
+                    <span class="iconfont icon-check ft12"></span>
+                </div>女
+            </label>
+        </div>
+    </div>
+    <!--<div class="detail-item">
+        <span class="item-tit">直属上级</span>
+        <div class="item-con">{{ComFunJS.convertuser(UserData.UserLeader)}} <a class=" cor-blue">修改</a></div>
+    </div>-->
+    <div class="detail-item">
+        <span class="item-tit">手机号</span>
+        <div class="item-con">{{UserData.mobphone}} <a class=" cor-blue hidden">修改</a></div>
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">电话</span>
+        <input type="text" class="settings-input form-control" placeholder="输入电话" ms-duplex="UserData.telphone">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">微信</span>
+        <input type="text" class="settings-input form-control" placeholder="微信账号" ms-duplex="UserData.weixinnum">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">邮箱</span>
+        <input type="text" class="settings-input form-control" placeholder="邮箱账号" ms-duplex="UserData.mailbox">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">Q&nbsp;Q</span>
+        <input type="text" class="settings-input form-control" placeholder="QQ账号" ms-duplex="UserData.QQ">
+    </div>
+    <div class="detail-item">
+        <span class="item-tit">员工岗位</span>
+        <textarea style="width: 100%;height: 94px;border: #ddd solid 1px; border-radius: 2px;padding: 3px 10px;color: #333;vertical-align: top;resize: none;" placeholder="填写员工岗位" ms-duplex="UserData.UserGW"></textarea>
+    </div>
+    <div class="detail-item">
+        <span class="item-tit"></span>
+        <button class="btn btn-info pl20 pr20" ms-click="SaveData(this)"><i class="fa fa-spinner fa-spin" style="display: none"></i>保存</button>
+    </div>
+
+</div>
+<script type="text/javascript">
+
+    var tempindex = avalon.define({
+        $id: "UserCenter",
+        name: "员工编辑",
+        iswf: true,//是否属于流程表单
+        BranchData: [],
+        RoleData: [],
+        DeptName: "",
+        userName: "",
+        seltype: 1,
+        UserData: {},
+        ChangeSex: function (type) {
+            tempindex.UserData.Sex = type;
+        },
+        InitWigetData: function (strId) {
+            //人员信息
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETUSERBYUSERNAME', { "P1": ComFunJS.getnowuser() }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempindex.UserData = resultData.Result.User;
+                    tempindex.DeptName = resultData.Result.BranchInfo.DeptName;
+                    tempindex.UserData.UserOrder = !tempindex.UserData.UserOrder ? 0 : tempindex.UserData.UserOrder;
+                }
+            })
+        }, SaveData: function (dom) {
+            if (!(/^0?1[3|4|5|8|7][0-9]\d{8}$/.test(tempindex.UserData.mobphone))) {
+                top.ComFunJS.winwarning("手机号填写不正确");
+                return;
+            }
+            $(dom).attr("disabled", true).find(".fa").show();//加上转圈样式
+            var modelValue = JSON.stringify(tempindex.UserData.$model);
+            $.post("/API/VIEWAPI.ashx", { Action: "XTGL_ADDUSER", P1: modelValue,P2:"" }, function (result) {
+                $(dom).attr("disabled", false).find(".fa").hide();//加上转圈样式
+                if (result.ErrorMsg == "") {
+                    top.ComFunJS.winsuccess("修改用户信息成功");
+                }
+            });
+        }
+    });
+</script>

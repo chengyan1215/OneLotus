@@ -1,0 +1,324 @@
+﻿<style>
+    .article-wages {
+        width: 150px;
+        height: 100%;
+        background: #f7f7f7;
+        position: absolute;
+        overflow-y: auto;
+    }
+
+        .article-wages li {
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+            .article-wages li.active {
+                background: #fff;
+                color: #7bb7d5;
+            }
+
+    .article-wages-right {
+        margin-left: 150px;
+        position: absolute;
+        height: 100%;
+        overflow-y: auto;
+        width: 600px;
+    }
+
+    .mail-head {
+        /* width: 100%; */
+        height: 33px;
+        line-height: 33px;
+        padding: 0 10px;
+        border: 1px solid #d9dadc;
+        border-radius: 2px;
+        width: 335px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .show-table table td {
+        border: 1px solid #e7e7eb;
+        padding: 10px 5px;
+        white-space: nowrap;
+    }
+
+    .output-key {
+        width: 80px;
+        background-color: #3498db;
+        color: #fff;
+        padding-right: 10px;
+        text-align: right;
+    }
+</style>
+
+
+
+<div ms-controller="XZGLLIST">
+    <!-- 按条件选择 -->
+    <div class="tab-filter-type">
+        <!--<div class="oh">
+            <h5 class="pull-left tr">事项类型：</h5>
+            <ul class="tab-type ft14">
+                <li ms-click="SelectType('1')"><span class="active">我创建的</span></li>
+                <li ms-click="SelectType('2')"><span>汇报我的</span></li>
+                <li ms-click="SelectType('3')"><span>下属签到</span></li>
+            </ul>
+        </div>
+        <div class="oh">
+            <h5 class="pull-left tr">创建时间：</h5>
+            <ul class="tab-type ft14">
+                <li><span class="active" ms-click="SelectTime('')">全部</span></li>
+                <li ms-click="SelectTime('1')"><span>近一周</span></li>
+                <li ms-click="SelectTime('2')"><span>近一月</span></li>
+                <li>
+                    <span ms-click="SelectTime('3','1')">自定义</span>
+                    <div class="pull-right ml10 zdy-text c999" ms-visible="curXJTime=='3'">
+                        <input type="text" class="szhl_form_date szhl_require null" ms-duplex="starTime">-
+                        <input type="text" class="szhl_form_date szhl_require null" ms-duplex="endTime">
+                        <input type="button" ms-click="SelectTime('3')" value="确定" style="width: 50px; background-color: #12B8F6; color: #ffffff" />
+                    </div>
+                </li>
+            </ul>
+        </div>-->
+        <!-- 搜索 -->
+        <div class="oh">
+            <div class="input-group ml15" style="width: 300px; float: left;">
+                <input type="search" class="form-control" ms-duplex="search.searchcontent" placeholder="搜索标题" style="height: 30px">
+                <span class="input-group-addon" ms-click="GetLIST()">搜索</span>
+            </div>
+        </div>
+    </div>
+    <!-- 展开更多选项 -->
+    <div class="add-tab ft14 tc mt20" style="display: none;">
+        <span>更多筛选<i class="caret"></i></span>
+    </div>
+    <!-- 表格 -->
+    <div class="default-tab ft14 pt20">
+        <table class="table table-striped table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th class="tc width-70">
+                        序号
+                    </th>
+                    <th>标题</th>
+                    <th>姓名</th>
+                    <th>时间</th>
+                    <th>薪资</th>
+                    <th>落款</th>
+                    <th width="80px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ms-repeat-el="ListData" ms-on-mouseover="mouseover" ms-on-mouseout="mouseout">
+                    <td class="tc">
+                        {{$index+1}}
+                    </td>
+                    <td>{{el.title}}</td>
+                    <td>{{el.UserRealName}}</td>
+                    <td>{{el.CRDate|date('yyyy-MM-dd HH:mm')}}</td>
+                    <td>{{JSON.parse(el.salaryData).合计}}</td>
+                    <td>{{el.Inscribe}}</td>
+                    <td>
+                        <span class="tool" style="display: none;">
+                            <a class="cz-btn ft18 bj-color tip" data-toggle="modal" title="查看" data-target="#gzdlook" ms-click="selusergz(el)">
+                                <i class="iconfont icon-look"></i>
+                            </a>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr ms-if="isnull">
+                    <td class="tc"></td>
+                    <td>暂无数据</td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="fy-list">
+            <div id="pageDiv" ms-if="ListData.size()!=0" class="pull-right"></div>
+            <div class="pull-right" ms-if="ListData.size()!=0">
+                <span>共{{model.page.total}}条记录</span>
+                选择每页条数
+                <select style="height: 25px; width: 50px;" ms-change="selNum(this.value)" ms-duplex="model.page.pagecount">
+                    <option ms-repeat-pg="pageNum" ms-attr-value="pg.num" ms-attr-selected="pg.num==model.page.pagecount?'selected':''">{{pg.num}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="gzdlook" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 500px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">查看</h4>
+                </div>
+                <div class="modal-body" style="height: 500px; overflow: auto;">
+                    <div class=" padding20">
+                        <div><span id="yltitle" class="mail-head color-6">{{seluser.title}}</span></div>
+                        <h4 style="font-weight:700" class="pt20 pb20 ft16">{{seluser.UserRealName}}<br>{{seluser.rise}}</h4>
+                        <div class="show-table">
+                            <table class="odd-col color-6">
+                                <tr>
+                                    <td class="output-key">姓名</td>
+                                    <td>{{YLName}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="output-key">部门</td>
+                                    <td>{{YLBM}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="output-key">用户编码</td>
+                                    <td>{{YLTel}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="output-key">实发合计</td>
+                                    <td>{{YLHJ}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="output-key" colspan="2">应发合计：{{ylhj(YFData)}}</td>
+                                </tr>
+                                <tr ms-repeat="YFData">
+                                    <td class="output-key">
+                                        {{$key}}
+                                    </td>
+                                    <td class="output-value">
+                                        {{$val}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="output-key" colspan="2">应扣合计：{{ylhj(YKData)}}</td>
+                                </tr>
+                                <tr ms-repeat="YKData">
+                                    <td class="output-key">
+                                        {{$key}}
+                                    </td>
+                                    <td class="output-value">
+                                        {{$val}}
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+                        <h4 style="font-weight:700" class="pt20 pb20 ft16">{{seluser.Inscribe}}</h4>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var tempindex = avalon.define({
+        $id: "XZGLLIST",
+        curXJType: "",
+        curXJTime: "",
+        starTime: "",
+        endTime: "",
+        SelectType: function (type) {
+            model.search.seartype = type;
+            tempindex.GetLIST();
+        },
+        YLName: "",
+        YLBM: "",
+        YLTel: "",
+        YLHJ: "",
+        YFData: {},
+        YKData: {},
+        selusergz: function (item, uli) {
+            tempindex.seluser = item;
+            item1 = JSON.parse(item.salaryData);
+            tempindex.YLName = item1.姓名;
+            tempindex.YLBM = item1.部门;
+            tempindex.YLTel = item1.用户编码;
+            tempindex.YLHJ = item1.合计;
+            tempindex.YFData = item1.YF;
+            tempindex.YKData = item1.YK;
+
+            if (item.IsRead != '1') {
+                $.getJSON('/API/VIEWAPI.ashx?Action=XZGL_READGZD', { P1: item.ID }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        item.IsRead = '1';
+                    }
+                })
+            }
+        },
+        seluser: {},
+        //selsjuser: {},
+        //selusergz: function (item) {
+        //    tempindex.seluser = item;
+        //    tempindex.selsjuser = JSON.parse(item.salaryData);
+        //},
+        ylhj: function (obj) {
+            var m = 0;
+            if (obj.$model) {
+                obj = obj.$model;
+            }
+            $.each(obj, function (i, n) {
+                if (!isNaN(n)) {
+                    m = m + n * 1;
+                }
+            })
+            return m.toFixed(2);
+        },
+        selNum: function (item) {    //选择显示的条数
+            model.page.pagecount = item;
+            tempindex.GetLIST();
+        },
+        InitWigetData: function () {
+            //类型数据
+            tempindex.GetLIST();
+            ComFunJS.initForm();
+        },
+        GetLIST: function () {
+            model.page.pageindex = 1;
+            model.ListData.clear();
+            $.getJSON('/API/VIEWAPI.ashx?Action=XZGL_GETGZDLIST',
+                {
+                    p: 1,
+                    P1: model.search.seartype,
+                    Content: model.search.searchcontent,
+                    pagecount: model.page.pagecount,
+                }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        model.ListData = resultData.Result;
+                        if (model.ListData.size() == 0) { model.isnull = true; } else { model.isnull = false; }
+                        model.page.total = resultData.Result1;
+                        laypage({
+                            cont: 'pageDiv', //容器。值支持id名、原生dom对象，jquery对象。
+                            pages: Math.ceil(parseInt(resultData.Result1) * 1.0 / model.page.pagecount), //
+                            curr: 1, //初始化当前页
+                            skin: 'molv',
+                            jump: function (e) { //触发分页后的回调
+                                if (e.curr != model.page.pageindex) {
+                                    $.getJSON('/API/VIEWAPI.ashx?Action=XZGL_GETGZDLIST',
+                                        {
+                                            p: e.curr,
+                                            P1: model.search.seartype,
+                                            Content: model.search.searchcontent,
+                                            pagecount: model.page.pagecount,
+                                        }, function (resultData) {
+                                            if (resultData.ErrorMsg == "") {
+                                                model.ListData = resultData.Result;
+                                            }
+                                        })
+                                    model.page.pageindex = e.curr;
+                                }
+                            }
+                        });
+                    }
+                })
+        }
+    })
+    //# sourceURLXZGLLIST.js;
+</script>

@@ -1,0 +1,260 @@
+﻿
+<div class="form-horizontal" ms-controller="TXSX">
+    <div class="form-group">
+        <label class="col-xs-2 control-label"><i>*</i>执行任务</label>
+        <div class="col-xs-4">
+            <select class="form-control" ms-duplex="modelData.Type">
+                <option value="0" ms-visible="top.model.UserInfo.QYinfo.IsUseWX == 'Y'">发送短信和微信</option>
+                <option value="1">发送短信</option>
+                <option value="2" ms-visible="top.model.UserInfo.QYinfo.IsUseWX == 'Y'">发送微信</option>
+                <option value="3">执行接口</option>
+
+            </select>
+        </div>
+    </div>
+    <div class="form-group" ms-if="modelData.Type!=3">
+        <label class="col-xs-2 control-label"><i>*</i>提醒人</label>
+        <div class="col-xs-9">
+            <input type="text" autofocus="autofocus" id="txr" class="form-control  szhl_getPeoples szhl_require" ms-duplex="modelData.TXUser" />
+        </div>
+    </div>
+    <div ms-if="modelData.Type==3">
+        <div class="form-group">
+            <label class="col-xs-2 control-label"><i>*</i>接口所在模块</label>
+            <div class="col-xs-9">
+
+                <input class="szhl_require form-control szhl_require" type="text" ms-duplex="modelData.APIName" />
+            </div>
+        </div>
+        <div class="form-group" ms-if="modelData.Type==3">
+            <label class="col-xs-2 control-label"><i>*</i>接口名称</label>
+            <div class="col-xs-9">
+
+                <input class="szhl_require form-control szhl_require" type="text" ms-duplex="modelData.FunName" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label"><i>*</i>内容</label>
+        <div class="col-xs-9">
+
+            <textarea class="szhl_require form-control szhl_require" rows="8" ms-duplex="modelData.TXContent"></textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-2 control-label"><i>*</i>执行模式</label>
+        <div class="col-xs-4">
+            <select class="form-control szhl_require" ms-duplex="modelData.TXType">
+                <option value="0">立即发送</option>
+                <option value="1">仅一次</option>
+                <option value="2">每个工作日</option>
+                <option value="3">每天</option>
+                <option value="5">每月</option>
+                <option value="4">自定义</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group" ms-visible="modelData.TXType=='1'">
+        <label class="col-xs-2 control-label">日期</label>
+        <div class="col-xs-4">
+            <input class="szhl_form_date form-control " ms-duplex="modelData.Date" />
+        </div>
+    </div>
+    <div class="form-group" ms-if="modelData.TXType=='4'">
+        <label class="col-xs-2 control-label">星期</label>
+        <div class="col-xs-10">
+
+            <div style="display: block;">
+                <span style=" line-height: 34px; margin-right:10px"><input name="days" type="checkbox" value="周一">周一</span>
+                <span style=" line-height: 34px; margin-right:10px"><input name="days" type="checkbox" value="周二">周二</span>
+                <span style=" line-height: 34px; margin-right:10px"><input name="days" type="checkbox" value="周三">周三</span>
+                <span style=" line-height: 34px; margin-right:10px"><input name="days" type="checkbox" value="周四">周四</span>
+                <span style=" line-height: 34px; margin-right:10px"><input name="days" type="checkbox" value="周五">周五</span>
+                <span style=" line-height: 34px; margin-right:10px"><input name="days" type="checkbox" value="周六">周六</span>
+                <span style=" line-height: 34px; margin-right:10px"><input name="days" type="checkbox" value="周日">周日</span>
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group" ms-if="modelData.TXType==5">
+        <label class="col-xs-2 control-label">日期</label>
+        <div class="col-xs-2">
+            <select class="form-control" ms-duplex="modelData.Days">
+                <option value="01" ms-attr-selected="modelData.Days=='01'?'selected':''">01</option>
+                <option value="02" ms-attr-selected="modelData.Days=='02'?'selected':''">02</option>
+                <option value="03" ms-attr-selected="modelData.Days=='03'?'selected':''">03</option>
+                <option value="04" ms-attr-selected="modelData.Days=='04'?'selected':''">04</option>
+                <option value="05" ms-attr-selected="modelData.Days=='05'?'selected':''">05</option>
+                <option value="06" ms-attr-selected="modelData.Days=='06'?'selected':''">06</option>
+                <option value="07" ms-attr-selected="modelData.Days=='07'?'selected':''">07</option>
+                <option value="08" ms-attr-selected="modelData.Days=='08'?'selected':''">08</option>
+                <option value="09" ms-attr-selected="modelData.Days=='09'?'selected':''">09</option>
+                <option value="10" ms-attr-selected="modelData.Days=='10'?'selected':''">10</option>
+                <option value="11" ms-attr-selected="modelData.Days=='11'?'selected':''">11</option>
+                <option value="12" ms-attr-selected="modelData.Days=='12'?'selected':''">12</option>
+                <option value="13" ms-attr-selected="modelData.Days=='13'?'selected':''">13</option>
+                <option value="14" ms-attr-selected="modelData.Days=='14'?'selected':''">14</option>
+                <option value="15" ms-attr-selected="modelData.Days=='15'?'selected':''">15</option>
+                <option value="16" ms-attr-selected="modelData.Days=='16'?'selected':''">16</option>
+                <option value="17" ms-attr-selected="modelData.Days=='17'?'selected':''">17</option>
+                <option value="18" ms-attr-selected="modelData.Days=='18'?'selected':''">18</option>
+                <option value="19" ms-attr-selected="modelData.Days=='19'?'selected':''">19</option>
+                <option value="20" ms-attr-selected="modelData.Days=='20'?'selected':''">20</option>
+                <option value="21" ms-attr-selected="modelData.Days=='21'?'selected':''">21</option>
+                <option value="22" ms-attr-selected="modelData.Days=='22'?'selected':''">22</option>
+                <option value="23" ms-attr-selected="modelData.Days=='23'?'selected':''">23</option>
+                <option value="24" ms-attr-selected="modelData.Days=='24'?'selected':''">24</option>
+                <option value="25" ms-attr-selected="modelData.Days=='25'?'selected':''">25</option>
+                <option value="26" ms-attr-selected="modelData.Days=='26'?'selected':''">26</option>
+                <option value="27" ms-attr-selected="modelData.Days=='27'?'selected':''">27</option>
+                <option value="28" ms-attr-selected="modelData.Days=='28'?'selected':''">28</option>
+                <option value="29" ms-attr-selected="modelData.Days=='29'?'selected':''">29</option>
+                <option value="30" ms-attr-selected="modelData.Days=='30'?'selected':''">30</option>
+                <option value="31" ms-attr-selected="modelData.Days=='31'?'selected':''">31</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group" ms-visible="modelData.TXType!='0'">
+        <label class="control-label col-xs-2">时间</label>
+
+        <div class="col-xs-2">
+            <select class="form-control" ms-duplex="modelData.Hour">
+                <option value="00" ms-attr-selected="modelData.Hour=='00'?'selected':''">00</option>
+                <option value="01" ms-attr-selected="modelData.Hour=='01'?'selected':''">01</option>
+                <option value="02" ms-attr-selected="modelData.Hour=='02'?'selected':''">02</option>
+                <option value="03" ms-attr-selected="modelData.Hour=='03'?'selected':''">03</option>
+                <option value="04" ms-attr-selected="modelData.Hour=='04'?'selected':''">04</option>
+                <option value="05" ms-attr-selected="modelData.Hour=='05'?'selected':''">05</option>
+                <option value="06" ms-attr-selected="modelData.Hour=='06'?'selected':''">06</option>
+                <option value="07" ms-attr-selected="modelData.Hour=='07'?'selected':''">07</option>
+                <option value="08" ms-attr-selected="modelData.Hour=='08'?'selected':''">08</option>
+                <option value="09" ms-attr-selected="modelData.Hour=='09'?'selected':''">09</option>
+                <option value="10" ms-attr-selected="modelData.Hour=='10'?'selected':''">10</option>
+                <option value="11" ms-attr-selected="modelData.Hour=='11'?'selected':''">11</option>
+                <option value="12" ms-attr-selected="modelData.Hour=='12'?'selected':''">12</option>
+                <option value="13" ms-attr-selected="modelData.Hour=='13'?'selected':''">13</option>
+                <option value="14" ms-attr-selected="modelData.Hour=='14'?'selected':''">14</option>
+                <option value="15" ms-attr-selected="modelData.Hour=='15'?'selected':''">15</option>
+                <option value="16" ms-attr-selected="modelData.Hour=='16'?'selected':''">16</option>
+                <option value="17" ms-attr-selected="modelData.Hour=='17'?'selected':''">17</option>
+                <option value="18" ms-attr-selected="modelData.Hour=='18'?'selected':''">18</option>
+                <option value="19" ms-attr-selected="modelData.Hour=='19'?'selected':''">19</option>
+                <option value="20" ms-attr-selected="modelData.Hour=='20'?'selected':''">20</option>
+                <option value="21" ms-attr-selected="modelData.Hour=='21'?'selected':''">21</option>
+                <option value="22" ms-attr-selected="modelData.Hour=='22'?'selected':''">22</option>
+                <option value="23" ms-attr-selected="modelData.Hour=='23'?'selected':''">23</option>
+            </select>
+        </div>
+
+        <div class="col-xs-1" style="padding:0;margin:0;width:5px;line-height:34px">:</div>
+
+        <div class="col-xs-2">
+            <select class="form-control" ms-duplex="modelData.Minute">
+                <option value="00" ms-attr-selected="modelData.Minute=='00'?'selected':''">00</option>
+
+                <option value="05" ms-attr-selected="modelData.Minute=='05'?'selected':''">05</option>
+
+                <option value="10" ms-attr-selected="modelData.Minute=='10'?'selected':''">10</option>
+
+                <option value="15" ms-attr-selected="modelData.Minute=='15'?'selected':''">15</option>
+
+                <option value="20" ms-attr-selected="modelData.Minute=='20'?'selected':''">20</option>
+
+                <option value="25" ms-attr-selected="modelData.Minute=='25'?'selected':''">25</option>
+
+                <option value="30" ms-attr-selected="modelData.Minute=='30'?'selected':''">30</option>
+
+                <option value="35" ms-attr-selected="modelData.Minute=='35'?'selected':''">35</option>
+
+                <option value="40" ms-attr-selected="modelData.Minute=='40'?'selected':''">40</option>
+
+                <option value="45" ms-attr-selected="modelData.Minute=='45'?'selected':''">45</option>
+
+                <option value="50" ms-attr-selected="modelData.Minute=='50'?'selected':''">50</option>
+
+                <option value="55" ms-attr-selected="modelData.Minute=='55'?'selected':''">55</option>
+
+
+            </select>
+        </div>
+
+    </div>
+    <div class="form-group" ms-visible="modelData.TXType!='0' && modelData.TXType!='1'">
+        <label class="col-xs-2 control-label">重复模式</label>
+        <div class="col-xs-10">
+            <p style="line-height:34px"><input name="endtype" ms-duplex-text="modelData.CFType" type="radio" value="1" checked="checked"><span>无结束日期</span></p>
+            <p style="line-height:34px"><input name="endtype" ms-duplex-text="modelData.CFType" type="radio" value="2"><input type="text" class="form-control " ms-duplex="modelData.CFCount" style="width:80px;display:initial" autocomplete="off"><span>次后结束</span></p>
+            <p style="line-height:34px"><input name="endtype" ms-duplex-text="modelData.CFType" type="radio" value="3"><span>结束时间 </span> <input type="text" ms-duplex="modelData.CFJZDate" class="szhl_form_date form-control" readonly="readonly" style="width:200px;display:initial"></p>
+        </div>
+    </div>
+
+
+</div>
+<script>
+    var tempmodel = avalon.define({
+        $id: "TXSX",
+        name: "任务日程",
+        SID: ComFunJS.getQueryString("aid", ""),
+        SCode: ComFunJS.getQueryString("acode", ""),
+        SUserName: ComFunJS.getQueryString("ausername", ""),
+        SType: ComFunJS.getQueryString("atype", ""),
+        modelData: { "Type": "2", "TXUser": "", "TXContent": "", "TXType": "", "Days": "01", "Date": "", "Hour": "08", "Minute": "00", "CFType": "1", "CFCount": "", "CFJZDate": "", "FunName": "", "APIName": "" },
+        iswf: false,//是否属于流程表单
+        inittemp: function (strId) {
+
+            if (strId) {
+                //编辑加载数据
+                $.getJSON('/API/VIEWAPI.ashx?Action=TXSX_GETTXSXMODEL', { P1: strId }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result;
+                        if (tempmodel.modelData.Days && resultData.Result.TXType == "4") {
+                            var strs = tempmodel.modelData.Days.split(',');
+                            $("input[name=days]").each(function () {
+                                if (strs.indexOf($(this).val()) != -1) {
+                                    $(this).attr("checked", "checked");
+                                }
+                            })
+                        }
+                        if (tempmodel.modelData.CFJZDate && tempmodel.modelData.CFJZDate.length > 10) {
+                            tempmodel.modelData.CFJZDate = tempmodel.modelData.CFJZDate.substring(0, 10);
+                        }
+
+                        setTimeout(" ComFunJS.initForm()", 500)
+                    }
+                })
+            } else {
+                if (top.model.UserInfo.QYinfo.IsUseWX != 'Y') { tempmodel.modelData.Type = 1; }
+                tempmodel.modelData.TXType = "0";
+                tempmodel.modelData.TXUser = tempmodel.SUserName == "" ? ComFunJS.getnowuser() : tempmodel.SUserName;
+                $("#txr").val(tempmodel.modelData.TXUser);
+
+                pmodel.isDraft = true;
+                ComFunJS.initForm()
+            }
+        },//初始化
+        SaveData: function (callback) {
+            if (tempmodel.modelData.TXType == "4") {
+                tempmodel.modelData.Days = "";
+                $("input[name=days]:checked").each(function () {
+                    if (!tempmodel.modelData.Days) {
+                        tempmodel.modelData.Days = $(this).val();
+                    }
+                    else {
+                        tempmodel.modelData.Days = tempmodel.modelData.Days + ',' + $(this).val();
+                    }
+                })
+
+                if (!tempmodel.modelData.Days) {
+                    parent.ComFunJS.winwarning("自定义时，请输入日期");
+                    return "";
+                }
+            }
+            var data = tempmodel.modelData.$model;
+            var modelValue = JSON.stringify(data);
+            $.post("/API/VIEWAPI.ashx?ACTION=TXSX_ADDTXSX", { P1: modelValue, ID: tempmodel.SID, Code: tempmodel.SCode, Type: tempmodel.SType }, function (result) {
+                return callback.call(this, result);
+            });
+        }
+    });
+</script>

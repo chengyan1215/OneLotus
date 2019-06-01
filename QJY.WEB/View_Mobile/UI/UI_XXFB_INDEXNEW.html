@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>新闻公告</title>
+    <link rel="stylesheet" href="/View_Mobile/CSS/msui.css">
+    <link href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet" />
+
+    <link href="/View_Mobile/CSS/reset.css" rel="stylesheet" type="text/css">
+    <link href="/View_Mobile/CSS/base.css?ver=1" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/View_Mobile/CSS/animate.css">
+    <link href="/View_Mobile/CSS/szhlextend.css?ver=20160904" rel="stylesheet" />
+    <script src="/View_Mobile/JS/layer/layer.m.js"></script>
+
+    <style type="text/css">
+        .ms-controller, [ms-controller] {
+            display: none;
+        }
+
+        .logo img {
+            width: 1.5rem;
+        }
+
+        .wite {
+            background: #fff;
+        }
+
+        .userimg {
+            float: right;
+            width: 1.25rem;
+            /*margin-top: 0.5rem;*/
+            margin-top: 0.1rem;
+            height: 1.25rem;
+        }
+
+        .block_nav > li > a > i img {
+            border-radius: 1rem;
+        }
+
+        .header .hessmsg i:before {
+            content: "";
+            display: block;
+            width: 8px;
+            height: 8px;
+            position: absolute;
+            /*right: .6rem;*/
+            right: -0.25rem;
+            /*top: 0.4rem;*/
+            border-radius: 8px;
+            background-color: #f15a4a;
+        }
+
+        .block_nav > li {
+            border-left: 0;
+            border-bottom: 0;
+        }
+
+            .block_nav > li > a > i {
+                width: 1.8rem;
+                height: 1.8rem;
+            }
+
+        .ico {
+            border-radius: 0.2rem;
+        }
+
+        .s-title {
+            border-left: 2px solid blueviolet;
+        }
+
+        .msg {
+            width: 0.7rem;
+            height: 0.7rem;
+            border-radius: 0.7rem;
+            line-height: 0.7rem;
+            background-color: #ff5722;
+            font-size: 1em;
+            font-weight: bold;
+            text-align: center;
+            color: #fff;
+            position: absolute;
+            top: -5px;
+            left: 1.4rem;
+        }
+
+        .yymsg {
+            width: 0.7rem;
+            height: 0.7rem !important;
+            border-radius: 0.7rem;
+            line-height: 0.7rem;
+            background-color: #ff5722;
+            font-size: 1em;
+            text-align: center;
+            color: #fff;
+            position: absolute;
+            margin-left: 1.5rem;
+            margin-top: -7px;
+            font-style: normal;
+        }
+    </style>
+</head>
+<body ms-controller="WORKINDEX" ms-class="mess:contentcode=='TEMP_INDEX_MSG'" ms-class-1="address:contentcode=='TEMP_INDEX_TXL'">
+    <div class="page page-current " id="pageindex1" ms-class="wite:contentcode!='TEMP_INDEX_TXL'">
+        <header class="bar bar-nav header" ms-if="contentcode!='TEMP_INDEX_TXL'" style="padding-left: 0.52rem; padding-right: 0.52rem; display: none">
+            <div class="list-block media-list" style="margin: 0;">
+                <ul>
+                    <li>
+                        <div class="item-content" style="padding-left: .1rem;">
+                            <div class="item-media" style="padding-bottom: 0; padding-top: 0;">
+                                <img ms-src="{{ComFunJS.getfile(userData.QYinfo.LogoID)}}" style="border-radius: 1rem; height: 1.6rem;" onerror="javascript: this.src = '/View_Mobile/Images/logo.png'">
+                            </div>
+                            <div class="item-inner" style="padding-bottom: 0; padding-top: 0; margin-left: .55rem;">
+                                <div class="item-inner" style="padding-bottom: 0; padding-top: 0;">
+                                    <div class="item-title-row" style="padding-top: 0.4rem">
+                                        <div class="item-title" style="-webkit-box-flex: 1; font-size: .6rem;">{{userData.User.UserRealName}}【{{userData.BranchInfo.DeptName}}】</div>
+                                    </div>
+                                    <div class="item-subtitle" style="font-size: 0.6rem; color: #5f646e;">{{userData.QYinfo.QYName}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <div class="content native-scroll" data-include-rendered="render">
+            <!--ms-include-->
+            <div style="margin-top: 0.4rem;">
+
+
+
+                <ul class="mess-lis clearfix" style="margin-top: 0;">
+                    <li class="" style="border-bottom: 0; padding-left: 15px;" ms-repeat-msg="msgdata" ms-visible="msg.msgcount">
+                        <a href="#" class="clearfix" ms-on-click="ckxx(msg)">
+                            <span class="mes-icon">
+                                <img src="/View_Mobile/Images/icon/XXFB.png" style="border-radius: 100px;"><span class="msg" ms-if="msg.msgcount!='0'">{{msg.msgcount}}</span></span>
+                            <div class="mess-r">
+                                <h4>{{msg.TypeName}}<span class="time">{{msg.CRDate}}</span></h4>
+                                <p style="line-height: 0.7rem; height: 0.7rem;">
+                                    {{msg.XXTitle}}
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+    <!--    <div class="right-panel">
+            <ul>
+                <li>
+                    <a class="mod-li-icon" href="#" external><img src="../images/plus-add.png"></a>
+                </li>
+            </ul>
+        </div>-->
+
+    </div>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script>$.config = { autoInit: true }</script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.8/js/sm.min.js' charset='utf-8'></script>
+    <script src="/View_Mobile/JS/ComFunJS.js?jsver=20160425"></script>
+    <script src="/View_Mobile/JS/avalon1.47.js"></script>
+
+    <script type="text/javascript">
+        var model = avalon.define({
+            $id: "WORKINDEX",
+            contentcode: ComFunJS.getQueryString("contentcode", "Loading"),
+            userData: {},
+            number: Math.random(),
+            scrollTop: "0",
+            page: 1,
+            isshowmenu: false,
+            loading: false,
+            render: function () {
+                if (tempmodel) {
+                    tempmodel.inittemp();
+                }
+                avalon.templateCache = null;
+            },
+            ckxx: function (el) {
+                window.location = "UI_XXFB_LIST.html?id=" + el.typeId + "&name=" + el.TypeName + "&r=" + Math.random();
+            },
+            msgtypename: "",
+            msgtype: "",
+            msgdata: [],
+            getmsgdata: function () {
+                $.getJSON("/API/VIEWAPI.ashx?Action=XXFB_GETXXFBTYPETOP", {}, function (r) {
+                    if (r.ErrorMsg == "") {
+                        model.msgdata = r.Result;
+                    }
+                })
+            }
+        });
+
+
+        avalon.ready(function () {
+            $.getJSON("/API/VIEWAPI.ashx?Action=XTGL_GETUSERINFO",{}, function (r) {
+                if (r.ErrorMsg == "") {
+                    model.userData = r.Result;
+                    $(".header").show('normal');
+                }
+            })
+            setTimeout('model.getmsgdata()', 1500);
+        })
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <title>人力资源系统</title>
+    <link href="css/reset.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="css/default.css">
+    <link href="//at.alicdn.com/t/font_1476090774_8365302.css" rel="stylesheet" type="text/css">
+    <style>
+        .ms-controller, [ms-controller] {
+            display: none;
+        }
+
+        .head-kh {
+            background: url(images/bg-account.jpg);
+            background-size: 100% 100%;
+        }
+
+        .icon-25 {
+            font-size: 2.5em;
+        }
+
+        .color1 {
+            color: #FFA000;
+        }
+
+        .color2 {
+            color: #0996FB;
+        }
+
+        .color3 {
+            color: #FF8A55;
+        }
+
+        .color4 {
+            color: #43DCBB;
+        }
+
+        .span1 {
+            width: 2.3rem;
+            height: 2.3rem;
+            border-radius: 1000rem;
+            display: inline-block;
+        }
+    </style>
+    <script>
+        //window.onload=init;
+        //function init() {
+        //    var plus_btn = document.getElementById("plus_btn");
+        //    var module_plus = document.getElementById("module_plus")
+        //    plus_btn.onclick = function () { module_plus.style.display = "block" }
+        //    module_plus.onclick = function () { module_plus.style.display = "none" }
+        //}
+    </script>
+</head>
+<body ms-controller="rlzyview" style="background-color: transparent;">
+    <section class="user-kh">
+        <div class="head-kh">
+            <div class="kh-tx">
+                <span style="border: 5px solid #f5f5f5;">
+                    <div style="margin-top: 20px; font-size: 26px; color: white;">
+                        123
+                    </div>
+                </span>
+            </div>
+            <h3 class="user-name" style="padding-bottom: 0.6rem;">20/100</h3>
+            <!-- <h4 class="user-zh">18709836782</h4> -->
+            <div class="msg-kh">
+                <ul class="clearfix user-msg">
+                    <li ms-click="openTab('/View_Mobile/UI/RLZY/list.html?type=1')">
+                        <a href="javascript:void(0);">
+                            <i>3</i>
+                            <span>已练习</span>
+                        </a>
+                    </li>
+                    <li class="bk" ms-click="openTab('/View_Mobile/UI/RLZY/list.html?type=2')">
+                        <a href="javascript:void(0);">
+                            <i>2</i>
+                            <span>未练习</span>
+                        </a>
+                    </li>
+                    <li ms-click="openTab('/View_Mobile/UI/RLZY/list.html?type=3')">
+                        <a href="javascript:void(0);">
+                            <i>4</i>
+                            <span>错误率</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <div class="fun-crm">
+        <ul class="block_nav clearfix">
+            <li>
+                <a>
+                    <i class=""><b class="iconfont icon-kaoqin icon-25 color2"></b></i>
+                    <span>查看错题</span>
+                </a>
+            </li>
+
+            <li>
+                <a>
+                    <i class=""><b class="iconfont icon-kqgl icon-25 color4"></b></i>
+                    <span>查看收藏</span>
+                </a>
+            </li>
+            <li>
+                <a  href="exam-ing.html">
+                    <i class=""><b class="iconfont icon-ccxj icon-25 color2"></b></i>
+                    <span>题库练习</span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <i class=""><b class="iconfont icon-kqgl icon-25 color1"></b></i>
+                    <span>题库浏览</span>
+                </a>
+            </li>
+            <li>
+                <a >
+                    <i class=""><b class="iconfont icon-kqgl icon-25 color1"></b></i>
+                    <span>重置练习</span>
+                </a>
+            </li>
+
+
+            <li></li>
+
+        </ul>
+    </div>
+    <!-- 加号 -->
+    <!--<span id="plus_btn"><img src="images/plus_icon.png" height="188" width="188" alt="" style=""></span>-->
+    <!--<div class="module_plus" id="module_plus">
+        <div class="mod-mask"></div>
+        <div class="mod-body">
+            <ul>
+                <li>
+                    <a ms-click="openTab('/View_Mobile/UI/KQQD.html')" href="javascript:void(0)" class="mod-li-icon"><img src="images/c-kh.png" height="188" width="188" alt=""></a>
+                    <div ms-click="openTab('/View_Mobile/UI/KQQD.html')" class="mod-li-tip">考勤签到</div>
+                </li>
+                <li>
+                    <a ms-click="openTab('/View_Mobile/BASE/APP_MOBIL_WF.html?FormCode=WQQD')" href="javascript:void(0)" class="mod-li-icon"><img src="images/c-lxr.png" height="188" width="188" alt=""></a>
+                    <div ms-click="openTab('/View_Mobile/BASE/APP_MOBIL_WF.html?FormCode=WQQD')" class="mod-li-tip">外勤签到</div>
+                </li>
+                <li>
+                    <a ms-click="openTab('/View_Mobile/BASE/APP_MOBIL_WF.html?FormCode=CCXJ')" href="javascript:void(0)" class="mod-li-icon"><img src="images/c-ht.png" height="188" width="188" alt=""></a>
+                    <div ms-click="openTab('/View_Mobile/BASE/APP_MOBIL_WF.html?FormCode=CCXJ')" class="mod-li-tip">新增出差休假</div>
+                </li>
+
+
+            </ul>
+
+        </div>
+    </div>-->
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script src="/View_Mobile/JS/avalon1.47.js"></script>
+    <script src="/View_Mobile/JS/ComFunJS.js?jsver=20160425"></script>
+    <script type="text/javascript">
+        var model = avalon.define({
+            $id: "rlzyview",
+            userData: {},
+            TongJiData: { CDQTY: 0, ZDQTY: 0, QJQTY: 0 },
+            GetGongJI: function () {
+
+
+            },
+            openTab: function (url) {
+                if (url) {
+                    if (url.indexOf('?') > 0) {
+                        url += "&r=" + Math.random();
+                    } else {
+                        url += "?r=" + Math.random();
+                    }
+                    window.location = url;
+                }
+
+            },
+            openCard: function () {
+                alert("开发中...");
+            },
+            wdsl: 0,
+            GetWDGZT: function () {
+
+
+            }
+
+        })
+
+        avalon.ready(function () {
+            //$.getJSON("/API/VIEWAPI.ashx?Action=XTGL_GETUSERINFO", {}, function (r) {
+            //    if (r.ErrorMsg == "") {
+            //        model.userData = r.Result;
+            //    }
+            //})
+
+        })
+
+    </script>
+
+
+</body>
+</html>

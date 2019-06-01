@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>考试结果</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+   
+  </head>
+  <body>
+    
+    <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+        <div class="page" style="background:#fff;">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav">
+                <a class="icon icon-left pull-left"></a>
+                <h1 class="title">考试结果</h1>
+            </header>
+             <!-- 工具栏 -->
+            <nav class="bar bar-tab">
+                <a class="tab-item external active" href="">
+                    <i class="iconfont icon-shijuan"></i>查看试卷
+                </a>                
+            </nav>
+            <!-- 这里是页面内容区 -->
+           <div class="content">
+                <div class="row box-block exam-result">
+                  <h1 class="exam-score">50<span>分</span></h1>
+                  <div class="col-33">
+                    
+                    <div class="block-text">
+                      <b>5</b>
+                      <span>错题试题</span>
+                    </div>                   
+                  </div>
+                  <div class="col-33">
+                    
+                    <div class="block-text">
+                      <b>3</b>
+                      <span>未答试题</span>
+                    </div>      
+                  </div>
+                   <div class="col-33">
+                     
+                    <div class="block-text">
+                      <b>40</b>
+                      <span>考试用时(分)</span>
+                    </div>      
+                  </div>
+                 
+                </div>
+                  <div class="list-block media-list nomargin ">
+                      <ul>
+                        
+                        <li>
+                           <div class="item-content">
+                                <div class="item-inner">
+                                  <div class="item-title-row">
+                                    <div class="item-title">考试总分</div>
+                                    <div class="item-after  c999 ft7">100</div>
+                                  </div>                                  
+                            </div>
+                           </div>               
+                        </li>
+                        <li>
+                           <div class="item-content">
+                                <div class="item-inner">
+                                  <div class="item-title-row">
+                                    <div class="item-title">及格分数</div>
+                                    <div class="item-after  c999 ft7">60</div>
+                                  </div>                                  
+                            </div>
+                           </div>               
+                        </li>
+                        <li>
+                           <div class="item-content">
+                                <div class="item-inner">
+                                  <div class="item-title-row">
+                                    <div class="item-title">总题数</div>
+                                    <div class="item-after  c999 ft7">20</div>
+                                  </div>                                  
+                            </div>
+                           </div>               
+                        </li>
+                        <li>
+                           <div class="item-content">
+                                <div class="item-inner">
+                                  <div class="item-title-row">
+                                    <div class="item-title">考试时长(分)</div>
+                                    <div class="item-after  c999 ft7">100</div>
+                                  </div>                                  
+                            </div>
+                           </div>               
+                        </li>
+                        <li>
+                           <div class="item-content">
+                                <div class="item-inner">
+                                  <div class="item-title-row">
+                                    <div class="item-title">考试时间</div>
+                                    <div class="item-after c999 ft7"><i class="iconfont icon-shijian"></i>2016-11-12 8:00</div>
+                                  </div>
+                                  
+                            </div>
+                           </div>               
+                        </li>
+                       
+                          <li>
+                           <div class="item-content">
+                                <div class="item-inner">
+                                  <div class="item-title-row">
+                                    <div class="item-title">考试说明</div>
+                                    
+                                  </div>
+                                  <div class=" c999 ft7">名师解析:与2012考试大纲相比,在考试内容和要求、时间、分值、题型题量等方面都没有发生变化。词汇量要求仍为3500左右,对考生的语言运用能力(听力,阅读理解,写作)考查...</div>
+                            </div>
+                           </div>               
+                        </li>
+                      </ul>
+                    </div>
+            </div>
+        </div>
+
+       
+       
+    </div>
+  
+ <script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script type="text/javascript">
+    $(function () {
+        $(document).on("pageInit", function() {
+            $('.buttons-tab').fixedTab({offset:44});           
+        });
+        $.init();
+    });
+       
+
+    </script>
+
+  </body>
+</html>

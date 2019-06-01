@@ -1,0 +1,598 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>科技</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand" />
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_533449_a7yfipp8wb.css" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/default.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/index.css">
+    <link href="/ToolS/umeditor122/themes/default/css/umeditor.css" rel="stylesheet" />
+ 
+    <link href="/ViewV5/JS/range/range.css" rel="stylesheet" />
+
+    <style>
+        .ms-controller, .ms-important, [ms-controller], [ms-important] {
+            visibility: hidden;
+        }
+
+        .szhl_getPeoples {
+            display: none;
+        }
+
+        .szhl_branch {
+            display: none;
+        }
+
+
+        .modal {
+            top: 100px;
+        }
+
+        .modal-backdrop {
+            background-color: transparent;
+            display: none;
+        }
+
+        .gdwidth {
+            width: 1200px;
+        }
+        .gdall {
+            width: 98%;
+        }
+
+        .icon-sjj:before {
+            content: "\e65c";
+        }
+
+        .icon-sjy:before {
+            content: "\e65c";
+        }
+
+        .icon-ybp:before {
+            content: "\e65c";
+        }
+
+        .icon-datakb:before {
+            content: "\e65c";
+        }
+        /*Webkit and Opera*/
+        /*@media screen and (-webkit-min-device-pixel-ratio:0)  {
+            .modal-backdrop {
+                background-color: #000;
+                display: block !important;
+            }
+        }*/
+    </style>
+    <script>
+        function changeFrameHeight() {
+            setTimeout("autoheght()", 1000)
+        }
+        function autoheght() {
+            var iframe = document.getElementById("main");
+            if (iframe) {
+                var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+                if (iframeWin.document.body) {
+                    //iframe.height = iframeWin.document.documentElement.clientHeight || iframeWin.document.body.scrollHeight;
+                    iframe.height = ($(iframeWin.document.body).height()) * 1 + 20
+                    $(".iframecontent").height(iframe.height)
+                }
+            }
+        };
+
+    </script>
+</head>
+<body ms-controller="IndexV5" ondblclick="return false;">
+    <div class="worker mb20">
+        <div class="header box-shadow">
+            <div class="head-center clearfix">
+                <div class="logo c666 pull-left">
+                    <img ms-attr-src="{{ComFunJS.getfile(CompanyData.LogoID)}}" onerror="javascript: this.src = '/ViewV5/images/logo.png'" style="max-height: 40px; margin-right: 10px;">{{CompanyData.QYName}}
+                </div>
+                <div class="pull-right top-fun">
+                    <ul class="clearfix">
+                        <li style="display:none">
+                            <a class="dropdown-toggle add-fq" data-toggle="dropdown" aria-expanded="true">
+                                <i class="iconfont icon-jiahao ft12"></i>
+                            </a>
+                            <ul class="dropdown-menu add-msg dropdown-menu add-msg animated fadeInRight">
+                                <li>
+                                    <a href="###">
+                                        <img ms-attr-src="/ViewV5/images/icon/GZBG.png" onerror="javascript: this.src = '/ViewV5/images/icon/Common.png'">不知道要干啥
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </li>
+                      <!--  <li ms-if="CompanyData.IsUseWX=='Y'">
+                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                <i class="iconfont icon-erweima tip" data-toggle="tooltip" title="扫描关注" data-placement="bottom"></i>
+                            </a>
+                            <div class="dropdown-menu animated fadeInRight" style="overflow: auto; width: 200px; text-align: center">
+                                <img width="100%" src='/ViewV5/images/qrcode.png'>
+                                扫描二维码，关注企业号
+                            </div>
+                        </li>-->
+                        <li>
+                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" aria-haspopup="true">
+                                <i class="iconfont icon-pifu tip" data-toggle="tooltip" title="壁纸" data-placement="bottom"></i>
+                            </a>
+                            <div class="dropdown-menu animated fadeInRight" style="overflow: auto; text-align: center" id="dvskin">
+                                <table class="table noborder" style="margin-bottom: 0">
+                                    <tr>
+                                        <td style="border: 0">
+                                            <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin12.jpg" />
+                                        </td>
+                                        <td style="border: 0">
+                                            <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin10.jpg" />
+                                        </td>
+                                        <td style="border: 0">
+                                            <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin3.png" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 0">
+                                            <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin4.png" />
+                                        </td>
+                                        <td style="border: 0">
+                                            <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin5.png" />
+                                        </td>
+                                        <td style="border: 0">
+                                            <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin2.png" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 0">
+                                            <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin7.jpg" />
+                                        </td>
+                                        <td style="border: 0">
+                                            <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin8.jpg" />
+                                        </td>
+                                        <td style="border: 0">
+                                            <img class="skintp" style="width: 120px; height: 70px" src="/ViewV5/images/skin/skin9.jpg" />
+                                        </td>
+                                    </tr>
+                                </table>
+
+
+                                <div class="form-group" style="margin-top: 15px">
+                                    <label class="col-xs-3 control-label">透明度</label>
+                                    <input type="hidden" class="single-slider" value="0" />
+                                </div>
+
+                            </div>
+                        </li>
+                        <li ms-if="isgdkd!='Y'">
+                            <a class="shuaxin" target="_blank" href="https://gitee.com/qikj/dashboard/wikis/qikj/OneLotusHelp/preview?sort_id=1461805&doc_id=309957">
+                                <i class="iconfont icon-wenhao tip" data-toggle="tooltip" title="操作说明" data-placement="bottom"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="shuaxin" target="_blank" href="/ViewV5/AppPage/FORMBI/FormAdd.html?pdid=206">
+                                <i class="iconfont icon-help-bangzhu  tip" data-toggle="tooltip" title="系统问题反馈" data-placement="bottom"></i>
+                            </a>
+                        </li>
+                        
+                        <li ms-click="refiframe()">
+                            <a class="shuaxin">
+                                <i class="iconfont icon-shuaxin tip" data-toggle="tooltip" title="刷新" data-placement="bottom"></i>
+                            </a>
+                        </li>
+                        <li ms-click="exit()">
+                            <a>
+                                <i class="iconfont icon-tuichu tip" data-toggle="tooltip" title="退出登陆" data-placement="bottom"></i>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="big-nav" style="left:40%">
+                <div class="big-nav-list">
+                    <div ms-repeat-item="LMData" ms-click="selyyType(item,this)" ms-visible="LMData.size()>1">
+                        <a href="javascript:void(0);" class="yytype " ms-class-1="active:$index==0">{{item.NAME}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="work">
+            <div class="fwlayout " ms-class-gdwidth="isgdkd=='Y'">
+                <!-- 左边导航 -->
+                <div class="leftlayout box-shadow" id="leftlayout">
+                    <div class="left-head">
+                        <div class="head-img pull-left">
+                            <img ms-attr-src="{{ComFunJS.getfile()}}&type=TX&user={{UserData.UserName}}" onerror="javascript: this.src = 'images/head.jpg'" ms-click="SelUserInfo()" style="cursor: pointer;">
+                        </div>
+                        <div class="head-information c666 ft14 tc ">
+                            <div style="overflow: inherit;">
+                                <a class="head-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                    {{UserData.UserRealName}}<i class="caret ml5" style="border-top: 5px dashed; border-top: 5px solid \9; border-right: 5px solid transparent; border-left: 5px solid transparent;"></i>
+                                </a>
+                                <ul class="dropdown-menu  animated fadeInRight">
+                                    <li ms-click="SelUserInfo()">
+                                        <a>个人中心</a>
+                                    </li>
+                                    <li ms-click="UploadHeadImage()">
+                                        <a>修改头像</a>
+                                    </li>
+                                    <li data-toggle="modal" data-target="#UpdatePDModal" data-index="1" data-backdrop="static">
+                                        <a>修改密码</a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li ms-click="exit()">
+                                        <a>安全退出</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div>{{UserInfo.BranchInfo.DeptName}}</div>
+                            <div>{{UserData.zhiwu?UserData.zhiwu:"暂无"}}</div>
+                        </div>
+                    </div>
+                    <div class="nav-list">
+                        <ul>
+                            <li class="active" ms-click="SelModelMenu('')" ms-if="model.yytype=='WORK'">
+                                <a>
+                                    <i class="iconfont icon-gongzuotai"></i>
+                                    <span>工作台</span>
+                                </a>
+
+                                <ins class="iconfont icon-shezhi tip" data-toggle="tooltip" title="设置工作台" ms-click="OpenSet($event)"></ins>
+                            </li>
+
+                            <li ms-repeat-item="UseYYList" ms-visible="((item.ISSY==1&&model.yytype=='WORK')||(model.yytype!='WORK'))&&item.PModelCode==model.yytype" ms-click="SelModelMenu(item)">
+                                <a ms-attr-title="item.ModelName">
+                                    <i class="iconfont" ms-class-1="icon-{{item.ModelCode.toLowerCase()}}:true"></i>
+                                    <span>{{item.ModelName}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 右边内容 -->
+                <div class="rightlayout">
+                    <div ms-class-1="nomargin:!ishasRight" ms-class-2="index-center:ishasRight">
+                        <!-- 上边切换导航 -->
+                        <div class="menu-general ft16 box-shadow">
+                            <ul>
+                                <li ms-repeat-el="model.FunData" ms-class-1="active:el.PageName==model.FunData[0].PageName" ms-click="selmenulev2(el,this)" ms-visible="el.isshow">
+                                    <a>{{el.PageName}}</a><i ms-if="el.PageName=='微信企业号'" style="position: absolute; right: -19px; top: -10px;">
+                                        <img src="/ViewV5/images/tuijian.gif" />
+                                    </i>
+                                </li>
+                            </ul>
+                            <ins id="addWork" style="position: absolute; right: 55px;display:none; text-decoration: none; cursor: pointer; color: #666; font-size: 18px;" class="iconfont icon-shezhi tip" ms-click="setwork('')" ms-if="!ishasRight&&isiframe!='Y'" data-toggle="tooltip" title="添加到工作台" data-placement="bottom"></ins>
+                            <ins style="position: absolute; right: 25px; text-decoration: none; cursor: pointer; color: #666; font-size: 22px;" class="iconfont icon-shuaxin tip" ms-click="refpage('')" ms-if="!ishasRight" data-toggle="tooltip" title="刷新" data-placement="bottom"></ins>
+                            <ins class="iconfont icon-shezhi tblue tip" data-toggle="modal" data-target="#DragSort" ms-if="ishasRight" data-toggle="tooltip" title="设置工作台"></ins>
+
+
+                        </div>
+                        <!-- 下边内容 -->
+                        <div ms-visible="isshowload&&isiframe!='Y'" class="main-content ft16 mt10 pt20 pb20 c666 box-shadow clearfix" style="min-height:700px" ms-include-src="PageCode+'.html?r='+model.rdm" data-include-rendered='Temprender'>
+                        </div>
+                        <div class="iframecontent ft16 mt10 c666 box-shadow clearfix" ms-if="isiframe=='Y'">
+                            <iframe marginwidth="0" class="tabiframe" marginheight="0" frameborder="0" scrolling="no" onload="changeFrameHeight()" height="100%" id="main" name="main" width="100%" style="min-height: 600px"></iframe>
+
+                        </div>
+                        <div class="index-right" ms-if="ishasRight">
+
+                            <!-- 没有任何记录样式 -->
+                            <div class="right-list box-shadow bgfff mb20">
+                                <a href="###" class="small-title">
+                                    <i class="iconfont icon-you pull-right"></i>
+                                    <span class="small-img">
+                                        <img src="images/icon/XXFB.png">新闻公告
+                                    </span>
+                                </a>
+                                <ul>
+                                    <li ms-repeat-item="QYGGData" ms-visible="$index<5"><a href="javascript:void(0)" ms-click="ViewXXFB(item)" ms-attr-title="【{{item.TypeName}}】{{item.XXTitle }}">【{{item.TypeName}}】{{item.XXTitle }}</a></li>
+                                    <div ms-if="QYGGData.size()==0">您当前还没有记录</div>
+                                </ul>
+                            </div>
+                            <!-- 信息列表样式 -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 设置显示列 -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close default"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        自定义显示菜单
+                    </h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="modal-tj mt10">
+                        <ul class="list-unstyled fun-box crm-kh-px tc">
+                            <li ms-repeat-item="UseYYList" ms-click="SaveYY(item)" ms-visible="item.PModelCode==model.menutype">
+                                <div class="fun-list-cont " ms-class-1="active:item.ISSY==1">
+                                    <span>{{item.ModelName}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default tip" title="关闭"
+                            data-dismiss="modal">
+                        关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 拖动排序 -->
+    <div class="modal fade in" id="DragSort" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 500px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">设置工作台</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="pl20 c999">提示：点击可拖动排序菜单</div>
+                    <ul id="foo">
+                        <li ms-repeat-item="FunData" ms-attr-formcode="item.code">
+                            <i class="iconfont icon-tuodong"></i>{{item.PageName}}
+                            <div class=" pull-right" ms-click="ChangeModelIsShow(item,this,event)">
+                                <div class="icheckbox_square-blue" ms-class-1="checked:item.isshow"><span class="iconfont icon-check ft12"></span></div>
+                                显示
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info tip" data-toggle="tooltip" title="恢复工作台到初始状态" ms-click="initwork()" style="margin-right: 10PX">初始化工作台</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="UpdatePDModal" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 500px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">修改密码</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label"><span class="Required">*</span>新密码</label>
+                            <input type="password" class="form-control szhl_require" style="width: 200px" id="newPwd" placeholder="请输入新密码" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label"><span class="Required">*</span>确认密码</label>
+                            <input type="password" class="form-control szhl_require" style="width: 200px" id="newPwd2" placeholder="请输入确认密码" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-success" id="conaddForder" ms-click="ModifyPwd(this)"><i class="fa fa-spinner fa-spin" style="display: none"></i>确&nbsp;&nbsp;认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--聊天窗口-->
+    <!-- 自定义显示列 -->
+    <div class="modal fade" id="myselfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close default"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        自定义显示列
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="fun-box-tj"><span class="tj-border-left"></span>选择显示列:</div>
+                    <div class="modal-tj">
+
+                        <ul class="list-unstyled fun-box crm-kh-px">
+                            <li ms-repeat-el="ShowColumns">
+                                <div class="fun-list-cont" ms-class-1="active:el.IsSel" ms-click="ReSetShow(el)">
+                                    <span>{{el.ColText}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">
+                        关闭
+                    </button>
+                    <!-- <button type="button" class="btn btn-primary">
+                       提交更改
+                    </button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--引导html内容-->
+    <div id="nipic_search">
+        <div class="tipSwitch"></div>
+    </div>
+
+    <!-- 修改密码 -->
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/clipboard.js"></script>
+    <script src="/ViewV5/JS/jquery.qrcode.min.js"></script>
+    <script src="/ViewV5/JS/Sortable.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script src="/ToolS/JS/echarts.min.js"></script>
+    <script src="/ViewV5/JS/layer/layer.js"></script>
+    <script src="/ViewV5/JS/layer/extend/layer.ext.js"></script>
+    <script src="/ViewV5/JS/laypage/laypage.js"></script>
+    <script src="/ToolS/umeditor122/umeditor.js" charset="utf-8"></script>
+    <script src="/ToolS/umeditor122/umeditor.config.js" charset="utf-8"></script>
+    <script src="/ViewV5/JS/toastr.js"></script>
+    <script src="/ViewV5/JS/lodash.min.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js?ver=1"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js"></script>
+    <script src="/ViewV5/JS/range/range.js"></script>
+    <script src="/ViewV5/JS/index.js?v=7"></script>
+    <script type="text/javascript">
+        var clipboard = new Clipboard(".copyBtn");
+        clipboard.on('success', function (e) {
+            top.ComFunJS.winsuccess("复制成功");
+
+        });
+
+        clipboard.on('error', function (e) {
+            top.ComFunJS.winsuccess("复制失败，请重试");
+        });
+        // 切换
+        $(function () {
+            window.UMEDITOR_HOME_URL = "/ToolS/umeditor122/"
+            $("#dvskin").bind("click", function (event) {
+                event.stopPropagation();
+            })
+            var skinurl = "/ViewV5/images/skin/skin2.png";
+            if (localStorage.getItem("skin")) {
+                skinurl = localStorage.getItem("skin");
+            }
+            $("body").css("background", "url('" + skinurl + "')");
+            $(".skintp").bind('click', function (event) {
+                localStorage.setItem("skin", $(this).attr("src"));
+                $("body").css("background", "url('" + $(this).attr("src") + "')");
+                $("body").css("background-position", "center center").css("background-size", "cover");
+            })
+            $("body").css("background-position", "center center").css("background-size", "cover");
+
+            var opacity = "97";
+            if (localStorage.getItem("opacity")) {
+                opacity = localStorage.getItem("opacity");
+            }
+            $("body").css("opacity", "." + opacity);
+            $('.single-slider').val(opacity)
+            $('.single-slider').jRange({
+                from: 75,
+                to: 99,
+                step: 1,
+                scale: [75, 99],
+                format: '%s',
+                width: 280,
+                onstatechange: function (val) {
+                    $("body").css("opacity", "." + val);
+                    localStorage.setItem("opacity", val);
+
+                }
+            });
+            $(document).on("mouseover", ".tip", function () {
+                $(this).tooltip('show');
+            });//提示工具
+            $(document).on("click", ".nav-list li", function () {
+                $(this).addClass("active").siblings().removeClass("active")
+            });//一级菜单
+            $(document).on("click", ".menu-general li", function () {
+                $(this).addClass("active").siblings().removeClass("active")
+            });//二级菜单
+            $(document).on("click", ".default-tab .icheckbox_square-blue", function () {
+                $(this).toggleClass("checked");
+                if ($(this).parent().is("th")) {
+                    var obj = $(this).parent().parent().parent().parent().find("tbody");
+                    if ($(this).hasClass("checked")) {
+                        obj.find(".icheckbox_square-blue").addClass("checked");
+                    }
+                    else {
+                        obj.find(".icheckbox_square-blue").removeClass("checked");
+                    }
+                }
+                else {
+                    var obj = $(this).parent().parent().parent().parent().find("thead");
+                    if (!$(this).hasClass("checked")) {
+                        obj.find(".icheckbox_square-blue").removeClass("checked");
+                    }
+                }
+            });//勾选框
+            $(document).on("click", ".tab-type li span", function () {
+                $(this).addClass("active").parent().siblings().children().removeClass("active")
+            });//筛选类型
+            $(document).on("dblclick", ".layui-layer-shade", function () {
+                layer.closeAll();
+            });//筛选类型
+
+            if (true) {
+
+            }
+            if (localStorage.getItem("gdall") == "Y") {
+                $(".fwlayout").addClass("gdall");
+            }
+
+            $("#zdh").click(function () {
+                $(".fwlayout").toggleClass("gdall");
+                var isgdall = localStorage.getItem("gdall")=="Y"?"N":"Y";
+                localStorage.setItem("gdall", isgdall);
+            })
+
+
+            //$(".shuaxin").click(function () {
+            //    $(this).toggleClass("dh")
+            //})
+            // 聊天窗口的显示隐藏
+
+            // 保持页面永远能到底部
+            var h2 = window.innerHeight - 90;
+            document.getElementById("leftlayout").style.minHeight = h2 + "px";
+
+
+            //拖动排序
+            window.x = new Sortable(foo, {
+                group: "words",
+                store: {
+                    get: function (sortable) {
+                        var order = localStorage.getItem(sortable.options.group);
+                        return order ? order.split('|') : [];
+                    },
+                    set: function (sortable) {
+                        var order = sortable.toArray();
+                        localStorage.setItem(sortable.options.group, order.join('|'));
+                    }
+                },
+                onAdd: function (evt) { },
+                onUpdate: function (evt) { },
+                onRemove: function (evt) { },
+                onStart: function (evt) { },
+                onEnd: function (evt) {
+                    var arrayStr = JSON.stringify(model.FunData.$model);
+                    model.FunData.forEach(function (item) {
+                        item.order = $("ul li[formcode=" + item.code + "]").index();
+                    });
+                    model.FunData.sort(function (a, b) {
+                        var ret = a["order"] > b["order"] ? 1 : -1
+                        return ret
+                    })
+                    if (arrayStr != JSON.stringify(model.FunData.$model)) { //不相等是拖拽排序
+                        model.SaveWigetdata();
+                    }
+                }
+
+
+            });
+
+
+        });
+    </script>
+
+
+</body>
+</html>

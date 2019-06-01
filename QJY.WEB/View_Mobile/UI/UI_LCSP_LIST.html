@@ -1,0 +1,323 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>流程审批列表</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="/View_Mobile/CSS/msui.css">
+
+    <link href="//at.alicdn.com/t/font_1476090774_8365302.css" rel="stylesheet" />
+    <link href="/View_Mobile/CSS/szhlextend.css?ver=20160904" rel="stylesheet" />
+    <style type="text/css">
+        .ms-controller, [ms-controller] {
+            display: none;
+        }
+
+        #plus_list {
+            height: 2.65rem;
+            width: 2.65rem;
+            position: fixed;
+            right: 0.82rem;
+            bottom: 6rem;
+        }
+
+            #plus_list img {
+                width: 100%;
+                height: auto;
+            }
+
+        .badge {
+            position: absolute;
+            top: .3rem;
+            z-index: 100;
+            height: .4rem;
+            min-width: .4rem;
+            padding: 0;
+            font-size: .4rem;
+            line-height: .4rem;
+            color: white;
+            vertical-align: top;
+            background: red;
+            border-radius: .5rem;
+            margin-left: .1rem;
+        }
+    </style>
+</head>
+<body>
+    <body ms-controller="LCList">
+        <div class="page-group">
+            <div class="page page-current" id="pageindex1">
+                <div class="buttons-tab">
+                    <a href="#" ms-if="DataID=='-1'" ms-on-click="getdata(1)" class="tab-link button external" ms-class-1="active:type=='1'">我创建的</a>
+                    <a href="#" ms-if="DataID=='-1'" ms-on-click="getdata(2)" class="tab-link button external" ms-class-1="active:type=='2'">待我审核<span class="badge" ms-if="shNum&&shNum!='0'"></span>
+                    </a>
+                    <a href="#" ms-if="DataID=='-1'" ms-on-click="getdata(3)" class="tab-link button external" ms-class-1="active:type=='3'">我已审核</a>
+                    <a href="#" ms-if="DataID=='-1'" ms-on-click="getdata(4)" class="tab-link button external" ms-class-1="active:type=='4'">抄送我的</a>
+
+                    <a href="#" ms-if="DataID!='-1'" class="tab-link button external active">流程审批管理</a>
+
+                </div>
+                <div class="content infinite-scroll infinite-scroll-bottom" data-distance="50" style="margin-top: 2rem" id="touchcontent">
+                    <div class="list-container">
+                        <div class="card facebook-card animated fadeInUp" ms-repeat-el="ctData">
+                            <div class="ribbon-wrapper-green" ms-if="el.StatusName!='-1'">
+                                <div class="ribbon-green">{{el.StatusName|html}}</div>
+                            </div>
+
+                            <div class="card-header no-border" ms-on-click="vieww(el)" style="    border-bottom-width: 0px;">
+                                <div class="facebook-avatar">
+                                    <img ms-src="{{ComFunJS.getfile()+'&type=TX&user='+el.CRUser}}" width="40" class="border-r" onerror="javascript: this.src = '/ViewV5/images/head.jpg'">
+                                </div>
+                                <div class="facebook-date head-ft16">{{el.CRUserName}}</div>
+                                <div class="facebook-date head-ft16"><span class="c999 ft14">{{el.CRDate}}</span></div>
+                                <div style="clear: both"></div>
+                            </div>
+                            <div class="card-content" style="margin-top:0px">
+                                <div class="card-item">
+                                    <span class="c999 title-item">流程类型：</span>
+                                    <span>【{{el.ProcessClass}}】{{el.ProcessName}}</span>
+                                </div>
+                             
+                                <div class="card-item">
+                                    <span class="c999 title-item">审核状态：</span>
+                                    <span>{{el.StatusName|html}}</span>
+                                </div>
+                            
+                                <div class="buttons-tab list-op" style="margin-top:0px">
+                                    <a class="tab-link button external" ms-click="vieww(el)">
+                                        <i class="iconfont icon-shenpi"></i>处理
+                                    </a>
+                                  
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card facebook-card animated" ms-if="loadtip">
+                            <div class="card-header no-border">
+                                {{loadtip}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="infinite-scroll-preloader">
+                        <div class="preloader"></div>
+                    </div>
+                </div>
+                <div class="right-panel">
+                    <ul>
+                        <li>
+                            <a class="mod-li-icon" ms-click="show()">
+                                <img src="../images/plus-serch.png"></a>
+                        </li>
+                        <li>
+                            <a class="mod-li-icon" ms-if="DataID=='-1'" ms-click="addLCSP()">
+                                <img src="/View_Mobile/images/plus-add.png"></a>
+                        </li>
+
+                    </ul>
+
+                </div>
+                <!-- 点击加号-模块 -->
+                <div class="module_plus " id="module_plus" ms-if="isshowmenu" ms-on-click="toglemenu()">
+                    <div class="mod-mask animated fadeinup"></div>
+                    <div class="mod-body animated fadeinup" style="z-index: 99999">
+                        <ul>
+                            <li ms-repeat-item="ColumnData">
+                                <a ms-attr-href="'/View_Mobile/UI/BASE/APP_MOBIL_WF.html?FormCode=LCSP&PDID='+item.ID+'&r='+Math.random()" external>
+                                    <div class="mod-li-tip">{{item.ProcessName}}</div>
+                                </a>
+                            </li>
+                            <li ms-if="ColumnData.size()==0">
+                                <div class="mod-li-tip">无流程</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="search-top" ms-if="isShow">
+
+                <div class="searchbar searchbar-active">
+                    <a class="searchbar-cancel" ms-click="GetList()">搜索</a>
+                    <a class="searchbar-cancel search-close" ms-click="show()"><i class="iconfont icon-cuo"></i></a>
+                    <div class="search-input">
+                        <label class="icon icon-search" for="search"></label>
+                        <input type="search" id="search" placeholder="搜索流程名称" ms-duplex="search">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <script src="/View_Mobile/JS/layer/layer.m.js"></script>
+        <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+        <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.8/js/sm.min.js' charset='utf-8'></script>
+        <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.8/js/sm-extend.min.js' charset='utf-8'></script>
+        <script src="/View_Mobile/JS/touch/toucher.js"></script>
+        <script src="/View_Mobile/JS/avalon1.47.js"></script>
+        <script src="/View_Mobile/JS/ComFunJS.js?jsver=20160425"></script>
+        <script>
+            var model = avalon.define({
+                $id: "LCList",
+                ctData: [],
+                ColumnData: [],
+                nowuser: ComFunJS.getnowuser(),//当前用户
+                loading: false,
+                shNum: 0,
+                page: 1,
+                pagecount: 8,
+                loadtip: "",//切换页时显示信息
+                type: 0,//
+                isshowmenu: "",
+                isfold: localStorage.getItem("lcspisfold") == "Y" ? true : false,//是否折叠显示
+                changefold: function () {
+                    model.isfold = !model.isfold;
+                    model.ctData.forEach(function (item) {
+                        item.isfold = model.isfold;
+                    })
+                    localStorage.setItem("lcspisfold", model.isfold ? "Y" : "N");
+                },//改变折叠状态
+                search: "",
+                isShow: false,
+                show: function () {
+                    if (model.search) {
+                        model.search = "";
+                        model.GetList();
+                    }
+                    if (model.isShow)
+                        model.isShow = false;
+                    else {
+                        model.isShow = true;
+                        $("#search").focus();
+                    }
+                },
+                GetList: function () {
+                    model.ctData.clear();
+                    model.loadtip = "";
+                    model.page = 1;
+                    model.loadMore();
+                },
+                DataID: ComFunJS.getQueryString("ID", "-1"),//数据ID
+                covtitle: function (title) {
+                    return ComFunJS.convstr($("<div>" + title + "</div>").text(), 40);
+                },//转化 TITLE信息
+                vieww: function (el) {
+                    var clurl = "/ViewV5/AppPage/FORMBI/FormManage.html?vtype=1&piid=" + el.ID + "&r=" + Math.random();
+                    window.location = clurl;
+                },
+                addLCSP: function () {
+                    //model.toglemenu();
+                    window.location = "UI_LCSP_LCLIST.html?r=" + Math.random();
+                    //window.location = "/View_Mobile/UI/BASE/APP_MOBIL_WF.html?FormCode=LCSP&r=" + Math.random();
+                },
+                loadMore: function () {
+                    if (model.loading) return;
+                    model.loading = true;
+                    $.getJSON("/API/VIEWAPI.ashx?Action=FORMBI_GETLCSPLIST&r=" + Math.random(), { P1: model.type, "p": model.page, ID: model.DataID, Content: model.search }, function (r) {
+                        model.loading = false;
+                        if (r.ErrorMsg == "") {
+                            if (model.page == 1 && r.Result.length == 0) {
+                                model.loadtip = '没有找到数据哦'
+                            }
+
+                            for (var i = 0; i < r.Result.length; i++) {
+                                r.Result[i].isfold = model.isfold;
+                                if (model.DataID != "-1") {//如果有数据ID，则展开显示
+                                    r.Result[i].isfold = true;
+                                }
+                            }
+
+                            model.ctData.pushArray(r.Result);
+                            //判断是否加载完毕
+                            if (r.Result.length < model.pagecount) {
+                                // 加载完毕，则注销无限加载事件，以防不必要的加载
+                                $.detachInfiniteScroll($('.infinite-scroll'));
+                                // 删除加载提示符
+                                $('.infinite-scroll-preloader').hide();
+                                return;
+                            }
+                            $.refreshScroller();
+                            model.page += 1;
+
+                        }
+                    })
+
+                },
+                viewfile: function (file) {
+                    if (ComFunJS.isPic(file.FileExtendName)) {
+                        ComFunJS.viewbigimg(this)
+                        return;
+                    }
+                    if (ComFunJS.isOffice(file.FileExtendName) && file.ISYL == "Y") {
+                        window.location = file.YLUrl;
+                        return;
+                    }
+                    window.location = ComFunJS.getfile(file.ID);
+                },//文件查看方法
+                getdata: function (type) {
+                    $.attachInfiniteScroll($('.infinite-scroll'))
+                    model.loadtip = "";
+                    $('.infinite-scroll-preloader').show();
+                    model.type = type;
+                    model.ctData.clear();
+                    //model.loadtip = "正在加载数据... ...";
+                    //setTimeout("model.loadtip = '没有找到数据哦'", 1500)
+                    model.page = 1;
+                    model.loadMore();
+                    model.getSHNum();
+                },
+                toglemenu: function () {
+                    model.isshowmenu = !model.isshowmenu
+                },
+                getSHNum: function () {//抓取审核数量
+                    $.getJSON("/API/VIEWAPI.ashx?Action=FORMBI_GETMODELDSHQTY&r=" + Math.random(), {}, function (r) {
+                        if (r.ErrorMsg == "") {
+                            model.shNum = r.Result;
+                        }
+                    })
+                },
+                viewall: function () {
+                    window.location = "/View_Mobile/UI/UI_LCSP_LIST.html?r=" + Math.random();
+                }
+            })
+
+          
+         
+            avalon.ready(function () {
+                // 注册'infinite'事件处理函数
+                $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                    model.loadMore();
+                });
+
+                $.init();
+                if (model.DataID == "-1") {//如果参数中没有数据ID，则默认抓取当前用户数据
+                    model.type = 1;
+                }
+                model.getdata(model.type);
+                //util.toucher(document.getElementById('touchcontent'))
+                //    .on('swipeLeft', '.list-container', function () {
+                //        model.type = model.type == 3 ? 1 : model.type * 1 + 1;
+                //        model.getdata(model.type)
+                //        return false;
+                //    })
+                //    .on('swipeRight', '.list-container', function () {
+                //        model.type = model.type == 1 ? 3 : model.type * 1 - 1;
+                //        model.getdata(model.type)
+
+                //        return false;
+                //    })//左右滑动事件
+
+                $.getJSON('/API/VIEWAPI.ashx?Action=FORMBI_GETWFPDLIST', { P1: 1 }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        model.ColumnData = resultData.Result;
+                    }
+                })
+            })
+        </script>
+
+    </body>
+
+
+
+</body>
+</html>

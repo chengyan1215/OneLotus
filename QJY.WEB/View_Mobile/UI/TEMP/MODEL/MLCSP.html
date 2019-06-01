@@ -1,0 +1,126 @@
+﻿<div style="background:#fbf9fe" ms-controller="MLCSP">
+    <div class="weui_cells weui_cells_form">
+        <div class="weui_cell">
+            <div class="weui_cell_hd"><label class="weui_label label">申请人</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                {{modelData.ShenQingRen}}
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd"><label class="weui_label label">流程类别</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                {{TypeName}}
+            </div>
+        </div>
+        <div class="extdiv"></div>
+    </div>
+    
+    <div ms-if="isHasDataQX=='Y'">
+
+        <div class="weui_cells_title">图片上传</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" ms-duplex="modelData.Files" class="wximgupload" style="display:none;" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ms-if="isHasDataQX=='N' && tpData.size()>0">
+        <div class="weui_cells_title">图片上传</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div class="viewimg">{{modelData.Files}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var tempmodel = avalon.define({
+        $id: "MLCSP",
+        tpData: [],
+        TempData: [],
+        viewData: [],
+        temptype: "edit", //edit,view
+        name: "流程审批",
+        TypeName: "",
+        pdid: pmodel.PDID,
+        dataid: "",
+        tcontent: "",
+        wximg: "",
+        iswf: true,//是否属于流程表单
+        inittemp: function (strId) {
+
+            tempmodel.modelData.LeiBie = tempmodel.pdid;
+            tempmodel.modelData.ShenQingRen = ComFunJS.convertuser(ComFunJS.getnowuser());
+
+            $.getJSON('/API/VIEWAPI.ashx?Action=LCSP_GETLCSPMODEL', { P1: strId, P2: tempmodel.pdid }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    if (!strId) {
+                        tempmodel.tcontent = resultData.Result1.Tempcontent;
+                        tempmodel.TypeName = resultData.Result1.ProcessName;//流程名称
+                        //$("#tempcontent").append(resultData.Result1.Tempcontent)
+
+                        ComFunJS.uploadimgnew();
+                        ComFunJS.initForm();
+
+                    }
+                    else {
+                        tempmodel.dataid = strId;
+
+                        tempmodel.modelData = resultData.Result;
+                        //tempmodel.tcontent = resultData.Result1.Tempcontent;
+                        tempmodel.tpData = resultData.Result2;
+
+
+                        tempmodel.TypeName = resultData.Result1.ProcessName; 
+
+                        ComFunJS.uploadimgnew(tempmodel.tpData);
+                        ComFunJS.viewimg(tempmodel.tpData);
+                        ComFunJS.initForm();
+                    }
+                }
+            })
+        },//初始化
+        modelData: { "LeiBie": "", "Content": "", "ShenQingRen": "", "Files": "", "Tempcontent": "" },
+        CancelWF: function (strId) {
+            $.getJSON('/API/VIEWAPI.ashx?Action=LCSP_DELLCSPBYID', { P1: strId }, function (resultData) {
+            })
+        },
+        SaveData: function (callback) {
+
+            tempmodel.modelData.Files = "";
+            $("#imglist .tpli").each(function () {
+                if ($(this).hasClass("wximg")) { //微信上传未处理的图片
+                    if (tempmodel.wximg) {
+                        tempmodel.wximg += ",";
+                    }
+                    tempmodel.wximg += $(this).attr("itemid");
+
+                } else {
+                    if (tempmodel.modelData.Files) {
+                        tempmodel.modelData.Files = tempmodel.modelData.Files + ',' + $(this).attr("itemid");
+                    }
+                    else {
+                        tempmodel.modelData.Files = $(this).attr("itemid");
+                    }
+                }
+
+            })
+       
+
+            $.getJSON("/API/VIEWAPI.ashx?ACTION=LCSP_ADDLCSP", { P1: JSON.stringify(tempmodel.modelData.$model), P2: tempmodel.wximg }, function (result) {
+
+                return callback.call(this, result);
+            });
+        },
+        Complate: function () {
+            window.location.href = "/View_Mobile/UI/UI_LCSP_LIST.html?r=" + Math.random();
+        }
+    });//# sourceURL=MLCSP.js;
+
+</script>

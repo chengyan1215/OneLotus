@@ -1,0 +1,315 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>我的收藏</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="https://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="https://g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <style type="text/css">
+        .layui-layer-title {
+            border-bottom: 0PX !important;
+        }
+
+        .ft16 {
+            font-size: 16px;
+        }
+
+        .list-block ul:before {
+            background-color: #FFF;
+        }
+
+        .list-block ul:after {
+            background-color: #FFF;
+        }
+
+        .error {
+            background-color: red !important;
+        }
+
+        .suc {
+            background-color: #3ac343 !important;
+        }
+    </style>
+</head>
+<body ms-controller="tklx">
+
+    <div class="page-group">
+
+        <div class="page" style="background: transparent;">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav" id="bar" style="background-color: #12b8f6">
+                <a class="icon icon-left pull-left" href="javascript:history.back(-1)"></a>
+                <h1 class="title">新员工培训检测试卷-收藏题目</h1>
+            </header>
+            <!-- 工具栏 -->
+            <nav class="bar bar-tab">
+                <a class="tab-item external active ft16" ms-click="prest()">
+                    <i class="iconfont icon-jtleft mr5 ft16"></i>上一题
+                </a>
+                <a class="tab-item external  active ft16">
+                    <span class="icon icon-star" ms-click="scst('N')"></span>
+                </a>
+                <a class="tab-item external active ft16" ms-click="nextst()">下一题<i class="iconfont icon-jtright ml5 ft16"></i>
+                </a>
+            </nav>
+            <!-- 这里是页面内容区 -->
+            <div class="content" style="background: #fff;">
+                <header class="bar bar-nav bar-ks">
+                    <h1 class="title" style="padding: 0 1rem;">
+                        <span class="pull-left ft16">{{st.Type}}</span>
+                        <span class="pull-right ft16" id="dtk">题量:{{dqts}}/{{zts}}</span>
+                    </h1>
+                </header>
+                <div class="exambox">
+                    <div class="ft16" style="padding-top: 10px;">{{st.QContent|html}}</div>
+                    <div class="list-block media-list">
+                        <ul style="background: TRANSPARENT;">
+                            <li ms-repeat-item="st.QItem" class="ft16">
+                                <label class="label-checkbox item-content" style="padding-left: 0PX">
+                                    <input type="radio" name="my-radio" ms-attr-value="item.ItemName" ms-click="selST(item,this)" class="radio">
+                                    <!-- 如果是多选  请将  input 换成  <input type="checkbox" name="checkbox">   -->
+                                    <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                                    <div class="item-inner">
+                                        <div>{{item.ItemName}}：{{item.ItemDesc|html}}</div>
+                                    </div>
+                                </label>
+                            </li>
+                        </ul>
+                        <!-- 填空题输入框 -->
+                        <!--    <div style="background: #fff;">
+                            <textarea placeholder="请输入您的答案"></textarea>
+                        </div>-->
+                        <p class="c-green ft16 daq" style="display: none">参考答案：  {{st.QAnswer}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="answer-sheet" class="answer-sheet">
+        <div class="answer-panel">
+            <p class="title-list">【单选题】</p>
+            <ul class="overflow">
+                <li>
+                    <div class="answer-title">
+                        1
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title">
+                        2
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title active">
+                        3
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title active">
+                        4
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title">
+                        5
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title">
+                        6
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title active">
+                        7
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title">
+                        8
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title active">
+                        9
+                    </div>
+                </li>
+            </ul>
+            <p class="title-list">【多选题】</p>
+            <ul class="overflow">
+                <li>
+                    <div class="answer-title">
+                        1
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title">
+                        2
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title active">
+                        3
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title active">
+                        4
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title">
+                        5
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title">
+                        6
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title active">
+                        7
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title">
+                        8
+                    </div>
+                </li>
+                <li>
+                    <div class="answer-title active">
+                        9
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="/View_Mobile/JS/zepto.min.js"></script>
+        <script src="/View_Mobile/JS/zepttouch.js?v=2"></script>
+
+    <script src="/View_Mobile/JS/layer/layer.m.js"></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script src="/View_Mobile/JS/avalon1.47.js"></script>
+    <script src="/View_Mobile/JS/ComFunJS.js?jsver=20180521"></script>
+    <script>
+        var model = avalon.define({
+            $id: "tklx",
+            st: {},
+            zts: 0,
+            dqts: 1,
+            lxitem: {},
+            issc: "N",
+            wxopenid: "",
+            scdata: [],
+            nextst: function () {
+                if (model.dqts == model.zts) {
+                    ComFunJS.winwarning("没有了")
+                } else {
+                    model.dqts = model.dqts * 1 + 1;
+                    model.getdata(model.dqts);
+                }
+            },
+            prest: function () {
+                if (model.dqts == 1) {
+                    ComFunJS.winwarning("没有了")
+                } else {
+                    model.dqts = model.dqts * 1 - 1;
+                    model.getdata(model.dqts);
+                }
+            },
+            scst: function (issc) {
+                $.getJSON('/API/VIEWAPI.ashx?Action=TKGL_SCST&r=' + Math.random(), { "P1": model.st.ID, wxopenid: model.wxopenid, "P2": issc }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        model.issc = (model.issc == "Y" ? "N" : "Y");
+                        ComFunJS.winsuccess("操作成功");
+                    }
+                })
+            },
+            selST: function (stitem, dom) {
+                $(".icon-form-checkbox").removeClass("suc").removeClass("error");
+
+                var selvle = $(dom).val();
+                if ($.trim(selvle) == $.trim(model.st.QAnswer)) {
+                    //ComFunJS.winsuccess("对了")
+                    $(dom).parent().find(".icon-form-checkbox").addClass("suc")
+
+
+                } else {
+                    $(".daq").show();
+                    $(dom).parent().find(".icon-form-checkbox").addClass("error")
+                }
+            },
+            getdata: function (stindex) {
+                model.st = model.scdata[stindex - 1].$model;
+
+            }
+
+        })
+        avalon.ready(function () {
+            model.wxopenid = ComFunJS.getCookie("wxopenid");
+            var strtkId = ComFunJS.getQueryString("ID");
+            $.getJSON('/API/VIEWAPI.ashx?Action=TKGL_GETSCTM&r=' + Math.random(), { "P1": strtkId, wxopenid: model.wxopenid }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    model.scdata = resultData.Result;
+                    model.zts = resultData.Result1;
+                    model.getdata(model.dqts);
+
+                }
+
+            })
+        })
+
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $(document).on("pageInit", function () {
+                $('.buttons-tab').fixedTab({ offset: 44 });
+            });
+            $.init();
+            // 计算弹窗位置
+            var h1 = document.getElementById("bar").offsetHeight;
+            var h2 = window.innerHeight - h1 * 2;
+            document.getElementById("answer-sheet").style.height = h2 + "px";
+            document.getElementById("answer-sheet").style.top = h1 * 2 + "px";
+            //$("#dtk").click(function () {
+            //    $("#answer-sheet").toggle();
+            //})
+            var startPosition, endPosition, moveLength;
+            $(document).bind('touchstart', function (e) {
+                var touch = e.touches[0];
+                startPosition = {
+                    x: touch.pageX
+                }
+            }).bind('touchmove', function (e) {
+                var touch = e.touches[0];
+                endPosition = {
+                    x: touch.pageX
+                };
+                moveLength = endPosition.x - startPosition.x;
+            });
+            // 切换
+            $(document).swipeLeft(function () {
+                if (Math.abs(moveLength) > 80) {
+                    model.nextst()
+                }
+            })
+            $(document).swipeRight(function () {
+                if (Math.abs(moveLength) > 80) {
+                    model.prest()
+
+                }
+            })
+        });
+
+
+    </script>
+
+</body>
+</html>

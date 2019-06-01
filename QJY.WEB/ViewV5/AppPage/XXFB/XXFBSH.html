@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/ViewV5/AppPage/XXFB/WX.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css">
+
+    <script src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>
+    <style>
+        .ms-controller, .ms-important, [ms-controller], [ms-important] {
+            visibility: hidden;
+        }
+    </style>
+    <script type="text/javascript">
+        var model = avalon.define({
+            $id: "APP_XXFB_SHVIEW",
+            XXFBDataList: [],
+            curUser: ComFunJS.getnowuser(),
+            XXFBData: {},
+            isVisible: 1,
+            Type: ComFunJS.getQueryString("Type"),
+            GetXXItemList: function () {
+                $.getJSON('/API/VIEWAPI.ashx?Action=XXFB_GETXXFBITEMLIST', { P1: ComFunJS.getQueryString("ID") }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        if (resultData.Result1) {
+                            model.XXFBDataList = resultData.Result;
+                            model.XXFBData = resultData.Result1;
+
+                        } else {
+                            model.isVisible = 0;
+                        }
+
+                    }
+                })
+            }, UpdateSCUser: function () {
+                var twmodel = { "Type": 0, "Content": "" };
+                twmodel.Content = JSON.stringify(model.XXFBDataList.$model);
+                $.post("/API/VIEWAPI.ashx?ACTION=XXFB_SETSCUSER", { P1: ComFunJS.getQueryString("ID"), P2: JSON.stringify(twmodel) }, function (result) {
+                    if ($.trim(result.ErrorMsg) == "") {
+                        top.ComFunJS.winsuccess("操作成功");
+                        model.XXFBData.SCUser = result.Result.SCUser;
+                    }
+                });
+            }, DeleteXXFB: function () {
+                top.ComFunJS.winconfirm("执行撤回，此企业信息将不能恢复，确定要撤回吗？", function () {
+                    $.post("/API/VIEWAPI.ashx?ACTION=XXFB_DELETEXXFB", { P1: model.XXFBData.ID }, function (result) {
+                        if ($.trim(result.ErrorMsg) == "") {
+                            top.ComFunJS.winsuccess("撤回成功");
+                        }
+                    });
+                })
+            }, ModifySHStauts: function (Status) {//要更新的状态及意见
+
+                var reason = $(".reason").val();
+                if (Status == 2 && reason == "同意") {
+                    reason = "退回";
+                }
+                $.post("/API/VIEWAPI.ashx?ACTION=XXFB_SHXXFB", { P1: model.XXFBData.ID, P2: Status, jy: reason }, function (result) {
+                    if ($.trim(result.ErrorMsg) == "") {
+                        top.ComFunJS.winsuccess("操作成功");
+                        window.location.reload();
+                    }
+                });
+            }, SureXXFB: function (ID) {
+                $.post("/API/VIEWAPI.ashx?ACTION=XXFB_SUREXXFB", { P1: model.XXFBData.ID }, function (result) {
+                    if (result.ErrorMsg == "") {
+                        top.ComFunJS.winsuccess("新闻公告发布成功");
+                        window.location.reload();
+                    }
+                })
+            }
+        });
+        avalon.ready(function () {
+            model.GetXXItemList();
+        })
+    </script>
+</head>
+<body ms-controller="APP_XXFB_SHVIEW">
+    <div class="wrapper wrapper-content  animated fadeInRight">
+        <div class=" col-sm-12">
+            <div style=" color:red; text-align:center" ms-if="isVisible==0">
+                此信息发布不存在或已删除
+            </div>
+            <div ms-if="isVisible==1">
+                <!-- <div class="js_arrow mod-tranlate-right"></div> -->
+                <div class="mc_content_item">
+                    <div class="mc_card_wrap clearfix">
+                        <span style="font-size:14px">
+                            <p>{{ComFunJS.convertuser(XXFBData.CRUser)}}</p>
+                            <p> 发送给： {{ComFunJS.convertuser(XXFBData.JSUser)}}</p>
+                            <p>
+                                时间：{{XXFBData.FBTime}}
+                            </p>
+                        </span>
+                        <div class="video_unit" style="width:430px">
+                            <div class="js_list">
+                                <!-- 当选中的时候，添加class：active和delete，其中active用来显示蓝色边框delete用来显示删除按钮；ps：当video_artical数量大于两个的时候，video_artical选中的时候才出现关闭按钮 -->
+                                <a class="js_article video_image" ms-repeat-el="XXFBDataList" ms-visible="$index==0" target="_blank" ms-attr-href="'/View/AppPage/APP_XXFB_VIEW.html?ID='+el.ID">
+                                    <div class="choose_mode_style"></div> 
+                                    <div class="video_image_wrap" ms-visible="el.ImageIds!=''">
+                                        <img ms-attr-src="{{ComFunJS.getfile(el.ImageIds)}}">
+                                    </div>
+                                    <p class="image_edit_placeholder" ms-visible="el.ImageIds==''">
+                                        <span class="placeholder_text">封面图片<br>推荐尺寸:900像素*500像素</span>
+                                        <span class="placeholder_vertical"></span>
+                                    </p>
+                                    <p class="js_article_title video_sub_title" style="margin-bottom:0px">{{el.XXTitle}}</p>
+                                </a>
+                                <a class="js_article video_artical  delete" href="javascript:;" ms-repeat-el="XXFBDataList" target="_blank" ms-visible="$index>0" ms-attr-href="'/View/AppPage/APP_XXFB_VIEW.html?ID='+el.ID">
+                                    <div class="choose_mode_style"></div> 
+                                    <img class="video_artical_img" ms-visible="el.ImageIds!=''" ms-attr-src="{{ComFunJS.getfile(el.ImageIds)}}">
+                                    <p class="image_edit_placeholder" ms-visible="el.ImageIds==''"></p>
+                                    <p class="js_article_title video_artical_title" style="margin-top: 30px;font-size: 18px;">{{el.XXTitle}}</p>
+                                    <span class="video_vertical"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12" ms-if="XXFBData.SHStatus==0&&XXFBData.SHUser==curUser">
+                    <div class="form-horizontal">
+                        <div class="form-group col-sm-12">
+                            <label class="col-xs-2 control-label">意见</label>
+                            <input type='text' class='form-control reason' style='width:300px;float:left;' value='同意' />
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            <button type="button" class="btn btn-info" ms-click="ModifySHStauts(-1)">退&nbsp;&nbsp;回</button>
+                            <button type="button" class="btn  btn-success" ms-click="ModifySHStauts(1)">确&nbsp;&nbsp;认</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12" ms-if="XXFBData.SHStatus==1&&XXFBData.CRUser==curUser">
+                    <div class="col-sm-4 text-center">
+                        <button type="button" class="btn btn-info" ms-click="SureXXFB()">确认发布</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

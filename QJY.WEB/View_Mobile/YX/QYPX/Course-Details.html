@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>岗位课程详情</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+		<link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+		<link rel="stylesheet" href="http://g.alicdn.com/de/prismplayer/1.4.8/skins/default/index.css" />
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/new_file.js"></script>
+	</head>
+
+	<body>
+
+		<div class="page-group">
+			<div class="page">
+				<!-- 标题栏 -->
+				<header class="bar bar-nav">
+					<a class="icon icon-left pull-left"></a>
+					<h1 class="title">岗位课程详情</h1>
+				</header>
+				<!-- 内容区 -->
+				<div class="content">
+					<div id='J_prismPlayer' class='prism-player' style="display:none;"></div>
+					<script type="text/javascript" src="http://g.alicdn.com/de/prismplayer/1.4.8/prism.js"></script>
+					<script type="text/javascript">
+						var player;
+						player = new prismplayer({
+							id: "J_prismPlayer", // 容器id
+							source: "http://101.201.197.164:8001/shipin.mp4", // 视频url 支持互联网可直接访问的视频地址
+							autoplay: false, // 自动播放
+							width: "100%", // 播放器宽度
+							height: "12rem" // 播放器高度
+						});
+						player.on("pause", function() {
+								$("#J_prismPlayer").hide()
+				$(".course-img").show()
+						});
+					</script>
+					<div class="course-img">
+						<img src="http://img.mukewang.com/58213bd60001ed0804680172.jpg" style="height:100%;">
+						<div class="course-mes">
+							<div style="padding: 3rem 1rem;">
+								<h3>第一次岗第一次岗位培训周期课程</h2>
+								<div>
+							      <a href="#" id='bfkc' class="button  button-fill"><i class="iconfont icon-play"></i>播放课程</a>
+							      <a href="#" id='kclx' class="button button-fill button-warning"><i class="iconfont icon-shijuan"></i>课程练习</a>
+							    </div>
+							</div>
+							
+						</div>
+					</div>
+					<div class="buttons-tab fixed-tab" data-offset="44" style="box-shadow: 0 2px 5px 0 rgba(0,0,0,0.1);">
+						<a href="#tab1" class="tab-link active button">课程介绍</a>
+						<a href="#tab2" class="tab-link button">课件列表</a>
+						<a href="#tab3" class="tab-link button">考试列表</a>
+					</div>
+
+					<div class="tabs">
+						<div id="tab1" class="tab active">
+							<div class="course-panel">
+								<div class="course-info-tip">
+									<dl>
+										<dt>课程信息</dt>
+										<dd class="autowrap">
+											<div>主讲人：单银忠(讲师)</div>
+											<div>学时：00:22:38</div>
+											<div>已完成：30%</div>
+
+										</dd>
+									</dl>
+									<dl>
+										<dt>课程简介</dt>
+										<dd class="autowrap">简介：本课程重点介绍HTML/CSS实现常见企业网站布局的方法、布局中常用的基本盒子模型、三列布局、两列自适应高度及基于jQ的开源图片幻灯片切换效果插件的使用。让您快速掌握企业网站的基本布局方法，同时对HTML、CSS、JS、jQ等知识的综合运用和提升。</dd>
+
+									</dl>
+								</div>
+
+							</div>
+						</div>
+						<div id="tab2" class="tab">
+							<div class="course-panel">
+								<ul class="video list-unstyled">
+									<li class="word-break">
+										<a class="J-media-item">
+											<i class="iconfont icon-play"></i>综合安检人员培训第一节 <span class="ft7">(时长63.83分钟)</span>
+										</a>
+									</li>
+									<li class="word-break">
+										<a class="J-media-item">
+											<i class="iconfont icon-play"></i>视频对接服务<span class="ft7">(时长20分钟)</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div id="tab3" class="tab">
+							<div class="card">
+								<div class="card-content">
+									<div class="list-block media-list">
+										<ul>
+											<li class="item-content">
+												<div class="item-media">
+													<div style="" class="ksfs">55</div>
+												</div>
+												<div class="item-inner">
+													<div class="item-title-row">
+														<div class="item-title">第一次测试试卷</div>
+													</div>
+													<div class="item-subtitle ft7 c999"><i class="iconfont icon-shijian"></i>2015/01/15 12:00</div>
+												</div>
+											</li>
+
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-content">
+									<div class="list-block media-list">
+										<ul>
+											<li class="item-content">
+												<div class="item-media">
+													<div style="" class="ksfs bg-red">30</div>
+												</div>
+												<div class="item-inner">
+													<div class="item-title-row">
+														<div class="item-title">第一次测试试卷</div>
+													</div>
+													<div class="ft7 c999"><i class="iconfont icon-shijian"></i>2015/01/15 12:00</div>
+												</div>
+											</li>
+
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+		<script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+		<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+		<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+		<script type="text/javascript">
+			$(function() {
+				$(document).on("pageInit", function() {
+					$('.buttons-tab').fixedTab({
+						offset: 44
+					});
+				});
+				$.init();
+			});
+			mui.init();
+			mui("body").on('tap', '#bfkc', function() {
+				//打开课程
+				$("#J_prismPlayer").show()
+				$(".course-img").hide()
+				player.play();
+			});
+				mui("body").on('tap', '#kclx', function() {
+				//打开课程练习
+				mui.openWindow({
+					id: "exam-ing",
+					url: 'exam-ing.html'
+				});
+			});
+		</script>
+
+	</body>
+
+</html>

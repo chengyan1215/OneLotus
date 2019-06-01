@@ -1,0 +1,471 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>表单制作</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_533449_a7yfipp8wb.css">
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/index.css?v=1">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/default.css">
+    <link href="/ViewV5/CSS/element/index.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/FORMBI.css?v=9">
+    <style>
+        .tools .el-card {
+            margin: 5px 5px;
+            border-radius: 0px;
+        }
+
+        .tools .el-card__body {
+            padding: 10px 0;
+            text-align: left;
+            padding-left: 5px;
+        }
+
+        .bbsx .el-form-item {
+            max-height: 75PX;
+        }
+
+        .el-dialog__header {
+            background-color: #12b8f6 !important;
+            color: #fff !important;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        .el-dialog__title, .el-dialog__close {
+            color: #fff !important;
+        }
+
+        .el-dialog__headerbtn {
+            top: 15px;
+        }
+
+        .el-dialog__body {
+            padding: 20px 20px;
+        }
+
+        .widgetdel {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body style="background-color: #e7ecf1">
+    <!--<script>
+        if (!window.Promise) {
+            document.write('<script src="//cdn.jsdelivr.net/npm/es6-promise@4.1.1/dist/es6-promise.min.js"><\/script><script>ES6Promise.polyfill()<\/script>')
+        }
+    </script>-->
+    <div id="Loading">
+        <div class="loader-inner ball-beat">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div id="DATABI_YBZZ" class="FormB" style="display:none">
+
+        <nav class="navbar navbar-inverse box-shadow" style="border-radius: 0; background-color: #fff; border-color: #fff; ">
+            <div class="head-center clearfix c2">
+                <div class="logo c666 pull-left" v-text="FormName">
+                </div>
+                <div class="pull-right top-fun">
+                    <ul class="clearfix">
+                        <li v-on:click="saveybdata">
+                            <a class="shuaxin">
+                                <i class="iconfont icon-shangchuan tip" data-toggle="tooltip" title="保存" data-placement="bottom"></i> 保存
+                            </a>
+                        </li>
+                        <li>
+                            <a :href="'FormAdd.html?pdid='+pdid" target="_blank">
+                                <i class="iconfont icon-look tip" data-toggle="tooltip" title="预览" data-placement="bottom"></i> 预览
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="work">
+            <div class="fwlayout" style="padding-top: 0px; width: 94%;">
+                <!-- 左边导航 -->
+                <div class="leftlayout box-shadow" id="leftlayout" style="min-height:670PX; display: block;width: 260px">
+                    <div class="left-head" style="padding:15px 20px;    background-color: #f5f5f5;">
+                        字段选择
+                    </div>
+                    <div class="nav-list tools" style="padding:10px 0;">
+                        <p style="padding-left: 10px;" class="text-info">基础字段</p>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjInput', '标题', 'text')" style="margin-left: 10px;">
+                                    <i class="iconfont icon-biaodanzujian-shurukuang"></i>    输入框
+                                </el-card>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjInputNum', '数字', 'number')" style="margin-right: 10px;">
+                                    <i class="iconfont icon-biaodanzujian-shurukuang"></i> 输入框(数字)
+                                </el-card>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjSelect', '单选', 'select')" style="margin-left: 10px;">
+                                    <i class="iconfont icon-biaodanzujian-xialakuanglv"></i>     单选组件
+                                </el-card>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjMSelect', '多选', 'mselect')" style="margin-right: 10px;">
+                                    <i class="iconfont icon-biaodanzujian-xialakuanglv"></i>
+                                    多选组件
+                                </el-card>
+                            </el-col>
+
+                        </el-row>
+                        <el-row>
+
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjFile', '上传附件', 'qjFile')" style="margin-left: 10px;">
+                                    <i class="iconfont icon-shangchuan"></i>   文件上传
+                                </el-card>
+                            </el-col>
+                        </el-row>
+                        <p style="padding-left: 10px;" class="text-info">时间日期</p>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjDate', '时间日期', 'date')" style="margin-left: 10px;">
+                                    <i class="iconfont icon-riqi"></i>   日期或时间
+                                </el-card>
+                            </el-col>
+
+                        </el-row>
+                        <p style="padding-left: 10px;" class="text-info">辅助</p>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjLine', '标题', 'qjLine')" style="margin-left: 10px;">
+                                    <i class="iconfont icon-jiahao2"></i>  分割线
+                                </el-card>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjSN', '流水号', 'qjSN')" style="margin-right: 10px;">
+                                    <i class="iconfont icon-shuzi"></i>  流水号
+                                </el-card>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjSeluser', '选择人员', 'qjSeluser')" style="margin-left : 10px;">
+                                    <i class="iconfont icon-group"></i>      人员选择
+                                </el-card>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjSelbranch', '选择部门', 'qjSelbranch')" style="margin-right: 10px;">
+                                    <i class="iconfont icon-zuzhi"></i>     部门选择
+                                </el-card>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-card shadow="hover" @click.native="addwigdet('qjTable', '表格', 'qjTable')" style="margin-left: 10px;">
+                                    <i class="iconfont icon-biaodanzujian-biaoge"></i>   表格
+                                </el-card>
+                            </el-col>
+                            <el-col :span="12">
+
+                            </el-col>
+
+                        </el-row>
+                    </div>
+
+                </div>
+                <div class="rightlayout" style="margin-left: 260px;">
+                    <div class="index-center">
+                        <div class="menu-general ft16 box-shadow">
+                            <ul>
+                                <li @click="tab1 = 0" v-bind:class="{ active: tab1 =='0' }"><a> 表单设计</a>
+                                <li @click="tab1 = 1" v-bind:class="{ active: tab1 =='1' }"><a> 表单属性</a>
+                                <li @click="sellc" v-bind:class="{ active: tab1 =='2' }"><a> 表单流程设置</a>
+
+                            </ul>
+                        </div>
+                        <div class="main-content ft16   padding10 c666 box-shadow clearfix">
+                            <div v-show="tab1=='0'">
+                                <el-row>
+                                    <el-form ref="FormData" label-position="top" :model="FormData">
+                                        <component class="widget" v-for="(item, index) in FormData.wigetitems" v-dragging="{ list: FormData.wigetitems, item: item, group: 'color2' }" :key="item.wigdetcode" v-on:click.native="selwidget(item)" :index="index" :is="item.component" :id="item.wigdetcode" :pzoption="item" style="margin-top:10px" @data-change="datachange"></component>
+                                    </el-form>
+                                </el-row>
+                            </div>
+                            <div v-show="tab1=='1'" class="bbsx">
+                                <el-form label-position="top" label-width="80px" style="padding: 0 30px;">
+                                    <el-form-item label="报表默认宽度">
+                                        <el-radio-group v-model="formop.width">
+                                            <el-radio label="0">固定宽度(850px)</el-radio>
+                                            <el-radio label="1">自动宽度(发起页面会根据屏幕大小自动调整)</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    <el-form-item label="封面(点击更改表单封面)" style="max-height: 150px;">
+                                        <i class="iconfont icon-shanchu" title="恢复默认图片" @click="fmdata = ''" style="font-size: 20px;position: absolute;left: 110px;color: red;"></i>
+
+                                        <el-upload class="avatar-uploader"
+                                                   :action="fileaction"
+                                                   :show-file-list="false"
+                                                   :on-success="handleAvatarSuccess"
+                                                   accept=".jpg,.png"
+                                                   :before-upload="beforeAvatarUpload">
+                                            <img :src="fmdata" class="avatar" style="width:100px;height:100px" onerror="javascript: this.src = '/ViewV5/images/qywd/tz1.png'">
+                                        </el-upload>
+                                    </el-form-item>
+                                    <el-form-item label="发起页面地址">
+                                        <el-input v-model="formop.addurl" disabled></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="处理页面地址">
+                                        <el-input v-model="formop.mangeurl" disabled></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="列表页面地址">
+                                        <el-input v-model="formop.listurl" disabled></el-input>
+                                    </el-form-item>
+                                </el-form>
+                            </div>
+                            <div v-show="tab1=='2'">
+                                <iframe marginwidth="0" :src="'/ViewV5/AppPage/FORMBI/LCSZSET.html?PDID='+pdid" class="tabiframe" marginheight="0" frameborder="0" scrolling="no" height="600px" id="lcsz" name="main" width="100%" style="min-height: 600px"></iframe>
+
+                            </div>
+                        </div>
+                        <div class="index-right box-shadow bgfff" style="min-height: 670px;">
+                            <div class="panel panel-default " style="margin-bottom:0px">
+
+                                <div class="panel-heading padding15">组件属性-<span v-text="widgetname[nowwidget.component]"></span><span v-text="nowwidget.wigdetcode"></span></div>
+
+                                <div class="tab-box" v-show="nowwidget.wigdetcode">
+                                    <ul>
+                                        <li v-on:click="seltab(0)" style="width:100%" v-bind:class="{active:tabtype=='0'}">
+                                            <a>基本属性</a>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                                <div style="min-height:600px" v-show="nowwidget.wigdetcode">
+                                    <div class="detail-con" v-show="tabtype=='0'">
+                                        <el-form label-position="top">
+                                            <el-form-item label="组件标题">
+                                                <el-input v-model="nowwidget.title" autocomplete="off"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="组件宽度">
+                                                <el-select v-model="nowwidget.mdwidth" placeholder="请选择">
+                                                    <el-option v-for="item in wigetwidth"
+                                                               :key="item.value"
+                                                               :label="item.label"
+                                                               :value="item.value">
+                                                    </el-option>
+                                                </el-select>
+                                            </el-form-item>
+                                            <div v-if="pddata.RelatedTable">
+                                                <el-form-item label="关联表">
+                                                    <el-input placeholder="请输入内容" v-model="pddata.RelatedTable" readonly class="input-with-select">
+                                                        <el-tooltip content="获取可关联字段" placement="top" slot="append">
+
+                                                            <el-button icon="el-icon-search" @click="getfiled"></el-button>
+                                                        </el-tooltip>
+                                                    </el-input>
+                                                </el-form-item>
+                                                <el-form-item label="关联字段">
+                                                    <el-select v-model="nowwidget.glfiled" placeholder="请选择" clearable>
+                                                        <el-option v-for="item in glfileddata"
+                                                                   :key="item.ColumnName"
+                                                                   :label="item.ColumnName"
+                                                                   :value="item.ColumnName">
+                                                        </el-option>
+                                                    </el-select>
+                                                </el-form-item>
+                                            </div>
+                                        </el-form>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/ViewV5/JS/vue.js"></script>
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/lodash.min.js"></script>
+    <script src="/ViewV5/JS/httpVueLoader.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script src="/ViewV5/JS/layer/layer.js"></script>
+
+    <!-- 引入组件库 -->
+    <script src="/ViewV5/JS/element/element.js"></script>
+    <script src="/ViewV5/JS/bijs.js?v=4"></script>
+    <script src="/ViewV5/JS/vue-dragging.js?v=4"></script>
+
+
+    <script>
+        Vue.use(VueDragging)
+        var app = new Vue({
+            el: '#DATABI_YBZZ',
+            components: {
+                'qjDate': httpVueLoader('../../AppPage/FORMBI/vue/qjDate.vue'),
+                'qjInput': httpVueLoader('../../AppPage/FORMBI/vue/qjInput.vue'),
+                'qjSN': httpVueLoader('../../AppPage/FORMBI/vue/qjSN.vue'),
+                'qjInputNum': httpVueLoader('../../AppPage/FORMBI/vue/qjInputNum.vue'),
+                'qjSelect': httpVueLoader('../../AppPage/FORMBI/vue/qjSelect.vue'),
+                'qjMSelect': httpVueLoader('../../AppPage/FORMBI/vue/qjMSelect.vue'),
+                'qjSelbranch': httpVueLoader('../../AppPage/FORMBI/vue/qjSelbranch.vue'),
+                'qjSeluser': httpVueLoader('../../AppPage/FORMBI/vue/qjSeluser.vue'),
+                'qjLine': httpVueLoader('../../AppPage/FORMBI/vue/qjLine.vue'),
+                'qjTable': httpVueLoader('../../AppPage/FORMBI/vue/qjTable.vue'),
+                'qjFile': httpVueLoader('../../AppPage/FORMBI/vue/qjFile.vue')
+            },
+            data: {
+                loading: true,
+                pdid: ComFunJS.getQueryString('ID'),
+                fmdata: "",
+                tab1: "0",//页面
+                widgetname: { "qjInput": "输入框", "qjSelect": "单选", "qjMSelect": "多选", "qjDate": "日期时间组件", "qjSeluser": "人员选择", "qjSelbranch": "部门选择", "qjInputNum": "数字输入", "qjFile": "上传组件" },
+                FormName: "",
+                tabtype: "0",//属性
+                isview: false,//是否浏览模式,判断需不需要加载默认值
+                pddata: {},
+                glfileddata: [],
+                fileaction: ComFunJS.getCookie("fileapi") + "/document/fileupload/" + ComFunJS.getCookie("qycode"),
+                formop: { width: "0", addurl: "/ViewV5/AppPage/FORMBI/FormAdd.html?pdid=" + ComFunJS.getQueryString('ID'), mangeurl: "/ViewV5/AppPage/FORMBI/FormManage.html?piid=?", listurl: "/ViewV5/AppPage/FORMBI/FormList.html?pdid=" + ComFunJS.getQueryString('ID') },
+                FiledSetVisible: false,
+                wigetwidth: [{ label: "1/4", value: 6 }, { label: "2/4", value: 12 }, { label: "3/4", value: 18 }, { label: "1/3", value: 8 }, { label: "2/3", value: 16 }, { label: "整行", value: 24 }],
+                FormData: {
+                    wigetitems: []
+                },
+                nowwidget: {
+
+                },
+                glformdata: [],
+
+            },
+            created: function () {
+                document.body.removeChild(document.getElementById('Loading'))
+                var divBJ = document.getElementById('DATABI_YBZZ');
+                divBJ.style.display = "block";
+            },
+            methods: {
+                seltab: function (tabtype) {
+                    this.tabtype = tabtype;
+                },
+                sellc: function () {
+                    this.tab1 = 2;
+                    $("#lcsz").attr("src", '/ViewV5/AppPage/FORMBI/LCSZSET.html?PDID=' + this.pdid);
+                },
+                genID: function () {
+                    var random = Math.floor(Math.random() * (90000 - 10000 + 1) + 10000);
+                    return random;
+                },
+
+                selwidget: function (item) {
+                    app.nowwidget = item;
+                    $(".widget").removeClass("widgetsel")
+                    $("#" + item.wigdetcode).addClass("widgetsel")
+                },
+                addwigdet: function (name, title, eltype) {
+                    var wigdetcode = name + this.genID();
+                    var wigget = {
+                        wigdetcode: wigdetcode,
+                        component: name,
+                        title: title,
+                        mdwidth: 12,
+                        eltype: eltype,
+                        childpro: {},
+                        glfiled: "",
+                        value: ""
+                    }
+                    this.mangewigdet(wigget, eltype);
+                    this.FormData.wigetitems.push(wigget)
+
+                },//新增组件
+                handleAvatarSuccess(res, file) {
+                    var imgur = ComFunJS.getCookie("fileapi") + "/" + ComFunJS.getCookie("qycode") + "/document/" + res.split(',')[0];
+                    this.fmdata = imgur;
+                },
+                beforeAvatarUpload(file) {
+                    const isLt2M = file.size / 1024 / 1024 < 1;
+                    if (!isLt2M) {
+                        this.$message.error('上传图片大小不能超过 1MB!');
+                    }
+                    return isLt2M;
+                },
+                datachange: function (chidata) {
+                    app.nowwidget.childpro = JSON.parse(chidata);
+                },
+                mangewigdet: function (wigget, eltype) {
+
+                },
+                getfiled: function () {
+
+                    $.getJSON("/API/VIEWAPI.ashx", { Action: "FORMBI_GETFIELDDATA", P1: app.pddata.RelatedTable }, function (result) {
+                        if (!result.ErrorMsg) {
+                            app.glfileddata = result.Result;
+                        }
+
+                    })
+                },
+                saveybdata: function () {
+                    $.getJSON("/API/VIEWAPI.ashx", { Action: "FORMBI_SETPDTEMP", P1: app.pdid, P2: JSON.stringify(this.FormData.wigetitems), fmdata: app.fmdata, formop: JSON.stringify(app.formop) }, function (result) {
+                        if (!result.ErrorMsg) {
+                            app.$notify({
+                                title: '成功',
+                                message: '操作成功',
+                                type: 'success'
+                            });
+                        }
+
+                    })
+
+                },
+                inityb: function () {
+                    $.getJSON("/API/VIEWAPI.ashx", { Action: "FORMBI_GETPROCESSBYID", P1: app.pdid }, function (result) {
+                        if (!result.ErrorMsg) {
+                            if (result.Result.Tempcontent) {
+                                app.FormData.wigetitems = JSON.parse(result.Result.Tempcontent);
+                            }
+                            if (result.Result.Poption) {
+                                app.formop = JSON.parse(result.Result.Poption);
+                            }
+
+                            app.FormName = result.Result.ProcessName;
+                            app.fmdata = result.Result.fmdata;
+                            app.pddata = result.Result;
+                            app.$notify({
+                                title: '成功',
+                                message: '初始化成功',
+                                type: 'success'
+                            });
+                            app.loading = false;
+                        }
+
+                    })
+                },
+
+
+            },
+            mounted: function () {
+                var pro = this;
+                pro.$nextTick(function () {
+                    pro.inityb();
+
+
+                })
+
+            }
+        })
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1229 @@
+﻿@charset "UTF-8";
+@-webkit-keyframes fire {
+  0% {
+    background-position: 0 0; }
+  100% {
+    background-position: -200px 0; } }
+@-moz-keyframes fire {
+  0% {
+    background-position: 0 0; }
+  100% {
+    background-position: -200px 0; } }
+@keyframes fire {
+  0% {
+    background-position: 0 0; }
+  100% {
+    background-position: -200px 0; } }
+@-webkit-keyframes die {
+  0% {
+    background-position: -200px 0; }
+  100% {
+    background-position: -400px 0; } }
+@-moz-keyframes die {
+  0% {
+    background-position: -200px 0; }
+  100% {
+    background-position: -400px 0; } }
+@keyframes die {
+  0% {
+    background-position: -200px 0; }
+  100% {
+    background-position: -400px 0; } }
+@-webkit-keyframes blow {
+  0% {
+    -webkit-transform: translateY(-5px);
+            transform: translateY(-5px); }
+  100% {
+    -webkit-transform: translateY(5px);
+            transform: translateY(5px); } }
+@-moz-keyframes blow {
+  0% {
+    -moz-transform: translateY(-5px);
+         transform: translateY(-5px); }
+  100% {
+    -moz-transform: translateY(5px);
+         transform: translateY(5px); } }
+@keyframes blow {
+  0% {
+    -webkit-transform: translateY(-5px);
+       -moz-transform: translateY(-5px);
+            transform: translateY(-5px); }
+  100% {
+    -webkit-transform: translateY(5px);
+       -moz-transform: translateY(5px);
+            transform: translateY(5px); } }
+@-webkit-keyframes ani1 {
+  0% {
+    -webkit-transform: translate(0, 0) rotate(10deg);
+            transform: translate(0, 0) rotate(10deg);
+    opacity: 1; }
+  70% {
+    opacity: 0.7; }
+  100% {
+    -webkit-transform: translate(10px, 300px) rotate(300deg);
+            transform: translate(10px, 300px) rotate(300deg);
+    opacity: 0; } }
+@-moz-keyframes ani1 {
+  0% {
+    -moz-transform: translate(0, 0) rotate(10deg);
+         transform: translate(0, 0) rotate(10deg);
+    opacity: 1; }
+  70% {
+    opacity: 0.7; }
+  100% {
+    -moz-transform: translate(10px, 300px) rotate(300deg);
+         transform: translate(10px, 300px) rotate(300deg);
+    opacity: 0; } }
+@keyframes ani1 {
+  0% {
+    -webkit-transform: translate(0, 0) rotate(10deg);
+       -moz-transform: translate(0, 0) rotate(10deg);
+            transform: translate(0, 0) rotate(10deg);
+    opacity: 1; }
+  70% {
+    opacity: 0.7; }
+  100% {
+    -webkit-transform: translate(10px, 300px) rotate(300deg);
+       -moz-transform: translate(10px, 300px) rotate(300deg);
+            transform: translate(10px, 300px) rotate(300deg);
+    opacity: 0; } }
+@-webkit-keyframes ani2 {
+  0% {
+    -webkit-transform: translate(0, 0) rotate(10deg);
+            transform: translate(0, 0) rotate(10deg);
+    opacity: 1; }
+  70% {
+    opacity: 0.7; }
+  100% {
+    -webkit-transform: translate(-20px, -300px) rotate(400deg);
+            transform: translate(-20px, -300px) rotate(400deg);
+    opacity: 0; } }
+@-moz-keyframes ani2 {
+  0% {
+    -moz-transform: translate(0, 0) rotate(10deg);
+         transform: translate(0, 0) rotate(10deg);
+    opacity: 1; }
+  70% {
+    opacity: 0.7; }
+  100% {
+    -moz-transform: translate(-20px, -300px) rotate(400deg);
+         transform: translate(-20px, -300px) rotate(400deg);
+    opacity: 0; } }
+@keyframes ani2 {
+  0% {
+    -webkit-transform: translate(0, 0) rotate(10deg);
+       -moz-transform: translate(0, 0) rotate(10deg);
+            transform: translate(0, 0) rotate(10deg);
+    opacity: 1; }
+  70% {
+    opacity: 0.7; }
+  100% {
+    -webkit-transform: translate(-20px, -300px) rotate(400deg);
+       -moz-transform: translate(-20px, -300px) rotate(400deg);
+            transform: translate(-20px, -300px) rotate(400deg);
+    opacity: 0; } }
+@-webkit-keyframes ani3 {
+  0% {
+    -webkit-transform: translate(0, 0) rotate(10deg);
+            transform: translate(0, 0) rotate(10deg);
+    opacity: 1; }
+  70% {
+    opacity: 0.7; }
+  100% {
+    -webkit-transform: translate(10px, 300px) rotate(250deg);
+            transform: translate(10px, 300px) rotate(250deg);
+    opacity: 0; } }
+@-moz-keyframes ani3 {
+  0% {
+    -moz-transform: translate(0, 0) rotate(10deg);
+         transform: translate(0, 0) rotate(10deg);
+    opacity: 1; }
+  70% {
+    opacity: 0.7; }
+  100% {
+    -moz-transform: translate(10px, 300px) rotate(250deg);
+         transform: translate(10px, 300px) rotate(250deg);
+    opacity: 0; } }
+@keyframes ani3 {
+  0% {
+    -webkit-transform: translate(0, 0) rotate(10deg);
+       -moz-transform: translate(0, 0) rotate(10deg);
+            transform: translate(0, 0) rotate(10deg);
+    opacity: 1; }
+  70% {
+    opacity: 0.7; }
+  100% {
+    -webkit-transform: translate(10px, 300px) rotate(250deg);
+       -moz-transform: translate(10px, 300px) rotate(250deg);
+            transform: translate(10px, 300px) rotate(250deg);
+    opacity: 0; } }
+@-webkit-keyframes ani4 {
+  0% {
+    -webkit-transform: translate(0, 0) rotate(10deg);
+            transform: translate(0, 0) rotate(10deg);
+    opacity: 1; }
+  70% {
+    opacity: 0.7; }
+  100% {
+    -webkit-transform: translate(30px, 300px) rotate(200deg);
+            transform: translate(30px, 300px) rotate(200deg);
+    opacity: 0; } }
+@-moz-keyframes ani4 {
+  0% {
+    -moz-transform: translate(0, 0) rotate(10deg);
+         transform: translate(0, 0) rotate(10deg);
+    opacity: 1; }
+  70% {
+    opacity: 0.7; }
+  100% {
+    -moz-transform: translate(30px, 300px) rotate(200deg);
+         transform: translate(30px, 300px) rotate(200deg);
+    opacity: 0; } }
+@keyframes ani4 {
+  0% {
+    -webkit-transform: translate(0, 0) rotate(10deg);
+       -moz-transform: translate(0, 0) rotate(10deg);
+            transform: translate(0, 0) rotate(10deg);
+    opacity: 1; }
+  70% {
+    opacity: 0.7; }
+  100% {
+    -webkit-transform: translate(30px, 300px) rotate(200deg);
+       -moz-transform: translate(30px, 300px) rotate(200deg);
+            transform: translate(30px, 300px) rotate(200deg);
+    opacity: 0; } }
+@-webkit-keyframes ani5 {
+  0% {
+    -webkit-transform: translate(0, 0) rotate(10deg);
+            transform: translate(0, 0) rotate(10deg);
+    opacity: 1; }
+  70% {
+    opacity: 0.7; }
+  100% {
+    -webkit-transform: translate(-40px, 300px) rotate(-300deg);
+            transform: translate(-40px, 300px) rotate(-300deg);
+    opacity: 0; } }
+@-moz-keyframes ani5 {
+  0% {
+    -moz-transform: translate(0, 0) rotate(10deg);
+         transform: translate(0, 0) rotate(10deg);
+    opacity: 1; }
+  70% {
+    opacity: 0.7; }
+  100% {
+    -moz-transform: translate(-40px, 300px) rotate(-300deg);
+         transform: translate(-40px, 300px) rotate(-300deg);
+    opacity: 0; } }
+@keyframes ani5 {
+  0% {
+    -webkit-transform: translate(0, 0) rotate(10deg);
+       -moz-transform: translate(0, 0) rotate(10deg);
+            transform: translate(0, 0) rotate(10deg);
+    opacity: 1; }
+  70% {
+    opacity: 0.7; }
+  100% {
+    -webkit-transform: translate(-40px, 300px) rotate(-300deg);
+       -moz-transform: translate(-40px, 300px) rotate(-300deg);
+            transform: translate(-40px, 300px) rotate(-300deg);
+    opacity: 0; } }
+/* line 8, ../sass/style.scss */
+body {
+  background: url("/View_Mobile/UI/RLZY/images/bg.jpg") repeat; }
+
+/* line 12, ../sass/style.scss */
+.act-wrapper {
+  width: 320px;
+  height: 100%;
+  margin: 0 auto;
+  opacity: 0;
+  overflow: hidden; }
+
+/* common */
+/* line 23, ../sass/style.scss */
+.page header {
+  text-align: center;
+  padding-top: 30px;
+  color: #fff; }
+  /* line 28, ../sass/style.scss */
+  .page header .avatar {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    position: relative;
+    border-radius: 100px;
+    background-repeat: no-repeat;
+    -webkit-background-size: 100% auto;
+            background-size: 100% auto;
+    z-index: 100; }
+    /* line 38, ../sass/style.scss */
+    .page header .avatar:after {
+      content: "";
+      position: absolute;
+      top: -18px;
+      left: 13px;
+      background-repeat: no-repeat;
+      width: 38px;
+      height: 24px;
+      background-image: url('/View_Mobile/UI/RLZY/images/icons-s0f8d09aef0.png');
+      background-position: 0 0;
+      -webkit-background-size: 199px auto;
+      background-size: 199px auto; }
+  /* line 46, ../sass/style.scss */
+  .page header h2 {
+    font-size: 16px; }
+  /* line 49, ../sass/style.scss */
+  .page header p {
+    font-size: 14px; }
+/* line 53, ../sass/style.scss */
+.page header.cloud {
+  background: url("/View_Mobile/UI/RLZY/images/wish/bg0.png") no-repeat;
+  -webkit-background-size: 100% auto;
+          background-size: 100% auto; }
+/* line 57, ../sass/style.scss */
+.page .cloud.default {
+  width: 100%;
+  height: 271px;
+  position: relative;
+  background: url("/View_Mobile/UI/RLZY/images/default/bg.png") no-repeat;
+  -webkit-background-size: 100% auto;
+          background-size: 100% auto; }
+  /* line 64, ../sass/style.scss */
+  .page .cloud.default .username {
+    font-size: 15px;
+    color: #cd694b;
+    position: absolute;
+    left: 30px;
+    top: 60px; }
+/* line 71, ../sass/style.scss */
+.page .question {
+  text-align: right; }
+  /* line 74, ../sass/style.scss */
+  .page .question .icon-question {
+    display: inline-block;
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    margin-right: 20px;
+    text-align: center;
+    line-height: 20px;
+    font-size: 14px;
+    border: 1px solid #fff;
+    border-radius: 20px;
+    position: relative; }
+    /* line 87, ../sass/style.scss */
+    .page .question .icon-question:after {
+      content: "";
+      position: absolute;
+      left: -10px;
+      top: -10px;
+      right: -10px;
+      bottom: -10px;
+      z-index: 10; }
+
+/* line 98, ../sass/style.scss */
+.copyright {
+  margin-top: 20px;
+  padding: 20px 0;
+  text-align: center;
+  color: #fff; }
+  /* line 104, ../sass/style.scss */
+  .copyright p {
+    opacity: 0.7; }
+  /* line 107, ../sass/style.scss */
+  .copyright.ui-border-t { }
+
+/* line 113, ../sass/style.scss */
+.fireworks {
+  width: 100%;
+  height: 300px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none; }
+  /* line 120, ../sass/style.scss */
+  .fireworks .pink,
+  .fireworks .orange,
+  .fireworks .red {
+    position: absolute;
+    top: -50px;
+    display: block;
+    background: url("/View_Mobile/UI/RLZY/images/fireworks.png") no-repeat;
+    -webkit-background-size: 55px auto;
+            background-size: 55px auto;
+    -webkit-transform: translateZ(0);
+       -moz-transform: translateZ(0);
+            transform: translateZ(0); }
+  /* line 130, ../sass/style.scss */
+  .fireworks .pink {
+    width: 13px;
+    height: 9px;
+    background-position: -7px -34px; }
+  /* line 135, ../sass/style.scss */
+  .fireworks .orange {
+    width: 11px;
+    height: 10px;
+    background-position: -32px -5px; }
+  /* line 140, ../sass/style.scss */
+  .fireworks .red {
+    width: 8px;
+    height: 21px;
+    background-position: -31px -37px; }
+  /* line 147, ../sass/style.scss */
+  .fireworks.animate .p1 {
+    left: 10%;
+    -webkit-animation: ani3 3s linear infinite both;
+       -moz-animation: ani3 3s linear infinite both;
+            animation: ani3 3s linear infinite both; }
+  /* line 151, ../sass/style.scss */
+  .fireworks.animate .p2 {
+    left: 40%;
+    -webkit-animation: ani2 3s linear 0.5s infinite both;
+       -moz-animation: ani2 3s linear 0.5s infinite both;
+            animation: ani2 3s linear 0.5s infinite both; }
+  /* line 155, ../sass/style.scss */
+  .fireworks.animate .p3 {
+    left: 60%;
+    -webkit-animation: ani3 3s linear infinite both;
+       -moz-animation: ani3 3s linear infinite both;
+            animation: ani3 3s linear infinite both; }
+  /* line 159, ../sass/style.scss */
+  .fireworks.animate .p4 {
+    left: 30%;
+    -webkit-animation: ani4 3s linear 2.5s infinite both;
+       -moz-animation: ani4 3s linear 2.5s infinite both;
+            animation: ani4 3s linear 2.5s infinite both; }
+  /* line 163, ../sass/style.scss */
+  .fireworks.animate .p5 {
+    left: 80%;
+    -webkit-animation: ani5 3s linear 1s infinite both;
+       -moz-animation: ani5 3s linear 1s infinite both;
+            animation: ani5 3s linear 1s infinite both; }
+  /* line 167, ../sass/style.scss */
+  .fireworks.animate .p5 {
+    left: 70%;
+    -webkit-animation: ani2 3s linear 2s infinite both;
+       -moz-animation: ani2 3s linear 2s infinite both;
+            animation: ani2 3s linear 2s infinite both; }
+  /* line 171, ../sass/style.scss */
+  .fireworks.animate .p5 {
+    left: 20%;
+    -webkit-animation: ani5 3s linear 1.2s infinite both;
+       -moz-animation: ani5 3s linear 1.2s infinite both;
+            animation: ani5 3s linear 1.2s infinite both; }
+  /* line 175, ../sass/style.scss */
+  .fireworks.animate .o1 {
+    left: 80%;
+    -webkit-animation: ani1 3s linear 1s infinite both;
+       -moz-animation: ani1 3s linear 1s infinite both;
+            animation: ani1 3s linear 1s infinite both; }
+  /* line 179, ../sass/style.scss */
+  .fireworks.animate .o2 {
+    left: 40%;
+    -webkit-animation: ani2 3s linear infinite both;
+       -moz-animation: ani2 3s linear infinite both;
+            animation: ani2 3s linear infinite both; }
+  /* line 183, ../sass/style.scss */
+  .fireworks.animate .o3 {
+    left: 70%;
+    -webkit-animation: ani3 3s linear 0.5s infinite both;
+       -moz-animation: ani3 3s linear 0.5s infinite both;
+            animation: ani3 3s linear 0.5s infinite both; }
+  /* line 187, ../sass/style.scss */
+  .fireworks.animate .o4 {
+    left: 20%;
+    -webkit-animation: ani5 3s linear 2.5s infinite both;
+       -moz-animation: ani5 3s linear 2.5s infinite both;
+            animation: ani5 3s linear 2.5s infinite both; }
+  /* line 191, ../sass/style.scss */
+  .fireworks.animate .o5 {
+    left: 30%;
+    -webkit-animation: ani4 3s linear 2s infinite both;
+       -moz-animation: ani4 3s linear 2s infinite both;
+            animation: ani4 3s linear 2s infinite both; }
+  /* line 195, ../sass/style.scss */
+  .fireworks.animate .o6 {
+    left: 90%;
+    -webkit-animation: ani2 3s linear 1.5s infinite both;
+       -moz-animation: ani2 3s linear 1.5s infinite both;
+            animation: ani2 3s linear 1.5s infinite both; }
+  /* line 199, ../sass/style.scss */
+  .fireworks.animate .o7 {
+    left: 10%;
+    -webkit-animation: ani1 3s linear 3s infinite both;
+       -moz-animation: ani1 3s linear 3s infinite both;
+            animation: ani1 3s linear 3s infinite both; }
+  /* line 203, ../sass/style.scss */
+  .fireworks.animate .r1 {
+    left: 23%;
+    -webkit-animation: ani1 3s linear 1s infinite both;
+       -moz-animation: ani1 3s linear 1s infinite both;
+            animation: ani1 3s linear 1s infinite both; }
+  /* line 207, ../sass/style.scss */
+  .fireworks.animate .r2 {
+    left: 44%;
+    -webkit-animation: ani5 3s linear infinite both;
+       -moz-animation: ani5 3s linear infinite both;
+            animation: ani5 3s linear infinite both; }
+  /* line 211, ../sass/style.scss */
+  .fireworks.animate .r3 {
+    left: 78%;
+    -webkit-animation: ani3 3s linear 0.5s infinite both;
+       -moz-animation: ani3 3s linear 0.5s infinite both;
+            animation: ani3 3s linear 0.5s infinite both; }
+
+/* 首页 */
+/* line 224, ../sass/style.scss */
+.page-index header {
+  position: relative; }
+  /* line 227, ../sass/style.scss */
+  .page-index header .music {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-repeat: no-repeat;
+    width: 31.5px;
+    height: 30px;
+    background-image: url('/View_Mobile/UI/RLZY/images/icons-s0f8d09aef0.png');
+    background-position: 0 -26.5px;
+    -webkit-background-size: 199px auto;
+    background-size: 199px auto; }
+    /* line 233, ../sass/style.scss */
+    .page-index header .music:after {
+      content: "";
+      position: absolute;
+      left: -10px;
+      top: -10px;
+      right: -10px;
+      bottom: -10px;
+      z-index: 10; }
+    /* line 240, ../sass/style.scss */
+    .page-index header .music.off {
+      background-repeat: no-repeat;
+      width: 31.5px;
+      height: 30px;
+      background-image: url('/View_Mobile/UI/RLZY/images/icons-s0f8d09aef0.png');
+      background-position: 0 -59px;
+      -webkit-background-size: 199px auto;
+      background-size: 199px auto; }
+/* line 246, ../sass/style.scss */
+.page-index section {
+  text-align: center;
+  margin-top: 10px;
+  position: relative; }
+  /* line 251, ../sass/style.scss */
+  .page-index section .cake {
+    width: 320px; }
+    /* line 254, ../sass/style.scss */
+    .page-index section .cake .cake1,
+    .page-index section .cake .cake2,
+    .page-index section .cake .cake3 {
+      display: block;
+      width: 100%; }
+    /* line 260, ../sass/style.scss */
+    .page-index section .cake .cake1 {
+      padding-top: 32.03%;
+      background: url("/View_Mobile/UI/RLZY/images/cake1.jpg?ggg") no-repeat;
+      -webkit-background-size: 100% auto;
+              background-size: 100% auto; }
+    /* line 265, ../sass/style.scss */
+    .page-index section .cake .cake2 {
+      padding-top: 23%;
+      background: url("/View_Mobile/UI/RLZY/images/cake2.jpg?ggg") no-repeat;
+      -webkit-background-size: 100% auto;
+              background-size: 100% auto; }
+    /* line 270, ../sass/style.scss */
+    .page-index section .cake .cake3 {
+      padding-top: 29.37%;
+      background: url("/View_Mobile/UI/RLZY/images/cake3.jpg?ggg") no-repeat;
+      -webkit-background-size: 100% auto;
+              background-size: 100% auto; }
+/* line 277, ../sass/style.scss */
+.page-index .flame {
+  position: absolute;
+  width: 40px;
+  height: 84px;
+  top: 26px;
+  left: 50%;
+  margin-left: -15px;
+  background-image: url("/View_Mobile/UI/RLZY/images/frame.png");
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  -webkit-background-size: 500px auto;
+          background-size: 500px auto; }
+/* line 289, ../sass/style.scss */
+.page-index .animation-fire {
+  -webkit-animation-name: fire;
+     -moz-animation-name: fire;
+          animation-name: fire;
+  -webkit-animation-duration: 1300ms;
+     -moz-animation-duration: 1300ms;
+          animation-duration: 1300ms;
+  -webkit-animation-fill-mode: both;
+     -moz-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation-timing-function: steps(5);
+     -moz-animation-timing-function: steps(5);
+          animation-timing-function: steps(5);
+  -webkit-animation-delay: 0;
+     -moz-animation-delay: 0;
+          animation-delay: 0;
+  -webkit-animation-iteration-count: infinite;
+     -moz-animation-iteration-count: infinite;
+          animation-iteration-count: infinite; }
+/* line 297, ../sass/style.scss */
+.page-index .animation-die {
+  -webkit-animation-name: die;
+     -moz-animation-name: die;
+          animation-name: die;
+  -webkit-animation-duration: 1000ms;
+     -moz-animation-duration: 1000ms;
+          animation-duration: 1000ms;
+  -webkit-animation-fill-mode: both;
+     -moz-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation-timing-function: steps(5);
+     -moz-animation-timing-function: steps(5);
+          animation-timing-function: steps(5);
+  -webkit-animation-delay: 0;
+     -moz-animation-delay: 0;
+          animation-delay: 0;
+  -webkit-animation-iteration-count: 1;
+     -moz-animation-iteration-count: 1;
+          animation-iteration-count: 1; }
+/* line 305, ../sass/style.scss */
+.page-index .text-guide {
+  display: block;
+  margin: 0 auto 10px;
+  -webkit-animation: blow 1000ms linear both infinite;
+     -moz-animation: blow 1000ms linear both infinite;
+          animation: blow 1000ms linear both infinite;
+  background-repeat: no-repeat;
+  width: 153.5px;
+  height: 70px;
+  background-image: url('/View_Mobile/UI/RLZY/images/icons-s0f8d09aef0.png');
+  background-position: 0 -164px;
+  -webkit-background-size: 199px auto;
+  background-size: 199px auto; }
+
+/* 许愿 */
+/* line 318, ../sass/style.scss */
+.page-wish .ui-btn-wrap {
+  padding: 0 15px 20px; }
+/* line 321, ../sass/style.scss */
+.page-wish section {
+  text-align: center;
+  position: relative; }
+  /* line 325, ../sass/style.scss */
+  .page-wish section img {
+    width: 100%;
+    display: block; }
+  /* line 329, ../sass/style.scss */
+  .page-wish section .cloud1 {
+    display: block;
+    padding-top: 46.87%;
+    background: url("/View_Mobile/UI/RLZY/images/wish/bg1.png") no-repeat;
+    -webkit-background-size: 320px 150px;
+            background-size: 320px 150px; }
+  /* line 335, ../sass/style.scss */
+  .page-wish section .cloud2 {
+    display: block;
+    padding-top: 46.87%;
+    background: url("/View_Mobile/UI/RLZY/images/wish/bg2.png") no-repeat;
+    -webkit-background-size: 320px 150px;
+            background-size: 320px 150px; }
+  /* line 341, ../sass/style.scss */
+  .page-wish section .content {
+    position: absolute;
+    top: 30px; }
+  /* line 345, ../sass/style.scss */
+  .page-wish section h2 {
+    font-size: 16px;
+    color: #14a5be;
+    line-height: 3em; }
+  /* line 350, ../sass/style.scss */
+  .page-wish section input {
+    width: 78%;
+    font-size: 14px;
+    background: #22b2cb;
+    color: #cff2f8;
+    padding: 15px 10px;
+    margin-bottom: 13px;
+    border-radius: 5px; }
+    /* line 359, ../sass/style.scss */
+    .page-wish section input::-webkit-input-placeholder {
+      color: #cff2f8; }
+
+/* line 368, ../sass/style.scss */
+.ui-dialog .ui-dialog-cnt {
+  background-color: #ccf8ff; }
+  /* line 371, ../sass/style.scss */
+  .ui-dialog .ui-dialog-cnt h4 {
+    font-size: 16px;
+    color: #0091ad;
+    font-weight: 700;
+    margin-bottom: 0; }
+  /* line 377, ../sass/style.scss */
+  .ui-dialog .ui-dialog-cnt p, .ui-dialog .ui-dialog-cnt .subtitle {
+    color: #0091ad; }
+  /* line 380, ../sass/style.scss */
+  .ui-dialog .ui-dialog-cnt .subtitle {
+    margin-bottom: 10px; }
+  /* line 383, ../sass/style.scss */
+  .ui-dialog .ui-dialog-cnt .ui-dialog-bd {
+    padding-bottom: 0; }
+  /* line 386, ../sass/style.scss */
+  .ui-dialog .ui-dialog-cnt .ui-dialog-ft {
+    display: block;
+    white-space: nowrap;
+    text-align: center; }
+  /* line 391, ../sass/style.scss */
+  .ui-dialog .ui-dialog-cnt button {
+    background: #e13738;
+    border-radius: 10px !important;
+    color: #fff;
+    font-size: 14px;
+    height: 30px;
+    display: inline-block;
+    width: 110px;
+    margin: 15px 5px 15px 15px;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    line-height: 30px; }
+  /* line 405, ../sass/style.scss */
+  .ui-dialog .ui-dialog-cnt button:nth-child(2) {
+    margin: 15px 15px 15px 7px; }
+  /* line 408, ../sass/style.scss */
+  .ui-dialog .ui-dialog-cnt button:active {
+    background: #f76c6c; }
+  /* line 411, ../sass/style.scss */
+  .ui-dialog .ui-dialog-cnt img {
+    width: 75px;
+    height: 55px; }
+/* line 417, ../sass/style.scss */
+.ui-dialog.dialog-wish .ui-dialog-cnt:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  margin-left: -100px;
+  background-repeat: no-repeat;
+  width: 198.5px;
+  height: 45.5px;
+  background-image: url('/View_Mobile/UI/RLZY/images/icons-s0f8d09aef0.png');
+  background-position: 0 -116px;
+  -webkit-background-size: 199px auto;
+  background-size: 199px auto; }
+/* line 428, ../sass/style.scss */
+.ui-dialog.dialog-empty p, .ui-dialog.dialog-success p {
+  text-align: center;
+  padding: 15px 10px 10px; }
+/* line 432, ../sass/style.scss */
+.ui-dialog.dialog-empty button, .ui-dialog.dialog-success button {
+  min-width: 130px;
+  margin: 15px 70px; }
+/* line 438, ../sass/style.scss */
+.ui-dialog.dialog-rule .rule-scroller {
+  height: 200px;
+  overflow: hidden; }
+/* line 442, ../sass/style.scss */
+.ui-dialog.dialog-rule ol, .ui-dialog.dialog-rule ul {
+  color: #0091ad;
+  margin-left: 25px;
+  margin-top: 10px; }
+  /* line 447, ../sass/style.scss */
+  .ui-dialog.dialog-rule ol li, .ui-dialog.dialog-rule ul li {
+    font-size: 14px;
+    list-style: decimal outside; }
+/* line 452, ../sass/style.scss */
+.ui-dialog.dialog-rule .close {
+  width: 130px;
+  margin: 15px 70px; }
+
+/* empty */
+/* line 467, ../sass/style.scss */
+.page-empty section .cloud,
+.page-success section .cloud,
+.page-guest section .cloud {
+  position: relative;
+  margin-bottom: 10px; }
+  /* line 471, ../sass/style.scss */
+  .page-empty section .cloud .title,
+  .page-success section .cloud .title,
+  .page-guest section .cloud .title {
+    width: 100%;
+    position: absolute;
+    top: 30px;
+    text-align: center; }
+  /* line 477, ../sass/style.scss */
+  .page-empty section .cloud h2,
+  .page-success section .cloud h2,
+  .page-guest section .cloud h2 {
+    font-size: 16px;
+    font-weight: 700; }
+  /* line 481, ../sass/style.scss */
+  .page-empty section .cloud h3,
+  .page-success section .cloud h3,
+  .page-guest section .cloud h3 {
+    font-size: 14px; }
+/* line 485, ../sass/style.scss */
+.page-empty section .skyblue,
+.page-success section .skyblue,
+.page-guest section .skyblue {
+  width: 100%;
+  padding-top: 74%;
+  background: url("/View_Mobile/UI/RLZY/images/empty/skyblue.png") no-repeat;
+  -webkit-background-size: 100% 240px;
+          background-size: 100% 240px; }
+  /* line 491, ../sass/style.scss */
+  .page-empty section .skyblue h2, .page-empty section .skyblue h3,
+  .page-success section .skyblue h2,
+  .page-success section .skyblue h3,
+  .page-guest section .skyblue h2,
+  .page-guest section .skyblue h3 {
+    color: #0091ad; }
+  /* line 493, ../sass/style.scss */
+  .page-empty section .skyblue .info,
+  .page-success section .skyblue .info,
+  .page-guest section .skyblue .info {
+    border-top: 1px solid #98e0ed;
+    width: 79%;
+    margin: 10px auto 0; }
+    /* line 498, ../sass/style.scss */
+    .page-empty section .skyblue .info span,
+    .page-success section .skyblue .info span,
+    .page-guest section .skyblue .info span {
+      color: #20a3be; }
+    /* line 501, ../sass/style.scss */
+    .page-empty section .skyblue .info span:first-child,
+    .page-success section .skyblue .info span:first-child,
+    .page-guest section .skyblue .info span:first-child {
+      float: left;
+      margin: 5px 0 0 10px; }
+    /* line 505, ../sass/style.scss */
+    .page-empty section .skyblue .info span:last-child,
+    .page-success section .skyblue .info span:last-child,
+    .page-guest section .skyblue .info span:last-child {
+      float: right;
+      margin: 5px 10px 0 0; }
+/* line 511, ../sass/style.scss */
+.page-empty section .gift,
+.page-success section .gift,
+.page-guest section .gift {
+  position: absolute;
+  top: 80px;
+  width: 100%;
+  text-align: center; }
+  /* line 517, ../sass/style.scss */
+  .page-empty section .gift img,
+  .page-success section .gift img,
+  .page-guest section .gift img {
+    width: 75px;
+    height: 55px; }
+/* line 522, ../sass/style.scss */
+.page-empty section .gift + h3,
+.page-success section .gift + h3,
+.page-guest section .gift + h3 {
+  position: absolute;
+  top: 170px;
+  width: 100%;
+  text-align: center; }
+/* line 529, ../sass/style.scss */
+.page-empty section .yellow,
+.page-success section .yellow,
+.page-guest section .yellow {
+  width: 100%;
+  padding-top: 84.38%;
+  background: url("/View_Mobile/UI/RLZY/images/success/yellow.png") no-repeat;
+  -webkit-background-size: 100% auto;
+          background-size: 100% auto; }
+  /* line 534, ../sass/style.scss */
+  .page-empty section .yellow h2, .page-empty section .yellow h3,
+  .page-success section .yellow h2,
+  .page-success section .yellow h3,
+  .page-guest section .yellow h2,
+  .page-guest section .yellow h3 {
+    color: #ff6c00; }
+  /* line 535, ../sass/style.scss */
+  .page-empty section .yellow p,
+  .page-success section .yellow p,
+  .page-guest section .yellow p {
+    color: #96896a;
+    margin-top: 15px; }
+/* line 537, ../sass/style.scss */
+.page-empty section .yellow.empty,
+.page-success section .yellow.empty,
+.page-guest section .yellow.empty {
+  padding-top: 48.28%;
+  background: url("/View_Mobile/UI/RLZY/images/empty/yellow.png") no-repeat;
+  -webkit-background-size: 100% auto;
+          background-size: 100% auto; }
+/* line 544, ../sass/style.scss */
+.page-empty section .pink .title,
+.page-success section .pink .title,
+.page-guest section .pink .title {
+  top: 24px; }
+/* line 547, ../sass/style.scss */
+.page-empty section .pink .pink-head,
+.page-success section .pink .pink-head,
+.page-guest section .pink .pink-head {
+  width: 100%;
+  height: 64px;
+  background: url("/View_Mobile/UI/RLZY/images/empty/pink_head.png") no-repeat;
+  -webkit-background-size: 100% auto;
+          background-size: 100% auto; }
+/* line 553, ../sass/style.scss */
+.page-empty section .pink .pink-body,
+.page-success section .pink .pink-body,
+.page-guest section .pink .pink-body {
+  width: 100%;
+  background: url("/View_Mobile/UI/RLZY/images/empty/pink_body.png") repeat-y;
+  -webkit-background-size: 100% auto;
+          background-size: 100% auto;
+  text-align: center;
+  overflow: hidden; }
+/* line 560, ../sass/style.scss */
+.page-empty section .pink .pink-foot,
+.page-success section .pink .pink-foot,
+.page-guest section .pink .pink-foot {
+  width: 100%;
+  height: 40px;
+  background: url("/View_Mobile/UI/RLZY/images/empty/pink_foot.png") no-repeat;
+  -webkit-background-size: 100% auto;
+          background-size: 100% auto; }
+/* line 566, ../sass/style.scss */
+.page-empty section .pink h2, .page-empty section .pink h3,
+.page-success section .pink h2,
+.page-success section .pink h3,
+.page-guest section .pink h2,
+.page-guest section .pink h3 {
+  color: #ff4747; }
+/* line 567, ../sass/style.scss */
+.page-empty section .pink p,
+.page-success section .pink p,
+.page-guest section .pink p {
+  color: #a3736d;
+  margin-top: 15px; }
+
+/* 许愿成功 & 客人态 */
+/* line 578, ../sass/style.scss */
+.page-success .skyblue .btn-group,
+.page-guest .skyblue .btn-group {
+  width: 79%;
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+     -moz-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+  /* line 584, ../sass/style.scss */
+  .page-success .skyblue .btn-group button,
+  .page-guest .skyblue .btn-group button {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+       -moz-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    background: #e13738;
+    border-radius: 10px !important;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    margin: 4px 10px;
+    min-width: 60px;
+    height: 30px;
+    line-height: 30px; }
+  /* line 596, ../sass/style.scss */
+  .page-success .skyblue .btn-group button:active,
+  .page-guest .skyblue .btn-group button:active {
+    background: #f76c6c; }
+/* line 603, ../sass/style.scss */
+.page-success .yellow .title > ul,
+.page-guest .yellow .title > ul {
+  padding: 10px 40px;
+  text-align: left; }
+  /* line 607, ../sass/style.scss */
+  .page-success .yellow .title > ul li,
+  .page-guest .yellow .title > ul li {
+    color: #ff6c00;
+    line-height: 2em;
+    width: 240px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
+  /* line 615, ../sass/style.scss */
+  .page-success .yellow .title > ul span,
+  .page-guest .yellow .title > ul span {
+    color: #96896a; }
+/* line 619, ../sass/style.scss */
+.page-success .yellow .favours,
+.page-guest .yellow .favours {
+  padding: 0 40px;
+  text-align: left;
+  position: relative; }
+  /* line 624, ../sass/style.scss */
+  .page-success .yellow .favours .thumb,
+  .page-guest .yellow .favours .thumb {
+    display: block;
+    margin-left: 5px;
+    background-repeat: no-repeat;
+    width: 32.5px;
+    height: 33px;
+    background-image: url('/View_Mobile/UI/RLZY/images/icons-s0f8d09aef0.png');
+    background-position: 0 -236.5px;
+    -webkit-background-size: 199px auto;
+    background-size: 199px auto; }
+  /* line 629, ../sass/style.scss */
+  .page-success .yellow .favours .favour-num,
+  .page-guest .yellow .favours .favour-num {
+    display: inline-block;
+    width: 65px;
+    text-align: center;
+    margin-left: -12px; }
+  /* line 635, ../sass/style.scss */
+  .page-success .yellow .favours .ui-scroller,
+  .page-guest .yellow .favours .ui-scroller {
+    width: 190px;
+    overflow: hidden;
+    position: absolute;
+    top: 8px;
+    left: 90px;
+    padding: 6px;
+    background: #e7e6cf;
+    border-radius: 5px; }
+  /* line 644, ../sass/style.scss */
+  .page-success .yellow .favours ul,
+  .page-guest .yellow .favours ul {
+    padding: 0; }
+    /* line 646, ../sass/style.scss */
+    .page-success .yellow .favours ul:after,
+    .page-guest .yellow .favours ul:after {
+      content: "";
+      display: table;
+      clear: both; }
+    /* line 652, ../sass/style.scss */
+    .page-success .yellow .favours ul li,
+    .page-guest .yellow .favours ul li {
+      float: left;
+      margin-left: 3px;
+      line-height: 1em; }
+      /* line 657, ../sass/style.scss */
+      .page-success .yellow .favours ul li img,
+      .page-guest .yellow .favours ul li img {
+        width: 25px;
+        height: 25px;
+        border-radius: 30px; }
+/* line 668, ../sass/style.scss */
+.page-success .pink .ui-list,
+.page-guest .pink .ui-list {
+  background: none;
+  margin: 20px 10px; }
+  /* line 672, ../sass/style.scss */
+  .page-success .pink .ui-list p,
+  .page-guest .pink .ui-list p {
+    margin-top: 0; }
+  /* line 673, ../sass/style.scss */
+  .page-success .pink .ui-list li:first-child.ui-border-t,
+  .page-guest .pink .ui-list li:first-child.ui-border-t {
+    background-image: none !important; }
+  /* line 677, ../sass/style.scss */
+  .page-success .pink .ui-list.delete li,
+  .page-guest .pink .ui-list.delete li {
+    height: 95px; }
+  /* line 680, ../sass/style.scss */
+  .page-success .pink .ui-list.delete .ui-list-info,
+  .page-guest .pink .ui-list.delete .ui-list-info {
+    padding: 10px 0; }
+/* line 685, ../sass/style.scss */
+.page-success .pink .ui-border-t,
+.page-guest .pink .ui-border-t { }
+/* line 688, ../sass/style.scss */
+.page-success .pink li,
+.page-guest .pink li {
+  height: 85px; }
+  /* line 690, ../sass/style.scss */
+  .page-success .pink li h4,
+  .page-success .pink li p,
+  .page-guest .pink li h4,
+  .page-guest .pink li p {
+    text-align: left;
+    font-size: 14px; }
+  /* line 695, ../sass/style.scss */
+  .page-success .pink li p,
+  .page-guest .pink li p {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: initial; }
+  /* line 704, ../sass/style.scss */
+  .page-success .pink li .ui-list-info span,
+  .page-guest .pink li .ui-list-info span {
+    display: inline-block;
+    padding: 5px;
+    position: relative;
+    bottom: 0;
+    left: 80px;
+    color: #00a5e0; }
+    /* line 713, ../sass/style.scss */
+    .page-success .pink li .ui-list-info span:after,
+    .page-guest .pink li .ui-list-info span:after {
+      content: "";
+      position: absolute;
+      left: -5px;
+      right: -5px;
+      top: -5px;
+      bottom: -5px;
+      z-index: 10; }
+/* line 725, ../sass/style.scss */
+.page-success .pink .ui-list-thumb,
+.page-guest .pink .ui-list-thumb {
+  margin-top: 15px; }
+  /* line 728, ../sass/style.scss */
+  .page-success .pink .ui-list-thumb span,
+  .page-guest .pink .ui-list-thumb span {
+    border-radius: 100px; }
+/* line 732, ../sass/style.scss */
+.page-success .pink .stamp,
+.page-guest .pink .stamp {
+  position: absolute;
+  left: 3px;
+  top: 44px;
+  background-repeat: no-repeat;
+  width: 50px;
+  height: 22px;
+  background-image: url('/View_Mobile/UI/RLZY/images/icons-s0f8d09aef0.png');
+  background-position: 0 -91.5px;
+  -webkit-background-size: 199px auto;
+  background-size: 199px auto; }
+/* line 737, ../sass/style.scss */
+.page-success .pink .pagination,
+.page-guest .pink .pagination {
+  text-align: center; }
+  /* line 740, ../sass/style.scss */
+  .page-success .pink .pagination li,
+  .page-guest .pink .pagination li {
+    display: inline-block;
+    background: #fff;
+    color: #95a4bc;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin: 0 3px;
+    position: relative; }
+    /* line 752, ../sass/style.scss */
+    .page-success .pink .pagination li.current,
+    .page-guest .pink .pagination li.current {
+      color: #fff;
+      background: #ff5a5a; }
+    /* line 757, ../sass/style.scss */
+    .page-success .pink .pagination li:not(.omit):after,
+    .page-guest .pink .pagination li:not(.omit):after {
+      content: "";
+      position: absolute;
+      left: -5px;
+      top: -5px;
+      right: -5px;
+      bottom: -5px;
+      z-index: 10; }
+    /* line 764, ../sass/style.scss */
+    .page-success .pink .pagination li.omit,
+    .page-guest .pink .pagination li.omit {
+      color: #9eaec7;
+      font-size: 12px;
+      background: none; }
+
+/* 客人态 */
+/* line 778, ../sass/style.scss */
+.page-guest header {
+  background: url("/View_Mobile/UI/RLZY/images/guest/bg.png") no-repeat;
+  -webkit-background-size: 100% auto;
+          background-size: 100% auto; }
+  /* line 782, ../sass/style.scss */
+  .page-guest header .mybirth {
+    padding: 0 5px;
+    height: 23px;
+    background: #ff5a5a;
+    color: #fff;
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    border-radius: 5px; }
+    /* line 791, ../sass/style.scss */
+    .page-guest header .mybirth:after {
+      content: "";
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      left: -10px;
+      bottom: -10px;
+      z-index: 10; }
+/* line 800, ../sass/style.scss */
+.page-guest .yellow {
+  margin-top: 25px; }
+/* line 803, ../sass/style.scss */
+.page-guest .post {
+  width: 80%;
+  margin: 40px auto 0; }
+  /* line 807, ../sass/style.scss */
+  .page-guest .post textarea {
+    width: 100%;
+    border: 1px solid #bcb3b2;
+    border-radius: 5px;
+    background: #fff;
+    height: 60px;
+    padding: 10px;
+    color: #a3736d;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box; }
+    /* line 817, ../sass/style.scss */
+    .page-guest .post textarea::-webkit-input-placeholder {
+      color: #a3736d; }
+  /* line 821, ../sass/style.scss */
+  .page-guest .post button {
+    display: inline-block;
+    width: 125px;
+    background: #e13738;
+    color: #fff;
+    border-radius: 12px;
+    margin-top: 10px;
+    padding: 8px 0; }
+  /* line 830, ../sass/style.scss */
+  .page-guest .post button:active {
+    background: #f76c6c; }
+
+@media (max-height: 420px) {
+  /* line 838, ../sass/style.scss */
+  .page header {
+    padding-top: 20px; }
+
+  /* line 843, ../sass/style.scss */
+  .page-wish section h2 {
+    line-height: 2em; }
+  /* line 846, ../sass/style.scss */
+  .page-wish section .cloud1 {
+    padding-top: 36.8%;
+    -webkit-background-size: 320px 120px;
+            background-size: 320px 120px; }
+  /* line 850, ../sass/style.scss */
+  .page-wish section .cloud2 {
+    padding-top: 33.8%;
+    -webkit-background-size: 320px 120px;
+            background-size: 320px 120px; }
+  /* line 854, ../sass/style.scss */
+  .page-wish section input {
+    padding: 10px 10px; }
+  /* line 858, ../sass/style.scss */
+  .page-wish .ui-btn-wrap {
+    padding: 5px 15px; } }
+是否将当前网页翻译成中文?关闭翻译网页

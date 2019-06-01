@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>流程设置选人</title>
+    <!-- Bootstrap -->
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css" rel="stylesheet">
+    <link href="/ViewV5/CSS/BootOver.css" rel="stylesheet" />
+    <link href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none; /*元素不能被选中*/
+            overflow-x: hidden;
+        }
+
+        .lev1 {
+            /*//  margin-left: 10px;*/
+        }
+
+        .lev2 {
+            padding-left: 40px;
+        }
+
+        .list-group .lev2:first-child {
+            padding-left: 40px;
+            border-top: 1px solid #ddd !important;
+        }
+
+        .peples .list-group-item {
+            padding-bottom: 5px;
+            padding-top: 5px;
+        }
+
+        .media-left {
+            padding-right: 5px;
+        }
+
+        .media-body {
+            padding-top: 5px;
+        }
+
+        .media-heading {
+            margin-top: 8px;
+        }
+
+        .list-group-item:hover {
+            background-color: #3085DB;
+        }
+
+
+        .isel {
+            position: absolute;
+            top: 18px;
+            right: 10px;
+            color: darkgoldenrod;
+            font-size: 18px;
+        }
+
+        .pCard {
+            min-width: 80px;
+            text-align: center;
+            margin: 8px 3px;
+        }
+
+            .pCard:hover .badge {
+                visibility: visible;
+            }
+
+        .panel-body .badge {
+            position: relative;
+            /*top: -5px;
+            right: -6px;*/
+            background-color: red;
+            padding-left: 5px;
+            padding-right: 5px;
+            visibility: collapse;
+            margin-top: -5px;
+            margin-right: -5px;
+        }
+
+        .label-info:hover .badge {
+            visibility: visible;
+        }
+    </style>
+</head>
+<body ms-controller="LCSZSelect">
+    <div class="container-fluid" style="margin: 10px" id="dvContent">
+        <div class="radio radio-success">
+            <input type="radio" id="ckLeader" name="conLCRY" value="1" ms-duplex-string="rytype">
+            <label for="ckLeader">直属上级 </label>
+        </div>
+        <div class="radio radio-success">
+            <input type="radio" id="ckSelf" name="conLCRY" value="2" ms-duplex-string="rytype">
+            <label for="ckSelf">流程发起人 </label>
+        </div>
+        <div class="radio radio-success">
+            <input type="radio" id="ckPeople" name="conLCRY" value="3" ms-duplex-string="rytype">
+            <label for="ckPeople">指定人员 </label>
+        </div>
+        <div class="form-group" ms-visible="rytype==3" style="width: 90%">
+            <input type="text" class="form-control szhl_getPeoples" ms-duplex="ZDUser" />
+        </div>
+        <div class="radio radio-success">
+            <input type="radio" id="ckGLZD" name="conLCRY" value="4" ms-duplex-string="rytype">
+            <label for="ckGLZD">关联字段(由表单中某一字段值决定改步骤处理人,如果找不到,就直接跳过....) </label>
+        </div>
+        <div class="form-group" ms-visible="rytype==4" style="width: 90%">
+            
+            <select ms-duplex="GLFiled"  id="selFiled" class="form-control" style="width: 280px;margin-left: 24px;">
+                <option value="">请选择</option>
+                <option ms-repeat-item="fileds" ms-attr-value="item.TableFiledColumn">{{item.TableFiledName}}</option>
+            </select>
+
+        </div>
+        <div class="radio radio-success">
+            <input type="radio" id="ckRole" name="conLCRY" value="0" ms-duplex-string="rytype">
+            <label for="ckRole">指定角色 </label>
+        </div>
+        <table class="table table-bordered table-hover table-striped" id="khgl" ms-visible="rytype==0">
+            <thead>
+                <tr>
+                    <th class="text-left">角色名称</th>
+                    <th class="text-center">角色描述</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ms-repeat-role="QueryRoles">
+                    <td class="text-left">
+                        <div class="checkbox checkbox-success checkbox-inline" ms-click="SelRole(role,this)">
+                            <input type="checkbox" ms-attr-id="inlineCheckbox{{$index}}" ms-duplex-checked="role.issel">
+                            <label ms-attr-for="inlineCheckbox{{$index}}">{{role.RoleName}}  </label>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20171215"></script>
+    <script>
+        var model = avalon.define({
+            $id: "LCSZSelect",
+            ZDUser: "",
+            GLFiled: "",
+            pdid: ComFunJS.getQueryString("pdid", "0"),
+            rytype: ComFunJS.getQueryString("rytype", "0"),
+            isSignle: ComFunJS.getQueryString("issignle", "Y"),
+            checkval: ComFunJS.getQueryString("checkvalue", ""),
+            selBM: {},//已选择部门
+
+            GetRoleList: function (el) {
+                $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETROLE', {}, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        resultData.Result.forEach(function (el) {
+                            if (model.rytype == 0 && el.RoleCode == model.checkval) {
+                                el.issel = true;
+                                model.SelRoles.push({ 'RoleCode': el.RoleCode, 'RoleName': el.RoleName })
+                            } else {
+                                el.issel = false
+                            }
+                        })
+                        model.QueryRoles = resultData.Result;
+                    }
+                })
+            },
+
+            SelRole: function (item, dom) {
+                if (model.isSignle == "Y") {
+                    model.SelRoles.clear();
+                    model.QueryRoles.forEach(function (role) {
+                        role.issel = false;
+                    })
+
+                }
+                item.issel = !item.issel;
+                if (!item.issel) {
+                    ComFunJS.DelItem(model.SelRoles, "RoleCode", item.RoleCode)
+                } else {
+                    if (ComFunJS.FindItem(model.SelRoles, function (e) {
+                      return e.RoleCode == item.RoleCode;
+                    }).length == 0) {
+                        model.SelRoles.push(item)
+                    }
+                }
+            },
+            QueryRoles: [],//查询用户结果
+            SelRoles: [],//已选择用户
+            fileds:[],
+        })
+        avalon.ready(function () {
+            if (model.rytype == "3") {
+                model.ZDUser = model.checkval;
+            }
+            if (model.rytype == "4") {
+                model.GLFiled = model.checkval;
+            }
+
+        
+            ComFunJS.initForm();
+            model.GetRoleList();
+            $.getJSON("/API/VIEWAPI.ashx?ACTION=FORMBI_GETFORMFILED", { P1: model.pdid, P2: 0 }, function (result) {
+                if (!result.ErrorMsg) {
+                    model.fileds = result.Result;
+                }
+            });
+
+        })
+        function getlcry() {//获取选择的人员
+            var LCName = "";
+            var RoleCode = "";
+
+            var data = { 'RoleCode': RoleCode, 'LCName': LCName, 'LCtype': model.rytype };
+            if (model.rytype == "0") {
+                model.SelRoles.forEach(function (item) {
+                    data.RoleCode = data.RoleCode + item.RoleCode + ",";
+                    data.LCName = data.LCName + item.RoleName + ",";
+                })
+                data.LCName = ComFunJS.trim(data.LCName);
+                data.RoleCode = ComFunJS.trim(data.RoleCode);
+            }
+            if (model.rytype == "1") {
+                data.LCName = "直属上级";
+                data.RoleCode = "";
+            }
+            if (model.rytype == "2") {
+                data.LCName = "流程发起人";
+                data.RoleCode = "";
+            }
+            if (model.rytype == "3") {
+                data.LCName = "指定人员(" + ComFunJS.convertuser(model.ZDUser) + ")";
+                data.RoleCode = model.ZDUser;
+            }
+            if (model.rytype == "4") {
+                data.LCName = "关联字段[" + $("#selFiled").find("option:selected").text() + "]";
+                data.RoleCode = model.GLFiled;
+            }
+            return data;
+
+        }
+    </script>
+</body>
+</html>

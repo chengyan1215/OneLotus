@@ -1,0 +1,364 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=1200" />
+    <title>OneLotusBI企业信息管理平台</title>
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/loginly/css.css">
+    <!--[if IE 6]>
+    <script type="text/javascript">
+    document.execCommand("BackgroundImageCache", false, true);
+    </script>
+    <![endif]-->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="js/html5.js"></script>
+    <![endif]-->
+</head>
+<body class="white_body" onkeydown="jptj(event)">
+
+
+    <div class="header_c min_1200" style="height: 90px;">
+        <div class="header_c w_1200" style="height: 90px;">
+            <div class="logo png_img" style="padding: 12px 0 0 0;">
+                <h1 class="fl">
+                    <a href="index.html">
+                        <img src="/ViewV5/images/zxpx/1.png" alt="中国国电" style="width: 200px">
+                    </a>
+                </h1>
+                <h2 class="blue_text fl">OneLotusBI企业信息管理平台</h2>
+            </div>
+            <!--end标志-->
+            <div class="header_r gray_link" style="padding: 40px 0 0 0;">
+                <a href="###" onclick="JavaScript:addFavorite2()">加入收藏夹</a>
+                <em class="china"></em>
+                <!--    <a href="/XYView/login.html">后台管理入口</a>
+                <em class="china"></em><b class="orange_link">
+                    <a href="http://www.ycpxxt.com:9090/" target="_blank">远程视频会议系统</a>
+                </b>-->
+            </div>
+            <!--end头文件右-->
+        </div>
+    </div>
+    <!--end头文件中-->
+
+    <div class="login_banner min_1200">
+        <div class="min_1200 login_banner">
+            <img src="/ViewV5/images/skin/skin13.jpg" alt="" class="login_b_img" width="1920" height="640">
+            <div class="login_w w_1200">
+                <h3 class="login_banner_th blue_text"></h3>
+                <div class="clearfix login_box" id="divdenglu">
+                    <h4 class="login_th">用户登录</h4>
+                    <dl class="login_fill blue_link link_line">
+                        <dt>
+                            <div class="input_o">
+                                <span class="png login_arrow l_a_1 fl"></span>
+                                <div class="r_cell">
+                                    <input type="text" class="login_text" placeholder="请输入用户名/手机号" id="username" name="username">
+                                </div>
+                            </div>
+                            <div class="input_o">
+                                <span class="png login_arrow l_a_2 fl"></span>
+                                <div class="r_cell">
+                                    <input type="password" class="login_text" placeholder="请输入密码" id="password" name="password">
+                                </div>
+                            </div>
+                            <div class="input_o chkcode" style="display: none">
+                                <span class="f_login_ma">
+                                    <a>
+                                        <img id="imgValidateCode" alt="点击刷新" style="cursor: pointer; margin-top: -10PX;" title="点击刷新">
+                                    </a>
+                                </span><span class="png login_arrow l_a_3 fl"></span>
+                                <div class="r_cell">
+                                    <input type="text" class="login_text" placeholder="验证码" id="logincode" name="code" maxlength="4" value="APP">
+                                </div>
+                            </div>
+                            <div class="lForm alert alert-danger msgcom display-hide" style="margin-top: 10px; margin-bottom: 0; color: red; text-align: right;">
+                                <span id="m_info"></span>
+                            </div>
+                        </dt>
+                        <dd>
+                            <div class="clearfix">
+                                <span class="fr">
+                                    <span class="sel_box jCheckbox">
+                                        <input type="checkbox" id="isJZMM" name="isJZMM" checked />
+                                        <label for="isJZMM">记住用户名和密码</label>
+                                    </span>
+                                </span><span class="fl" style="display: none"><a href="###" id="zhmm">忘记密码？</a></span>
+                            </div>
+                            <p>
+                                <input type="button" class="login_btn transition_a round_m uppercase dlan" value="立即登录">
+                            </p>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="clearfix login_box" id="divgetmima" style="display: none">
+                    <h4 class="login_th">找回密码</h4>
+                    <dl class="login_fill blue_link link_line">
+                        <dt>
+                            <div class="input_o">
+                                <span class="png login_arrow l_a_1 fl"></span>
+                                <div class="r_cell">
+                                    <input type="text" class="login_text" placeholder="请输入手机号" id="Phone" name="Phone">
+                                </div>
+                            </div>
+
+                            <div class="input_o ">
+                                <span class="f_login_ma">
+                                    <button class="yzm  blue_btn" onclick="sendYZM(); return false;" style="padding: 0 10px;">发送验证码</button>
+                                </span><span class="png login_arrow l_a_3 fl"></span>
+                                <div class="r_cell">
+                                    <input type="text" class="login_text" placeholder="验证码" id="yzm" name="yzm" maxlength="4">
+                                </div>
+                            </div>
+                            <div class="input_o ">
+                                <span class="png login_arrow l_a_2 fl"></span>
+                                <div class="r_cell">
+                                    <input type="password" class="login_text" placeholder="请输入新密码" id="npassword" name="npassword">
+                                </div>
+                            </div>
+                            <div class="lForm alert alert-danger msgcom" style="margin-top: 10px; margin-bottom: 0; color: red; text-align: right;">
+                                <span id="m_infozh"></span>
+                            </div>
+                        </dt>
+                        <dd>
+                            <div class="clearfix">
+                            </div>
+                            <p>
+                                <input type="button" class="login_btn transition_a round_m" value="提交修改" id="btnZHMM">
+                            </p>
+                        </dd>
+                    </dl>
+                </div>
+                <!--end用户登录-->
+            </div>
+            <!--end宽度-->
+        </div>
+    </div>
+    <!--end大图片-->
+
+    <div class="clearfix w_1200 box_w">
+        <div class="fl login_help">
+            <h4><span class="round_r png tip_arrow"></span>温馨提示</h4>
+            <ol>
+
+                <li>
+                    使用问题过程如有问题，可登陆后点击页面最上面的：在线客服
+                </li>
+                <li>
+                    本系统兼容常见QQ浏览器，360急速浏览器，搜狗高速浏览器。
+                </li>
+                <li>如您使用有问题或者更好的建议，随时发送邮件给我们：qq:2041612083</li>
+            </ol>
+        </div>
+    </div>
+    <!--end一行-->
+
+
+    <div class="footer_login gray_link w_1200 clearfix">
+        OneLotusBI企业信息管理平台 <a href="http://www.miitbeian.gov.cn/" target="_blank">
+        </a>
+        <p>河南企捷信息技术有限公司</p>
+    </div>
+    <!--end文件底-->
+
+
+
+
+    <script src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/global.js"></script>
+    <script src="/ViewV5/JS/toastr.js"></script>
+
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160628" type="text/javascript"></script>
+
+    <script>
+        $.ajaxSettings.async = false;
+        var ComID = 10314;
+        $(function () {
+            $("#zhmm").click(function () {
+                $("#divdenglu").hide()
+                $("#divgetmima").show()
+
+            })
+            DoFresh();
+            $("#imgValidateCode").click(function () {
+                DoFresh();
+            });
+            $(".uppercase").click(function (e) {
+                $(".uppercase").val("正在登陆");
+                if ($(this).hasClass("disabled-link")) {
+                    return;
+                }
+                e.preventDefault();
+                $.getJSON('/API/WXAPI.ashx?Action=LOGIN', { "chkcode": $("#logincode").val(), "password": $("#password").val(), "UserName": $("#username").val(), "ComID": "" }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        ComFunJS.setCookie('szhlcode', resultData.Result);
+                        ComFunJS.setCookie('username', resultData.Result1, 20000);
+                        if ($("#isJZMM").prop("checked")) {
+                            ComFunJS.setCookie('password', $("#password").val(), 20000);
+                        } else {
+                            ComFunJS.setCookie('password', "", 20000);
+                        }
+                        $(".msgcom").addClass("display-hide");
+                        location.href = "/ViewV5/index.html";
+
+                    } else {
+                        $(".msgcom").removeClass("display-hide");
+                        $(".msgcom #m_info").text(resultData.ErrorMsg);
+                        $(".uppercase").val("登录")
+                        $("#logincode").val("");
+                        $(".chkcode").show();
+                    }
+                })
+            });
+
+            $("#btnZHMM").click(function () {
+                $("#m_infozh").text("");
+                if ($("#yzm").val() != ComFunJS.getCookie("chkcode")) {
+                    $("#m_infozh").text("验证码不正确");
+                    return;
+                }
+                $.ajax({
+                    url: "/API/VIEWAPI.ashx?Action=Commanage_FINDPASSWORD&r=" + Math.random(),
+                    type: "POST",
+                    data: { P1: $("#Phone").val(), P2: $("#npassword").val() },
+                    async: false,
+                    success: function (result) {
+                        var jsonresult = $.parseJSON(result);
+                        if (jsonresult.ErrorMsg == "") {
+                            $("#m_infozh").html("<a href='login.html'>设置成功,请点击此处用新密码登陆</a> ");
+
+                        } else {
+                            $("#m_infozh").text(jsonresult.ErrorMsg);
+
+                        }
+                    },
+                    error: function (xhr) {
+                    }
+                });
+            })
+            if (ComFunJS.getCookie("username") && ComFunJS.getCookie("password")) {
+                $("#username").val(ComFunJS.getCookie("username"));
+                $("#password").val(ComFunJS.getCookie("password"));
+            }
+
+        })
+
+
+        function IEVersion() {
+            var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+            var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera; //判断是否IE浏览器
+            var isEdge = userAgent.indexOf("Windows NT 6.1; Trident/7.0;") > -1 && !isIE; //判断是否IE的Edge浏览器
+            if (isIE) {
+                var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+                reIE.test(userAgent);
+                var fIEVersion = parseFloat(RegExp["$1"]);
+                if (fIEVersion == 7) { return "IE7"; }
+                else if (fIEVersion == 8) { return "IE8"; }
+                else if (fIEVersion == 9) { return "IE9"; }
+                else if (fIEVersion == 10) { return "IE10"; }
+                else if (fIEVersion == 11) { return "IE11"; }
+                else { return "0" }//IE版本过低
+            }
+            else if (isEdge) {
+                return "Edge";
+            }
+            else {
+                return "-1";//非IE
+            }
+        }
+        function DoFresh() {
+            var img = document.getElementById("imgValidateCode");
+            img.src = "/Tools/YZMCode.aspx?random=" + Math.random();
+        }
+        function jptj(event) {
+            if (event.keyCode == 13 || event.keyCode == 10) {
+                $(".uppercase").trigger('click');
+            }
+        }
+        function addFavorite2() {
+            var url = window.location;
+            var title = document.title;
+            var ua = navigator.userAgent.toLowerCase();
+            if (ua.indexOf("360se") > -1) {
+                alert("由于360浏览器功能限制，请按 Ctrl+D 手动收藏！");
+            }
+            else if (ua.indexOf("msie 8") > -1) {
+                window.external.AddToFavoritesBar(url, title); //IE8
+            }
+            else if (document.all) {
+                try {
+                    window.external.addFavorite(url, title);
+                } catch (e) {
+                    alert('您的浏览器不支持,请按 Ctrl+D 手动收藏!');
+                }
+            }
+            else if (window.sidebar) {
+                window.sidebar.addPanel(title, url, "");
+            }
+            else {
+                alert('您的浏览器不支持,请按 Ctrl+D 手动收藏!');
+            }
+        }
+        var msg = "";
+        var Times = 60;
+        var intervalId;
+        function TimeDown() {
+            Times = Times - 1;
+            if (Times == 0) {
+                $(".yzm").text("重新获取");
+                $(".yzm").attr("disabled", false);
+                clearInterval(intervalId);
+            }
+            else {
+                $(".yzm").text(Times + "秒");
+            }
+        }
+
+        function sendYZM() {
+            msg = "";
+            if (!$("#Phone").val() || !(/^1[3|4|5|8|7][0-9]\d{8}$/).test($("#Phone").val())) {
+                msg = "请输入正确的手机号";
+                $("#m_infozh").text(msg);
+            }
+            if (!msg) {
+                Times = 60;
+                $(".yzm").text(Times + "秒");
+                $(".yzm").attr("disabled", true);
+                intervalId = setInterval(TimeDown, 1000);
+                $.ajax({
+                    url: "/API/VIEWAPI.ashx?Action=Commanage_SENDCHKMSG&r=" + Math.random(),
+                    type: "POST",
+                    data: { P1: $("#Phone").val() },
+                    async: false,
+                    success: function (result) {
+                        var jsonresult = $.parseJSON(result);
+                        if (jsonresult.ErrorMsg == "") {
+                            ComFunJS.setCookie('chkcode', jsonresult.Result)
+                            ComFunJS.setCookie('chkphone', $("#Phone").val())
+
+                        } else {
+                            $("#m_infozh").text(msg);
+                        }
+                    },
+                    error: function (xhr) {
+                        $("#m_infozh").text(msg);
+                    }
+                });
+            }
+        }
+
+    </script>
+    <!--[if IE 6]>
+    <script type="text/javascript" src="js/DD_belatedPNG.js"></script>
+    <script>
+    DD_belatedPNG.fix('.png_img img,.png');
+    </script>
+    <![endif]-->
+
+
+</body>
+</html>
+
+

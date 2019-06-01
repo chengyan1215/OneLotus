@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta charset="utf-8" />
+    <script src="JS/jquery-1.11.2.min.js"></script>
+    <script src="http://47.92.121.230:9100/Web/qj_upload.js?v=3"></script>
+    <script>
+        $(document).ready(function () {
+            var obj = {
+                uploadButtton: 'upload',
+                fileapiurl: "http://47.92.121.230:9100/",
+                usercode: "qycode",//文件中心中空间里对应的QYCODE
+                secret: "qycode",//文件中心中空间里里对应的企业secret
+                width: "50%",//弹出窗口宽度
+                left: "25%",//弹出窗口左侧边距
+                upinfo: "测试消息",//上传附带信息
+                webupconfig: {
+                    fileNumLimit: 5,
+                },//WebUpload配置项(可以配置文件上传类型，大小等属性)
+                filecomplete: function (fileData) {
+                    //console.log('上传完毕！ 上传成功的文件：');
+                    //console.log(JSON.stringify(fileData));
+                },//文件上传成功返回数据
+                closeupwin: function (fileData) {
+                    $("#upmsg").append(JSON.stringify(fileData) + "<br/>")
+                }//关闭按钮返回上传数据
+            };
+            var upload = new QJUpload(obj);
+        });
+    </script>
+</head>
+<body>
+    <input type="button" id="upload" value="上传" />
+    <div id="upmsg">
+    </div>
+</body>
+</html>

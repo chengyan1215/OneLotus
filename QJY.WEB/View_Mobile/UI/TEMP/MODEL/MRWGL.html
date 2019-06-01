@@ -1,0 +1,437 @@
+﻿<div style="background:#fbf9fe" ms-controller="RWGL">
+    <div ms-if="temptype!='view'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">任务类型</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select class="weui-select" name="conType" id="conType" ms-duplex="modelData.LeiBie">
+                        <option ms-repeat-item="ColumnData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.LeiBie?'selected':''">{{item.TypeName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">负责人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="conFZR" placeholder="请选择负责人" ms-duplex="modelData.RWFZR" class="weui_input szhl szhl_getPeoples single" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">截止时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="rwEndTime" placeholder="截止时间" ms-duplex="modelData.RWJZDate" class="weui_input szhl szhl_require">
+                </div>
+            </div>
+            <!--<div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">完成提醒</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <label class="label-switch">
+                        <input type="checkbox" ms-attr-checked="modelData.IsTX=='True'" id="chktx" />
+                        <div class="checkbox"></div>
+                    </label>
+                </div>
+            </div>-->
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">任务标题</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="rwEndTime" placeholder="任务标题" ms-duplex="modelData.RWTitle" class="weui_input szhl szhl_require">
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd" style="display:none;"><label class="weui_label label">任务内容</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea ms-duplex="modelData.RWContent" rows="5" placeholder="请输入任务内容" class="weui_textarea szhl szhl_require"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">其他信息</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">参与人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="conCYR" placeholder="请选择参与人" ms-duplex="modelData.RWCYR" class="weui_input szhl szhl_getPeoples" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">抄送人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="conCSR" placeholder="请选择抄送人" ms-duplex="modelData.KHFXRS" class="weui_input szhl szhl_getPeoples" />
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">图片上传</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" ms-duplex="modelData.Files" class="wximgupload" ms-attr-data="tpData" style="display: none;" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ms-if="temptype=='view'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">任务类型</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select class="weui-select" name="conType" id="conType" ms-duplex="modelData.LeiBie">
+                        <option ms-repeat-item="ColumnData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.LeiBie?'selected':''">{{item.TypeName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">负责人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{ComFunJS.convusers(modelData.RWFZR)}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">截止时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.RWJZDate|date('yyyy-MM-dd')}}
+                </div>
+            </div>
+            <!--<div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">完成时提醒</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <label class="label-switch">
+                        {{modelData.IsTX=='True'?'是':'否'}}
+                    </label>
+                </div>
+            </div>-->
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.RWTitle|html}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">其他信息</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">参与人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{ComFunJS.convusers(modelData.RWCYR)}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">抄送人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{ComFunJS.convusers(modelData.KHFXRS)}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">图片上传</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div class="viewimg" ms-attr-data="tpData">{{modelData.Files}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<div class="list-block" style="margin: 0;" ms-controller="RWGL">
+    <ul ms-if="temptype!='view'">
+        <li>
+            <div class="item-content item-link">
+                <div class="item-inner">
+                    <div class="item-title label">任务类型</div>
+                    <div class="item-input">
+                        <select name="conType" id="conType" ms-duplex="modelData.LeiBie">
+                            <option ms-repeat-item="ColumnData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.LeiBie?'selected':''">{{item.TypeName}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="item-content">
+                <div class="item-inner">
+                    <div class="item-title label">任务内容</div>
+                    <div class="item-input">
+                        <textarea ms-duplex="modelData.RWTitle" rows="5" placeholder="请输入内容" class="szhl szhl_require"></textarea>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="item-content item-link">
+                <div class="item-inner">
+                    <div class="item-title label">截止时间</div>
+                    <div class="item-input">
+                        <input type="text" id="rwEndTime" placeholder="截止时间" ms-duplex="modelData.RWJZDate" class="szhl szhl_require">
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="item-content">
+                <div class="item-inner">
+                    <div class="item-title label">完成当天提醒</div>
+                    <div class="item-input">
+                        <label class="label-switch">
+                            <input type="checkbox" ms-attr-checked="modelData.IsTX=='True'" id="chktx" />
+                            <div class="checkbox"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="item-content item-link">
+                <div class="item-inner">
+                    <div class="item-title label">负责人</div>
+                    <div class="item-input">
+                        <input type="text" id="conFZR" placeholder="请选择负责人" ms-duplex="modelData.RWFZR" class="szhl szhl_getPeoples" />
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="item-content item-link">
+                <div class="item-inner">
+                    <div class="item-title label">参与人</div>
+                    <div class="item-input">
+                        <input type="text" id="conCYR" placeholder="请选择参与人" ms-duplex="modelData.RWCYR" class="szhl szhl_getPeoples" />
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="item-content item-link">
+                <div class="item-inner">
+                    <div class="item-title label">抄送人</div>
+                    <div class="item-input">
+                        <input type="text" id="conCSR" placeholder="请选择抄送人" ms-duplex="modelData.KHFXRS" class="szhl szhl_getPeoples" />
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="align-top">
+            <div class="item-content">
+                <div class="item-inner">
+                    <div class="item-title label">图片</div>
+                    <div class="item-input">
+                        <input type="text" ms-duplex="modelData.Files" class="wximgupload" ms-attr-data="tpData" style="display: none;" />
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div ms-if="temptype=='view'">
+        <ul>
+            <li>
+                <div class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title label">任务类型</div>
+                        <div class="item-input">
+                            <select disabled="disabled" name="conType" ms-duplex="modelData.LeiBie">
+                                <option ms-repeat-item="ColumnData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.LeiBie?'selected':''">{{item.TypeName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title label">任务内容</div>
+                        <div class="item-input">
+                            <div>{{modelData.RWTitle|html}}</div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content ">
+                    <div class="item-inner">
+                        <div class="item-title label">截止时间</div>
+                        <div class="item-input">
+                            <div>{{modelData.RWJZDate|date('yyyy-MM-dd')}}</div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title label">完成当天提醒</div>
+                        <div class="item-input">
+                            <div>{{modelData.IsTX=='True'?'是':'否'}}</div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content ">
+                    <div class="item-inner">
+                        <div class="item-title label">负责人</div>
+                        <div class="item-input">
+                            <div>{{ComFunJS.convusers(modelData.RWFZR)}}</div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content ">
+                    <div class="item-inner">
+                        <div class="item-title label">参与人</div>
+                        <div class="item-input">
+                            <div>{{ComFunJS.convusers(modelData.RWCYR)}}</div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content ">
+                    <div class="item-inner">
+                        <div class="item-title label">抄送人</div>
+                        <div class="item-input">
+                            <div>{{ComFunJS.convusers(modelData.KHFXRS)}}</div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="align-top">
+                <div class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title label">图片</div>
+                        <div class="item-input">
+                            <div class="viewimg" ms-attr-data="tpData">{{modelData.Files}}</div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>-->
+<script>
+    var tempmodel = avalon.define({
+        $id: "RWGL",
+        ColumnData: [],
+        name: "任务管理",
+        iswf: false,//是否属于流程表单
+        temptype: "edit", //edit,view
+        tpData: [],
+        dataid: "",
+        wximg: "",
+        plData: [],
+        inittemp: function (strId, type) {
+            if (type) {
+                tempmodel.temptype = type;
+            }
+
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETZIDIANLIST', { P1: 7 }, function (resultData) {
+                if (resultData.ErrorMsg == "" && resultData.Result.length > 0) {
+                    tempmodel.ColumnData = resultData.Result;
+                    if (!tempmodel.modelData.LeiBie) {
+                        tempmodel.modelData.LeiBie = resultData.Result[0].ID;
+                    };
+                }
+            })
+            if (strId) {
+                tempmodel.dataid = strId;
+                $.getJSON('/API/VIEWAPI.ashx?Action=RWGL_GETRWGLMODEL', { P1: strId }, function (resultData) {
+
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result[0];
+                        tempmodel.tpData = resultData.Result2;
+                        ComFunJS.uploadimgnew(tempmodel.tpData);
+                        ComFunJS.viewimg(tempmodel.tpData);
+                        if (tempmodel.modelData.RWJZDate && tempmodel.modelData.RWJZDate.length > 10) {
+                            tempmodel.modelData.RWJZDate = tempmodel.modelData.RWJZDate.substring(0, 10);
+                        }
+
+                        $("#rwEndTime").calendar({
+                            value: [tempmodel.modelData.RWJZDate]
+                        });
+
+
+                        setTimeout(" ComFunJS.initForm()", 500);
+                    }
+                })
+            } else {
+                $("#rwEndTime").calendar({
+                    value: [ComFunJS.getnowdate("yyyy-mm-dd")]
+                })
+
+                tempmodel.modelData.RWJZDate = ComFunJS.getnowdate("yyyy-mm-dd");
+
+                ComFunJS.uploadimgnew();
+            
+                    ComFunJS.initForm();
+            }
+        },//初始化
+        modelData: { "RWStatus": "0", "LeiBie": "", "RWTitle": "","RWContent":"", "RWJZDate": "", "RWFZR": ComFunJS.getnowuser(), "RWCYR": "", "TopID": "", "Files": "", "IsTX": false, "KHFXRS": "" },
+        SaveData: function (callback, btdom) {
+            if (!tempmodel.modelData.LeiBie) {
+                top.ComFunJS.winwarning("请选择任务类型");
+                $("table").show();
+                $(btdom).removeAttr("disabled");
+                return;
+            }
+            if (!tempmodel.modelData.RWCYR) {
+                top.ComFunJS.winwarning("请选择任务参与人");
+                $("table").show(); $(btdom).removeAttr("disabled"); //保存按钮显示
+                return;
+            }
+
+            tempmodel.modelData.Files = "";
+            $("#imglist .tpli").each(function () {
+                if ($(this).hasClass("wximg")) { //微信上传未处理的图片
+                    if (tempmodel.wximg) {
+                        tempmodel.wximg += ",";
+                    }
+                    tempmodel.wximg += $(this).attr("itemid");
+
+                } else {
+                    if (tempmodel.modelData.Files) {
+                        tempmodel.modelData.Files = tempmodel.modelData.Files + ',' + $(this).attr("itemid");
+                    }
+                    else {
+                        tempmodel.modelData.Files = $(this).attr("itemid");
+                    }
+                }
+
+            })
+
+            //if ($("#chktx").attr("checked")) {
+            //    tempmodel.modelData.IsTX = true;
+            //} else {
+            //    tempmodel.modelData.IsTX = false;
+            //}
+
+            $.getJSON("/API/VIEWAPI.ashx?ACTION=RWGL_ADDRWGL", { P1: JSON.stringify(tempmodel.modelData.$model), P2: tempmodel.wximg }, function (result) {
+                return callback.call(this, result);
+            });
+
+        },
+        pl: function () {
+
+            ComFunJS.showCommentNew(function (result) {
+
+                $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_ADDCOMENT&r=' + Math.random(), { "P1": result.comment, "MsgType": "RWGL", "MsgLYID": tempmodel.dataid }, function (resultData) {
+
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.plData.push(resultData.Result);
+                        $.toast("评论成功");
+                    }
+                    else {
+                        $.toast("评论失败");
+                    }
+                })
+
+            })
+        },
+        Complate: function () {
+            window.location.href = "/View_Mobile/UI/UI_RWGL_LIST.html?r=" + Math.random();
+        }
+
+    });//# sourceURL=MRWGL.js;
+    tempmodel.modelData.$watch("RWTitle", function (a, b) {
+        if (!pmodel.DataID) {
+            localStorage.setItem(pmodel.FormCode, JSON.stringify(tempmodel.modelData.$model));
+        }
+    })
+</script>

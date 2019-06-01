@@ -1,0 +1,148 @@
+﻿
+<div class="form-horizontal" ms-controller="TXSX">
+
+    <div class="form-group">
+        <label class="col-xs-2 control-label"><i>*</i>关联表名称</label>
+        <div class="col-xs-9">
+            <input type="text" class="form-control szhl_require" ms-duplex="modelData.TableDesc" />
+        </div>
+    </div>
+
+
+    <div class="default-tab ft14 pt20 hover-btn">
+        <table class="table table-striped table-responsive table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th class="tc width-70">
+                        字段
+                    </th>
+                    <th>类型</th>
+                    <th>大小</th>
+                    <th>比例</th>
+                    <th style="width:80px;">主键</th>
+                    <th style="width:80px;">标识</th>
+                    <th>注释</th>
+                    <th width="10%">
+                        操作
+                        <span class="btn-click">
+                            <a class="cz-btn ft18 bj-color tip" data-toggle="tooltip" title="添加" ms-click="AddCol()">
+                                <i class="iconfont icon-addplus"></i>
+                            </a>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ms-repeat-el="ListColData">
+                    <td class="tc">
+                        <input type="text" class="form-control szhl_require" ms-duplex="el.column_name" />
+                    </td>
+                    <td>
+                        <select class="form-control szhl_require" ms-duplex="el.column_type">
+                            <option value="1">int</option>
+                            <option value="2">float</option>
+                            <option value="3">char</option>
+                            <option value="4">varchar</option>
+                            <option value="5">varchar(max)</option>
+                            <option value="6">nvarchar</option>
+                            <option value="7">decimal</option>
+                        </select>
+                    </td>
+                    <td><input type="text" class="form-control" ms-duplex="el.length" /></td>
+                    <td><input type="text" class="form-control" ms-duplex="el.precision" /></td>
+                    <td>
+                        <select class="form-control" ms-duplex="el.isprimarykey">
+                            <option value="0">否</option>
+                            <option value="1">是</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control" ms-duplex="el.isidentity">
+                            <option value="0">否</option>
+                            <option value="1">是</option>
+                        </select>
+                    </td>
+                    <td><input type="text" class="form-control" ms-duplex="el.description" /></td>
+                    <td>
+                        <span class="btn-click">
+                            <a class="cz-btn ft18 sc-color tip" data-toggle="tooltip" title="删除" ms-click="DelCol(el)">
+                                <i class="iconfont icon-shanchu"></i>
+                            </a>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+
+</div>
+<script>
+    var tempmodel = avalon.define({
+        $id: "TXSX",
+        name: "关联表",
+        SID: ComFunJS.getQueryString("id", ""),
+        modelData: { "ID": "0", "TableName": "", "TableDesc": "" },
+        ColData: { "column_name": "", "column_type": "4", "length": "", "precision": "", "scale": "", "is_identity": "", "description": "", "isprimarykey": "","isidentity":"" },
+        ListColData:[],
+        iswf: false,//是否属于流程表单
+        inittemp: function (strId) {
+
+            if (strId) {
+                //编辑加载数据
+                //$.getJSON('/API/VIEWAPI.ashx?Action=TXSX_GETTXSXMODEL', { P1: strId }, function (resultData) {
+                //    if (resultData.ErrorMsg == "") {
+                //        tempmodel.modelData = resultData.Result;
+                //        if (tempmodel.modelData.Days && resultData.Result.TXType == "4") {
+                //            var strs = tempmodel.modelData.Days.split(',');
+                //            $("input[name=days]").each(function () {
+                //                if (strs.indexOf($(this).val()) != -1) {
+                //                    $(this).attr("checked", "checked");
+                //                }
+                //            })
+                //        }
+                //        if (tempmodel.modelData.CFJZDate && tempmodel.modelData.CFJZDate.length > 10) {
+                //            tempmodel.modelData.CFJZDate = tempmodel.modelData.CFJZDate.substring(0, 10);
+                //        }
+
+                //        setTimeout(" ComFunJS.initForm()", 500)
+                //    }
+                //})
+            } else {
+                tempmodel.ListColData.push({ "column_name": "", "column_type": "4", "length": "", "precision": "", "scale": "", "is_identity": "", "description": "", "isprimarykey": "", "isidentity": "" });
+
+            }
+        },//初始化
+        AddCol: function () {
+            //var m = tempmodel.ColData.$model;
+            tempmodel.ListColData.push({ "column_name": "", "column_type": "4", "length": "", "precision": "", "scale": "", "is_identity": "", "description": "", "isprimarykey": "", "isidentity": "" });
+        },
+        DelCol: function (el) {
+            tempmodel.ListColData.remove(el);
+        },
+        SaveData: function (callback) {
+            if (tempmodel.modelData.TXType == "4") {
+                //    tempmodel.modelData.Days = "";
+                //    $("input[name=days]:checked").each(function () {
+                //        if (!tempmodel.modelData.Days) {
+                //            tempmodel.modelData.Days = $(this).val();
+                //        }
+                //        else {
+                //            tempmodel.modelData.Days = tempmodel.modelData.Days + ',' + $(this).val();
+                //        }
+                //    })
+
+                //    if (!tempmodel.modelData.Days) {
+                //        parent.ComFunJS.winwarning("自定义时，请输入日期");
+                //        return "";
+                //    }
+            }
+            var data = tempmodel.modelData.$model;
+            var modelValue = JSON.stringify(data);
+            $.post("/API/VIEWAPI.ashx?ACTION=FORMBI_CRTABLE", { P1: modelValue, P2: JSON.stringify(tempmodel.ListColData.$model), Code: tempmodel.SCode, Type: tempmodel.SType }, function (result) {
+                return callback.call(this, result);
+            });
+        }
+    });
+</script>

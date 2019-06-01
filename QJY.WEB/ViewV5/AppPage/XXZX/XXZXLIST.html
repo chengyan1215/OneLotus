@@ -1,0 +1,261 @@
+﻿<div ms-controller="XXZXLIST">
+
+    <!-- 按条件选择 -->
+    <div class="tab-filter-type">
+
+        <div class="oh">
+            <h5 class="pull-left tr">消息状态：</h5>
+            <ul class="tab-type ft14">
+                <li><span class="active" ms-click="ChangeType(0)">未读消息</span></li>
+                <li ms-click="ChangeType(1)"><span>已读消息</span></li>
+            </ul>
+        </div>
+        <div class="oh">
+            <h5 class="pull-left tr">消息类型：</h5>
+            <ul class="tab-type ft14">
+                <li ms-click="SelectRWType('')"><span class="active">全部消息</span></li>
+                <li ms-repeat-el="XXZXType" ms-click="SelectRWType(el.MsgType)"><span>{{el.MsgType}}</span></li>
+            </ul>
+        </div>
+
+        <!-- 搜索 -->
+        <div class="oh">
+            <div class="input-group ml15" style="width:295px;">
+                <input type="search" class="form-control" placeholder="搜索内容" ms-duplex="search.searchcontent">
+                <span class="input-group-addon" ms-click="GetLIST()">搜索</span>
+            </div>
+        </div>
+    </div>
+    <!-- 展开更多选项 -->
+    <div class="add-tab ft14 tc mt20" style="display:none;">
+        <span>更多筛选<i class="caret"></i></span>
+    </div>
+    <!-- 表格 -->
+    <div class="default-tab ft14 pt20">
+        <table class="table table-striped table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th class="tc" style="width:50px;">
+                        <div class="icheckbox_square-blue">
+                            <input type="checkbox">
+                            <span class="iconfont icon-check ft12"></span>
+                        </div>
+                    </th>
+                    <!--<th ms-repeat-im="ShowColumns" ms-visible="im.IsSel">{{im.ColText}}</th>-->
+                    <th style="width:100px">消息类别</th>
+                    <th>内容</th>
+                    <th style="width:150px">时间</th>
+                    <!--<th style="width:100px;">
+
+                    </th>-->
+                </tr>
+            </thead>
+            <tbody>
+                <tr ms-repeat-el="tmpListData">
+                    <td class="tc">
+                        <div class="icheckbox_square-blue" ms-attr-id="el.ID">
+                            <input type="checkbox">
+                            <span class="iconfont icon-check ft12"></span>
+                        </div>
+                    </td>
+                    <td>{{el.MsgType}}</td>
+                    <td><a class="btn-link" ms-click="OpenDetail(el)" href="javascript:;">{{el.MsgContent|html}}</a></td>
+                    <td>{{el.CRDate|date('yyyy-MM-dd HH:mm')}}</td>
+
+                    <!--<td ms-repeat-im="ShowColumns" ms-css-width="im.width+'px'" ms-visible="im.IsSel">{{ComFunJS.FnFormat(el[im.ColName],im)|html}}</td>-->
+                    <!-- <td>
+
+                        <a class="cz-btn ft18 bj-color tip" data-toggle="tooltip" title="标记为已读" ms-if="listType =='0'" ms-click="Upd(el,$event)">
+                            <i class="iconfont icon-gengxin"></i>
+                        </a>
+                        <a class="cz-btn ft18 sc-color tip" data-toggle="tooltip" title="删除" ms-click="Del('XXZX',el,$event)">
+                            <i class="iconfont icon-shanchu"></i>
+                        </a>
+                    </td>-->
+                </tr>
+
+            </tbody>
+            <tfoot>
+                <tr ms-if="isnull"><td class="tc"></td><td>暂无数据</td></tr>
+            </tfoot>
+        </table>
+        <!--<div class="ml15 pb20" >
+            <button type="button" class="btn btn-info" ms-click="Upd()">标记为已读</button>
+
+        </div>-->
+        <div class="ui-datatable-page ft14 pl20">
+            <a class="cz-btn ft18 bj-color tip" data-toggle="tooltip" ms-visible="listType==0" title="标记为已读" ms-click="Upds()" style="float:left;margin-left:10px;margin-right:10px;">
+                <i class="iconfont icon-yidu"></i>
+            </a>
+            <a class="cz-btn ft18 bj-color tip" data-toggle="tooltip" ms-visible="listType==1" title="标记为未读" ms-click="Upds()" style="float:left;margin-left:10px;margin-right:10px;">
+                <i class="iconfont icon-weidu"></i>
+            </a>
+            <a class="cz-btn ft18 sc-color tip" data-toggle="tooltip" title="删除" ms-click="Dels()" style="float:left">
+                <i class="iconfont icon-shanchu"></i>
+            </a>
+
+                <div id="pageDiv" ms-visible="model.page.total>model.pageNum[0].num" class="pull-right"></div>
+                <div class="pull-right" ms-visible="tmpListData.size()!=0">
+                    <span>共{{model.page.total}}条记录</span>
+                    <span ms-visible="model.page.total>model.pageNum[0].num">
+                        选择每页条数
+                        <select style="height: 25px; width: 50px;" ms-change="selNum(this.value)" ms-duplex="model.page.pagecount">
+                            <option ms-repeat-pg="pageNum" ms-attr-value="pg.num" ms-attr-selected="pg.num==model.page.pagecount?'selected':''">{{pg.num}}</option>
+                        </select>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var tempindex = avalon.define({
+        $id: "XXZXLIST",
+        listType: "",
+        curRWType: "",
+        tmpListData: [],
+        ChangeType: function (type) {
+            tempindex.listType = type;
+            tempindex.GetLIST();
+        },
+        SelectType: function (type) {
+            model.search.seartype = type;
+            tempindex.GetLIST();
+        },
+        SelectRWType: function (type) {
+            tempindex.curRWType = type;
+            tempindex.GetLIST();
+        },
+        selNum: function (item) {    //选择显示的条数
+            model.page.pagecount = item;
+            tempindex.GetLIST();
+        },
+        InitWigetData: function () {
+            tempindex.listType = "0";
+            //显示的列名
+            //model.ShowColumns.clear();
+            //model.ShowColumns.pushArray([
+            //         { "ColName": "MsgType", "ColText": "消息类别", "width": "100", "IsSel": true, "format": "text" },
+            //         { "ColName": "MsgContent", "ColText": "内容", "IsSel": true, "format": "text", "len": "99999" },
+            //         { "ColName": "CRDate", "ColText": "时间", "width": "120", "IsSel": true, "format": "dateformat" }
+            //]);
+            //类型数据
+
+            //model.GetTypeData("7");
+            tempindex.GetXXZXType();
+            tempindex.GetLIST();
+        },
+
+        XXZXType: [], GetXXZXType: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETUSERCENTERTYPE',{}, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempindex.XXZXType = resultData.Result;
+                    if (tempindex.tmpListData.size() == 0) { model.isnull = true; } else { model.isnull = false; }
+                }
+            })
+        },
+
+        GetLIST: function () {
+            $(".checked").removeClass("checked");
+            model.page.pageindex = 1;
+            tempindex.tmpListData.clear();
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETXXZXIST_PAGE', { P1: tempindex.listType, p: 1, P2: model.search.searchcontent, pagecount: model.page.pagecount, msgType: tempindex.curRWType }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempindex.tmpListData = resultData.Result;
+                    model.page.total = resultData.Result1;
+                    if (tempindex.tmpListData.size() == 0) { model.isnull = true; } else { model.isnull = false; }
+                    //model.Total = resultData.Result1;
+                    laypage({
+                        cont: 'pageDiv', //容器。值支持id名、原生dom对象，jquery对象。
+                        pages: Math.ceil(parseInt(resultData.Result1) * 1.0 / model.page.pagecount), //通过后台拿到的总页数
+                        curr: 1, //初始化当前页
+                        skin: 'molv',
+                        jump: function (e) { //触发分页后的回调
+                            if (e.curr != model.page.pageindex) {
+                                $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETXXZXIST_PAGE', { P1: tempindex.listType, p: e.curr, P2: model.search.searchcontent, pagecount: model.page.pagecount, msgType: tempindex.curRWType }, function (resultData) {
+                                    if (resultData.ErrorMsg == "") {
+                                        tempindex.tmpListData = resultData.Result;
+                                    }
+                                    $(".checked").removeClass("checked");
+                                })
+                                model.page.pageindex = e.curr;
+                            }
+                        }
+                    });
+                }
+
+            })
+        },
+        Del: function (ForCode, el, event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            ComFunJS.winconfirm("确认要删除吗？", function () {
+                $.getJSON("/API/VIEWAPI.ashx?Action=XTGL_DELXXZX", { P1: el.ID }, function (r) {
+                    if (r.ErrorMsg == "") {
+                        tempindex.tmpListData.remove(el);
+                        ComFunJS.winsuccess("操作成功");
+                    }
+                })
+            }, function () { })
+
+        },
+        //将选择的项更新为已读
+        Upd: function (el, event) {
+            $.getJSON("/API/VIEWAPI.ashx?Action=XTGL_UPDTEREADSTATES", { P1: el.ID, s: '1' }, function (r) {
+                if (r.ErrorMsg == "") {
+                    tempindex.GetLIST();
+                    ComFunJS.winsuccess("操作成功");
+
+                }
+            })
+        },
+        Dels: function () {
+            var Ids = "";
+            $("tbody .checked").each(function () {
+                Ids += $(this).prop("id") + ",";
+            })
+            Ids = Ids.length > 1 ? Ids.substring(0, Ids.length - 1) : Ids;
+            if (!Ids) {
+                top.ComFunJS.winwarning("请选择要删除的消息"); //如果是标记本页状态，消息数量必须大于0
+                return;
+            }
+            top.ComFunJS.winconfirm("确定要删除" + Ids.split(',').length + "条消息吗？", function () {
+                $.post("/API/VIEWAPI.ashx", { Action: "XTGL_DELXXZX", P1: Ids }, function (jsonresult) {
+                    if ($.trim(jsonresult.ErrorMsg) == "") {
+                        ComFunJS.winsuccess("删除成功");
+                        tempindex.GetLIST();
+                    }
+                })
+            })
+        },
+        Upds: function () {
+            var Ids = "";
+            $("tbody .checked").each(function () {
+                Ids += $(this).prop("id") + ",";
+            })
+            Ids = Ids.length > 1 ? Ids.substring(0, Ids.length - 1) : Ids;
+            if (!Ids) {
+                top.ComFunJS.winwarning("请选择要设置的消息"); //如果是标记本页状态，消息数量必须大于0
+                return;
+            }
+            var status = 1;
+            if (tempindex.listType == 1) { status = 0; }
+            $.post("/API/VIEWAPI.ashx", { Action: "XTGL_UPDTEREADSTATES", P1: Ids, s: status }, function (jsonresult) {
+                if ($.trim(jsonresult.ErrorMsg) == "") {
+                    ComFunJS.winsuccess("设置成功");
+                    tempindex.GetLIST();
+                }
+            })
+        },
+        OpenDetail: function (item) {
+            if (item.MsgLink) {
+                top.ComFunJS.winviewform(item.MsgLink, "查看数据", "1000", "");
+            }
+        }
+    })
+    //# sourceURL=RWGLTEMP.js;
+</script>

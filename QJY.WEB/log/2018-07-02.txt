@@ -1,0 +1,24 @@
+Senparc.Weixin.Exceptions.ErrorJsonResultException: 微信请求发生错误！错误代码：40001，说明：invalid credential, hint: [1530543858_6_a17b130bb8eb2dc571806b30d705efba], more info at https://open.work.weixin.qq.com/devtool/query?e=40001
+   在 Senparc.Weixin.HttpUtility.Get.GetJson[T](String url, Encoding encoding, Nullable`1 maxJsonLength)
+   在 Senparc.Weixin.QY.CommonAPIs.CommonApi.GetToken(String corpId, String corpSecret)
+   在 QJY.API.WXHelp.GetToken(String appID) 位置 F:\Code\QJ_Single\QJY.API\WXHelp\WXHelp.cs:行号 51
+   在 QJY.API.WXHelp.SendTH(List`1 MODEL, String ModelCode, String type, String strUserS) 位置 F:\Code\QJ_Single\QJY.API\WXHelp\WXHelp.cs:行号 107
+2018-07-02 23:04:17
+Senparc.Weixin.Exceptions.ErrorJsonResultException: 微信请求发生错误！错误代码：40001，说明：invalid credential, hint: [1530544077_6_833a21680cb359b2f055fc57982788a9], more info at https://open.work.weixin.qq.com/devtool/query?e=40001
+   在 Senparc.Weixin.HttpUtility.Get.GetJson[T](String url, Encoding encoding, Nullable`1 maxJsonLength)
+   在 Senparc.Weixin.QY.CommonAPIs.CommonApi.GetToken(String corpId, String corpSecret)
+   在 QJY.API.WXHelp.GetToken(String appID) 位置 F:\Code\QJ_Single\QJY.API\WXHelp\WXHelp.cs:行号 51
+   在 QJY.API.WXHelp.SendTH(List`1 MODEL, String ModelCode, String type, String strUserS) 位置 F:\Code\QJ_Single\QJY.API\WXHelp\WXHelp.cs:行号 107
+2018-07-02 23:08:18
+Senparc.Weixin.Exceptions.ErrorJsonResultException: 微信请求发生错误！错误代码：40001，说明：invalid credential, hint: [1530544360_4_47b78175ed4976d9e7d962480cd8009f], more info at https://open.work.weixin.qq.com/devtool/query?e=40001
+   在 Senparc.Weixin.HttpUtility.Get.GetJson[T](String url, Encoding encoding, Nullable`1 maxJsonLength)
+   在 Senparc.Weixin.QY.CommonAPIs.CommonApi.GetToken(String corpId, String corpSecret)
+   在 QJY.API.WXHelp.GetToken(String appID) 位置 F:\Code\QJ_Single\QJY.API\WXHelp\WXHelp.cs:行号 51
+   在 QJY.API.WXHelp.SendTH(List`1 MODEL, String ModelCode, String type, String strUserS) 位置 F:\Code\QJ_Single\QJY.API\WXHelp\WXHelp.cs:行号 107
+2018-07-02 23:12:40
+Senparc.Weixin.Exceptions.ErrorJsonResultException: 微信请求发生错误！错误代码：40001，说明：invalid credential, hint: [1530544577_7_ffdad349e784374efff69f6cc1af4937], more info at https://open.work.weixin.qq.com/devtool/query?e=40001
+   在 Senparc.Weixin.HttpUtility.Get.GetJson[T](String url, Encoding encoding, Nullable`1 maxJsonLength)
+   在 Senparc.Weixin.QY.CommonAPIs.CommonApi.GetToken(String corpId, String corpSecret)
+   在 QJY.API.WXHelp.GetToken(String appID) 位置 F:\Code\QJ_Single\QJY.API\WXHelp\WXHelp.cs:行号 51
+   在 QJY.API.WXHelp.SendTH(List`1 MODEL, String ModelCode, String type, String strUserS) 位置 F:\Code\QJ_Single\QJY.API\WXHelp\WXHelp.cs:行号 107
+2018-07-02 23:16:17

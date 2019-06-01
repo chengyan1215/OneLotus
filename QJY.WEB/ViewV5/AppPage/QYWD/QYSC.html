@@ -1,0 +1,70 @@
+﻿<div class="form-horizontal" ms-controller="QYWD">
+    <div class="form-group">
+        <label class="col-xs-2 control-label">类别</label>
+        <div class="col-xs-8">
+            <input type="text" ms-duplex="modelData.Tags" class="form-control szhl_require" placeholder="请输入自定义类别" id="conTags" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label">标题</label>
+        <div class="col-xs-8">
+            <input type="text" ms-duplex="modelData.Title" class="form-control szhl_require" placeholder="请输入标题" />
+        </div>
+    </div>
+    <div class="form-group" ms-if="MsgType=='link'">
+        <label class="col-xs-2 control-label">网页链接</label>
+        <div class="col-xs-8">
+            <input type="text" ms-duplex="modelData.URL" class="form-control szhl_require" placeholder="请输入链接" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label" ms-if="MsgType=='text'">内容</label>
+        <label class="col-xs-2 control-label" ms-if="MsgType=='link'">备注</label>
+        <div class="col-xs-8">
+            <textarea id="conContent" ms-class-1="szhl_UEEDIT:MsgType=='text'" ms-class-2="form-control:MsgType=='link'" class="focus" umheight="200" ms-duplex="modelData.MsgContent"></textarea>
+        </div>
+    </div>
+
+</div>
+<script>
+
+    var tempmodel = avalon.define({
+        $id: "QYWD",
+        iswf: false,//是否属于流程表单
+        MsgType: ComFunJS.getQueryString("MsgType"),
+        modelData: { "MsgContent": "", "Title": "", "URL": "", "Tags": "" },
+        inittemp: function (strId) {
+            //加载用户标签
+            $.getJSON('/API/VIEWAPI.ashx?Action=QYWD_GETSCTAGS', { P1: tempmodel.MsgType }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    $('#conTags').typeahead({
+                        source: function (query, process) {
+                            return resultData.Result;
+                        }
+                    })
+                }
+            })
+            if (strId) {
+                //编辑加载数据
+                $.getJSON('/API/VIEWAPI.ashx?Action=QYWD_GETTEXT', { P1: strId }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result;
+                        setTimeout(" ComFunJS.initForm()", 500);
+                    }
+                })
+            }
+            else {
+                tempmodel.modelData.URL = "http://";
+                ComFunJS.initForm();
+            }
+        },//初始化
+        SaveData: function (callback) {
+            $.post("/API/VIEWAPI.ashx?ACTION=QYWD_ADDTEXT", {
+                P1: JSON.stringify(tempmodel.modelData.$model), P2: tempmodel.MsgType
+            }, function (result) {
+                return callback.call(this, result);
+            });
+        }
+    });
+    //# sourceURL=QYSC.js;
+</script>

@@ -1,0 +1,44 @@
+﻿
+<div style="background-color:#F8F8F8" ms-controller="CCXJVIEW">
+
+    <script type="text/javascript">
+
+        var tempindex = avalon.define({
+            $id: "CCXJVIEW",
+            CancelWF: function (strId) {
+                $.getJSON('/API/VIEWAPI.ashx?Action=YCGL_DELYC', { P1: strId }, function (resultData) {
+                })
+            },
+            InitWigetData: function (strId) {
+                model.title = "用车管理";
+                model.ShowColumns.pushArray(
+                [{ ColName: "SYUser", ColText: "申请人", IsSel: true, "class": "width50", format: "username" },
+                    { ColName: "StartTime", ColText: "开始时间", "class": "width50", IsSel: true, format: "dateformat" },
+                      { ColName: "EndTime", ColText: "结束时间", "class": "width50", IsSel: true, format: "dateformat" },
+                      { ColName: "StartAddress", ColText: "出发地点", "class": "width50", IsSel: true },
+                      { ColName: "EndAddress", ColText: "目的地点", "class": "width50", IsSel: true },
+                      { ColName: "XCType", ColText: "行程类别", "class": "width50", IsSel: true },
+                      { ColName: "CarNum", ColText: "使用车辆", "class": "width50", IsSel: true },
+                      { ColName: "SYRS", ColText: "用车人数", "class": "width50", IsSel: true },
+                      { ColName: "JSR", ColText: "驾驶员", "class": "width50", IsSel: true },
+                      { ColName: "Remark", ColText: "使用说明", IsSel: true }
+                ]);
+
+                if (strId) {
+                    //编辑加载数据
+                    $.getJSON('/API/VIEWAPI.ashx?Action=YCGL_GETYCGLLIST', { P1: "all", ID: model.strId }, function (resultData) {
+                        if (resultData.ErrorMsg == "") {
+                            model.modelData = resultData.Result[0];
+                            model.tpData = resultData.Result[0].FileList;
+                            setTimeout(" ComFunJS.initForm();", 500);
+                        }
+                    })
+                }
+
+            }
+        });
+        avalon.ready(function () {
+        })
+        //@ sourceURL=YCGLVIEW.js;
+    </script>
+</div>

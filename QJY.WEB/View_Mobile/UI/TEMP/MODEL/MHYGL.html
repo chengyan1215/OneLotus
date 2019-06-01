@@ -1,0 +1,339 @@
+﻿<div style="background:#fbf9fe" ms-controller="HYGL">
+    <div ms-if="isHasDataQX=='Y'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">申请人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{ComFunJS.convuser(modelData.FQUser)}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">会议主题</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.Title" type="text" placeholder="请输入会议主题" class="szhl szhl_require weui_input" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">开始时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="StartTime" placeholder="请选择开始时间" ms-duplex="modelData.StartTime" class="szhl szhl_require weui_input">
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">结束时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="EndTime" placeholder="请选择结束时间" ms-duplex="modelData.EndTime" class="szhl szhl_require weui_input">
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">会议室</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select name="conType" id="conType" ms-duplex="modelData.RoomID" class="szhl szhl_require weui-select">
+                        <option ms-repeat-item="ColumnData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.RoomID?'selected':''">{{item.Name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">会前提醒</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select ms-duplex="modelData.TXSJ" class="weui-select">
+                        <option value="-1">不提醒</option>
+                        <option value="10">10分钟</option>
+                        <option value="20">20分钟</option>
+                        <option value="30">30分钟</option>
+                        <option value="40">40分钟</option>
+                        <option value="50">50分钟</option>
+                        <option value="60">60分钟</option>
+                        <option value="90">90分钟</option>
+                        <option value="120">120分钟</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">参会人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="conCHR" placeholder="请选择参会人" ms-duplex="modelData.CYUser" class=" weui_input szhl szhl_getPeoples" />
+                </div>
+            </div>
+
+        </div>
+        <div class="weui_cells_title">会议内容</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd" style="display:none;"><label class="weui_label label">会议内容</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea ms-duplex="modelData.Details" rows="3" placeholder="请输入会议内容" class="szhl szhl_require weui_textarea"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">其他信息<a class="show-up" ms-click="isZK()" id="zk">展开</a></div>
+        <div class="weui_cells weui_cells_form" ms-if="isDeploy == 1">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">会服</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input ms-duplex="modelData.HYFW" type="text" placeholder="请输入会服" class=" weui_input" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">主持人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="conZCR" placeholder="请选择主持人" ms-duplex="modelData.ZCUser" class="szhl szhl_getPeoples" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">纪要人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="conJYR" placeholder="请选择纪要人" ms-duplex="modelData.JLUser" class="szhl szhl_getPeoples" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">摄像人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" id="conSXR" placeholder="请选择摄像人" ms-duplex="modelData.SXUser" class="szhl szhl_getPeoples" />
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">图片上传</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" ms-duplex="modelData.Files" class="wximgupload" style="display:none;" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ms-if="isHasDataQX=='N'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">申请人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{ComFunJS.convuser(modelData.FQUser)}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">会议主题</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.Title}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">开始时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary" ms-if="modelData.StartTime">
+                    {{modelData.StartTime|date('yyyy-MM-dd HH:mm')}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">结束时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary" ms-if="modelData.EndTime">
+                    {{modelData.EndTime|date('yyyy-MM-dd HH:mm')}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">会议室</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.Name}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">会前提醒</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.TXSJ=="-1"?"不提醒":modelData.TXSJ}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">参会人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{ComFunJS.convusers(modelData.CYUser)}}
+                </div>
+            </div>
+
+        </div>
+        <div class="weui_cells_title">会议内容</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.Details|html}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">其他信息<a class="show-up" ms-click="isZK()" id="zk">展开</a></div>
+        <div class="weui_cells weui_cells_form" ms-if="isDeploy == 1">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">会议服务</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.HYFW}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">主持人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{ComFunJS.convusers(modelData.ZCUser)}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">纪要人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{ComFunJS.convusers(modelData.JLUser)}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">摄像人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{ComFunJS.convusers(modelData.SXUser)}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title" ms-visible="modelData.Files">图片上传</div>
+        <div class="weui_cells weui_cells_form" ms-visible="modelData.Files">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div class="viewimg">{{modelData.Files}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    var tempmodel = avalon.define({
+        $id: "HYGL",
+        ColumnData: [],
+        name: "会议管理",
+        iswf: true,//是否属于流程表单
+        tpData: [],
+        userpl: 0,
+        usertype: "",
+        isjl: "",
+        Name: "",
+        wximg: "",
+        dataid: "",
+        isDeploy: 0,
+        RoomID: ComFunJS.getQueryString("rid"),
+        isZK: function () {
+            if (tempmodel.isDeploy == 0) {
+                tempmodel.isDeploy = 1;
+                $("#zk").text("收起");
+            }
+            else {
+                tempmodel.isDeploy = 0;
+                $("#zk").text("展开");
+            }
+            //tempmodel.isDeploy == 0 ? 1 : 0;
+        },
+        inittemp: function (strId) {
+            $.getJSON('/API/VIEWAPI.ashx?Action=HYGL_GETKYHYSLIST', {}, function (resultData) {
+                if (resultData.ErrorMsg == "" && resultData.Result.length > 0) {
+                    tempmodel.ColumnData = resultData.Result;
+                    if (tempmodel.RoomID) {
+                        tempmodel.modelData.RoomID = tempmodel.RoomID;
+                    } else {
+                        if (!tempmodel.modelData.RoomID) {
+                            tempmodel.modelData.RoomID = resultData.Result[0].ID;
+                        }
+                    }
+                }
+            })
+            if (strId) {
+
+                tempmodel.dataid = strId;
+                $.getJSON('/API/VIEWAPI.ashx?Action=HYGL_GETHYGLMODEL', { P1: strId }, function (resultData) {
+
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result[0];
+                        tempmodel.tpData = resultData.Result1;
+
+                        if (resultData.Result.JLUser) {
+                            var JLUserList = resultData.Result.JLUser.split(',');
+
+                            var un = ComFunJS.getCookie("username");
+                            if (JLUserList.indexOf(un) != -1 || resultData.Result.FQUser.split(',').indexOf(un) != -1) {
+                                tempmodel.isjl = "1";
+                            }
+                        }
+
+
+                        ComFunJS.uploadimgnew(tempmodel.tpData);
+                        ComFunJS.viewimg(tempmodel.tpData);
+
+                        if (tempmodel.modelData.StartTime && tempmodel.modelData.StartTime.length > 16) {
+                            tempmodel.modelData.StartTime = tempmodel.modelData.StartTime.substring(0, 16);
+                        }
+                        if (tempmodel.modelData.StartTime) {
+                            var ss = tempmodel.modelData.StartTime.split(' ');
+                            var ss1 = ss[0].split('-');
+                            var ss2 = ss[1].split(':');
+                            var hh = ss2[0];
+                            if (hh.substring(0, 1) == "0") { hh = hh.substring(1, 1); }
+                            $("#StartTime").datetimePicker({
+                                value: [ss1[0], ss1[1], ss1[2], hh, ss2[1]]
+                            });
+                        }
+                        if (tempmodel.modelData.EndTime && tempmodel.modelData.EndTime.length > 16) {
+                            tempmodel.modelData.EndTime = tempmodel.modelData.EndTime.substring(0, 16);
+                        }
+
+                        if (tempmodel.modelData.EndTime) {
+                            var ss = tempmodel.modelData.EndTime.split(' ');
+                            var ss1 = ss[0].split('-');
+                            var ss2 = ss[1].split(':');
+                            var hh = ss2[0];
+                            if (hh.substring(0, 1) == "0") { hh = hh.substring(1, 1); }
+                            $("#EndTime").datetimePicker({
+                                value: [ss1[0], ss1[1], ss1[2], hh, ss2[1]]
+                            });
+                        }
+
+                        setTimeout(" ComFunJS.initForm()", 500)
+                    }
+                })
+            } else {
+                var dates = ComFunJS.getnowdate("yyyy-mm-dd-hh-mm").split('-');
+                $("#StartTime").datetimePicker({
+                    value: [dates[0], dates[1], dates[2], dates[3], dates[4]]
+                });
+                $("#EndTime").datetimePicker({
+                    value: [dates[0], dates[1], dates[2], dates[3], dates[4]]
+                });
+
+                tempmodel.modelData.StartTime = dates[0] + "-" + dates[1] + "-" + dates[2] + " " + dates[3] + ":" + dates[4];
+                tempmodel.modelData.EndTime = dates[0] + "-" + dates[1] + "-" + dates[2] + " " + dates[3] + ":" + dates[4];
+
+                ComFunJS.uploadimgnew();
+                ComFunJS.initForm();
+            }
+        },//初始化
+        modelData: { "RoomID": "", "Title": "", "Details": "", "StartTime": "", "EndTime": "", "CYUser": "", "FQUser": ComFunJS.getnowuser(), "TXSJ": "-1", "HYJL": "", "Remark": "", "JLFiles": "", "Files": "", "JLUser": "", "ZCUser": "", "SXUser": "", "HYFW": "" },
+        SaveData: function (callback) {
+
+            tempmodel.modelData.Files = "";
+            $("#imglist .tpli").each(function () {
+                if ($(this).hasClass("wximg")) { //微信上传未处理的图片
+                    if (tempmodel.wximg) {
+                        tempmodel.wximg += ",";
+                    }
+                    tempmodel.wximg += $(this).attr("itemid");
+
+                } else {
+                    if (tempmodel.modelData.Files) {
+                        tempmodel.modelData.Files = tempmodel.modelData.Files + ',' + $(this).attr("itemid");
+                    }
+                    else {
+                        tempmodel.modelData.Files = $(this).attr("itemid");
+                    }
+                }
+
+            })
+            $.getJSON("/API/VIEWAPI.ashx?ACTION=HYGL_ADDHYGL", { P1: JSON.stringify(tempmodel.modelData.$model), P2: tempmodel.wximg }, function (result) {
+                return callback.call(this, result);
+            });
+        },
+        Complate: function () {
+            window.location.href = "/View_Mobile/UI/UI_HYGL_LIST.html?r=" + Math.random();
+        }
+    });//# sourceURL=MHYGL.js;
+
+</script>

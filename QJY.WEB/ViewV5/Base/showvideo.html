@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>视频播放</title>
+    <link rel="stylesheet" href="http://g.alicdn.com/de/prismplayer/1.4.8/skins/default/index.css" />
+</head>
+<body style="margin:0;overflow:hidden">
+    <div id='J_prismPlayer' class='prism-player'></div>
+    <script src="../JS/jquery-1.11.2.min.js" type="text/javascript"></script>
+    <script src="../JS/avalon.js"></script>
+    <script src="../JS/SZHLCommon.js?jsver=20160915"></script>
+    <script type="text/javascript" src="http://g.alicdn.com/de/prismplayer/1.4.8/prism.js"></script>
+    <script type="text/javascript">
+        var player, kcmodelSee;
+        $(function () {
+            var id = ComFunJS.getQueryString("md5");
+            var strlocation = "http://" + location.host + "/ToolS/DownFile.aspx?type=video&MD5=" + id
+            strlocation = "http://www.txywpx.com/ToolS/DownFile.aspx?type=video&MD5=80d2a449197f975ba7c9724fabf65937&start=0&end=0&szhlcode=111";
+            player = new prismplayer({
+                id: "J_prismPlayer", // 容器id
+                source: strlocation, // 视频url 支持互联网可直接访问的视频地址
+                autoplay: true,      // 自动播放
+                width: "100%",       // 播放器宽度
+                height: "500px"      // 播放器高度
+            });
+            player.on("ready", function () {
+                $.getJSON('/API/WXAPI.ashx?Action=KCGL_GETKCGLMODEL', { P1: ComFunJS.getQueryString("id") }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        var modelData = resultData.Result;
+                        //创建观看进度
+                        $.post('/API/VIEWAPI.ashx?Action=KCGL_CREATESEETIME', {
+                            "P1": JSON.stringify({
+                                KCName: modelData.KCName,
+                                KCID: modelData.ID
+                            })
+                        }, function (resultData) {
+                            if (resultData.ErrorMsg == "") {
+                                kcmodelSee = resultData.Result;
+                                player.seek(0);
+                                setInterval(countPlaySec, 1000);
+                                setInterval(updateSeeDuration, 60000);
+                            }
+                        });
+                    }
+                })
+
+            });
+
+        })
+        function countPlaySec() {
+            kcmodelSee.KCDuration = kcmodelSee.KCDuration + 1;
+        }
+        function updateSeeDuration() {
+            if (kcmodelSee.KCDuration == player.getCurrentTime())
+                return;
+
+            kcmodelSee.KCDuration =parseInt(player.getCurrentTime());
+            $.post('/API/VIEWAPI.ashx?Action=KCGL_UPDATESEETIME', {
+                "P1": JSON.stringify(kcmodelSee)
+            }, function (resultData) {
+                //console.log('update success');
+            });
+        }
+
+    </script>
+</body>
+</html>
+
+

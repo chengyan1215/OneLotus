@@ -1,0 +1,229 @@
+*{ margin:0; padding:0;}
+body{ font-family:"Microsoft YaHei",Arial,"宋体"; font-size:12px; color:#333; line-height:1.6em;}
+h1{line-height:1.3em;}
+a:hover img,img{ border:none;}
+img{ vertical-align:top;}
+ul{ list-style:none;}
+input,button,select,textarea{outline:none;font-family:"Microsoft YaHei",Arial,"宋体"; font-size:12px;}
+table input,table button,table select,table textarea{ vertical-align:middle;}
+textarea{resize:none}
+table{ border-collapse:collapse;}
+a{ text-decoration:none; color:#333;}
+a:hover{ text-decoration:none; color:#ff6600;}
+/*-------------------------结束公用样式--------------------------*/
+.cf { overflow:hidden; zoom:1;}
+.cf2{zoom: 1;}
+.cf2:after {content: ""; display: block;height: 0;clear: both;}
+input.checlass{ margin:0 5px; margin-left:0;vertical-align:middle; _vertical-align:baseline;}
+/*-----------------star首页的样式*/
+html{ background:#fff;}
+/*头文件*/
+div.header{ clear:both;  width:1000px; margin:0 auto;}
+/*标志*/
+dl.logo{ float:left; padding:15px 0 0 0;}
+dl.logo dt{ float:left;}
+dl.logo dd{ float:left; padding:5px 0 0 15px;}
+/*导航*/
+/*ul.nav{ font-size:16px;color:#666; float:left; padding-left:2.2em;}
+ul.nav li{ float:left; line-height:80px;}
+ul.nav li a{ transition:all .35s; color:#666; float:left; padding:0 1.5em;}
+ul.nav li a:hover{ background:#f8f8f8; color:#12b7f5;}*/
+.nav{background-color: #fff;}
+.logo{padding: 10px 0;}
+.logo dd{float: left;padding: 0 5px;}
+.navlist{margin-top: 25px;margin-left: 70px;}
+.navlist li{padding: 0 5px}
+.navlist li a{transition: all .35s;color: #666;padding: 0 20px; font-size: 16px; padding-bottom: 25px;}
+.navlist li.nav_active a{ color:#0066CB; border-bottom:2px solid #0066CB;}
+.nav .btn{margin-left: 30px;}
+.nav .btn a{padding:8px 10px; display: inline-block;font-size: 15px;border-radius: 5px;    border: 1px solid #ccc;color:#666;margin-top: 18px;margin-left: 15px;}
+.nav .btn a:hover{background:#30a3e5;color: #fff;border-color:#30a3e5;transition:all .4s;}
+.nav .btn a.xz{background:#30a3e5;color: #fff;border-color:#30a3e5 }
+/*当前页*/
+#nav_btn01 #nav_hover01 a,#nav_btn02 #nav_hover02 a,#nav_btn03 #nav_hover03 a,#nav_btn04 #nav_hover04 a,#nav_btn05 #nav_hover05 a,#nav_btn06 #nav_hover06 a,#nav_btn07 #nav_hover07 a{ color:#fff; background:#12b7f5;}
+/*头文件右*/
+dl.header_r{ float:right; padding:20px 0 0 0;  text-align:right; line-height:35px; font-size:14px;}
+dl.header_r dt{ float:left;}
+dl.header_r dd{ padding-left:.8em;  float:left; margin-right:-10em;}
+a.app_a{ display:inline-block; }
+a.app_a span{ height:35px; line-height:35px; vertical-align:top; margin-right:.5em; display:inline-block; background:url(../images/tool/app_a.png) no-repeat center center; width:16px;_vertical-align:middle;}
+dl.header_r dd a{ display:inline-block; margin-left:.5em; color:#fff; background:#ffbc2d; padding:0 .9em;}
+dl.header_r dd span a{ background:#4ed085;}
+dl.header_r dd a:hover{ color:#fff; background:#ffda6c;}
+dl.header_r dd span a:hover{ background:#3fe183;}
+
+/*大图片*/
+ul.banner,ul.banner li{ clear:both; height:520px; line-height:520px; background:url(../images/tool/banner.png) no-repeat center top;}
+ul.banner li{ width:1000px; margin:0 auto; text-align:left; color:#fff; text-indent:-9999em;}
+/*--------star动画*/
+.banner-box{min-width:1210px;height:520px;position:relative;overflow:hidden; background:url(../images/flash/loading.gif) no-repeat center center;}
+.banner-box .bd{ width:100% !important;}
+.banner-box .bd li .m-width {width:1210px;margin:0 auto;overflow:hidden;}
+.banner-box .bd li{width:100% !important;height:520px;}
+.banner-box .bd li a{display:block;background-size:auto; width:100%; height:520px;}
+/*左右按钮*/
+.banner-btn{width:1210px;position:absolute;top:50%; margin-top:-25px; left:50%;margin-left:-605px;}
+.banner-btn a{display:block;width:50px;height:50px;position:absolute;top:0;filter:alpha(opacity=40);-moz-opacity:0.4;-khtml-opacity:0.4;opacity:0.4;}
+.banner-btn a.prev{left:0px; background:url(../images/flash/prev.png) no-repeat;} 
+.banner-btn a.next{right:0px; background:url(../images/flash/next.png) no-repeat;}
+
+.banner-box .hd {position:absolute;bottom:-270px; width:100%; left:0;}
+.banner-box .hd ul{ width:1000px; margin:0 auto; text-align:center;}
+.banner-box .hd ul li{width:12px;height:12px;border-radius :50%;text-indent:-9999px;margin:0 .3em;background:rgba(0,0,0,.5); _background:#333; display:inline-block;*display:inline;zoom:1;cursor:pointer;}
+.banner-box .hd ul li.on{background:#fff;}
+
+/*标题*/
+h4.th_text{ clear:both; text-align:center; width:1000px; padding:1px 0; margin:1.5em auto; font-size:40px; font-weight:100; color:#444; line-height:1.1em;}
+h4.th_text p{ color:#777; font-size:30px; line-height:1.1em; padding:1em 0 0 0;}
+
+div.th_text,div.th_text h4.th_text{ background:url(../images/tool/line.gif) repeat-x left top;}
+div.th_text h4{ margin:0 auto; padding:1.5em 0 0 0;}
+div.th_text{ clear:both; margin:1.5em 0;}
+
+div.w_1000{ width:1000px; margin:1em auto; padding:1px 0;}
+ul.h_tool{ margin:-1.5em -1.5em 2.5em -1.5em; padding-bottom:1px;}
+ul.h_tool li{ float:left; width:24.9%; height:220px; margin:1.4em 0;text-align:center;}
+ul.h_tool li a{ position:relative; display:block; width:220px;}
+ul.h_tool li a:hover{ color:#333; text-decoration:none;}
+ul.h_tool li span{ display:inline-block; width:150px; height:150px; line-height:150px; overflow:hidden;}
+ul.h_tool li p{ padding:1em 0 0 0; line-height:1.1em; font-size:18px;}
+ul.h_tool li div h4{  font-size:24px; font-weight:normal; padding:60px 0 0 0; line-height:1.1em;}
+ul.h_tool li div p{ margin:0 1.8em; line-height:1.6em; color:#666; padding:1em 0 0 0;}
+ul.h_tool li div{ left:0; background:#eefafe; width:220px; height:220px; position:absolute; top:0; display:none; }
+/*图标*/
+a.t_1 span{ background:#f5f5f5 url(../images/adv/01.png) no-repeat center center;}
+a.t_2 span{ background:#f5f5f5 url(../images/adv/02.png) no-repeat center center;}
+a.t_3 span{ background:#f5f5f5 url(../images/adv/03.png) no-repeat center center;}
+a.t_4 span{ background:#f5f5f5 url(../images/adv/04.png) no-repeat center center;}
+
+a.t_5 span{ background:#f5f5f5 url(../images/adv/05.png) no-repeat center center;}
+a.t_6 span{ background:#f5f5f5 url(../images/adv/06.png) no-repeat center center;}
+a.t_7 span{ background:#f5f5f5 url(../images/adv/07.png) no-repeat center center;}
+a.t_8 span{ background:#f5f5f5 url(../images/adv/08.png) no-repeat center center;}
+
+a.t_9 span{ background:#f5f5f5 url(../images/adv/09.png) no-repeat center center;}
+a.t_10 span{ background:#f5f5f5 url(../images/adv/10.png) no-repeat center center;}
+a.t_11 span{ background:#f5f5f5 url(../images/adv/11.png) no-repeat center center;}
+a.t_12 span{ background:#f5f5f5 url(../images/adv/12.png) no-repeat center center;}
+
+/*灰色*/
+div.gray_o,div.gray_w{ clear:both; background:#f8f8f8;}
+div.gray_w{ width:1000px; margin:0 auto; padding:6em 0;}
+div.gray_o dl.h_pic{ margin:0; width:100%;}
+dl.h_pic{ clear:both; width:1000px;text-transform:uppercase; margin:5em auto; padding-bottom:1px;}
+dl.h_pic dt{ float:right; width:510px; text-align:right;}
+dl.h_pic dd{ float:left; width:44%; padding:7em 0 0 0;}
+dl.h_pic dd h4{ font-size:40px; font-weight:100; line-height:1.2em; color:#444;}
+dl.h_pic dd p{ font-size:26px; color:#777; padding-top:.6em; line-height:1.4em; }
+div.gray_o dl.h_pic dt{ float:left; text-align:left;}
+div.gray_o dl.h_pic dd{ float:right;padding:3.8em 0 0 0;}
+
+
+/*-------star新闻资讯*/
+ul.h_news{ margin:0 -1em; padding:2em 0 7em 0;}
+ul.h_news li{ float:left; width:33.3%;}
+ul.h_news dl{ width:300px; padding:9px; margin:0 auto;}
+ul.h_news dt{ text-align:center;}
+ul.h_news dt h4{ font-size:15px; line-height:1.5em; height:3em; text-align:left; padding:.6em .5em 0 .5em;}
+ul.h_news dd{ padding:.6em .5em 0 .5em; clear:both;}
+ul.h_news dd p{ height:9em; line-height:1.8em; color:#888; font-size:14px;}
+ul.h_news dd div{ text-align:right; padding:.6em 0 .4em 0; color:#888; font-size:18px; clear:both;}
+
+/*--------star谁在选择我们*/
+ul.h_select{ border:1px solid #f1f1f1; border-bottom:none; clear:both; width:1000px; margin:5em auto 7em auto; padding:1px 0;}
+ul.h_select li{ float:left; text-align:center; width:165px; border-right:1px solid #f1f1f1;border-bottom:1px solid #f1f1f1; height:110px; text-align:center;}
+ul.h_select li a{ display:inline-block; padding-top:.8em;}
+ul.h_select li:nth-child(6),ul.h_select li:nth-child(12){ border-right:none;}
+ul.h_select li img{ vertical-align:middle;}
+
+
+/*-------------------star灰色图片制作方式*/
+.desaturate{ opacity:.6; transition:all .35s;
+filter: grayscale(100%);
+-webkit-filter: grayscale(100%); -moz-filter: grayscale(100%);
+-ms-filter: grayscale(100%); -o-filter: grayscale(100%);
+filter: url(desaturate.svg#greyscale);
+filter: gray;
+}
+.desaturate:hover{ opacity:1.0;
+filter: grayscale(0%);
+-webkit-filter: grayscale(0%);; -moz-filter: grayscale(0%);;
+-ms-filter: grayscale(0%);; -o-filter:grayscale(0%);;
+filter: url(desaturate.svg#normal);
+filter: normal;
+}
+
+/*------------star优势*/
+div.d_tool,div.d_tool_w{ background:#12b7f5; height:100px; color:#fff;}
+div.d_tool_w{ width:1000px; margin:0 auto;}
+ul.d_tool{ margin:0 -2em; text-align:center; padding:20px 0 0 0; line-height:60px; font-size:30px;}
+ul.d_tool li{ float:left; width:33.3%;}
+ul.d_tool div{ width:88%; margin:0 auto;}
+ul.d_tool span{ display:inline-block; vertical-align:top; margin-right:.6em; width:60px; height:60px; line-height:60px; overflow:hidden;}
+
+/*图标*/
+span.d_1{ background:url(../images/tool/f_1.png) no-repeat center center;}
+span.d_2{ background:url(../images/tool/f_2.png) no-repeat center center;}
+span.d_3{ background:url(../images/tool/f_3.png) no-repeat center center;}
+
+
+/*-------------star文件底*/
+div.footer,dl.footer{ clear:both;color:#666; background:#f8f8f8;}
+dl.footer{   margin:0 auto; padding:2em 0; text-align:center}
+dl.footer a{ color:#666;}
+dl.footer a:hover{ text-decoration:none; color:#333;}
+dl.footer dt{ padding:1em 0 0 0;  font-size:14px; line-height:2em;}
+dl.footer dt em{ font-style:normal;font-family:"宋体"; color:#ccc; margin:0 1.5em;}
+dl.footer dt p{ padding-top:1em;}
+dl.footer dd{ font-size:13px; float:right; height:110px;}
+dl.footer dd ul{ float:right; border-left:1px solid #e8e8e8; height:100%;}
+dl.footer dd li{ float:left; text-align:center; width:120px; border-right:1px solid #e8e8e8; height:100%;}
+dl.footer dd span{ width:60px; height:60px; line-height:60px; margin:10px 0; display:inline-block;}
+a.sina_a span{ background:url(../images/tool/sina.png) no-repeat center center;}
+a.sina_a:hover span{ background:url(../images/tool/sina_h.png) no-repeat center center;}
+a.bo_a span{ background:url(../images/tool/bo.png) no-repeat center center;}
+a.bo_a:hover span{ background:url(../images/tool/bo_h.png) no-repeat center center;}
+
+/*-----------------------------------star文字的样式*/
+/*标题文字*/
+.th{ font-family:"Microsoft YaHei";}
+/*日期*/
+.date{ float:right; color:#999; font-size:12px; font-weight:normal;}
+/*左右对齐*/
+.l{ float:left;}
+.r{ float:right;}
+/*宋体*/
+.china{ font-family:"宋体";}
+.eng{font-family:Arial;}
+
+/*---------------------------star滤镜的样式*/
+/*圆角*/
+.round_s{ -moz-border-radius:4px; -webkit-border-radius:4px; border-radius:4px;}
+.round_m{-moz-border-radius:2em; -webkit-border-radius:2em; border-radius:2em;}
+.round_r{-moz-border-radius:50%; -webkit-border-radius:50%; border-radius:50%;}
+/*阴影*/
+ul.h_news dl{ background:#fff; border:1px solid #ededed;
+-moz-box-shadow:0px 2px 4px #ececec; -webkit-box-shadow:0px 2px 4px #ececec; box-shadow:0px 2px 4px #ececec;}
+ul.h_news li:hover dl{ border:1px solid #ccc;
+-moz-box-shadow:0px 2px 4px #dadada; -webkit-box-shadow:0px 2px 4px #dadada; box-shadow:0px 2px 4px #dadada;}
+
+/*链接文件*/
+.round_s,.round_m,.round_r{ _position:relative;position:relative\9;behavior: url(pie.htc);}
+
+/*------------------------star旋转360度*/
+a.app_a span,dl.header_r dd a,ul.h_tool li span,ul.d_tool span,dl.footer dd span{transition:all .35s;}
+a.app_a:hover span,ul.h_tool li a:hover span,ul.d_tool li:hover span,dl.footer dd a:hover span{ 
+transform:rotate(360deg);
+-ms-transform:rotate(360deg);
+-moz-transform:rotate(360deg);
+-webkit-transform:rotate(360deg);
+-o-transform:rotate(360deg);
+}
+
+/*------------star自定义字体*/
+/*@font-face{ 
+font-family:HYQHei;
+src:local("../font/HYQiHei-40S.otf");
+url("../font/HYQiHei-40S.otf");
+}
+h4.th_text{font-family:"HYQHei";}*/

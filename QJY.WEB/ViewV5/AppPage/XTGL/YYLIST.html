@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_533449_6cz802rnwc9.css" />
+    <link rel="stylesheet" href="/ViewV5/CSS/element/index.css">
+</head>
+<body>
+    <div id="app">
+        <el-container>
+            <el-main>
+                <el-row :gutter="20">
+                    <el-col :span="24">
+                        <el-form :inline="true" :model="SearchData" class="demo-form-inline" label-position="top">
+                             <el-form-item label="">
+                                    <el-input v-model="SearchData.SearchKey" placeholder="请输入应用名称,应用类型搜索"></el-input>
+                             </el-form-item>
+                            <el-button type="primary" @click="QueryData">查询</el-button>
+                                                        <el-button  type="danger" @click="DelYY" style="float:right">删除</el-button>
+                                                                                    <el-button  type="success" @click="dialogFormVisible = true" style="float:right">添加</el-button>
+ 
+                        </el-form>
+
+                    </el-col>
+
+                </el-row>
+
+                <el-table :data="tabledata" style="width:100%;min-height:300px;margin-top:10px" height="500" class="data-table"  @row-click="rowclick" stripe border>
+                    <el-table-column :label="tabletitle">
+                        <el-table-column type="selection"
+                                         width="55">
+                        </el-table-column>
+                        <el-table-column type="index" width="50" fixed> </el-table-column>
+                        <el-table-column prop="PModelCode" label="父应用代码" fixed> </el-table-column>
+                        <el-table-column prop="ModelType" label="父应用类型" fixed> </el-table-column>
+                        <el-table-column prop="ModelName" label="应用名称" fixed> </el-table-column>
+
+                        <el-table-column prop="ModelCode"  label="应用代码" fixed> </el-table-column>
+                        <el-table-column prop="ORDERID" label="排序" fixed> </el-table-column>
+                        <el-table-column prop="WXUrl" width="380" label="移动首页" fixed> </el-table-column>
+                        <el-table-column fixed="right"
+                                         label="操作"
+                                         width="120">
+                            <template slot-scope="scope">
+                                <a :href='"/ViewV5/AppPage/XTGL/YYEDIT.html?ID=" + scope.row.ID' target="_blank">编辑</a>
+                            </template>
+                        </el-table-column>
+
+                    </el-table-column>
+
+                </el-table>
+                <el-dialog title="应用信息" :visible.sync="dialogFormVisible">
+  <el-form :model="YYData" label-position="right"  label-width="160px" >
+           <el-form-item label="父应用代码">
+        <el-input v-model="YYData.PModelCode" autocomplete="off"></el-input>
+    </el-form-item>
+     <el-form-item label="父应用类型">
+        <el-input v-model="YYData.ModelType" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="应用名称" >
+      <el-input v-model="YYData.ModelName" autocomplete="off"></el-input>
+    </el-form-item>
+    
+    <el-form-item label="应用代码" >
+      <el-input v-model="YYData.ModelCode" autocomplete="off"></el-input>
+    </el-form-item>
+        <el-form-item label="应用排序" >
+      <el-input v-model="YYData.ORDERID" autocomplete="off"></el-input>
+    </el-form-item>
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="dialogFormVisible = false">取 消</el-button>
+    <el-button type="primary" @click="AddYY">确 定</el-button>
+  </div>
+</el-dialog>
+            </el-main>
+        </el-container>
+
+    </div>
+</body>
+<script src="/ViewV5/JS/vue.js"></script>
+<script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+<script src="/ViewV5/JS/lodash.min.js"></script>
+<script src="/ViewV5/JS/httpVueLoader.js"></script>
+<script src="/ViewV5/JS/element/element.js"></script>
+<script src="/ViewV5/JS/bijs.js?v=2"></script>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                SearchData: {
+                    SearchKey: ""
+                },
+                tabletitle: "",
+                tabledata: [],
+                dialogFormVisible: false,
+                YYData: {
+                    PModelCode: "",
+                    ModelType: "",
+                    ModelName: "",
+                    ModelCode: "",
+                    ORDERID: "0",
+                    WXUrl: ""
+                },
+
+            }
+        },
+        methods: {
+            rowclick: function (row, event, column) {
+            },
+            QueryData: function () {
+                this.ViewData();
+            },
+            AddYY: function () {
+                $.getJSON('/API/VIEWAPI.ashx?Action=INIT_ADDYY', { P1: JSON.stringify(app.YYData) }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        app.$notify({
+                            title: '成功',
+                            message: "操作成功",
+                            type: 'success'
+                        });
+                        this.dialogFormVisible = true;
+                        app.ViewData();
+                    }
+                })
+            },
+            DelYY: function () {
+                this.$confirm('此操作将会彻底删除应用信息,你确定要进行此操作?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    var gdids = _.map(this.multipleSelection, 'ID');
+                    if (gdids.length > 0) {
+                        $.getJSON('/API/VIEWAPI.ashx?Action=INIT_DELYY', { P1: gdids.join(',') }, function (resultData) {
+                            if (!resultData.ErrorMsg) {
+                                app.$notify({
+                                    title: '成功',
+                                    message: "删除成功",
+                                    type: 'success'
+                                });
+                                app.ViewData();
+
+                            }
+                        })
+                    }
+                }).catch(() => {
+
+                });
+            },
+            ViewData: function () {
+                $.getJSON('/API/VIEWAPI.ashx?Action=INIT_GETYYDATA', { P1: app.SearchData.SearchKey }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        app.tabledata = resultData.Result;
+                        app.tabletitle = "共计找到" + app.tabledata.length + "条记录";
+
+                    }
+                })
+            },
+
+        },
+        mounted: function () {
+            var pro = this;
+            pro.$nextTick(function () {
+                this.ViewData();
+            })
+        }
+    })
+</script>
+</html>

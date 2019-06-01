@@ -1,0 +1,520 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>普通页面</title>
+    <!-- Bootstrap -->
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css" rel="stylesheet">
+    <link href="/ViewV5/CSS/BootOver.css" rel="stylesheet">
+    <link href="/ViewV5/JS/zTree_v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/ViewV5/CSS/icfont_qj/iconfont.css" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none; /*元素不能被选中*/
+        }
+
+        .lev1 {
+            /*//  margin-left: 10px;*/
+        }
+
+        .lev2 {
+            padding-left: 40px;
+        }
+
+        .list-group .lev2:first-child {
+            padding-left: 40px;
+            border-top: 1px solid #ddd !important;
+        }
+
+
+        .media-left {
+            padding-right: 5px;
+        }
+
+        .media-body {
+            padding-top: 5px;
+        }
+
+        .media-heading {
+            margin-top: 8px;
+        }
+
+        .list-group-item:hover {
+            background-color: #3085DB;
+        }
+
+
+        .isel {
+            top: 0;
+            right: 0;
+            color: #12b8f6;
+            font-size: 16px;
+        }
+
+        .pCard {
+            min-width: 110px;
+            max-width: 300px;
+            text-align: center;
+            margin: 8px 10px;
+        }
+
+        .pHead {
+            margin: 4px;
+            border-radius: 3px;
+            float: left;
+            height: 45px;
+            width: 45px;
+        }
+
+
+        .pName {
+            padding: 15px 0 0 0;
+            position: relative;
+            display: inline-block;
+            font-weight: normal;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 14px;
+        }
+
+        .pCard:hover {
+            border-color: #66c9f3;
+            box-shadow: 0 0px 10px #66c9f3;
+            cursor: pointer;
+        }
+
+        .pCardSelect {
+            border-color: #66c9f3;
+            box-shadow: 0 0px 10px #66c9f3;
+            cursor: pointer;
+        }
+
+        .pStatus {
+            color: #1288c5;
+            font-size: 12px;
+        }
+
+        .pCard:hover .badge {
+            visibility: visible;
+        }
+
+        .panel-body .badge {
+            position: absolute;
+            top: -5px;
+            right: -16px;
+            background-color: red;
+            padding-left: 5px;
+            padding-right: 5px;
+            visibility: collapse;
+        }
+
+        .panel-body .usersel {
+            position: absolute;
+            top: -5px;
+            right: -16px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .ztree * {
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body ms-controller="UserSelect">
+    <div class="container-fluid " style="margin: 10px" id="dvContent">
+        <div style="width: 300px; position: absolute;" ms-if="!model.userType">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">组织机构</a></li>
+                <li role="presentation"><a href="#rolepanel" aria-controls="rolepanel" role="tab" data-toggle="tab">所有角色</a></li>
+                <li role="presentation"><a href="#usergroup" aria-controls="usergroup" role="tab" data-toggle="tab">自定义分组</a></li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active fade in" id="home" style="padding-top: 20px">
+                    <ul id="tree" class="ztree"></ul>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="rolepanel">
+                    <ul class="ztree usergroup">
+                        <li>
+                            <input type="text" name="name" value="" ms-duplex="searchrole" placeholder="搜索" class="form-control" style=" width: 75%;    padding: 2px; height: 24px;" />
+
+                        </li>
+                        <li ms-repeat-item="RoleData" ms-click="GetRoleUserList(item,this)" ms-visible="item.RoleName.indexOf(searchrole) > -1">
+                            <span class="button   switch noline_docu"></span>
+                            <a>
+                                <span id="treeRole_1_ico" class="button ico_docu"></span><span id="treeRole_1_span">{{item.RoleName}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="usergroup">
+                    <ul id="treeRole" class="ztree usergroup">
+                        <li ms-repeat-item="UserGroupData" ms-click="GetUserList(item,this)">
+                            <span class="button   switch noline_docu"></span>
+                            <a target="_blank" ms-attr-title="item.DataContent">
+                                <span id="treeRole_1_ico" class="button ico_docu"></span><span id="treeRole_1_span">{{item.DataContent}}</span>
+                            </a>
+                            <span ms-click="DelUserGroup(item,$event)" style="font-size: 12px; margin-left: 10px; color: red; cursor: pointer">删除</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row" ms-css-margin="!model.userType?'0 0 0  311px':''">
+            <div class="formtitle" style="margin-bottom: 5px"><span>已选人员</span><input type="button" value="保存自定义分组" class="btn btn-sm btn-success pull-right" ms-if="SelUsers.size()>0" data-toggle="modal" data-target="#UserGroupModal" /></div>
+            <div class="panel-body" style="padding: 0; max-height: 100px; overflow: auto">
+                <div class="pCard" ms-repeat-seluser="SelUsers" style="min-width: 80px">
+                    <span class="badge" ms-click="DelSelUser(seluser)">X</span>
+                    <div class="pName" style="padding-top: 5px">{{seluser.UserRealName}}</div>
+                </div>
+
+            </div>
+            <div class="formtitle" style="margin-bottom: 5px;">
+                <span>
+                    {{selBM}}({{QueryUsers.size()}})
+                    <!--<i class="fa fa-square  isel selall" ms-click="SelUserAll(this)" style="margin-left:10px"></i>-->
+                    <div class="icheckbox_square-blue isel selall" ms-click="SelUserAll(this)" ms-if="isSignle=='N'" style="margin-left:10px">
+                        <span class="iconfont icon-check ft12" style="    padding: 0; height: 16px; line-height: 16px; border-bottom: 0px; position: inherit;"></span>
+                    </div>
+                    全选
+                </span>
+                <i class="iconfont icon-txl" style="width:35px;height:35px;float:right;    line-height: 35px;" ms-click="search()"></i>
+                <i class="iconfont  icon-shanchu" style="width:35px;height:35px;float:right;    line-height: 35px;" ms-if="searchuser" ms-click="clear()"></i>
+
+                <input type="text" placeholder="搜索人员" ms-duplex="searchuser" style="float: right; HEIGHT: 30PX;BORDER: 0PX;border-bottom: solid 1px #171819;margin-right: 10px;" />
+
+            </div>
+            <!-- List group -->
+            <div class="panel-body" style="padding: 0; min-height: 40px">
+                <div class="pCard float-shadow" ms-repeat-user="QueryUsers" ms-click="SelUser(user,this)" ms-if-loop="user.isshow=='Y'" style="padding-right: 10px; min-width: 80px">
+                    <span class="usersel">
+                        <!--<i class="fa isel fa-check-square " ms-if="user.issel"></i>-->
+                        <div class="icheckbox_square-blue isel checked" ms-if="user.issel">
+                            <span class="iconfont icon-check ft12"></span>
+                        </div>
+                    </span>
+                    <div class="pName" style="padding-top: 5px">{{user.UserRealName}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="UserGroupModal" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 600px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">添加自定义分组</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">自定义分组</label>
+                            <div class="col-xs-9">
+                                <input type="text" ms-duplex="GroupName" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-success" id="conaddForder" ms-click="SaveUserGroup()">确&nbsp;&nbsp;认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20171215"></script>
+    <script src="/ViewV5/JS/zTree_v3/js/jquery.ztree.core-3.5.js"></script>
+    <script src="/ViewV5/JS/zTree_v3/js/jquery.ztree.excheck-3.5.js"></script>
+    <script>
+        var zNodes = null;
+        var zTreeObj = null;
+        var zNodesRole = null;
+        var zTreeObjRole = null;
+        var model = avalon.define({
+            $id: "UserSelect",
+            searchuser: "",
+            RoleData: [],
+            searchrole: "",
+            search: function () {
+                model.QueryUsers.forEach(function (user) {
+                    if (user.UserRealName.indexOf(model.searchuser) == -1) {
+                        user.isshow = "N";
+                    } else {
+                        user.isshow = "Y";
+                    }
+                })
+            },
+            clear: function () {
+                model.searchuser = "";
+                model.QueryUsers.forEach(function (user) {
+                    user.isshow = "Y";
+                })
+            },
+            isSignle: ComFunJS.getQueryString("issignle") ? ComFunJS.getQueryString("issignle") : "N",
+            checkval: top.$("body").data("checkvalue") ? top.$("body").data("checkvalue") : "",
+            userType: ComFunJS.getQueryString("userType") ? ComFunJS.getQueryString("userType") : "",
+            typeid: ComFunJS.getQueryString("typeid") ? ComFunJS.getQueryString("typeid") : "",
+            isAll: ComFunJS.getQueryString("isall"), //是否加载所有人，N:根据当前用户所在部门加载，Y:加载所有人员
+            selBM: "",//已选择部门
+            SelUser: function (item, dom) {
+                if (model.isSignle == "Y") {
+                    model.SelUsers.clear();
+                    model.QueryUsers.forEach(function (user) {
+                        user.issel = false;
+                    })
+
+                }
+                if (model.isSignle == "N" && item.issel) {
+                    $(".selall").removeClass("checked")
+                }
+                item.issel = !item.issel;
+                if (!item.issel) {
+                    ComFunJS.DelItem(model.SelUsers, "UserName", item.UserName)
+                } else {
+                    if (ComFunJS.FindItem(model.SelUsers, function (e) {
+                        return e.UserName == item.UserName;
+                    }).length == 0) {
+                        model.SelUsers.push(item)
+                    }
+                }
+            },
+            SelUserAll: function (dom) {
+                if (!$(dom).hasClass("checked")) {
+                    model.QueryUsers.forEach(function (item) {
+                        item.issel = true;
+                        if (ComFunJS.FindItem(model.SelUsers, function (e) {
+                            return e.UserName == item.UserName;
+                        }).length == 0) {
+                            model.SelUsers.push(item)
+                        }
+                    })
+                    $(dom).addClass("checked")
+                } else {
+                    model.QueryUsers.forEach(function (item) {
+                        item.issel = false;
+                        ComFunJS.DelItem(model.SelUsers, "UserName", item.UserName)
+
+                    })
+                    $(dom).removeClass("checked")
+                }
+
+            },
+            SelUsers: [],//已选择用户
+            DelSelUser: function (item) {
+                ComFunJS.DelItem(model.SelUsers, "UserName", item.UserName);
+                model.QueryUsers.forEach(function (el) {
+                    if (el.UserName == item.UserName) {
+                        el.issel = false;
+                    }
+                })
+            },
+            QueryUsers: [],//查询用户结果
+            render: function () {
+
+            },
+            getUserTree: function () {
+                var setting = {
+                    data: {
+                        simpleData: {
+                            enable: true,
+                            idKey: "id",
+                            pIdKey: "pId",
+                            rootPId: 0
+                        }
+                    },
+                    view: {
+                        showLine: false
+                    },
+                    callback: {
+                        onClick: model.zTreeOnClick
+                    }
+                };
+                $.getJSON("/API/VIEWAPI.ashx", { "Action": "XTGL_GETALLBMUSERLISTNEW", P1: model.isAll }, function (msg) {
+                    zTreeObj = $.fn.zTree.init($("#tree"), setting, eval(msg.Result));
+                    node = zTreeObj.getNodeByParam("pId", 0, null);
+                    if (node) {
+                        zTreeObj.selectNode(node);
+                        model.selBM = node.name;
+                        $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETYUSERBYCODE', { P1: node.id }, function (resultData) {
+                            if (resultData.ErrorMsg == "") {
+                                resultData.Result.forEach(function (el) {
+                                    el.issel = false;
+                                    el.isshow = 'Y';
+                                    $.each(model.checkval.split(','), function (i, n) {
+                                        if (n == el.UserName) {
+                                            el.issel = true;
+                                            model.SelUsers.push(el)
+                                        }
+                                    });
+                                })
+                                model.QueryUsers = resultData.Result;
+                            }
+                        })
+                    }
+                });
+            },
+            zTreeOnClick: function (event, treeId, treeNode) {
+                $(".usergroup  li a").removeClass("curSelectedNode");
+                model.selBM = treeNode.name;
+                $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETYUSERBYCODE', { P1: treeNode.id }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        resultData.Result.forEach(function (el) {
+                            el.issel = false;
+                            el.isshow = 'Y';
+                            model.SelUsers.$model.forEach(function (user) {
+                                if (el.UserName == user.UserName) {
+                                    el.issel = true;
+                                }
+                            })
+
+                        })
+                        model.QueryUsers.clear();
+                        model.QueryUsers = resultData.Result;
+                        //avalon.scan()
+                    }
+                })
+            },
+            GetRoleList: function () {
+
+                $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETROLE', {}, function (msg) {
+                    model.RoleData = msg.Result;
+                });
+            },
+            GetRoleUserList: function (item, dom) {
+                zTreeObj.cancelSelectedNode();
+                $(".usergroup  li a").removeClass("curSelectedNode");
+                $(dom).find("a").addClass("curSelectedNode");
+                model.selBM = item.RoleName;
+                $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETUSERBYROLECODE', { P1: item.RoleCode }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        resultData.Result.forEach(function (el) {
+                            el.issel = false;
+                            el.isshow = 'Y';
+                            model.SelUsers.$model.forEach(function (user) {
+                                if (el.UserName == user.UserName) {
+                                    el.issel = true;
+                                }
+                            })
+                        })
+                        model.QueryUsers.clear();
+                        model.QueryUsers = resultData.Result;
+                        //avalon.scan()
+                    }
+                })
+            },
+            UserGroupData: [],
+            GroupName: "",
+            GetUserGroup: function () {
+
+                $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETUSERGROUP', { P1: "USERGROUP" }, function (resultData) {
+                    model.UserGroupData = resultData.Result;
+                })
+
+            },
+            SaveUserGroup: function () {
+                var UserNames = "";
+                model.SelUsers.forEach(function (item) {
+                    UserNames += item.UserName + ",";
+                })
+                $.post("/API/VIEWAPI.ashx", { Action: "XTGL_ADDUSERGROUP", P1: model.GroupName, P2: UserNames.substring(0, UserNames.length - 1), "DataType": "USERGROUP" }, function (jsonresult) {
+                    if ($.trim(jsonresult.ErrorMsg) == "") {
+                        model.UserGroupData.push(jsonresult.Result);
+                        $('#UserGroupModal').modal('hide');
+                        top.ComFunJS.winsuccess("操作成功");
+                    }
+                })
+            },
+            GetUserList: function (item, dom) {
+                zTreeObj.cancelSelectedNode();
+                $(".usergroup  li a").removeClass("curSelectedNode");
+                $(dom).find("a").addClass("curSelectedNode");
+                model.selBM = item.DataContent;
+
+                $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETUSERLISTBYGROUP', { P1: item.ID }, function (resultData) {
+                    resultData.Result.forEach(function (el) {
+                        el.issel = false;
+                        model.SelUsers.$model.forEach(function (user) {
+                            if (el.UserName == user.UserName) {
+                                el.issel = true;
+                            }
+                        })
+                    })
+                    model.QueryUsers = resultData.Result;
+
+                })
+            }, DelUserGroup: function (item, event) {
+                if (event.stopPropagation) {
+                    event.stopPropagation();
+                }
+                top.ComFunJS.winconfirm("确认要删除分组“" + item.DataContent + "”吗？", function () {
+                    $.post("/API/VIEWAPI.ashx", { Action: "XTGL_DELUSERGROUP", P1: item.ID }, function (jsonresult) {
+                        if ($.trim(jsonresult.ErrorMsg) == "") {
+                            model.UserGroupData.remove(item);
+                            top.ComFunJS.winsuccess("删除成功");
+                        }
+                    })
+                })
+            }
+        })
+        avalon.ready(function () {
+            model.checkval = ComFunJS.trim(model.checkval)
+            if (model.userType && model.typeid) {
+                $.getJSON('/API/VIEWAPI.ashx?Action=' + model.userType + '_GET' + model.userType + 'USERLIST', { P1: model.typeid }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        resultData.Result.forEach(function (el) {
+                            el.issel = false;
+                            model.SelUsers.$model.forEach(function (user) {
+                                if (el.UserName == user.UserName) {
+                                    el.issel = true;
+                                }
+                            })
+                        })
+                        model.QueryUsers.clear();
+                        model.QueryUsers = resultData.Result;
+                    }
+                })
+            }
+            else {
+                model.getUserTree();
+                model.GetRoleList();
+                model.GetUserGroup();
+            }
+        })
+        function getqiandaopeople() {
+            var userid = "";
+            var username = "";
+            var phone = "";
+            model.SelUsers.forEach(function (item) {
+                userid = userid + item.UserName + ",";
+                username = username + item.UserRealName + ",";
+                if (item.mobphone) {
+                    phone = phone + item.mobphone + ","
+                }
+            })
+            userid = ComFunJS.trim(userid);
+            username = ComFunJS.trim(username);
+            phone = ComFunJS.trim(phone);
+            var people = { 'userid': userid, 'username': username, 'phone': phone };
+            return people;
+
+        }
+    </script>
+</body>
+</html>

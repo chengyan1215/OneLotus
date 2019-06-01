@@ -1,0 +1,193 @@
+﻿<div style="background:#fbf9fe" ms-controller="GJJL">
+    <div ms-if="isHasDataQX=='Y'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell" ms-visible="!khid">
+                <div class="weui_cell_hd"><label class="weui_label label">客户</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <!--<select ms-duplex="modelData.KHID" class="weui-select szhl szhl_require" id="gjkhid">
+                        <option ms-repeat-item="ColumnData" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.KHID?'selected':''">{{item.KHName}}</option>
+                    </select>-->
+                    <input type="text" id="conKH" placeholder="请选择对应客户" ms-duplex="modelData.KHID" class="szhl szhl_getKH single weui_input" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">状态</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select ms-duplex="modelData.Status" class="weui-select">
+                        <option ms-repeat-item="ColumnData1" ms-attr-value="item.ID" ms-attr-selected="item.ID==modelData.Status?'selected':''">{{item.TypeName}}</option>
+                    </select>
+                </div>
+            </div>
+            
+
+        </div>
+        <div class="weui_cells_title">描述</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd" style="display:none;"><label class="weui_label label">描述</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea ms-duplex="modelData.Details" rows="3" placeholder="(必填)" class="weui_textarea szhl szhl_require"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">图片上传</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" ms-duplex="modelData.Files" class="wximgupload" style="display:none;" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ms-if="isHasDataQX=='N'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell" ms-visible="!khid">
+                <div class="weui_cell_hd"><label class="weui_label label">客户</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{khname}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label label">状态</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{gjzt}}
+                </div>
+            </div>
+            
+        </div>
+        <div class="weui_cells_title">描述</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.Details|html}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">图片上传</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div class="viewimg">{{modelData.Files}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var tempmodel = avalon.define({
+        $id: "GJJL",
+        ColumnData: [],
+        ColumnData1: [],
+        name: "跟进记录管理",
+        tpData: [],
+        wximg: "",
+        dataid: "",
+        khname: "",
+        gjzt: "",
+        istx: "N",
+        khid: ComFunJS.getQueryString("khid"),
+        isTX: function (dom) {
+            if ($(dom).prop("checked")) {
+                tempmodel.modelData.IsTX = "Y";
+                tempmodel.istx = 'Y';
+            }
+            else {
+                tempmodel.modelData.IsTX = "N";
+                tempmodel.istx = 'N';
+            }
+        },
+        inittemp: function (strId) {
+          
+            if (tempmodel.khid) {
+                tempmodel.modelData.KHID = tempmodel.khid;
+                $("#conKH").val(tempmodel.khid);
+            }
+
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETZIDIANLIST', { P1: 11 }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.ColumnData1 = resultData.Result;
+                    if (!tempmodel.modelData.Status) {
+                        tempmodel.modelData.Status = resultData.Result[0].ID
+                    }
+                }
+            })
+
+            if (strId) {
+
+                tempmodel.dataid = strId;
+                $.getJSON('/API/VIEWAPI.ashx?Action=CRM_GETGJJLMODEL', { P1: strId }, function (resultData) {
+
+                    if (resultData.ErrorMsg == "") {
+                        tempmodel.modelData = resultData.Result;
+                        tempmodel.khname = resultData.Result1;
+                        tempmodel.gjzt = resultData.Result3;
+                        tempmodel.tpData = resultData.Result2;
+
+                        if (tempmodel.modelData.TXDate && tempmodel.modelData.TXDate.length > 10) {
+                            tempmodel.modelData.TXDate = tempmodel.modelData.TXDate.substring(0, 10);
+
+                            $("#appDate").calendar({
+                                value: [tempmodel.modelData.TXDate]
+                            });
+                        }
+                        else {
+                            $("#appDate").calendar({
+                                value: []
+                            });
+                        }
+
+
+                        ComFunJS.uploadimgnew(tempmodel.tpData);
+                        ComFunJS.viewimg(tempmodel.tpData);
+
+                        setTimeout(" ComFunJS.initForm()", 500)
+                    }
+                })
+            } else {
+                $("#appDate").calendar({
+                    value: []
+                });
+
+                ComFunJS.uploadimgnew();
+                ComFunJS.initForm();
+            }
+        },//初始化
+        modelData: { "KHID": "", "Status": "", "Date": "", "Details": "", "Type": "", "IsTX": "N", "TXDate": "", "Remark": "", "CYUser": "", "Files": "" },
+        SaveData: function (callback) {
+
+            tempmodel.modelData.Files = "";
+            $("#imglist .tpli").each(function () {
+                if ($(this).hasClass("wximg")) { //微信上传未处理的图片
+                    if (tempmodel.wximg) {
+                        tempmodel.wximg += ",";
+                    }
+                    tempmodel.wximg += $(this).attr("itemid");
+
+                } else {
+                    if (tempmodel.modelData.Files) {
+                        tempmodel.modelData.Files = tempmodel.modelData.Files + ',' + $(this).attr("itemid");
+                    }
+                    else {
+                        tempmodel.modelData.Files = $(this).attr("itemid");
+                    }
+                }
+
+            })
+            $.getJSON("/API/VIEWAPI.ashx?ACTION=CRM_ADDGJJL", { P1: JSON.stringify(tempmodel.modelData.$model), P2: tempmodel.wximg }, function (result) {
+                return callback.call(this, result);
+            });
+        },
+        Complate: function () {
+            if (tempmodel.khid) {
+                window.location.href = "/View_Mobile/UI/CRM/UI_KHGL_LIST.html?id=" + tempmodel.khid + "&r=" + Math.random();
+            }
+            else {
+                window.location.href = "/View_Mobile/UI/CRM/UI_GJJL_LIST.html?r=" + Math.random();
+            }
+        }
+    });//# sourceURL=MHYGL.js;
+
+</script>

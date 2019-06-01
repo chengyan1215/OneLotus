@@ -1,0 +1,667 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0028)http://www.nfine.cn/#wrapper -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>企捷协同办公</title>
+    <meta name="Keywords" content="企业号,企业号源码,快速开发框架,快速开发平台,后台管理系统,网站后台管理系统,网站后台,后台模版,bootstrap,JQuery">
+    <meta name="Description" content="企捷微信企业号协同办公平台,基于微信企业号而建立的协同办公平台,界面优美,用户体验好">
+    <link href="/WZWeb/CSS/bootstrap.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="/WZWeb/JS/hm.js"></script>
+    <script src="/WZWeb/JS/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/WZWeb/JS/jquery.SuperSlide.2.1.1.js"></script>
+    <link href="/WZWeb/CSS/index.css" rel="stylesheet">
+    <link href="/WZWeb/CSS/dialog.css" rel="stylesheet">
+    <script src="/WZWeb/CSS/dialog.js"></script>
+    <style type="text/css">
+        body {
+            min-width: 1200px;
+        }
+        /* 本例子css */
+        li {
+            list-style: none;
+        }
+
+        .slideBox {
+            height: 500px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+        }
+
+            .slideBox .hd {
+                height: 15px;
+                overflow: hidden;
+                position: absolute;
+                right: 50%;
+                bottom: 15px;
+                z-index: 1;
+            }
+
+                .slideBox .hd ul {
+                    overflow: hidden;
+                    zoom: 1;
+                    float: left;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                    .slideBox .hd ul li {
+                        float: left;
+                        margin-right: 5px;
+                        width: 10px;
+                        height: 10px;
+                        line-height: 14px;
+                        text-align: center;
+                        background: #fff;
+                        cursor: pointer;
+                        list-style: none;
+                        border-radius: 50%;
+                    }
+
+                        .slideBox .hd ul li.on {
+                            background: #3EFFA9;
+                            color: #fff;
+                        }
+
+            .slideBox .bd {
+                position: relative;
+                height: 100%;
+                z-index: 0;
+            }
+
+                .slideBox .bd li {
+                    zoom: 1;
+                    vertical-align: middle;
+                    height: 500px;
+                }
+
+            .slideBox .prev,
+            .slideBox .next {
+                position: absolute;
+                left: 3%;
+                top: 50%;
+                margin-top: -25px;
+                display: block;
+                width: 32px;
+                height: 40px;
+                background: url(/WZWeb/images/slider-arrow.png) -110px 5px no-repeat;
+                filter: alpha(opacity=50);
+                opacity: 0.5;
+            }
+
+            .slideBox .next {
+                left: auto;
+                right: 3%;
+                background-position: 8px 5px;
+            }
+
+                .slideBox .prev:hover,
+                .slideBox .next:hover {
+                    filter: alpha(opacity=100);
+                    opacity: 1;
+                }
+
+        .tpcontent {
+            margin: 0 auto;
+            width: 1200px;
+            margin-top: 20px;
+        }
+
+        .main-im {
+            position: fixed;
+            right: 10px;
+            top: 300px;
+            z-index: 100;
+            width: 110px;
+            height: 272px;
+        }
+
+            .main-im .qq-a {
+                display: block;
+                width: 106px;
+                height: 116px;
+                font-size: 14px;
+                color: #0484cd;
+                text-align: center;
+                position: relative;
+            }
+
+                .main-im .qq-a span {
+                    bottom: 5px;
+                    position: absolute;
+                    width: 90px;
+                    left: 10px;
+                }
+
+            .main-im .qq-hover-c {
+                width: 70px;
+                height: 70px;
+                border-radius: 35px;
+                position: absolute;
+                left: 18px;
+                top: 10px;
+                overflow: hidden;
+                z-index: 9;
+            }
+
+            .main-im .qq-container {
+                z-index: 99;
+                position: absolute;
+                width: 109px;
+                height: 118px;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                border-bottom: 1px solid #dddddd;
+                background: url(/WZWeb/images/qq-icon-bg.png) no-repeat center 8px;
+            }
+
+            .main-im .img-qq {
+                max-width: 60px;
+                display: block;
+                position: absolute;
+                left: 6px;
+                top: 3px;
+                -moz-transition: all 0.5s;
+                -webkit-transition: all 0.5s;
+                -o-transition: all 0.5s;
+                transition: all 0.5s;
+            }
+
+            .main-im .im-qq:hover .img-qq {
+                max-width: 70px;
+                left: 1px;
+                top: 8px;
+                position: absolute;
+            }
+
+            .main-im .im_main {
+                background: #F9FAFB;
+                border: 1px solid #dddddd;
+                border-radius: 10px;
+                background: #F9FAFB;
+                display: none;
+            }
+
+                .main-im .im_main .im-tel {
+                    color: #000000;
+                    text-align: center;
+                    width: 109px;
+                    height: 105px;
+                    border-bottom: 1px solid #dddddd;
+                }
+
+                    .main-im .im_main .im-tel div {
+                        font-weight: bold;
+                        font-size: 12px;
+                        margin-top: 6px;
+                    }
+
+                    .main-im .im_main .im-tel .tel-num {
+                        font-family: Arial;
+                        font-weight: bold;
+                        color: #e66d15;
+                    }
+
+                    .main-im .im_main .im-tel:hover {
+                        background: #fafafa;
+                    }
+
+                .main-im .im_main .weixing-container {
+                    width: 55px;
+                    height: 47px;
+                    border-right: 1px solid #dddddd;
+                    background: #f5f5f5;
+                    border-bottom-left-radius: 10px;
+                    background: url(/WZWeb/images/weixing-icon.png) no-repeat center center;
+                    float: left;
+                }
+
+                .main-im .im_main .weixing-show {
+                    width: 112px;
+                    height: 172px;
+                    background: #ffffff;
+                    border-radius: 10px;
+                    border: 1px solid #dddddd;
+                    position: absolute;
+                    left: -125px;
+                    top: -126px;
+                }
+
+                    .main-im .im_main .weixing-show .weixing-sanjiao {
+                        width: 0;
+                        height: 0;
+                        border-style: solid;
+                        border-color: transparent transparent transparent #ffffff;
+                        border-width: 6px;
+                        left: 112px;
+                        top: 134px;
+                        position: absolute;
+                        z-index: 2;
+                    }
+
+                    .main-im .im_main .weixing-show .weixing-sanjiao-big {
+                        width: 0;
+                        height: 0;
+                        border-style: solid;
+                        border-color: transparent transparent transparent #dddddd;
+                        border-width: 8px;
+                        left: 112px;
+                        top: 132px;
+                        position: absolute;
+                    }
+
+                    .main-im .im_main .weixing-show .weixing-ma {
+                        width: 104px;
+                        height: 103px;
+                        padding-left: 5px;
+                        padding-top: 5px;
+                    }
+
+                    .main-im .im_main .weixing-show .weixing-txt {
+                        position: absolute;
+                        top: 110px;
+                        left: 7px;
+                        width: 100px;
+                        margin: 0 auto;
+                        text-align: center;
+                    }
+
+                .main-im .im_main .go-top {
+                    width: 50px;
+                    height: 47px;
+                    background: #f5f5f5;
+                    border-bottom-right-radius: 10px;
+                    background: url(/WZWeb/images/totop-icon.png) no-repeat center center;
+                    float: right;
+                }
+
+                    .main-im .im_main .go-top a {
+                        display: block;
+                        width: 52px;
+                        height: 47px;
+                    }
+
+            .main-im .close-im {
+                position: absolute;
+                right: 10px;
+                top: -12px;
+                z-index: 100;
+                width: 24px;
+                height: 24px;
+            }
+
+                .main-im .close-im a {
+                    display: block;
+                    width: 24px;
+                    height: 24px;
+                    background: url(/WZWeb/images/close_im.png) no-repeat left top;
+                }
+
+                    .main-im .close-im a:hover {
+                        text-decoration: none;
+                    }
+
+            .main-im .open-im {
+                cursor: pointer;
+                margin-left: 68px;
+                width: 40px;
+                height: 133px;
+                background: url(/WZWeb/images/open_im.png) no-repeat left top;
+            }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="topbar">
+            <div class="content">
+                <div class="logo">
+                </div>
+                <ul class="menu">
+                    <li><a href="http://www.qijiekeji.com/">首页</a> </li>
+                    <li class="active"><a href="/WZWeb/history.html">更新日志</a></li>
+                    <li><a href="http://git.oschina.net/qikj/QJ_Single" target="_blank">下载源码</a></li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="explain" style="top: 80px">
+            <h1 id="h1">更新记录</h1>
+            <h2>不断完善,优化无止境</h2>
+        </div>
+        <div class="banner" style="height: 200px">
+        </div>
+    </div>
+    <div class="social">
+        <div class="content">
+            当前最新版本：V1.10 | 技术交流群：538014542
+        </div>
+    </div>
+    <div id="wrapper" class="wrapper">
+        <div class="container">
+            <style>
+                ul.timeline {
+                    list-style-type: none;
+                    background: url("/WZWeb/images/version_line.png") repeat-y scroll 120px 0 transparent;
+                    margin: 50px 0;
+                    padding: 0;
+                }
+
+                    ul.timeline li {
+                        position: relative;
+                        margin-bottom: 20px;
+                    }
+
+                        ul.timeline li .time {
+                            position: absolute;
+                            width: 90px;
+                            text-align: right;
+                            left: 0;
+                            top: 10px;
+                            color: #999;
+                        }
+
+                        ul.timeline li .version {
+                            position: absolute;
+                            width: 290px;
+                            text-align: right;
+                            left: -200px;
+                            top: 30px;
+                            font-size: 40px;
+                            line-height: 50px;
+                            color: #3594cb;
+                            overflow: hidden;
+                        }
+
+                        ul.timeline li .number {
+                            position: absolute;
+                            background: url("/WZWeb/images/version_dot.png") no-repeat scroll 0 0 transparent;
+                            width: 56px;
+                            height: 56px;
+                            left: 97px;
+                            line-height: 56px;
+                            text-align: center;
+                            color: #fff;
+                            font-size: 18px;
+                        }
+
+                        ul.timeline li.alt .number {
+                            background-image: url("/WZWeb/images/version_dot_alt.png");
+                        }
+
+                        ul.timeline li .content {
+                            margin-left: 180px;
+                        }
+
+                            ul.timeline li .content pre {
+                                background-image: linear-gradient(45deg, #125fb5, #258cff);
+                                padding: 20px;
+                                color: #fff;
+                                font-size: 13px;
+                                line-height: 20px;
+                            }
+
+                        ul.timeline li.alt .content pre {
+                            background-color: #43B1F1;
+                        }
+            </style>
+
+
+
+            <ul class="timeline">
+                <li>
+                    <div class="time">2018-4-30</div>
+                    <div class="version">v1.2.0</div>
+                    <div class="number"></div>
+                    <div class="content">
+                        <pre>
++ 文件中心更换为新版，支持office文件预览（ppt,word.pdf),支持简单的文件中心管理端
++ 更换了文件上传的调用方式，用户可以根据webupload的参数自定义上传参数
++ 优化了session问题导致的ajax请求慢的问题，很重要！！（谢谢群里的"szxz的午后"兄弟）
++ 添加了一个手机端登录页面UI_Login.html,可以通过这个页面调试手机端
++ 优化微信端页面的加载逻辑，手机端的选择人员界面暂时不再请求头像，改成固定头像了
++ PC端统一采用本地的ICON样式文件，不再请求阿里的了
++ 查询人员界面加了个按照名称搜索
+                                                    
+</pre>
+                    </div>
+                </li>
+                <li>
+                    <div class="time">2017-11-02</div>
+                    <div class="version">v1.1.8</div>
+                    <div class="number"></div>
+                    <div class="content">
+                        <pre>
++接口日志里添加了捕获得异常方法信息
++增加了手机端得一个登陆页,完善了手机端得首页，用来满足HTML5浏览器的功能使用
++修复了流程审批消息链接不正确得问题
++统一手机端和PC端得cook用户标识
++修复手机端流程审批页面得返回主页功能
++完善PC端文档共享模块
++完善手机端通讯录模块                                                      
+</pre>
+                    </div>
+                </li>
+                <li>
+                    <div class="time">2017-09-02</div>
+                    <div class="version">v1.1.7</div>
+                    <div class="number"></div>
+                    <div class="content">
+                        <pre>
++统一PC端引用的阿里样式文件
++解决了IPHONE不能正常上传图片的Bug
++流程管理里加了抄送管理,可以在流程过程更新抄送人
++工作区可以支持独立的IFRAME页面了
+                            
+</pre>
+                    </div>
+                </li>
+                <li>
+                    <div class="time">2017-06-22</div>
+                    <div class="version">v1.1.6</div>
+                    <div class="number"></div>
+                    <div class="content">
+                        <pre>
++工作流程下一步流程还是当前人时自动跳过(PC+微信)
++工作流程设置流程可见范围时可以设置到角色不在必须设定到人了（PC）
++简单的皮肤设置模块完成了，加了几个默认背景
++后台管理添加了数据备份模块
++顶部菜单不再写死，根据后台配置自动获取+
+在框架右上角加了个添加到工作台的按钮，可将当前页面放到工作台中去
+-暂时去掉了CRM,会议，用车模块，后期视情况加上
++默认用户改为administrator，默认密码123456，不在强制把手机号作为用户名
++修复了一些Bug（记不起都哪些了）
+</pre>
+                    </div>
+                </li>
+                <li>
+                    <div class="time">2017-05-12</div>
+                    <div class="version">v1.1.5</div>
+                    <div class="number"></div>
+                    <div class="content">
+                        <pre>
++工作流程新增流程分类功能,可以按照类别新增或查询工作流程(PC+微信)
++工作流程中未审批的表单发起人可以选择撤回到草稿箱里（PC）
++工作流程中被退回的表单发起人可以选择撤回到草稿箱里(PC)
++添加工作流程步骤时可以删除和新增中间节点(PC)
++修复流程节点超过10个出现的问题
++继续流程太长导致的审核按钮无法显示的问题
++修复工作流程在审核中不能修改扩展数据的问题
++修复手机端无法下载文件的bug
++整理样式文件,去除一些不用的HTML文件
++修复了首次点击菜单时会重复发起请求的Bug
+</pre>
+                    </div>
+                </li>
+                <li>
+                    <div class="time">2016-11-28</div>
+                    <div class="version">v1.1.4</div>
+                    <div class="number"></div>
+                    <div class="content">
+                        <pre>
++修复手机端出现NOSESSIONCODE无法进入应用得情况
++修复个人中心数据无法保存得Bug
++加了个选择插件以备后用
++添加缓存模块,缓存了企业数据和字典数据
++完善背景图样式
++完善列表页面样式,默认显示列表中得右侧按钮，并固定最后一列宽度
+</pre>
+                    </div>
+                </li>
+                <li>
+                    <div class="time">2016-11-20</div>
+                    <div class="version">v1.1.3</div>
+                    <div class="number"></div>
+                    <div class="content">
+                        <pre>
++修复注册用户必须PC登录后才能使用微信端的问题
++修复遮罩层容易乱跑的问题
++优化验证码,去掉分不清的 I,1,0,O
++完善考试中心模块
+</pre>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="time">2016-11-19</div>
+                    <div class="version">v1.1.2</div>
+                    <div class="number"></div>
+                    <div class="content">
+                        <pre>
++添加MP4播放功能
++添加TokenCode验证机制,页面超时处理
++添加一个默认背景图
++修复通人员管理功能的Bug
+	
+</pre>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="time">2016-11-12</div>
+                    <div class="version">v1.1.1</div>
+                    <div class="number"></div>
+                    <div class="content">
+                        <pre>
++添加日志模块，添加日志批量删除功能，添加获取操作者IP功能，日志包括登录日志和操作日志
++修复手机端错误信息提示的Bug
++修复企业号同步接口
++修复通讯录偶尔出现的Bug
++修复弹出窗口Bug
+</pre>
+                    </div>
+                </li>
+                <li>
+                    <div class="time">2016-11-5</div>
+                    <div class="version">v1.1.0</div>
+                    <div class="number"></div>
+                    <div class="content">
+                        <pre>
+1、系统采用纯HTML+Ashx开发，好处就不用多说了，终于可以摆脱控件那一大堆要命的东西了
+2、不管是微信端还是PC端，前端采用现在流行的MVC框架(avalon,这个类似大名鼎鼎的angularjs)和Jquery配合开发，简直不能更酸爽了
+3、界面优美，这个不用说，看图吧，所有的页面都是经过死了N多脑细胞才到现在这个样子的（虽然还是不完美，但绝对比很多系统漂亮一大截）
+4、企业号作为一个配置项而存在，也就是说只需要经过简单的配置，即能使用我们开发完毕的企业号相关应用
+</pre>
+                    </div>
+                </li>
+            </ul>
+
+            <div style="margin-left: 180px; display: none">
+                <button id="fetchNextData" class="btn btn-large btn-info" style="width: 100%;">后二十条数据</button>
+            </div>
+            <br />
+            <br />
+        </div>
+
+
+    </div>
+    <div class="footer">
+        <div class="content">
+            <p>
+                友情链接：
+                <a href="http://www.qijiekeji.com/" target="_blank">企捷官方</a>| <a href="http://www.oschina.net/">中国开源</a> | <a href="http://www.cnblogs.com/">博客园</a> | <a href="http://avalonjs.coding.me/">avalon</a> |  <a href="http://www.bootcss.com/">Bootstrap</a>
+            </p>
+            <p style="padding-top: 5px;">
+                企捷企业号协同办公平台  | 豫ICP备16021192号-1
+            </p>
+        </div>
+    </div>
+    <div class="main-im">
+        <div id="open_im" class="open-im">&nbsp;</div>
+        <div class="im_main" id="im_main">
+            <div id="close_im" class="close-im"><a href="javascript:void(0);" title="点击关闭">&nbsp;</a></div>
+            <a href="http://wpa.qq.com/msgrd?v=3&uin=2041612083&site=qq&menu=yes" target="_blank" class="im-qq qq-a" title="在线QQ客服">
+                <div class="qq-container"></div>
+                <div class="qq-hover-c">
+                    <img class="img-qq" src="/WZWeb/images/qq.png">
+                </div>
+                <span>QQ在线咨询</span>
+            </a>
+            <div class="im-tel">
+                <div>交流群</div>
+                <div class="tel-num">
+                    <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=3fae4115208695ccafae44d39a8ff1993c76dce5f6736f70030a0f6609391704">
+                        <img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="企业号源码交流群" title="企业号源码交流群"></a>
+                </div>
+                <div>咨询QQ</div>
+                <div class="tel-num"><a href="http://wpa.qq.com/msgrd?v=3&uin=2041612083&site=qq&menu=yes" target="_blank" class="" title="在线QQ">2041612083</a></div>
+
+
+            </div>
+            <div class="im-footer" style="position: relative">
+                <div class="weixing-container">
+                    <div class="weixing-show">
+                        <div class="weixing-txt">
+                            微信扫一扫<br>
+                            体验企业号
+                        </div>
+                        <img class="weixing-ma" src="/WZWeb/images/qrcode.jpg">
+                        <div class="weixing-sanjiao"></div>
+                        <div class="weixing-sanjiao-big"></div>
+                    </div>
+                </div>
+                <div class="go-top"><a href="javascript:;" title="返回顶部"></a></div>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?d29f41f4f0417f1a698d1577aa9ffc65";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    <script type="text/javascript">
+        jQuery(".slideBox").slide({ mainCell: ".bd ul", autoPlay: true });
+        $(function () {
+            $('#close_im').bind('click', function () {
+                $('#main-im').css("height", "0");
+                $('#im_main').hide();
+                $('#open_im').show();
+            });
+            $('#open_im').bind('click', function (e) {
+                $('#main-im').css("height", "272");
+                $('#im_main').show();
+                $(this).hide();
+            });
+            $('.go-top').bind('click', function () {
+                $(window).scrollTop(0);
+            });
+            $(".weixing-container").bind('mouseenter', function () {
+                $('.weixing-show').show();
+            })
+            $(".weixing-container").bind('mouseleave', function () {
+                $('.weixing-show').hide();
+            });
+            $('#open_im').trigger('click')
+        });
+
+    </script>
+</body>
+</html>

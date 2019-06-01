@@ -1,0 +1,308 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>仪表盘浏览</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_533449_a7yfipp8wb.css">
+    <link href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/index.css?v=1">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/default.css">
+    <link href="/ViewV5/CSS/element/index.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/FORMBI.css?v=8">
+    <style>
+        .tools .el-card {
+            margin: 5px 5px;
+            border-radius: 0px;
+        }
+
+        .tools .el-card__body {
+            padding: 10px 0;
+            text-align: left;
+            padding-left: 5px;
+        }
+
+        .bbsx .el-form-item {
+            max-height: 75PX;
+        }
+
+        .widthmax {
+            width: 100%
+        }
+
+        .boxshadow {
+            -webkit-box-shadow: 0 1px 3px #ccc;
+            -moz-box-shadow: 0 1px 3px #ccc;
+            -o-box-shadow: 0 1px 3px #ccc;
+            -ms-box-shadow: 0 1px 3px #ccc;
+            box-shadow: 0 1px 3px #ccc;
+        }
+
+      
+    </style>
+</head>
+<body>
+    <!--<script>
+        if (!window.Promise) {
+            document.write('<script src="//cdn.jsdelivr.net/npm/es6-promise@4.1.1/dist/es6-promise.min.js"><\/script><script>ES6Promise.polyfill()<\/script>')
+        }
+    </script>-->
+    <div id="Loading">
+        <div class="loader-inner ball-beat">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div id="DATABI_YBZZ" class="FormV" style="display:none">
+
+        <nav class="navbar navbar-inverse box-shadow" style="border-radius: 0; background-color: #fff; border-color: #fff; " v-if="vtype=='0'">
+            <div class="head-center clearfix c2">
+                <div class="logo c666 pull-left" v-text="FormName">
+                </div>
+
+            </div>
+        </nav>
+        <div class="container containerb" v-bind:class="{ widthmax: vtype=='1'}" style="padding:0">
+            <div class="menu-general ft16 box-shadow hidden">
+                <ul>
+                    <li v-text="FormName" class="active">仪表盘设计</li>
+
+                </ul>
+            </div>
+            <div class="main-content ft16   padding10 c666  clearfix" v-bind:class="{ boxshadow:vtype=='0'}">
+                <div v-show="tab1=='0'">
+                    <el-row id="conwig">
+                        <el-form ref="form" label-position="top" :model="FormData">
+                            <component class="widget" v-for="(item, index) in FormData.wigetitems" :key="item.wigdetcode" :index="index" :is="item.component" :id="item.wigdetcode" :pzoption="item" style="margin-top:10px" @data-change="datachange"></component>
+                        </el-form>
+                    </el-row>
+                </div>
+                <div v-show="tab1=='1'" class="bbsx">
+                    <el-form label-position="top" label-width="80px" style="padding: 0 30px;">
+                        <el-form-item label="报表默认宽度">
+                            <el-radio-group v-model="formop.width">
+                                <el-radio label="0">固定宽度(850px)</el-radio>
+                                <el-radio label="1">自动宽度(发起页面会根据屏幕大小自动调整)</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+
+                        <el-form-item label="发起页面地址">
+                            <el-input v-model="formop.addurl" disabled></el-input>
+                        </el-form-item>
+                        <el-form-item label="处理页面地址">
+                            <el-input v-model="formop.mangeurl" disabled></el-input>
+                        </el-form-item>
+                        <el-form-item label="列表页面地址">
+                            <el-input v-model="formop.listurl" disabled></el-input>
+                        </el-form-item>
+                    </el-form>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+    <script src="/ViewV5/JS/vue.js"></script>
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/JS/lodash.min.js"></script>
+    <script src="/ViewV5/JS/httpVueLoader.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script src="/ViewV5/JS/layer/layer.js"></script>
+    <script src="/ViewV5/JS/Echart/echarts.min.js"></script>
+
+    <!-- 引入组件库 -->
+    <script src="/ViewV5/JS/element/element.js"></script>
+    <script src="/ViewV5/JS/bijs.js?v=4"></script>
+    <script src="/ViewV5/JS/vue-dragging.js?v=4"></script>
+
+
+    <script>
+        Vue.use(VueDragging)
+        var app = new Vue({
+            el: '#DATABI_YBZZ',
+            components: {
+                'qjDate': httpVueLoader('../../AppPage/DATABI/vue/Yb_Date.vue'),
+                'qjMonth': httpVueLoader('../../AppPage/DATABI/vue/Yb_Month.vue'),
+                'qjInput': httpVueLoader('../../AppPage/DATABI/vue/Yb_Input.vue'),
+                'qjBtn': httpVueLoader('../../AppPage/DATABI/vue/Yb_Btn.vue'),
+                'qjSelect': httpVueLoader('../../AppPage/DATABI/vue/Yb_Select.vue'),
+                'qjMSelect': httpVueLoader('../../AppPage/DATABI/vue/Yb_MSelect.vue'),
+                'qjSelbranch': httpVueLoader('../../AppPage/DATABI/vue/Yb_Selbranch.vue'),
+                'qjSeluser': httpVueLoader('../../AppPage/DATABI/vue/Yb_SelUser.vue'),
+                'qjTable': httpVueLoader('../../AppPage/DATABI/vue/Yb_Table.vue'),
+                'qjKBan': httpVueLoader('../../AppPage/DATABI/vue/Yb_KB.vue'),
+                'qjChartPie': httpVueLoader('../../AppPage/DATABI/vue/Yb_ChartPie.vue'),
+                'qjChartBar': httpVueLoader('../../AppPage/DATABI/vue/Yb_ChartBar.vue'),
+            },
+            data: {
+                vtype: ComFunJS.getQueryString('vtype', '0'),
+                yl: ComFunJS.getQueryString('yl', 'N'),
+                loading: true,
+                fmdata: "",
+                tab1: "0",
+                dataid: "0",
+                isview: true,//是否浏览模式,判断需不需要加载默认值
+                dataset: [],//数据集
+                widgetname: { "qjInput": "输入框", "qjSelect": "单选", "qjMSelect": "多选", "qjDate": "日期时间组件", "qjSelbranch": "部门选择" },
+                FormName: "",
+                tabtype: "0",
+                formop: { width: "0", addurl: "/ViewV5/AppPage/FORMBI/FormAdd.html?pdid=" + ComFunJS.getQueryString('ID'), mangeurl: "/ViewV5/AppPage/FORMBI/FormManage.html?piid=?", listurl: "/ViewV5/AppPage/FORMBI/FormTJ.html?pdid=" + ComFunJS.getQueryString('ID') },
+                FiledSetVisible: false,
+                tabname: "",
+                FormData: {
+                    wigetitems: []
+                },
+                nowwidget: {
+                },
+                readySize: 0
+
+            },
+            created() {
+                document.body.removeChild(document.getElementById('Loading'))
+                var divBJ = document.getElementById('DATABI_YBZZ');
+                divBJ.style.display = "block";
+                this.dataid = ComFunJS.getQueryString("id", "0");
+
+            },
+            methods: {
+                seltab: function (tabtype) {
+                    this.tabtype = tabtype;
+                },
+                addchildwig() {
+                    this.readySize++
+                    // 检查进度是否设置的colSize一致
+                    if (this.readySize == this.FormData.wigetitems.length) {
+                        app.GetYBData();
+                        //  这时候所有的子组件已加载完成
+                    }
+                },
+                jxsql: function (val, isapi) {
+                    var valsql = "";
+                    if (val) {
+                        valsql = val;
+                        var regex2 = /\[(.+?)\]/g;
+                        var temp = val.match(regex2);
+                        _.forEach(temp, function (obj) {
+                            obj = _.trim(obj, '[');
+                            obj = _.trim(obj, ']');
+                            if (_.startsWith(obj, 'Q.')) {
+                                var tempqval = ComFunJS.getQueryString(obj.split('.')[1]);
+                                if (!isapi) {
+                                    tempqval = "'" + tempqval + "'";
+                                }
+                                valsql = _.replace(valsql, '[' + obj + ']', tempqval);
+                            }
+                        })
+                    }
+                    return valsql;
+                },//jie
+                inityb: function () {
+                  
+                    var pro = this;
+                    $.getJSON('/API/VIEWAPI.ashx?Action=BIDSET_GETYBDATASET', {}, function (resultData) {
+                        if (resultData.Result.length > 0) {
+                            var count = 0;
+                            _.forEach(resultData.Result, function (obj) {
+                                if (count == 0) {
+                                    obj.issel = true;
+                                } else {
+                                    obj.issel = false;
+                                }
+                                count++;
+                            });
+                            pro.dataset = resultData.Result;
+
+                        }
+                    })
+                    $.getJSON('/API/VIEWAPI.ashx?Action=BIYBP_GETYBBYID', { P1: pro.dataid }, function (resultData) {
+                        if (resultData.ErrorMsg == "") {
+                            app.FormName = resultData.Result.Name;
+                            if (app.yl == "Y") {
+                                app.FormData.wigetitems = JSON.parse(resultData.Result.YBContent);
+
+                            } else {
+                                app.FormData.wigetitems = JSON.parse(resultData.Result.YBOption);
+                            }
+                            app.$notify({
+                                title: '成功',
+                                message: '页面加载成功',
+                                type: 'success'
+                            });
+                            app.loading = false;
+                        }
+                    })
+
+                },
+                mangewigdet: function () {
+
+                },
+                datachange: function (chidata) {
+                    app.nowwidget.childpro = JSON.parse(chidata);
+                },
+
+                GetYBData: function () {
+                    for (var i = 0; i < app.FormData.wigetitems.length; i++) {
+                        var nowwidget = app.FormData.wigetitems[i];
+                        if (nowwidget.wigdetype == "dwig") {
+                            nowwidget.filtervalsql = app.jxsql(nowwidget.filterval, false);
+                            nowwidget.apiurl = app.jxsql(nowwidget.apiurl, true);
+                            app.UpdateYBData(nowwidget)
+                        }
+                    }
+                },
+                UpdateYBData: function (nowwidget) {
+
+                    //找到查询组件
+                    var tempqufied = _.filter(app.FormData.wigetitems, function (o) { return o.wigdetype == 'qwig' && o.component != 'qjBtn'; });
+                    var qfileds = [];
+                    _.forEach(tempqufied, function (obj) {
+                        qfileds.push({ component: obj.component, glfiled: obj.glfiled, glwigdet: obj.glwigdet, title: obj.title, value: obj.value, wigdetcode: obj.wigdetcode })
+                    })
+                    $.getJSON('/API/VIEWAPI.ashx?Action=BIYBP_GETYBDATA', { P1: JSON.stringify(nowwidget), querydata: JSON.stringify(qfileds), pagecount: nowwidget.datacount }, function (resultData) {
+                        if (!resultData.ErrorMsg) {
+                            if (nowwidget.datatype == "0") {
+                                nowwidget.dataset = [];
+                                nowwidget.dataset = resultData.Result;
+                            } else {
+                                if (resultData.Result) {
+                                    nowwidget.apicols = [];
+                                    var js = JSON.parse(resultData.Result);
+                                    _.forEach(_.keys(js.Result[0]), function (value) {
+                                        nowwidget.apicols.push({ "ColumnName": value, "istip": true });
+                                    });
+                                    nowwidget.dataset = js.Result;
+
+                                }
+
+                            }
+                        }
+                    })
+                }
+
+            },
+            mounted: function () {
+                var pro = this;
+                pro.$nextTick(function () {
+                    pro.inityb();
+                    if (!ComFunJS.isPC()) {
+                        pro.vtype = "1";
+                        $("body").addClass("mob")
+                    }
+
+                   
+                })
+
+            }
+        })
+
+
+    </script>
+</body>
+
+</html>

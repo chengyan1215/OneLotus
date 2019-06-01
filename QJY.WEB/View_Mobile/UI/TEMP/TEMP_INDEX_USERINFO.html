@@ -1,0 +1,61 @@
+﻿<section class="ui-container" ms-controller="USERINFO">
+
+    <div class="ui-form ui-border-t">
+        <div class="ui-form-item ui-border-b ">
+            <label>
+                姓名
+            </label>
+            <span class="wspan">{{UserData.UserRealName}}</span>
+        </div>
+        <div class="ui-form-item ui-border-b">
+            <label>
+                账号
+            </label>
+            <span class="wspan">{{UserData.UserName}}</span>
+        </div>
+        <div class="ui-form-item ui-border-b">
+            <label>
+                手机号码
+            </label>
+            <span class="wspan">{{UserData.mobphone}}</span>
+        </div>
+        <div class="ui-form-item ui-border-b" style="height:auto;min-height:44px">
+            <label>
+                职务
+            </label>
+            <span class="wspan ">{{UserData.zhiwu}}</span>
+        </div>
+        <div class="ui-form-item ui-border-b" style="height:auto;min-height:44px">
+            <label>
+                邮箱
+            </label>
+            <span class="wspan ">{{UserData.mailbox}}</span>
+        </div>
+        <div class="ui-form-item ui-border-b" style="height:auto;min-height:44px">
+            <label>
+                职责
+            </label>
+            <span class="wspan ">{{UserData.Usersign}}</span>
+            <!--<p class="span" ms-if="UserData.Usersign" ms-html="UserData.Usersign"></p>
+            <div style="clear: both"></div>-->
+        </div>
+    </div>
+</section>
+
+<script>
+    var tempmodel1 = avalon.define({
+        $id: "USERINFO",
+        name: "USERINFO",
+        UserData: {},
+        QYData: {},
+        inittemp: function () {
+            $.getJSON("/API/VIEWAPI.ashx?Action=XTGL_GetUserInfo&r=" + Math.random(), {}, function (data) {
+                if (data.ErrorMsg == "") {
+                    tempmodel1.UserData = data.Result.User;
+                    tempmodel1.QYData = data.Result.QYinfo;
+                }
+            })
+        }
+    })//# sourceURL=MSG1.js;
+
+</script>

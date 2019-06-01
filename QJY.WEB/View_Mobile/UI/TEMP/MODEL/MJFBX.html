@@ -1,0 +1,363 @@
+﻿<div style="background: #fbf9fe" ms-controller="MJFBX">
+    <div ms-if="isHasDataQX=='Y'">
+        <!--<div class="weui_cells_title">基本信息</div>-->
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">申请人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.ShenQingRen}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">报销日期</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" placeholder="请选择报销日期" id="BXDate" ms-duplex="modelData.BXDate" class="weui_input szhl szhl_require" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">关联项目</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select class="weui-select" ms-duplex="modelData.XMID">
+                        <option value="">请选择</option>
+                        <option ms-repeat-item="XMData" ms-value="item.ID" ms-attr-selected="modelData.XMID==item.ID">{{item.XMMC}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">标题</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" placeholder="请输入标题" ms-duplex="modelData.JFBXTitle" class="weui_input szhl szhl_require" />
+                </div>
+            </div>
+        </div>
+
+        <div ms-repeat-item="JFBXJLLIST" data-repeat-rendered="LoadDate">
+            <div class="weui_cells_title">
+                消费记录{{$index+1}}
+                <a ms-if="$index!=0" href="javascript:void(0)" external ms-click="RemoveJL(item)" style="float: right;">删除</a>
+            </div>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_hd">
+                        <label class="weui_label label">消费类型</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <select ms-duplex="item.LeiBie" class="weui-select" ms-change="ChangeFL(item)">
+                            <option value="">请选择</option>
+                            <option ms-repeat-el="ColumnData" ms-attr-value="el.ID">{{el.TypeName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd">
+                        <label class="weui_label label">金额</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input type="number" placeholder="请输入金额" ms-duplex="item.BXJE" class="weui_input szhl szhl_require" ms-keyup="heji(item)" />
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd">
+                        <label class="weui_label label">时间</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input type="text" placeholder="请输入时间" ms-duplex="item.BXDate" ms-attr-id="mxtime{{$index}}" class="weui_input szhl szhl_require " />
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd">
+                        <label class="weui_label label">是否有票</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <label class="label-checkbox item-content" ms-click="SETIsHasFP(item)">
+                            <input type="checkbox" name="ishasfp" id="ishasfp">
+                            <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                        </label>
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd">
+                        <label class="weui_label label">事由</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input type="text" placeholder="请输入事由" ms-duplex="item.BXContent" class="weui_input szhl szhl_require" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="weui_cells_title" style="text-align: right;"><a ms-click="AddJFBXJL()" external>新增</a></div>
+
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">合计</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.BXZJE}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd" style="display: none;">
+                    <label class="weui_label label">描述</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea ms-duplex="modelData.BXContent" rows="4" class="weui_textarea szhl" placeholder="请输入描述"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">图片上传</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input type="text" ms-duplex="modelData.Files" class="wximgupload" style="display: none;" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div ms-if="isHasDataQX=='N'">
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">申请人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.ShenQingRen}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">报销日期</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.BXDate|date('yyyy-MM-dd')}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">关联项目</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.XMMC}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">标题</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.JFBXTitle}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label label">合计</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.BXZJE}}
+                </div>
+            </div>
+        </div>
+
+        <div ms-repeat-item="JFBXJLLIST">
+            <div class="weui_cells_title">
+                消费记录{{$index+1}}
+            </div>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_hd">
+                        <label class="weui_label label">消费类型</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        {{item.TypeName}}
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd">
+                        <label class="weui_label label">金额</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        {{item.BXJE}}
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd">
+                        <label class="weui_label label">时间</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        {{item.BXDate|date('yyyy-MM-dd')}}
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd">
+                        <label class="weui_label label">是否有票</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        {{item.IsHasFP==1?"是":"否"}}
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd">
+                        <label class="weui_label label">事由</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        {{item.BXContent}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">描述</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{modelData.BXContent}}
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title" ms-if="modelData.Files">图片上传</div>
+        <div class="weui_cells weui_cells_form" ms-if="modelData.Files">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div class="viewimg">{{modelData.Files}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var tempmodel = avalon.define({
+        $id: "MJFBX",
+        ColumnData: [],
+        tpData: [],
+        name: "经费报销",
+        iswf: true,//是否属于流程表单
+        wximg: "",
+        typename: "",
+        XMData: [],
+        inittemp: function (strId) {
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETZIDIANLIST', { P1: 23 }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempmodel.ColumnData = resultData.Result;
+
+                }
+            })
+            $.getJSON('/API/VIEWAPI.ashx?Action=XMGL_GETXMLIST', {}, function (resultData) {
+                if (resultData.ErrorMsg == "" && resultData.Result.length > 0) {
+                    tempmodel.XMData = resultData.Result;
+                }
+            })
+            if (strId) {
+                $.getJSON('/API/VIEWAPI.ashx?Action=JFBX_GETJFBXMODEL', { P1: strId }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        if (resultData.Result3) {
+                            resultData.Result.XMMC = resultData.Result3.XMMC;
+                        }
+                        tempmodel.modelData = resultData.Result;
+                        if (tempmodel.modelData.BXDate && tempmodel.modelData.BXDate.length > 10) {
+                            tempmodel.modelData.BXDate = tempmodel.modelData.BXDate.substring(0, 10);
+                        }
+                        tempmodel.JFBXJLLIST = resultData.Result1;
+
+                        tempmodel.tpData = resultData.Result2;
+                        ComFunJS.uploadimgnew(tempmodel.tpData);
+                        ComFunJS.viewimg(tempmodel.tpData);
+
+                        setTimeout("ComFunJS.initForm()", 500)
+
+                    }
+                })
+            }
+            else {
+                $("#BXDate").calendar({
+                    value: [ComFunJS.getnowdate("yyyy-mm-dd")]
+                });
+                tempmodel.modelData.BXDate = ComFunJS.getnowdate("yyyy-mm-dd");
+
+                ComFunJS.uploadimgnew();
+
+                ComFunJS.initForm();
+            }
+
+
+
+        }, flag: false,//初始化
+        LoadDate: function () {
+            if (!tempmodel.flag) {
+                $("#mxtime" + (tempmodel.JFBXJLLIST.size() - 1)).calendar({
+                    value: [ComFunJS.getnowdate("yyyy-mm-dd")]
+                });
+                tempmodel.flag = true;
+            }
+        },
+        modelData: { "ShenQingRen": ComFunJS.convertuser(ComFunJS.getnowuser()), "BranchName": "", "BXDate": "", "BXZJE": 0, "BXContent": "", "Files": "", "JFBXTitle": "", XMID: "" },
+        JFBXJL: { "ShenQingRen": ComFunJS.convertuser(ComFunJS.getnowuser()), "LeiBie": "", "TypeName": "", "BXDate": "", "BXContent": "", "BXJE": 0, "BXDNum": "", "IsHasFP": 0 },
+        JFBXJLLIST: [{ "ShenQingRen": ComFunJS.convertuser(ComFunJS.getnowuser()), "LeiBie": "", "TypeName": "", "BXDate": "", "BXContent": "", "BXJE": "", "BXDNum": "", "IsHasFP": 0 }],
+        ChangeFL: function (item) {
+            tempmodel.ColumnData.forEach(function (el) {
+                if (item.LeiBie == el.ID) {
+                    item.TypeName = el.TypeName;
+                }
+            })
+        }, SETIsHasFP: function (item) {
+            item.IsHasFP = $("#ishasfp").attr("checked") ? 1 : 0;
+        },
+        AddJFBXJL: function () {
+            var isk = "";
+            tempmodel.JFBXJLLIST.forEach(function (item) {
+                if (!item.LeiBie) {
+                    isk = "1";
+                }
+            })
+            if (tempmodel.JFBXJLLIST.length > 0 && isk) {
+                ComFunJS.winwarning("类型不能为空");
+                return;
+            }
+            tempmodel.JFBXJLLIST.push({ "ShenQingRen": ComFunJS.convertuser(ComFunJS.getnowuser()), "LeiBie": "", "TypeName": "", "BXDate": "", "BXContent": "", "BXJE": "", "BXDNum": "", "IsHasFP": 0 });
+            $("#mxtime" + (tempmodel.JFBXJLLIST.size() - 1)).calendar({
+                value: [ComFunJS.getnowdate("yyyy-mm-dd")]
+            });
+        },
+        heji: function () {
+            tempmodel.modelData.BXZJE = 0;
+            tempmodel.JFBXJLLIST.forEach(function (item) {
+                if (item.BXJE) {
+                    tempmodel.modelData.BXZJE = parseFloat(tempmodel.modelData.BXZJE) + parseFloat(item.BXJE);
+                }
+            })
+        },
+        RemoveJL: function (item) {
+            tempmodel.JFBXJLLIST.remove(item);
+            tempmodel.heji();
+        },
+        SaveData: function (callback) {
+
+
+            var isk = "";
+            tempmodel.JFBXJLLIST.forEach(function (item) {
+                if (!item.LeiBie) {
+                    isk = "1";
+                }
+            })
+            if (tempmodel.JFBXJLLIST.length > 0 && isk) {
+                ComFunJS.winwarning("类型不能为空");
+                return;
+            }
+            tempmodel.modelData.Files = "";
+            $("#imglist .tpli").each(function () {
+                if ($(this).hasClass("wximg")) { //微信上传未处理的图片
+                    if (tempmodel.wximg) {
+                        tempmodel.wximg += ",";
+                    }
+                    tempmodel.wximg += $(this).attr("itemid");
+
+                } else {
+                    if (tempmodel.modelData.Files) {
+                        tempmodel.modelData.Files = tempmodel.modelData.Files + ',' + $(this).attr("itemid");
+                    }
+                    else {
+                        tempmodel.modelData.Files = $(this).attr("itemid");
+                    }
+                }
+            })
+            $.getJSON("/API/VIEWAPI.ashx?ACTION=JFBX_ADDJFBX", { P1: JSON.stringify(tempmodel.modelData.$model), P2: JSON.stringify(tempmodel.JFBXJLLIST.$model), wximg: tempmodel.wximg }, function (result) {
+                return callback.call(this, result);
+            });
+        },
+        Complate: function () {
+            window.location.href = "/View_Mobile/UI/UI_JFBX_LIST.html?r=" + Math.random();
+        }
+    });//# sourceURL=MJFBX.js;
+
+
+</script>

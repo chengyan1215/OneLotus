@@ -1,0 +1,109 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>企捷云</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="/ViewV5/CSS/icfont_qj/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/animate.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/bootstrap3.3.5/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/default.css">
+    <link rel="stylesheet" type="text/css" href="/ViewV5/CSS/index.css">
+    <link href="/ViewV5/CSS/BootOver.css" rel="stylesheet" />
+    <style>
+        .ms-controller, .ms-important, [ms-controller], [ms-important] {
+            visibility: hidden;
+        }
+
+        .szhl_getPeoples {
+            display: none;
+        }
+    </style>
+</head>
+<body ms-controller="KQJLUSER">
+    
+    <div >
+        <!-- 按条件选择 -->
+        <!-- 展开更多选项 -->
+        <div class="add-tab ft14 tc mt20" style="display: none;">
+            <span>更多筛选<i class="caret"></i></span>
+        </div>
+        <!-- 表格 -->
+        <div class="default-tab ft14 pt20">
+            <table class="table table-striped table-responsive table-hover">
+                <thead>
+                    <tr>
+                        <th class="tc width-70">
+                            序号
+                        </th>
+                        <th>姓名</th>
+                        <th>{{tempindex.type==0?"签到时间":"签退时间"}}</th> 
+                        <th>星期</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ms-repeat-el="ListData" ms-on-mouseover="mouseover" ms-on-mouseout="mouseout">
+                        <td class="tc">
+                            {{$index+1}}
+                        </td>
+                        <td>{{ComFunJS.convertuser(el.KQUser)}}</td>
+                        <td>
+                            <span ms-visible="tempindex.type==0&&el.Status==1" ms-class-1="text-danger:el.Status==1">{{el.KQDate|date('yyyy-MM-dd HH:mm')}}</span>
+                            <span ms-visible="tempindex.type==1&&el.Status==2" ms-class-1="text-danger:el.Status==2">{{el.KQDate|date('yyyy-MM-dd HH:mm')}}</span>
+                        </td>
+                        <td>{{WeekData[el.WeekDay]}}</td>
+                    </tr>
+
+                </tbody>
+                <tfoot>
+                    <tr ms-if="isnull">
+                        <td class="tc"></td>
+                        <td>暂无数据</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/ViewV5/JS/jquery-1.11.2.min.js"></script>
+    <script src="/ViewV5/CSS/bootstrap3.3.5/js/bootstrap.js"></script>
+    <script src="/ViewV5/JS/layer/layer.js"></script>
+    <script src="/ViewV5/JS/layer/extend/layer.ext.js"></script>
+    <script src="/ViewV5/JS/laypage/laypage.js"></script>
+    <script src="/ViewV5/JS/toastr.js"></script>
+    <script src="/ViewV5/JS/avalon1.47.js"></script>
+    <script src="/ViewV5/JS/SZHLCommon.js?jsver=20160915"></script>
+    <script>
+
+        var tempindex = avalon.define({
+            $id: "KQJLUSER",
+            type: ComFunJS.getQueryString("type"),
+            isnull :false,
+            WeekData: [ "星期日","星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
+            ListData:[], 
+            InitWigetData: function () {
+                tempindex.GetLIST();
+                tempindex.GETRLLIST();
+                ComFunJS.initForm();
+            },
+
+            GetLIST: function () {
+                tempindex.ListData.clear();
+                $.getJSON('/API/VIEWAPI.ashx?Action=KQGL_GETKQJLUSERLIST', { P1: tempindex.type }, function (resultData) {
+                    if (resultData.ErrorMsg == "") {
+                        tempindex.ListData = resultData.Result;
+                        if (tempindex.ListData.size() == 0) { tempindex.isnull = true; } else { tempindex.isnull = false; }
+                    }
+                })
+            },
+
+        })
+        avalon.ready(function () {
+            tempindex.GetLIST();
+            ComFunJS.initForm();
+        })
+    </script>
+</body>
+
+</html>

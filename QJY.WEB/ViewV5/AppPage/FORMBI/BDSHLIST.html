@@ -1,0 +1,164 @@
+﻿<div ms-controller="LCSPLIST">
+
+    <div class="tab-filter-type">
+        <div class="oh">
+            <div class="input-group ml15" style="width: 400px;">
+                <select class="form-control" style="width:50%" id="lctype" ms-change="SelectType">
+                    <option value="2">待我审核的</option>
+                    <option value="3">我已审核的</option>
+                    <option value="4">抄送我的</option>
+                </select>
+                <select class="form-control" style="width:50%" id="lcnames" ms-change="changeLC">
+                    <option value="">全部表单</option>
+                    <optgroup ms-repeat-el="LBTypeData" ms-attr-label="el.label">
+                        <option ms-repeat-item="el.options" ms-attr-value="item.ID">{{item.ProcessName}}</option>
+                    </optgroup>
+
+                </select>
+            </div>
+        </div>
+
+    </div>
+    <!-- 展开更多选项 -->
+    <div class="add-tab ft14 tc mt20" style="display: none;">
+        <span>更多筛选<i class="caret"></i></span>
+    </div>
+    <!-- 表格 -->
+    <div class="default-tab ft14 pt20">
+        <table class="table table-striped table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th class="tc">
+                        序号
+                    </th>
+                    <th>
+                        类别
+                    </th>
+                    <th>
+                        表单名称
+                    </th>
+                    <th>
+                        发起人姓名
+                    </th>
+                    <th>
+                        发起时间
+                    </th>
+                    <th>
+                        流程状态
+                    </th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ms-repeat-el="ListData">
+                    <td class="tc">
+                        {{$index+1+page.pagecount*(page.pageindex-1)}}
+                    </td>
+                    <td>{{el.ProcessClass}}</td>
+                    <td>{{el.ProcessName}}</td>
+                    <td>{{el.CRUserName}}</td>
+                    <td>{{el.CRDate|date('yyyy-MM-dd HH:ss')}}</td>
+                    <td ms-class-1="text-danger:el.StatusName=='已退回'">{{el.StatusName}}</td>
+                    <td>
+                        <a class="cz-btn ft18 js-color tip" data-toggle="tooltip" title="操作" ms-attr-href='"/ViewV5/AppPage/FORMBI/FormManage.html?FormCode=LCSP_LCSP&piid=" + el.ID+ "&r=" + Math.random()' target="_blank">
+                            <i class="iconfont icon-shenhe"></i>
+                        </a>
+                    </td>
+                </tr>
+
+            </tbody>
+            <tfoot>
+                <tr ms-if="isnull">
+                    <td class="tc"></td>
+                    <td>暂无数据</td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="ui-datatable-page ft14 pl20">
+
+            <div id="pageDiv" ms-visible="model.page.total>model.pageNum[0].num" class="pull-right"></div>
+            <div class="pull-right" ms-visible="ListData.size()!=0">
+                <span>共{{model.page.total}}条记录</span>
+                <span ms-visible="model.page.total>model.pageNum[0].num">
+                    选择每页条数
+                    <select style="height: 25px; width: 50px;" ms-change="selNum(this.value)" ms-duplex="model.page.pagecount">
+                        <option ms-repeat-pg="pageNum" ms-attr-value="pg.num" ms-attr-selected="pg.num==model.page.pagecount?'selected':''">{{pg.num}}</option>
+                    </select>
+                </span>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+<script>
+
+    var tempindex = avalon.define({
+        $id: "LCSPLIST",
+        LBTypeData: [],
+        curFormType: "",
+        SelectType: function () {
+            model.search.seartype = $("#lctype").val();
+            tempindex.GetLIST();
+        },
+        changeLC: function () {
+            tempindex.curFormType = $("#lcnames").val();
+            tempindex.GetLIST();
+        },
+        selNum: function (item) {    //选择显示的条数
+            model.page.pagecount = item;
+            tempindex.GetLIST();
+        },
+        InitWigetData: function () {
+
+            //显示的列名
+            model.search.seartype = "2";
+            $.getJSON('/API/VIEWAPI.ashx?Action=FORMBI_GETWFPDLIST', { P1: 1 }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    var tempdata = [];
+                    var tempdata = [];
+                    for (var i = 0; i < resultData.Result.length; i++) {
+                        var tempname = resultData.Result[i].ProcessClass;
+                        if (_.findIndex(tempdata, { "label": tempname }) == -1) {
+                            tempdata.push({ "label": tempname, options: _.filter(resultData.Result, { 'ProcessClass': tempname }) })
+                        }
+                    }
+                    tempindex.LBTypeData = tempdata;
+                }
+            })
+
+            tempindex.GetLIST();
+        },
+
+
+        GetLIST: function () {
+            model.page.pageindex = 1;
+            model.ListData.clear();
+            $.getJSON('/API/VIEWAPI.ashx?Action=FORMBI_GETLCSPLIST', { p: 1, P1: model.search.seartype, pagecount: model.page.pagecount, Content: model.search.searchcontent, lb: tempindex.curFormType }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    model.ListData = resultData.Result;
+                    if (model.ListData.size() == 0) { model.isnull = true; } else { model.isnull = false; }
+                    model.page.total = resultData.Result1;
+                    laypage({
+                        cont: 'pageDiv', //容器。值支持id名、原生dom对象，jquery对象。
+                        pages: Math.ceil(parseInt(resultData.Result1) * 1.0 / model.page.pagecount), //通过后台拿到的总页数
+                        curr: 1, //初始化当前页
+                        skin: 'molv',
+                        jump: function (e) { //触发分页后的回调
+                            if (e.curr != model.page.pageindex) {
+                                $.getJSON('/API/VIEWAPI.ashx?Action=FORMBI_GETLCSPLIST', { p: e.curr, P1: model.search.seartype, pagecount: model.page.pagecount, Content: model.search.searchcontent, lb: tempindex.curFormType }, function (resultData) {
+                                    if (resultData.ErrorMsg == "") {
+                                        model.ListData = resultData.Result;
+                                    }
+                                })
+                                model.page.pageindex = e.curr;
+                            }
+                        }
+                    });
+                }
+            })
+        }
+    })
+    //# sourceURL=BDSHLIST.js;
+</script>

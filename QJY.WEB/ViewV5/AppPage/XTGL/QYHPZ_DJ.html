@@ -1,0 +1,279 @@
+﻿<style>
+    .panel-all {
+        background: #fff;
+        /*border: 1px solid #dcdcdc;*/
+        min-height: 100%;
+    }
+
+    .tab-box {
+        height: 50px;
+        border-bottom: 1px solid #dcdcdc;
+    }
+
+        .tab-box li { /*width: 86px;*/
+            float: left;
+            line-height: 48px;
+            text-align: center;
+        }
+
+            .tab-box li a {
+                width: 100%;
+                height: 100%;
+                display: inline-block;
+                border-top: 2px solid transparent;
+                border-left: 1px solid transparent;
+                border-right: 1px solid transparent;
+                padding: 0 25px;
+            }
+
+            .tab-box li.active a {
+                background: #fff;
+                border-top-color: #42a0f8;
+                border-right-color: #dcdcdc;
+                border-left-color: #dcdcdc;
+                color: #222;
+            }
+
+    /*.tab-box li.active a:first-child {
+                       border-left-color: transparent;
+                   }*/
+    .board2-card {
+        display: inline-block;
+        width: 300px;
+        height: 350px;
+        border-radius: 4px;
+        background-color: #f5f4f3;
+        margin: 50px 30px 0 30px;
+        -webkit-transition: -webkit-transform .15s ease-in-out;
+        padding: 20px;
+    }
+
+        .board2-card img {
+            width: 100px;
+        }
+
+        .board2-card h3 {
+            font-size: 18px;
+            color: #333;
+            font-weight: 400;
+            line-height: 18px;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
+
+        .board2-card p {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .board2-card button {
+            margin-top: 50px;
+        }
+
+    .list-initialization {
+        height: 150px;
+        margin-bottom: 15px;
+        background-color: #f6f6f6;
+        position: relative;
+        border-bottom: 2px solid #dedede;
+        text-align: center;
+        width: 90%;
+    }
+</style>
+<div class="padding20" style="min-height: 100%;" ms-controller="QYHPZ_DJ">
+    <div class="panel-all">
+        <div class="tab-box">
+            <ul>
+                <li class="active">
+                    <a>企业号授权</a>
+                </li>
+
+                <li ms-if="CompanyData.IsUseWX=='Y'">
+                    <a>同步通讯录</a>
+                </li>
+                <li ms-if="CompanyData.IsUseWX=='Y'">
+                    <a>企业号应用设置</a>
+                </li>
+            </ul>
+        </div>
+        <div id="wrap">
+            <div class="detail-con user-list ft14" style="width: 60%">
+                <div class="detail-item mt20">
+                    <span class="item-tit" style="line-height: normal;">启用企业号</span>
+                    <div class="icheckbox_square-blue mr5" id="isUserWX" ms-class-1="checked:CompanyData.IsUseWX=='Y'" ms-click="change()">
+                        <span class="iconfont icon-check ft12"></span>
+                    </div>
+                </div>
+                <div ms-if="CompanyData.IsUseWX=='Y'">
+                    <div class="detail-item mt20">
+                        <span class="item-tit">可信域名</span>
+                        <input type="text" class="settings-input form-control" ms-duplex="CompanyData.WXUrl" placeholder="请输入可信域名">
+                        <p class="label text-info" style="color: gray; font-weight: normal">例如"http://www.baidu.com/"</p>
+                    </div>
+                    <div class="detail-item">
+                        <span class="item-tit">corpId</span>
+                        <input type="text" class="settings-input form-control" ms-duplex="CompanyData.corpId" placeholder="请输入corpId">
+                    </div>
+                    <div class="detail-item">
+                        <span class="item-tit">corpSecret</span>
+                        <input type="text" class="settings-input form-control" ms-duplex="CompanyData.corpSecret" placeholder="请输入corpSecret">
+                        <p class="label text-info" style="color: gray; font-weight: normal">如果是企业微信,必须使用管理工具中通讯录同步的Secret</p>
+
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <span class="item-tit"></span>
+                    <button type="button" class="btn btn-info btn-sm mt20" ms-click="SaveData()">提交信息</button>
+                </div>
+            </div>
+            <!--二-->
+
+            <div class="detail-con tc" style="display: none">
+                <div class="board2-card">
+                    <img src="/ViewV5/images/qyh.png" alt="">
+                    <h3>同步通讯录（企捷到微信）</h3>
+                    <p>同步组织机构数据到微信企业号，如果微信企业号中存在该部门或用户，则更新微信企业号中的对应数据，如果不存在,则在企业号中创建组织机构数据</p>
+                    <button type="button" class="btn btn-info btn-lg" ms-click="TBTXL(this)">马上同步</button>
+                </div>
+                <div class="board2-card">
+                    <img src="/ViewV5/images/qyh.png" alt="">
+                    <h3>同步通讯录（微信到企捷）</h3>
+                    <p>同步微信企业号中的组织机构数据到系统，如果系统中已存在组织机构数据，则更新系统的组织机构，如不存则创建组织机构数据</p>
+                    <button type="button" class="btn btn-info btn-lg" id="TBSYS" ms-click="TBTXLSYSOpen()">马上同步</button>
+                </div>
+            </div>
+            <!--3-->
+            <div class="detail-con" style="display: none">
+
+                <ul class="csh-yy oh">
+                    <li ms-repeat-yy="yylist">
+                        <div class="list-initialization">
+                            <img ms-src="'/ViewV5/images/icon/'+yy.ModelCode+'.png'"  onerror="javascript: this.src = '/ViewV5/images/icon/Common.png'">
+                            <div class="initialization-cont">
+                                <span class="bt">{{yy.ModelName}}</span>
+                            </div>
+                            <div class="state ft12">
+                                <button type="button" ms-class-1="btn-success:yy.AppID" ms-class-2="btn-info:!yy.AppID" class="btn  btn-sm ft12 mt10" ms-click="setapp(yy)">
+                                    <i class="iconfont icon-shezhi ft12 mr5"></i>{{yy.AppID?"已绑定":"未绑定"}}
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="modal fade" id="SETINITPASSModal" role="dialog">
+            <div class="modal-dialog" role="document" style="width: 500px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">同步通讯录到系统设置初始密码</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-xs-4 control-label"><span class="Required">*</span>新用户初始密码</label>
+                                <input type="password" class="form-control szhl_require" style="width: 200px" ms-duplex="initPass" placeholder="请输入初始密码" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-success" id="conaddForder" ms-click="TBTXLSYS()"><i class="fa fa-spinner fa-spin" style="display: none"></i>确&nbsp;&nbsp;认</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<script type="text/javascript">
+
+    var tempindex = avalon.define({
+        $id: "QYHPZ_DJ",
+        CompanyData: {},
+        InitWigetData: function (strId) {
+            tempindex.CompanyData = model.CompanyData;
+            ComFunJS.initForm();
+            tempindex.getapp();
+            $(".tab-box li").each(function (i) {
+                $(this).click(function () {
+                    $(this).addClass("active").siblings().removeClass("active");
+                    $("#wrap>div:eq(" + i + ")").show().siblings().hide();
+                });
+            });
+            $("#isUserWX").each(function (i) {
+                $(this).click(function () {
+                    $(this).addClass("active").siblings().removeClass("active");
+                    $("#wrap>div:eq(" + i + ")").show().siblings().hide();
+                });
+            });
+        },
+        change: function () {
+            tempindex.CompanyData.IsUseWX = tempindex.CompanyData.IsUseWX == "Y" ? "N" : "Y";
+        },
+        yylist: [],
+        SaveData: function (dom) {
+            var modelValue = JSON.stringify(tempindex.CompanyData.$model);
+            $.post("/API/VIEWAPI.ashx", { Action: "INIT_YZCOMPANYQYH", P1: modelValue },
+            function (result) {
+                model.CompanyData = tempindex.CompanyData;
+                if (result.ErrorMsg == "") {
+                    ComFunJS.winsuccess("企业号配置成功");
+                }
+            });
+        },
+        setapp: function (yy) {
+            top.ComFunJS.winviewform("/ViewV5/AppPage/XTGL/APPSET.html?id=" + yy.ID, '应用管理', "1000", "");
+        },
+        TBTXL: function (dom) {
+            $(dom).text("同步中...").attr("disabled", true)
+            $.post("/API/VIEWAPI.ashx", { Action: "INIT_TBBRANCHUSER" },
+                      function (result) {
+                          if ($.trim(result.ErrorMsg) == "") {
+                              ComFunJS.winsuccess("同步成功");
+                          }
+
+                          $(dom).text("马上同步").attr("disabled", false)
+                      })
+        },
+        initPass: "",
+        TBTXLSYSOpen: function () {
+            $("#SETINITPASSModal").modal("show");
+        },
+        TBTXLSYS: function () {
+            if (!tempindex.initPass) {
+                ComFunJS.winwarning("请输入初始密码");
+                return;
+            }
+            var strRegex = /^(?=.*[a-zA-Z]+)(?=.*[0-9]+)[a-zA-Z0-9]+$/;
+            if (!tempindex.initPass && (!strRegex.test(tempindex.initPass) || $.trim(tempindex.initPass).length < 6 || $.trim(tempindex.initPass).length > 16)) {
+                top.ComFunJS.winwarning("密码必须为6-16位长度,建议用英文和数字的组合");
+                return;
+            }
+            $("#TBSYS").text("同步中...").attr("disabled", true)
+            $("#SETINITPASSModal").modal("hide");
+            $.post("/API/VIEWAPI.ashx", { Action: "INIT_TBTXL", P1: tempindex.initPass },
+                      function (result) {
+                          if ($.trim(result.ErrorMsg) == "") {
+                              ComFunJS.winsuccess("同步成功");
+                          }
+
+                          $("#TBSYS").text("马上同步").attr("disabled", false)
+                      })
+        },
+        getapp: function () {
+            $.getJSON('/API/VIEWAPI.ashx?Action=INIT_GETWXAPP', {}, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    tempindex.yylist = resultData.Result;
+
+                }
+            })
+        }
+
+    });
+    //# sourceURL=QYHPZ_DJ.js;
+
+</script>

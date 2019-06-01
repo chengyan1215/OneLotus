@@ -1,0 +1,250 @@
+﻿<div class="form-horizontal" ms-controller="DXGL" style="padding-left:20px;">
+    <div class="form-group col-xs-12 hidden">
+        可发送短信条数：(<span style="color:red;font-size:13px">{{dxQty}}条</span>)
+    </div>
+    <div class="form-group col-xs-12 ">
+        短信接收号码(<span style="color:red;font-size:13px">多个号码用逗号隔开</span>)
+        <textarea class="form-control" ms-duplex="modelData.dxnums" id="dxphone" onkeyup="this.value = this.value.replace(/[^\d,，]/g, '')" onafterpaste="this.value = this.value.replace(/[^\d,，]/g, '')" style="height:80px"></textarea>
+        <a href="javascript:void(0)" ms-click="GetUserPhone()" class="btn-link">+从员工中选取号码</a>
+    </div>
+    <div class="form-group col-xs-12">
+        <div style="width:auto;height:40px;">
+            <span style="margin-right:100px;">短信内容（不超过300字）</span>短信前缀：<label>{{dxqz}}</label>
+            <a class="tip" data-toggle="tooltip" title="编辑" ms-click="EditDXQZ()">
+                <i class="iconfont icon-bianji c-default"></i>
+            </a>
+        </div>
+        <textarea class="form-control" maxlength="300" ms-duplex="modelData.dxContent" style="height:200px"></textarea>
+        <a href="javascript:void(0)" class="btn-link" ms-click="SelDXTemplate()">+从模板中选择</a>
+    </div>
+    <div class="form-group col-xs-12 default-tab">
+        <table>
+            <tr style="height:34px;">
+                <td>
+                    <!--<input type="checkbox" ms-click="isDSFS(this)" id="sendTime">-->
+                    <div class="icheckbox_square-blue" id="tx" ms-click="cktx(this)">
+                        <span class="iconfont icon-check ft12"></span>
+                    </div>
+                    <label style="font-weight: normal;" for="sendTime" ms-click="cktx(this)">定时发送&nbsp;&nbsp;&nbsp;</label>
+                </td>
+                <td style="width:400px">
+                    <input type="text" value="" ms-if="isLJ" ms-duplex="modelData.SendTime" class="form-control szhl_form_date_time szhl_require" placeholder="请输入发送时间" />
+
+                </td>
+            </tr>
+        </table>
+        <button class='btn btn-success btnfb' style='width:120px;height:40px;' ms-click="SaveOpenUserList()"> 确 定 </button>
+
+    </div>
+
+    <div class="modal fade" id="UserListModal" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 500px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">发送用户列表</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    手机号
+                                </th>
+                                <th width="25%">
+                                    发送状态
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ms-repeat-item="phonenumList" ms-visible="item!=''">
+                                <td><div style="word-break: break-all;">{{item|html}}</div></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-success" id="conaddForder" ms-click="SaveData(this,false)"><i class="fa fa-spinner fa-spin" style="display: none"></i>确&nbsp;&nbsp;认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="ManageUserModal" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 500px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">修改短信前缀</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label">短信前缀</label>
+                            <input type="text" class="col-xs-6 form-control " ms-duplex="dxqz" style="width:auto;" autofocus />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ms-click="CloseQZ()">关闭</button>
+                    <button type="button" class="btn btn-success" id="conaddForder" ms-click="SaveQZ()">确&nbsp;&nbsp;认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    var tempindex = avalon.define({
+        $id: "DXGL",
+        name: "短信管理",
+        iswf: false,//是否属于流程表单
+        phone: ComFunJS.getQueryString("phone"),
+        isLJ: false,
+        ColumnData: [],
+        UserList: [],
+        phonenumList: [],
+        dxqz: "",
+        dxQty: "0",
+        InitWigetData: function (strId) {
+            if (tempindex.phone) {
+                tempindex.modelData.dxnums = tempindex.phone;
+            }
+            tempindex.dxqz = model.CompanyData.DXQZ;
+            $(".toolfootbar tbody").empty(); //清除底部按钮
+            tempindex.getList()
+
+            ComFunJS.initForm();
+
+        },//初始化
+        getList: function () {
+            $.getJSON('/API/VIEWAPI.ashx?ACTION=DXGL_GETDXQTY', {}, function (r) {
+                if (r.ErrorMsg == "") {
+                    tempindex.dxQty = r.Result;
+                }
+            })
+        },
+        modelData: { "dxContent": "", "dxnums": "", "SendTime": "" },
+        SaveData: function (callback) {
+            if (!tempindex.modelData.dxnums) {
+                top.ComFunJS.winwarning("短信接收号码不能为空");
+                return;
+            }
+            if (!tempindex.modelData.dxContent) {
+                top.ComFunJS.winwarning("短信内容不能为空");
+                return;
+            }
+            if ($("#tx").hasClass("checked") && tempindex.modelData.SendTime == "") {
+                top.ComFunJS.winwarning("发送时间不能为空");
+                return;
+            }
+            if (!$("#tx").hasClass("checked")) {
+                tempindex.modelData.SendTime = "";
+            }
+            $.post("/API/VIEWAPI.ashx?ACTION=DXGL_ADDDXGL", { P1: JSON.stringify(tempindex.modelData.$model) }, function (result) {
+                if (result.ErrorMsg == "") {
+                    ComFunJS.winsuccess("发送成功");
+                    $("#UserListModal").modal("hide");
+                }
+
+            });
+        }, GetUserPhone: function () {
+            top.ComFunJS.winbtnwin("/ViewV5/Base/UserSelect.html", "选择用户手机", 900, 540, {}, function (layero, index) {
+                var frameid = $("iframe", $(layero)).attr('id');
+                var people = ComFunJS.isIE() ? top.window.frames[frameid].getqiandaopeople() : top.window.frames[frameid].contentWindow.getqiandaopeople();
+                $("#dxphone").val(people.phone);
+                top.layer.close(index)
+            })
+        }, isDSFS: function (dom) {
+            tempindex.isLJ = $(dom).prop("checked");
+        },
+        SelDXTemplate: function () {
+            top.ComFunJS.winbtnwin("/ViewV5/AppPage/DXGL/SelDXTemplate.html", "选择短信模板", 800, 540, {}, function (layero, index) {
+                var frameid = $("iframe", $(layero)).attr('id');
+                var dxglData = ComFunJS.isIE() ? top.window.frames[frameid].selmodel.GetSelModel() : top.window.frames[frameid].contentWindow.selmodel.GetSelModel();
+                if (dxglData.DataContent) {
+                    tempindex.modelData.dxContent = dxglData.DataContent;
+                    top.layer.close(index)
+                } else {
+                    top.ComFunJS.winwarning("请选择模板");
+                }
+            })
+        }, SaveDXGL: function () {
+            tempindex.SaveData(this, false);
+            $("#UserListModal").modal("hide");
+        }, SaveOpenUserList: function () {
+            if (!tempindex.modelData.dxnums) {
+                top.ComFunJS.winwarning("短信接收号码不能为空");
+                return;
+            }
+            if (!tempindex.modelData.dxContent) {
+                top.ComFunJS.winwarning("短信内容不能为空");
+                return;
+            }
+            if ($("#tx").hasClass("checked") && tempindex.modelData.SendTime == "") {
+                top.ComFunJS.winwarning("发送时间不能为空");
+                return;
+            }
+            if (tempindex.modelData.dxnums.split(',').length > tempindex.dxQty) {
+                top.ComFunJS.winwarning("短信条数不够，请先充值");
+                return;
+            }
+            var numLins = tempindex.modelData.dxnums.replace(/[，]/g, ',').split(',');
+            var phonenumStr = "";
+            for (var i = 0; i < numLins.length; i++) {
+                if (numLins[i] != '' && (/^1[3|4|5|8|7][0-9]\d{8}$/).test(numLins[i]) == false) {
+                    numLins[i] = "<span style='color:red;'>" + numLins[i] + "(号码错误)</span>";
+                }
+                else if (numLins[i] != '') {
+                    phonenumStr += numLins[i] + ",";
+                }
+            }
+            tempindex.phonenumList = numLins;
+            tempindex.modelData.dxnums = phonenumStr.replace(/,$/gi, "");
+            $('#UserListModal').modal('show');
+        },
+        //修改短信前缀
+        SaveQZ: function () {
+            if (!tempindex.dxqz) {
+                top.ComFunJS.winwarning("前缀不能为");
+                return;
+            }
+            $.post('/API/VIEWAPI.ashx?Action=XTGL_SAVECOMPANYQZ', { P1: tempindex.dxqz }, function (result) {
+                if ($.trim(result.ErrorMsg) == "") {
+
+                    top.ComFunJS.winsuccess("修改成功");
+                    model.CompanyData.DXQZ = tempindex.dxqz;
+                    $("#ManageUserModal").modal("hide");
+                }
+            })
+        },
+        //放弃修改短信前缀
+        CloseQZ: function () {
+            tempindex.dxqz = model.CompanyData.DXQZ;
+        },
+        EditDXQZ: function () {
+            $("#ManageUserModal").modal("show");
+        },
+        cktx: function (obj) {
+            if (!$(obj).is("label")) {
+                //$("#tx").toggleClass("checked");
+                if ($("#tx").hasClass("checked")) {
+                    tempindex.isLJ = false;
+                }
+                else {
+                    tempindex.isLJ = true;
+                }
+            }
+            else {
+                $("#tx").toggleClass("checked");
+                if ($("#tx").hasClass("checked")) {
+                    tempindex.isLJ = true;
+                }
+                else {
+                    tempindex.isLJ = false;
+                }
+            }
+        }
+    });
+</script>

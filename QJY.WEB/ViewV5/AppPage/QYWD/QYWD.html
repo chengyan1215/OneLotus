@@ -1,0 +1,489 @@
+﻿<style>
+    .success-file p {
+        font-size: 22px;
+        color: #1bad28;
+    }
+
+    .success-file i {
+        font-size: 25px;
+        color: #1bad28;
+    }
+
+    .text-blue-2 {
+        position: relative;
+        top: 7px;
+    }
+
+        .text-blue-2 a {
+            color: #12b8f6;
+            font-size: 12px;
+        }
+
+    .link-logo {
+        background: url(/ViewV5/images/qywd/hand.png) no-repeat;
+        margin-top: -10px;
+        display: block;
+        height: 16px;
+        width: 40px;
+        position: absolute;
+    }
+
+    #qh li {
+        float: left;
+        width: 50%;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        font-size: 14px;
+        font-weight: bold;
+        background: #e8ebed;
+        cursor: pointer;
+    }
+
+    .fx {
+        margin-top: 20px;
+    }
+
+    #qh li.active {
+        background: #12b8f6;
+        color: #fff;
+    }
+
+    .qh {
+        border: 1px solid #12b8f6;
+        padding: 30px 20px;
+    }
+
+    .imageYL {
+        cursor: zoom-in;
+    }
+</style>
+<script src="/ViewV5/JS/timego.js"></script>
+
+<div ms-controller="APP_QYWD">
+    <div class="padding20">
+        <button type="button" class="btn btn-info ml20" ms-click="downloaditem"><i class="iconfont icon-xiazai ft14 mr5"></i>下载</button>
+
+        <div class="input-group ml15 pull-right" style="width: 295px;">
+            <input type="search" class="form-control" placeholder="输入文件名或后缀搜索" ms-duplex="searchContent">
+            <span class="input-group-addon" ms-click="getSearchFile()">搜索</span>
+        </div>
+    </div>
+    <div>
+        <ol class="breadcrumb">
+            <li ms-repeat-path="Pathdata" ms-class="active:path.active" ms-click="gopath(path)"><a ms-class="text-primary:!path.active">{{path.Name}}</a></li>
+        </ol>
+    </div>
+    <div id="tab">
+        <div class="default-tab ft14" style="display: block">
+            <table class="table table-hover">
+                <caption style="padding-left:12px;color:cornflowerblue">已选中{{tempindex.SelItemData.size()}}</caption>
+                <thead>
+
+                    <tr>
+                        <th style="width: 40px;padding-left:12px">
+                            <div class="icheckbox_square-blue" ms-click="selallItems($(this))">
+                                <span class="iconfont icon-check ft12"></span>
+                            </div>
+                        </th>
+                        <th>文件名</th>
+                        <th style="width: 120px;"></th>
+                        <th style="width: 40px;"></th>
+                        <th style="width: 100px;">大小</th>
+                        <th style="width: 80px;">格式</th>
+                        <th style="width: 160px;">创建时间</th>
+                    </tr>
+                </thead>
+                <tbody class="wdlist">
+
+                    <tr ms-repeat-folder="FolderList" ms-on-mousedown="filecontextmenu(folder,$event)" data-repeat-rendered="filechange">
+                        <td class="tc">
+                            <div class="icheckbox_square-blue" ms-click="selItems(folder,$event)" ms-class-1="checked:folder.issel">
+                                <span class="iconfont icon-check ft12"></span>
+                            </div>
+                        </td>
+                        <td ms-click="enterFolder(folder,$event)" class="trdata">
+                            <div>
+                                <img src="/ViewV5/images/qywd/file1.png" class="img40 mr5">
+                                <span class="link-logo" ms-if="folder.AuthUser"></span>
+                                {{folder.Name}}
+                            </div>
+                        </td>
+                        <td class="tc"></td>
+                        <td class="tc"></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{folder.CRDate}}</td>
+
+                    </tr>
+                    <tr ms-repeat-file="FileList" ms-on-mousedown="filecontextmenu(file,$event)" data-repeat-rendered="filechange" class="trdata">
+                        <td class="tc" style="width: 40px;">
+                            <div class="icheckbox_square-blue" ms-click="selItems(file,$event)" ms-class-1="checked:file.issel">
+                                <span class="iconfont icon-check ft12"></span>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <img ms-attr-filename="file.name" ms-attr-src="getsrc(file)" ms-click="viewitem(file)" ms-attr-imgyt="{{ComFunJS.getfile(file.ID)}}" ms-class-1="imageYL:ComFunJS.isPic(file.FileExtendName)" class="img40 mr5" onerror="javascript: this.src = '/ViewV5/images/qywd/file.png'">{{file.Name}}
+
+                            </div>
+                        </td>
+                        <td class="tc"><a class="btn btn-link" ms-if="(file.ISYL&&file.YLUrl)||file.FileExtendName=='mp4'" ms-click="viewitem(file)">{{file.FileExtendName=="mp4"?"播放":"预览"}}</a></td>
+                        <td class="tc"></td>
+                        <td>{{ComFunJS.converfilesize(file.FileSize)}}</td>
+                        <td>{{file.FileExtendName}}</td>
+                        <td>{{file.CRDate}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <p class="tr c999 ft14" style="padding-right: 30px;">包含{{FileList.size()*1+FolderList.size()*1}}条</p>
+            <div id="context-menu" class="conMenu">
+                <ul class="dropdown-menu" role="menu">
+                    <li ms-click="downloaditem"><a href="javascript:void(0)">&nbsp;&nbsp;下载</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="FenXiangModal" tabindex="-1" role="dialog"
+         aria-labelledby="FenXiangModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="FenXiangModalLabel">
+                        <i class="iconfont icon-fj mr5"></i>分享链接
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="success-file">
+                        <p><i class="iconfont icon-chenggong text-success mr10"></i>{{tempindex.shareType?"文件已分享":"分享成功"}}<span class="c999 pull-right text-blue-2"><a ms-attr-href="ShareData.ShareURL" target="_blank" class="mr10">查看分享页面</a>|<a ms-click="DelShare()" class="ml10">取消分享</a></span></p>
+
+                    </div>
+                    <div class="fx">
+                        <ul id="qh" class="oh" style="display:none">
+                            <li class="active">分享外联</li>
+                            <li>发送到邮件</li>
+                        </ul>
+                        <div class="qh">
+                            <div style="display:block">
+                                <p>复制以下链接分享给同事，客户，合作伙伴！</p>
+                                <div class="input-group mt10 mb10" style="width:500px;">
+                                    <input type="search" class="form-control" id="shareUrlInput" ms-duplex="ShareData.ShareURL" readonly>
+                                    <span class="input-group-addon copyBtn" ms-attr-data-clipboard-text="ShareData.ShareURL" data-clipboard-target="#shareUrlInput">复制此链接</span>
+
+
+
+                                </div>
+                                <span class="c999 text-blue-2 ft14">
+                                    密码：{{ShareData.SharePasd?ShareData.SharePasd:"无"}}<a class="ml10" ms-click="SetPassWord()">{{tempindex.ShareData.ShareType=="0"?"设置":"取消"}}</a>
+                                    | 到期时间：{{ShareData.ShareDueDate}}({{jQuery.timeago(ShareData.ShareDueDate);}})<a class="ml10" ms-click="SetDueShow()">设置</a>
+                                    <div class="input-group mt15" style="width:295px;" ms-if="isDueShow">
+                                        <input type="search" ms-duplex="DueDate" class="form-control szhl_form_date" placeholder="选择到期时间">
+                                        <span class="input-group-addon" ms-click="ModifyDate()">保存</span>
+                                    </div>
+                                </span>
+
+                            </div>
+                            <div id="qrcode" class="c999 text-blue-2 ml20 pl20 mt10">
+
+                            </div>
+                        </div>
+                        <div class="form-group mt20 mb10 c999" style="display:none">
+                            设置分享类型
+                            <select style="width:130px;height:30px;">
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="opel">Opel</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">
+                        关闭
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+</div>
+<script src="/ViewV5/JS/contextmenu.js"></script>
+<script>
+    var tempindex = avalon.define({
+        $id: "APP_QYWD",
+        name: "文档中心",
+        itemtype: "1",//企业文件夹
+        InitWigetData: function (para) {
+            tempindex.GetListData(1);
+        },
+        Pathdata: [{
+            ID: 1, Name: "企业知识库", FolderType: 1, Remark: 1, PFolderID: "0", FolderLev: "0", active: true
+        }],
+        getsrc: function (item) {//图片真实路径
+            if (item.type == 'folder') {
+                return " /ViewV5/images/qywd/file1.png";
+            } else {
+                if (ComFunJS.isPic(item.FileExtendName)) {
+                    return ComFunJS.getfile(item.ID) + "&width=40&height=40";
+                }
+                else {
+                    return " /ViewV5/images/qywd/" + item.FileExtendName + ".png";
+                }
+            }
+
+        },
+        gopath: function (path) {
+            tempindex.SelItemData.clear();//清除选择项
+            $(".icheckbox_square-blue").removeClass("checked")//清除所有样式
+            tempindex.GetListData(path.ID);
+            for (i = tempindex.Pathdata.size() - 1; i >= 0; i--) {
+                if (tempindex.Pathdata[i].ID != path.ID) {
+                    tempindex.Pathdata.pop(tempindex.Pathdata[i])
+                } else {
+                    tempindex.Pathdata[i].active = true;
+                    return;
+                }
+            }
+
+        },//目录链接
+        FolderList: [],
+        FileList: [],
+        GetListData: function (PID) {
+            $.getJSON('/API/VIEWAPI.ashx?Action=QYWD_GETLISTDATA', {
+                P1: PID, itemtype: tempindex.itemtype
+            }, function (resultData) {//P1为个人文件夹
+                if (resultData.ErrorMsg == "") {
+                    resultData.Result.forEach(function (item) {
+                        item.issel = false;
+                        item.type = "folder";
+                    })
+                    resultData.Result1.forEach(function (item) {
+                        item.issel = false;
+                        item.type = "file";
+
+                    })
+                    tempindex.FolderList = resultData.Result;
+                    tempindex.FileList = resultData.Result1;
+                }
+            })
+        },
+        selallItems: function ($dom) {
+
+            tempindex.SelItemData.clear();
+            var issel = $dom.hasClass("checked");
+            tempindex.FileList.forEach(function (item) {
+                item.issel = !issel;
+                if (!issel) {
+                    tempindex.SelItemData.push(item.$model)
+                } else {
+                    ComFunJS.DelItem(tempindex.SelItemData, "ID", item.ID)
+                }
+            })//文件
+            tempindex.FolderList.forEach(function (item) {
+                item.issel = !issel;
+                if (!issel) {
+                    tempindex.SelItemData.push(item.$model)
+                } else {
+                    ComFunJS.DelItem(tempindex.SelItemData, "ID", item.ID)
+                }
+            })//文件夹
+        },//全选
+        selItems: function (item, event) {
+            item.issel = !item.issel;
+            if (item.issel) {
+                tempindex.SelItemData.push(item.$model)
+            } else {
+                ComFunJS.DelItem(tempindex.SelItemData, "ID", item.ID)
+            }
+            event.stopPropagation();
+        },//多选
+        selItem: function (item, event) {
+            tempindex.ListData.forEach(function (el) {
+                el.issel = item.ID == el.ID;
+            })
+            tempindex.SelItemData.clear();
+            tempindex.SelItemData.push(item.$model)
+            event.stopPropagation();
+
+        },//单选
+        SelItemData: [],//已选中列表
+        getselitem: function () {
+            var Ids = "";
+            $("tbody .checked").each(function () {
+                Ids += $(this).prop("id") + ",";
+            })
+            Ids = Ids.length > 1 ? Ids.substring(0, Ids.length - 1) : Ids;
+            return Ids;
+        },
+        enterFolder: function (folder) {
+            tempindex.SelItemData.clear();//清除选择项
+            var newpath = folder.$model;
+            tempindex.Pathdata.forEach(function (path) {
+                path.active = false;
+            })
+            newpath.active = true;
+            tempindex.Pathdata.push(newpath);
+            tempindex.GetListData(folder.ID);
+
+
+        },//进入文件夹
+        viewitem: function (item) {
+            if (ComFunJS.isPic(item.FileExtendName)) { //如果是图片格式，显示图片
+                ComFunJS.viewbigimg(this, ".imageYL")
+                return;
+            }
+            if (item.FileExtendName.toLowerCase() == "mp4") {
+                top.layer.open({
+                    type: 2,
+                    fix: true, //不固定
+                    area: ['700px', '500px'],
+                    maxmin: false,
+                    content: "/ViewV5/Base/showvideo.html?md5=" + item.FileMD5,
+                    title: "",
+                    shadeClose: false, //加上边框
+                    scrollbar: false,
+                    shade: 0.4,
+                    shift: 0
+                });
+            }
+            if (ComFunJS.isOffice(item.FileExtendName)) {
+                window.open(item.YLUrl)
+            }
+
+        },//查看文件
+        filecontextmenu: function (item, event) {
+            if (event.button == "2") {
+                tempindex.FolderList.forEach(function (el) {
+                    el.issel = item.ID == el.ID;
+                })
+                tempindex.FileList.forEach(function (el) {
+                    el.issel = item.ID == el.ID;
+                })
+                tempindex.SelItemData.clear();
+                tempindex.SelItemData.push(item.$model)
+            }
+        },//右键单选
+        filechange: function (action) {
+            if (action === "add" || action === "del" || action === "set") {
+                $(".wdlist").find(".trdata").contextmenu({
+                    target: '#context-menu',
+                    before: function (e, context) {
+                        // 隐藏其它右键菜单
+                        $("#context-menu1").hide();
+                        return true;
+                    }
+                });
+            }
+        },//数据更新后需要重新加载右键菜单
+        downloaditem: function () {
+            if (tempindex.SelItemData.size() == 0) {
+                ComFunJS.winwarning("请选择文件再下载");
+                return;
+            }
+            if (tempindex.SelItemData.size() == 1 && tempindex.SelItemData[0].type == "file") {
+                location.href = ComFunJS.getfile(tempindex.SelItemData[0].ID);
+            } else {
+                var code = "";
+                tempindex.SelItemData.forEach(function (item) {
+                    code = code + item.ID + "|" + item.type + ",";
+                })
+                if (code.length > 1) {
+                    code = code.substring(0, code.length - 1)
+                }
+                top.ComFunJS.winviewform("/ViewV5/Base/DownFolder.html?code=" + code, "下载文件", "550", "450")
+            }
+        },//下载文件
+        ShareData: {},
+        shareType: "",
+        ShareWJ: function () {
+            if (tempindex.SelItemData.size() == 1) {
+                var type = tempindex.SelItemData[0].FileExtendName ? "file" : "wj";
+                $.post('/API/VIEWAPI.ashx?Action=QYWD_ADDSHARECODE', {
+                    "P1": tempindex.SelItemData[0].ID, "P2": type, url: "http://" + location.host + "/ViewV5/share.html"
+                }, function (result) {
+                    var result = $.parseJSON(result);
+                    if (result.ErrorMsg == "") {
+                        tempindex.shareType = result.Result1;
+                        result.Result.ShareDueDate = result.Result.ShareDueDate.substring(0, 10);
+                        tempindex.DueDate = result.Result.ShareDueDate;
+                        tempindex.ShareData = result.Result;
+                        tempindex.isDueShow = false;
+                        tempindex.isPassShow = false;
+                        $('#qrcode').children().remove();
+                        $('#qrcode').qrcode({ width: 150, height: 150, correctLevel: 0, text: tempindex.ShareData.ShareURL });
+                        $("#FenXiangModal").modal("show");
+                    } else {
+
+                        top.ComFunJS.winwarning("分享失败，请稍后重试");
+                    }
+                })
+            } else {
+                top.ComFunJS.winwarning("请选中一项要分享的文件或文件夹");
+            }
+        },
+        isDueShow: false, SetDueShow: function () {
+            tempindex.isPassShow = false;
+            tempindex.isDueShow = !tempindex.isDueShow;
+        }, DueDate: "", ModifyDate: function () {
+            $.post('/API/VIEWAPI.ashx?Action=QYWD_MODIFYJZDATE', {
+                "P1": tempindex.ShareData.ID, "P2": tempindex.DueDate
+            }, function (result) {
+                if (result.ErrorMsg == "") {
+                    top.ComFunJS.winsuccess("设置截止日期成功");
+                    tempindex.ShareData.ShareDueDate = tempindex.DueDate.substring(0, 10);
+                }
+            })
+        }, DelShare: function () {
+            $.post('/API/VIEWAPI.ashx?Action=QYWD_DELSHARECODE', {
+                "P1": tempindex.ShareData.ID
+            }, function (result) {
+                if (result.ErrorMsg == "") {
+                    top.ComFunJS.winsuccess("取消成功");
+                    $("#FenXiangModal").modal("hide");
+                }
+            })
+        }, SetPassWord: function () {
+            $.post('/API/VIEWAPI.ashx?Action=QYWD_MODIFYPASSWORD', {
+                "P1": tempindex.ShareData.ID, P2: tempindex.ShareData.ShareType == "0" ? "1" : "0"
+            }, function (result) {
+                if (result.ErrorMsg == "") {
+                    tempindex.ShareData = result.Result;
+                    top.ComFunJS.winsuccess("设置提取码成功");
+                }
+            })
+        }, searchContent: "",
+        getSearchFile: function () {
+            tempindex.FileList.clear();
+            tempindex.FolderList.clear();
+            tempindex.SelItemData.clear();
+            if (tempindex.searchContent) {
+                $.getJSON('/API/VIEWAPI.ashx?Action=QYWD_QUERYFILE', {
+                    P1: tempindex.itemtype, P2: tempindex.searchContent
+                }, function (resultData) {//P1为个人文件夹
+                    if (resultData.ErrorMsg == "") {
+                        if (resultData.Result) {
+                            resultData.Result.forEach(function (item) {
+                                item.issel = false;
+                                item.type = "file";
+
+                            })
+                            tempindex.FileList = resultData.Result;
+                        }
+                    }
+                })
+            } else {
+                tempindex.GetListData(tempindex.itemtype);
+            }
+        }
+    });//@ sourceURL=APP_GEWD.js;
+
+
+</script>

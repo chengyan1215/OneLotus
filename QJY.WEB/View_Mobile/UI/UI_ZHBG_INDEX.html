@@ -1,0 +1,286 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>综合办公</title>
+    <link rel="stylesheet" href="/View_Mobile/CSS/msui.css">
+    <link href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet" />
+        <link href="/View_Mobile/js/layer/need/layer.css" rel="stylesheet" />
+    <script src="/View_Mobile/js/layer/layer.m.js"></script>
+    <link href="/View_Mobile/CSS/reset.css" rel="stylesheet" type="text/css">
+    <link href="/View_Mobile/CSS/base.css?ver=1" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/View_Mobile/CSS/animate.css">
+    <link href="/View_Mobile/CSS/szhlextend.css?ver=20160904" rel="stylesheet" />
+    <style type="text/css">
+        .ms-controller, [ms-controller] {
+            display: none;
+        }
+
+        .logo img {
+            width: 1.5rem;
+        }
+
+        .wite {
+            background: #fff;
+        }
+
+        .userimg {
+            float: right;
+            width: 1.25rem;
+            /*margin-top: 0.5rem;*/
+            margin-top: 0.1rem;
+            height: 1.25rem;
+        }
+
+        .block_nav > li > a > i img {
+            border-radius: 1rem;
+        }
+
+        .header .hessmsg i:before {
+            content: "";
+            display: block;
+            width: 8px;
+            height: 8px;
+            position: absolute;
+            /*right: .6rem;*/
+            right: -0.25rem;
+            /*top: 0.4rem;*/
+            border-radius: 8px;
+            background-color: #f15a4a;
+        }
+    </style>
+</head>
+<body ms-controller="WORKINDEX" ms-class="mess:contentcode=='TEMP_INDEX_MSG'" ms-class-1="address:contentcode=='TEMP_INDEX_TXL'">
+    <div class="page page-current " id="pageindex1" ms-class="wite:contentcode!='TEMP_INDEX_TXL'">
+        <header class="bar bar-nav header" ms-if="contentcode!='TEMP_INDEX_TXL'" style="padding-left: 0.52rem; padding-right: 0.52rem; display: none">
+            <div class="list-block media-list" style="margin: 0;">
+                <ul>
+                    <li>
+                        <div class="item-content" style="padding-left: .1rem;">
+                            <div class="item-media" style="padding-bottom: 0; padding-top: 0;">
+                                <img ms-src="{{ComFunJS.getfile(userData.QYinfo.LogoID)}}" style="border-radius: .1rem; height: 1.6rem;" onerror="javascript: this.src = '/View_Mobile/images/logo.png'">
+                            </div>
+                            <div class="item-inner" style="padding-bottom: 0; padding-top: 0; margin-left: .55rem;">
+                                <div class="item-inner" style="padding-bottom: 0; padding-top: 0;">
+                                    <div class="item-title-row" style="padding-top: 0.4rem">
+                                        <div class="item-title" style="-webkit-box-flex: 1; font-size: .6rem;">{{userData.User.UserRealName}}【{{userData.BranchInfo.DeptName}}】</div>
+                                    </div>
+                                    <div class="item-subtitle" style="font-size: 0.6rem; color: #5f646e;">{{userData.QYinfo.QYName}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <div class="content" ms-include-src="/View_Mobile/UI/TEMP/{{contentcode}}.html?ver={{number}}" data-include-rendered='render'>
+        </div>
+        <!-- 点击加号-模块 -->
+        
+    </div>
+    <div class="page" id='pageindex2'>
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-left back" style="font-size: 0.6rem">
+                <span class="icon icon-left"></span>
+                返回
+            </a>
+
+            <h1 class='title' style="font-size: 0.6rem">{{msgtypename}}({{isRead==0?"未读消息":"已读消息"}})
+            </h1>
+            <a class="button button-link button-nav pull-right" ms-on-click="vieww(null,1)" style="font-size: 0.6rem">标记为已读
+            </a>
+        </header>
+        <div class="content infinite-scroll infinite-scroll-bottom" data-distance="50">
+
+            <div class="card facebook-card " ms-repeat-el="msgdata">
+                <div class="ribbon-wrapper-green" ms-if="el.isRead==0" style="width: 65px; height: 68px; top: -2px; right: -2px;">
+                    <div class="ribbon-red " style="top: 10px; width: 100px; padding: 4px; font-size: 11px">未读</div>
+                </div>
+                <div class="ribbon-wrapper-green" ms-if="el.isRead!=0" style="width: 65px; height: 68px; top: -2px; right: -2px;">
+                    <div class="ribbon-green " style="top: 10px; width: 100px; padding: 4px; font-size: 11px">已读</div>
+                </div>
+
+                <div class="card-header no-border">
+                    <div class="facebook-avatar">
+                        <img ms-attr-src="{{ComFunJS.getfile()+'&type=TX&user='+el.UserFrom}}" style="border-radius: 3px; width: 34px; height: 34px"></div>
+                    <div class="facebook-date" style="font-size: 0.6rem">{{ComFunJS.convusers(el.UserFrom)}}</div>
+                    <div class="facebook-date" style="font-size: 0.6rem">{{$.timeago(el.CRDate)}}</div>
+                </div>
+                <div class="card-content" style="margin-top: 0px">
+                    <div class="card-content-inner" style="padding-bottom: 0.3rem; color: #5f646e; padding-top: 0.2rem; font-size: 0.6rem">{{el.MsgContent|html}}</div>
+                </div>
+                <div class="card-footer no-border" style="padding: 0;background-color:transparent">
+                    <a href="#" ms-click="vieww(el)"><i class="fa fa-play-circle"></i>&nbsp;点击查看&nbsp;</a>
+                    <a href="#" ms-if="el.isRead==0" ms-click="vieww(el,1)"><i class="fa fa-bell-slash"></i>&nbsp;设为已读&nbsp;</a>
+
+                </div>
+            </div>
+            <div class="card facebook-card text-center" style="padding: 5px" ms-if="msgdata.size()==0">没有数据哦</div>
+            <div class="infinite-scroll-preloader">
+                <div class="preloader"></div>
+            </div>
+            <span id="plus_btn" style="width: 2.25rem; z-index: 99998; opacity: .9" ms-on-click="GetReadMsgList()">
+                <img ms-attr-src="'../images/'+(isRead==0?'noread':'read')+'.png'" height="188" width="188" alt=""></span>
+        </div>
+    </div>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script>$.config = { autoInit: true }</script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.8/js/sm.min.js' charset='utf-8'></script>
+    <script src="/View_Mobile/JS/ComFunJS.js?jsver=20160425"></script>
+    <script src="/View_Mobile/JS/avalon1.47.js"></script>
+
+    <script type="text/javascript">
+        //ComFunJS.delCookie("szhlcode")
+        //if (ComFunJS.getCookie("szhlcode") == null) {
+        //    ComFunJS.setCookie("szhlcode", "1234567890", 7);
+        //    ComFunJS.setCookie("username", "18539901135", 7);
+        //}
+        var model = avalon.define({
+            $id: "WORKINDEX",
+            contentcode: ComFunJS.getQueryString("contentcode", "Loading"),
+            userData: {},
+            number: Math.random(),
+            scrollTop: "0",
+            page: 1,
+            isshowmenu: false,
+            loading: false,
+            render: function () {
+                if (typeof (tempmodel) != "undefined") {
+                    tempmodel.inittemp();
+                }
+                avalon.templateCache = null;
+            },
+            msgtypename: "",
+            msgtype: "",
+            msgdata: [],
+            toglemenu: function () {
+                model.isshowmenu = !model.isshowmenu
+            }, isRead: 0,
+            GetReadMsgList: function () {
+                model.isRead = (model.isRead == 0 ? 1 : 0);
+                model.page = 1;
+                model.GetTypeMsg(localStorage.getItem("WORK_MsgModeID"), localStorage.getItem("WORK_MsgType"), false);
+            },
+            vieww: function (el, type) {
+                var Ids = "";
+                if (el) {
+                    Ids = el.ID;
+                } else {
+                    var Ids = "";
+                    model.msgdata.forEach(function (val, i) {
+                        Ids += val.ID + ",";
+                    })
+                    Ids = Ids.length > 1 ? Ids.substring(0, Ids.length - 1) : Ids;
+                }
+                $.getJSON("/API/VIEWAPI.ashx?Action=XTGL_UPDTEREADSTATES&r=" + Math.random(), { P1: Ids, s: "1" }, function (r) {
+                    if (r.ErrorMsg == "") {
+                        if (!type && el.wxLink) {
+                            el.isRead = 1;
+                            window.location = el.wxLink + "&r=" + Math.random();
+                        } else {
+                            if (!el) {
+                                model.page = 1;
+                                model.GetTypeMsg(localStorage.getItem("WORK_MsgModeID"), localStorage.getItem("WORK_MsgType"), false);
+                            } else {
+                                el.isRead = 1;
+                            }
+
+                        }
+                    }
+                })
+            },
+            GetTypeMsg: function (msgtype, msgtypename, ispull) {
+                // 重置加载flag
+                if (model.loading) return;
+                model.loading = true;
+                $.getJSON("/API/VIEWAPI.ashx?Action=XTGL_GETXXZXIST_PAGE&r=" + Math.random(), { "p": model.page, "pagecount": 10, "msgTypes": msgtype, P1: model.isRead }, function (r) {
+                    model.loading = false;
+                    if (r.ErrorMsg == "") {
+                        if (model.page == 1) {
+                            model.msgtype = msgtype;
+                            model.msgtypename = msgtypename;
+                            model.msgdata = r.Result;
+                        } else {
+                            model.msgdata.pushArray(r.Result);
+                        }
+                        //判断是否加载完毕
+                        if (r.Result.length < 10) {
+                            // 加载完毕，则注销无限加载事件，以防不必要的加载
+                            $.detachInfiniteScroll($('.infinite-scroll'));
+                            // 删除加载提示符
+                            $('.infinite-scroll-preloader').remove();
+                            return;
+                        }
+
+                        $.refreshScroller();
+
+                        model.page += 1;
+                    }
+                })
+            }
+          
+
+        });
+
+
+        avalon.ready(function () {
+            $.getJSON("/API/VIEWAPI.ashx?Action=XTGL_GETUSERINFO", {}, function (r) {
+                if (r.ErrorMsg == "") {
+                    model.userData = r.Result;
+                    $(".header").show('normal');
+                    model.contentcode = "TEMP_INDEX_WORK";
+                }
+            })
+            $.getJSON("/API/VIEWAPI.ashx?action=XTGL_WXINIT&r=" + Math.random(), { }, function (r) {
+                //el.loading("hide");
+                if (r.ErrorMsg == "") {
+                    var returnmsg = [];
+                    var usersarr = r.Result;
+                    $(usersarr).each(function (index, ele) {
+                        returnmsg.push({ 'UserName': ele.UserName, 'UserRealName': ele.UserRealName, 'mobphone': ele.mobphone });
+                    })
+                    window.localStorage.setItem("alluserinfo", JSON.stringify(returnmsg));
+                }
+                if (r.ErrorMsg == "WXTIMEOUT") {
+                    //微信端超时处理
+                    ComFunJS.delCookie("szhlcode");
+                    ComFunJS.delCookie("username");
+                    window.location.href = window.location.href + "&&r=" + Math.random()
+                }
+
+
+            })
+
+            $(document).on('infinite', '.infinite-scroll-bottom', function (e) {
+                // 模拟2s的加载过程
+                if (localStorage.getItem("WORK_MsgModeID")) {
+                    model.GetTypeMsg(localStorage.getItem("WORK_MsgModeID"), localStorage.getItem("WORK_MsgType"), false);
+                }
+
+            });
+            $(document).on("pageInit", function (e, pageId, $page) {
+                if (pageId == "pageindex2") {
+                    if (localStorage.getItem("WORK_MsgModeID")) {
+                        model.GetTypeMsg(localStorage.getItem("WORK_MsgModeID"), localStorage.getItem("WORK_MsgType"), false);
+                    }
+                }
+            });
+            $(document).on("pageAnimationEnd", function (e, pageId, $page) {
+                if (pageId == "pageindex1") {
+                    model.page = 1;
+                    if (tempmodel) {
+                        tempmodel.inittemp();
+                    }
+                }
+            });
+
+        })
+
+    </script>
+
+</body>
+</html>

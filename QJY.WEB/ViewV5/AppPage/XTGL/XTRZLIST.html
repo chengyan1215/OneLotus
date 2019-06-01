@@ -1,0 +1,179 @@
+﻿<div ms-controller="XTRZLIST">
+    <div class="btn-add">
+        <button type="button" class="btn btn-danger btn-lg" ms-click="DelPL()"><i class="iconfont icon-shanchu ft12 mr5"></i>删除</button>
+    </div>
+    <!-- 按条件选择 -->
+    <div class="tab-filter-type">
+        <div class="oh">
+            <h5 class="pull-left tr">类型：</h5>
+            <ul class="tab-type ft14">
+                <!--<li><span class="active" ms-click="SelectType('0')">全部</span></li>-->
+                <li ms-click="SelectType('1')"><span class="active">操作日志</span></li>
+                <li ms-click="SelectType('2')"><span>错误日志</span></li>
+            </ul>
+        </div>
+        <!-- 搜索 -->
+        <div class="oh">
+            <div class="input-group ml15" style="width: 295px;">
+                <input type="search" class="form-control" placeholder="搜索用户、日志记录、IP" ms-duplex="search.searchcontent">
+                <span class="input-group-addon" ms-click="GetLIST()">搜索</span>
+            </div>
+        </div>
+    </div>
+    <!-- 展开更多选项 -->
+    <div class="add-tab ft14 tc mt20" style="display: none;">
+        <span>更多筛选<i class="caret"></i></span>
+    </div>
+    <!-- 表格 -->
+    <div class="default-tab ft14 pt20">
+        <table class="table table-striped table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th class="tc" style="width: 50px;">
+                        <div class="icheckbox_square-blue">
+                            <input type="checkbox">
+                            <span class="iconfont icon-check ft12"></span>
+                        </div>
+                    </th>
+                    <th>时间</th>
+                    <th>IP</th>
+                    <th>用户名</th>
+                    <th>日志描述</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ms-repeat-el="ListData">
+                    <td class="tc">
+                        <div class="icheckbox_square-blue" ms-attr-id="el.ID">
+                            <input type="checkbox">
+                            <span class="iconfont icon-check ft12"></span>
+                        </div>
+                    </td>
+                    <td>{{el.CRDate}}</td>
+                    <td>{{el.IP}}</td>
+                    <td>{{el.CRUser}}</td>
+                    <td>{{el.LogContent}}</td>
+
+
+                    <td style="min-width: 100px;">
+                        <a class="cz-btn ft18 sc-color tip" data-toggle="tooltip" title="删除" ms-click="Del(el,$event)">
+                            <i class="iconfont icon-shanchu"></i>
+                        </a>
+                    </td>
+                </tr>
+
+            </tbody>
+            <tfoot>
+                <tr ms-if="isnull">
+                    <td class="tc"></td>
+                    <td>暂无数据</td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="ui-datatable-page ft14 pl20">
+
+            <div id="pageDiv" ms-visible="model.page.total>model.pageNum[0].num" class="pull-right"></div>
+            <div class="pull-right" ms-visible="ListData.size()!=0">
+                <span>共{{model.page.total}}条记录</span>
+                <span ms-visible="model.page.total>model.pageNum[0].num">选择每页条数
+                    <select style="height: 25px; width: 50px;" ms-change="selNum(this.value)" ms-duplex="model.page.pagecount">
+                        <option ms-repeat-pg="pageNum" ms-attr-value="pg.num" ms-attr-selected="pg.num==model.page.pagecount?'selected':''">{{pg.num}}</option>
+                    </select>
+                </span>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var tempindex = avalon.define({
+        $id: "XTRZLIST",
+        SelectType: function (type) {
+            model.search.seartype = type;
+            tempindex.GetLIST();
+        },
+        selNum: function (item) {    //选择显示的条数
+            model.page.pagecount = item;
+            tempindex.GetLIST();
+        },
+        InitWigetData: function () {
+            model.search.seartype = "1";
+            //显示的列名
+            model.ShowColumns.clear();
+            model.ShowColumns.pushArray([
+                     { "ColName": "CRDate", "ColText": "时间", "IsSel": true, "format": "dateformat" },
+                     { "ColName": "LogContent", "ColText": "日志记录", "IsSel": true },
+                     { "ColName": "IP", "ColText": "IP", "IsSel": true },
+                     { "ColName": "CRUser", "ColText": "操作人", "IsSel": true, "format": "username" }
+            ]);
+            //类型数据
+            tempindex.GetLIST();
+        },
+
+        GetLIST: function () {
+            $(".checked").removeClass("checked");
+            model.page.pageindex = 1;
+            model.ListData.clear();
+            $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETXTRZ', { P1: model.search.seartype, p: 1, Content: model.search.searchcontent, pagecount: model.page.pagecount }, function (resultData) {
+                if (resultData.ErrorMsg == "") {
+                    model.ListData = resultData.Result;
+                    if (model.ListData.size() == 0) { model.isnull = true; } else { model.isnull = false; }
+                    model.page.total = resultData.Result1;
+                    laypage({
+                        cont: 'pageDiv', //容器。值支持id名、原生dom对象，jquery对象。
+                        pages: Math.ceil(parseInt(resultData.Result1) * 1.0 / model.page.pagecount), //通过后台拿到的总页数
+                        curr: 1, //初始化当前页
+                        skin: 'molv',
+                        jump: function (e) { //触发分页后的回调
+                            if (e.curr != model.page.pageindex) {
+                                $.getJSON('/API/VIEWAPI.ashx?Action=XTGL_GETXTRZ', { p: e.curr, P1: model.search.seartype, Content: model.search.searchcontent, pagecount: model.page.pagecount }, function (resultData) {
+                                    if (resultData.ErrorMsg == "") {
+                                        model.ListData = resultData.Result;
+                                    }
+                                })
+                                model.page.pageindex = e.curr;
+                            }
+                        }
+                    });
+                }
+
+            })
+        },
+        Del: function (el, event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            ComFunJS.winconfirm("确认要删除吗？", function () {
+                $.getJSON("/API/VIEWAPI.ashx?Action=XTGL_DELXTRZ", { P1: "1", P2: el.ID }, function (r) {
+                    if (r.ErrorMsg == "") {
+                        model.ListData.remove(el);
+                        ComFunJS.winsuccess("操作成功");
+                    }
+                })
+            }, function () { })
+        },
+        DelPL: function () {
+            var Ids = "";
+            $("tbody .checked").each(function () {
+                Ids += $(this).prop("id") + ",";
+            })
+            Ids = Ids.length > 1 ? Ids.substring(0, Ids.length - 1) : Ids;
+            if (!Ids) {
+                top.ComFunJS.winwarning("请选择要删除的消息"); //如果是标记本页状态，消息数量必须大于0
+                return;
+            }
+            ComFunJS.winconfirm("确认要删除" + Ids.split(',').length + "条消息吗？", function () {
+                $.getJSON("/API/VIEWAPI.ashx?Action=XTGL_DELXTRZ", { P1: "2", P2: Ids }, function (r) {
+                    if (r.ErrorMsg == "") {
+                        tempindex.GetLIST();
+                        ComFunJS.winsuccess("操作成功");
+                    }
+                })
+            }, function () { })
+        }
+    })
+    //# sourceURL=XTRZLIST.js;
+</script>
